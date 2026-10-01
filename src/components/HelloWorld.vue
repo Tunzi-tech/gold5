@@ -2619,18 +2619,18 @@ onBeforeUnmount(() => {
 
           <template v-if="showZonesSubnav">
             <button
-              :class="{ active: activeView === 'zones' }"
-              @click="navigate('zones')"
-            >
-              <span class="subnav-dot"></span>
-              My Zones
-            </button>
-            <button
               :class="{ active: activeView === 'around-zones' }"
               @click="navigate('around-zones')"
             >
               <span class="subnav-dot"></span>
               Zones Around
+            </button>
+            <button
+              :class="{ active: activeView === 'zones' }"
+              @click="navigate('zones')"
+            >
+              <span class="subnav-dot"></span>
+              My Zones
             </button>
           </template>
         </div>
