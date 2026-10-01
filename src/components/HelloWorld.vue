@@ -3468,10 +3468,22 @@ onBeforeUnmount(() => {
               <strong>Everything is connected.</strong>
               <p>People, Zones, Pages, Initiatives, Goals, Ideas, Entities and Calls are moving through the network.</p>
               <div class="live-network-stats">
-                <div><strong>28</strong><span>active explorers</span></div>
-                <div><strong>16</strong><span>connected orbits</span></div>
-                <div><strong>12</strong><span>new connections</span></div>
-                <div><strong>5</strong><span>active Calls</span></div>
+                <div>
+                  <strong>28</strong>
+                  <span class="live-network-stat-detail stat-voices">28 voices</span>
+                </div>
+                <div>
+                  <strong>16</strong>
+                  <span class="live-network-stat-detail stat-explore">16 new things to be explored</span>
+                </div>
+                <div>
+                  <strong>12</strong>
+                  <span class="live-network-stat-detail stat-opportunities">12 opportunities for someone</span>
+                </div>
+                <div>
+                  <strong>5</strong>
+                  <span class="live-network-stat-detail stat-needs">Someone right there needs us</span>
+                </div>
               </div>
             </div>
 
@@ -12017,6 +12029,12 @@ textarea:focus-visible {
 .live-network-stats div{padding-top:9px;border-top:1px solid rgba(255,255,255,.07)}
 .live-network-stats strong{margin:0;font-size:16px}
 .live-network-stats span{display:block;margin-top:3px;color:#718096;font-size:7px}
+.live-network-stat-detail{display:block;margin-top:4px;font-size:7px;line-height:1.35;font-weight:700;letter-spacing:.02em}
+.live-network-stat-detail.stat-voices{color:#7dd3fc}
+.live-network-stat-detail.stat-explore{color:#c4b5fd}
+.live-network-stat-detail.stat-opportunities{color:#f9a8d4}
+.live-network-stat-detail.stat-needs{color:#fbbf24}
+
 @media(max-width:900px){.live-network-layout{grid-template-columns:1fr}.live-network-side{position:static}}
 </style>
 
