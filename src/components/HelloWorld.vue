@@ -10514,13 +10514,16 @@ textarea:focus-visible {
 }
 
 .sidebar-zones-main .icon {
-  color:#65748a;
-  font-size:11px;
+  color:#8293aa;
+  font-size:10px;
+  line-height:1;
+  opacity:.9;
 }
 
 .sidebar-zones-main.active .icon,
 .sidebar-zones-main:hover .icon {
-  color:#9fc4f8;
+  color:#a9c8ef;
+  opacity:1;
 }
 
 .sidebar-zones-toggle {
