@@ -2605,7 +2605,7 @@ onBeforeUnmount(() => {
           @click="navigate('discover')"
         >
           <span class="icon">◎</span>
-          Commons
+          Live Networks
         </button>
 
         <div class="sidebar-section-label">Impact</div>
@@ -2665,7 +2665,7 @@ onBeforeUnmount(() => {
             @click="navigate('pages')"
           >
             <span class="icon">▣</span>
-            <span class="subnav-section-label">Flow</span>
+            <span class="subnav-section-label">More Commons</span>
           </button>
 
           <button
