@@ -200,6 +200,339 @@ type AdminElement = {
 
 const selectedAdminSystem = ref<string | null>(null)
 
+const systemDesignUnlocked = ref(false)
+const systemDesignPassword = ref('')
+const systemDesignPasswordError = ref(false)
+const selectedDesignSystem = ref<string | null>('calls-system')
+const designMode = ref<'systems' | 'elements' | 'relationships' | 'processes' | 'events'>('systems')
+const designSearch = ref('')
+const newDesignSystemName = ref('')
+const newDesignSystemPurpose = ref('')
+const draggedDesignNode = ref<{ kind: 'element' | 'relationship' | 'process' | 'event'; id: string } | null>(null)
+
+type DesignCatalogItem = {
+  id: string
+  name: string
+  category: string
+  description: string
+}
+
+type SystemDesignItem = {
+  instanceId: string
+  kind: 'element' | 'relationship' | 'process' | 'event'
+  catalogId: string
+}
+
+const designElements = ref<DesignCatalogItem[]>([
+  { id:'user-account', name:'User Account', category:'IDENTITY', description:'The account and access identity of a person on the platform.' },
+  { id:'person', name:'Person', category:'IDENTITY', description:'A human participant in the Commons.' },
+  { id:'profile', name:'Profile', category:'IDENTITY', description:'The public or personal representation of a Person.' },
+  { id:'role', name:'Role', category:'IDENTITY', description:'A defined responsibility or position a person can hold.' },
+  { id:'permission', name:'Permission', category:'IDENTITY', description:'A rule defining what a person, role or system can do.' },
+  { id:'follow', name:'Follow', category:'CONNECTION', description:'A directional connection from one person to another person, Page or entity.' },
+  { id:'connection', name:'Connection', category:'CONNECTION', description:'A meaningful relationship between platform participants or objects.' },
+  { id:'connection-reason', name:'Connection Reason', category:'CONNECTION', description:'The context explaining why two people or entities are connected.' },
+  { id:'participation', name:'Participation', category:'PARTICIPATION', description:'A record of a Person taking part in a Call, Zone, Goal, event or action.' },
+  { id:'page', name:'Page', category:'CONTENT', description:'A public space representing an organization, initiative, community or shared identity.' },
+  { id:'post', name:'Post', category:'CONTENT', description:'Published content that can create discussion, connection or action.' },
+  { id:'comment', name:'Comment / Answer', category:'CONTENT', description:'A response, answer or contribution to shared content or a question.' },
+  { id:'interaction', name:'Interaction', category:'CONTENT', description:'A generic engagement with content or another platform object.' },
+  { id:'reaction', name:'Reaction / Like', category:'CONTENT', description:'A lightweight expression of response to content.' },
+  { id:'suggestion', name:'Suggestion', category:'ACTION', description:'A proposed idea, response or possibility that people can discuss and support.' },
+  { id:'vote', name:'Vote', category:'ACTION', description:'A person's choice in a proposal, suggestion, election or decision.' },
+  { id:'goal', name:'Goal', category:'ACTION', description:'A concrete objective connected to a Zone, initiative or group of people.' },
+  { id:'action', name:'Action', category:'ACTION', description:'A concrete step taken toward a Goal or possibility.' },
+  { id:'experience', name:'Experience / Outcome', category:'ACTION', description:'The result or lived experience produced by participation and action.' },
+  { id:'initiative', name:'Initiative', category:'ACTION', description:'An organized effort around a shared possibility, need or goal.' },
+  { id:'community-call', name:'Community Call', category:'CALL', description:'A shared conversation space around a topic, possibility or need.' },
+  { id:'local-call', name:'Local Call', category:'CALL', description:'A Call connected to a specific local place or Zone.' },
+  { id:'call-topic', name:'Call Topic', category:'CALL', description:'The subject or question around which a Call is organized.' },
+  { id:'call-status', name:'Call Status', category:'CALL', description:'The lifecycle state of a Call, such as planned, open, active or closed.' },
+  { id:'organizer', name:'Organizer', category:'CALL', description:'The Person or role responsible for organizing a Call or event.' },
+  { id:'schedule', name:'Schedule', category:'CALL', description:'The date and time structure of a Call or event.' },
+  { id:'event', name:'Event', category:'EVENT', description:'A scheduled activity that people can discover and participate in.' },
+  { id:'my-event', name:'My Event', category:'EVENT', description:'An event saved in a person's participation layer.' },
+  { id:'participation-status', name:'Participation Status', category:'EVENT', description:'The state of a person's relationship to an event or Call.' },
+  { id:'zone', name:'Zone', category:'PLACE', description:'A local or defined space connecting people, places, goals and action.' },
+  { id:'zone-member', name:'Zone Membership', category:'PLACE', description:'The relationship between a Person and a Zone.' },
+  { id:'place', name:'Place', category:'PLACE', description:'A physical or geographic place represented in the platform.' },
+  { id:'entity', name:'Entity', category:'PLACE', description:'A recognized place, business, organization, service, landmark or initiative.' },
+  { id:'business', name:'Business', category:'ENTITY', description:'A business identified as part of the local Commons.' },
+  { id:'organization', name:'Organization', category:'ENTITY', description:'An organization connected to people, places, initiatives or activity.' },
+  { id:'service', name:'Service', category:'ENTITY', description:'A service available to or relevant to a local community.' },
+  { id:'landmark', name:'Landmark', category:'ENTITY', description:'A notable physical place or geographic point.' },
+  { id:'review', name:'Review', category:'ENTITY', description:'A person's review or evaluation of an identified Entity.' },
+  { id:'country', name:'Country', category:'GEOGRAPHY', description:'A country context for geographic discovery and Zones.' },
+  { id:'region', name:'Region / Governorate', category:'GEOGRAPHY', description:'A first-level geographic area containing local communities and Zones.' },
+  { id:'zone-activity', name:'Zone Activity', category:'ACTIVITY', description:'An activity record showing what is happening inside a Zone.' },
+  { id:'election', name:'Election', category:'GOVERNANCE', description:'A structured choice between candidates or options for a defined role or decision.' },
+  { id:'candidate', name:'Candidate', category:'GOVERNANCE', description:'A person proposed for a role or election.' },
+  { id:'role-proposal', name:'Role Proposal', category:'GOVERNANCE', description:'A proposal to create or change a role in a Zone or community.' },
+  { id:'notification', name:'Notification', category:'SYSTEM', description:'Information delivered to a person because relevant activity occurred.' },
+  { id:'notification-preference', name:'Notification Preference', category:'SYSTEM', description:'A person's rules for receiving or suppressing notifications.' },
+  { id:'search', name:'Search', category:'DISCOVERY', description:'A discovery action used to find people, places, content, systems or other objects.' },
+  { id:'discovery', name:'Discovery', category:'DISCOVERY', description:'A discovered person, place, idea, initiative, connection or possibility.' },
+  { id:'recommendation', name:'Recommendation', category:'DISCOVERY', description:'A suggested object or connection based on context and relationships.' },
+  { id:'feed', name:'Feed', category:'DISCOVERY', description:'A contextual stream of relevant activity and content.' },
+  { id:'context', name:'Context', category:'SYSTEM', description:'The place, topic, Zone, Page or other setting attached to an object.' },
+  { id:'activity', name:'Activity', category:'SYSTEM', description:'A record that something happened in the platform.' },
+  { id:'history', name:'History', category:'SYSTEM', description:'Persistent records of previous connections, participation and changes.' },
+  { id:'system', name:'System', category:'ARCHITECTURE', description:'A functional group of elements, relationships, processes and triggers.' },
+  { id:'process', name:'Process', category:'ARCHITECTURE', description:'A sequence of steps that transforms inputs into a result.' },
+  { id:'trigger', name:'Trigger', category:'ARCHITECTURE', description:'An event or condition that starts a process or system response.' },
+  { id:'workflow', name:'Workflow', category:'ARCHITECTURE', description:'A defined path through multiple states, actions and decisions.' },
+  { id:'audit-log', name:'Audit / Change Record', category:'ADMINISTRATION', description:'A record of important administrative or structural changes.' }
+])
+
+const designRelationships = ref<DesignCatalogItem[]>([
+  { id:'person-zone', name:'Person → Zone', category:'MEMBERSHIP', description:'A person joins, leaves or participates in a Zone.' },
+  { id:'person-call', name:'Person → Call', category:'PARTICIPATION', description:'A person participates in a Community Call or Local Call.' },
+  { id:'person-page', name:'Person → Page', category:'CONNECTION', description:'A person follows or connects with a Page.' },
+  { id:'person-person', name:'Person → Person', category:'CONNECTION', description:'A connection or follow between two people.' },
+  { id:'post-author', name:'Person → Post', category:'OWNERSHIP', description:'A person authors or publishes a Post.' },
+  { id:'page-post', name:'Page → Post', category:'PUBLISHING', description:'A Page publishes a Post.' },
+  { id:'zone-post', name:'Zone → Post', category:'CONTEXT', description:'A Post is attached to a Zone.' },
+  { id:'zone-goal', name:'Zone → Goal', category:'ACTION', description:'A Goal belongs to or serves a Zone.' },
+  { id:'goal-suggestion', name:'Goal → Suggestion', category:'ACTION', description:'A Suggestion proposes a way to advance a Goal.' },
+  { id:'suggestion-vote', name:'Suggestion → Vote', category:'DECISION', description:'People vote on a Suggestion.' },
+  { id:'call-zone', name:'Call → Zone', category:'CONTEXT', description:'A Call is connected to a Zone or local area.' },
+  { id:'call-event', name:'Call → Event', category:'SCHEDULE', description:'A Call creates or represents a scheduled Event.' },
+  { id:'event-participation', name:'Event → Participation', category:'PARTICIPATION', description:'An Event creates participation records.' },
+  { id:'entity-zone', name:'Entity → Zone', category:'PLACE', description:'An Entity is identified within a Zone.' },
+  { id:'entity-review', name:'Entity → Review', category:'FEEDBACK', description:'People review an identified Entity.' },
+  { id:'role-person', name:'Role → Person', category:'GOVERNANCE', description:'A Person holds a defined Role.' },
+  { id:'election-role', name:'Election → Role', category:'GOVERNANCE', description:'An Election selects a person for a Role.' },
+  { id:'notification-trigger', name:'Trigger → Notification', category:'SYSTEM', description:'A Trigger creates a Notification for an affected recipient.' },
+  { id:'system-element', name:'System → Element', category:'ARCHITECTURE', description:'A System contains or uses an Element.' },
+  { id:'system-system', name:'System → System', category:'ARCHITECTURE', description:'One System depends on or feeds another System.' },
+  { id:'process-element', name:'Process → Element', category:'ARCHITECTURE', description:'A Process reads, creates or changes an Element.' }
+])
+
+const designProcesses = ref<DesignCatalogItem[]>([
+  { id:'create-call', name:'Create a Call', category:'CALLS', description:'Create topic, location, schedule, organizer and participation entry points.' },
+  { id:'join-call', name:'Join a Call', category:'PARTICIPATION', description:'Person discovers a Call, joins it and becomes a participant.' },
+  { id:'create-zone', name:'Create a Zone', category:'ZONES', description:'Define a Zone and its people, goals, places and activity.' },
+  { id:'join-zone', name:'Join a Zone', category:'MEMBERSHIP', description:'Person joins a Zone and enters its local activity layer.' },
+  { id:'create-post', name:'Publish a Post', category:'CONTENT', description:'Create content, attach context and publish it.' },
+  { id:'create-goal', name:'Create a Goal', category:'ACTION', description:'Turn a possibility into a defined objective and progress layer.' },
+  { id:'submit-suggestion', name:'Submit a Suggestion', category:'ACTION', description:'Propose an idea and collect answers or votes.' },
+  { id:'discover-connection', name:'Discover a Connection', category:'DISCOVERY', description:'Use shared context or activity to surface a relevant connection.' },
+  { id:'identify-entity', name:'Identify an Entity', category:'PLACES', description:'Recognize a place, business, organization or service inside a Zone.' },
+  { id:'review-entity', name:'Review an Entity', category:'FEEDBACK', description:'Create and store a person's review of an Entity.' },
+  { id:'send-notification', name:'Send Notification', category:'SYSTEM', description:'Resolve trigger, recipient, message and delivery state.' },
+  { id:'record-participation', name:'Record Participation', category:'SYSTEM', description:'Persist the relationship between a person and an activity.' },
+  { id:'governance-decision', name:'Run a Governance Decision', category:'GOVERNANCE', description:'Create proposal, candidates or options, collect votes and store the result.' },
+  { id:'activity-history', name:'Record Activity History', category:'SYSTEM', description:'Capture important actions so they can be revisited later.' }
+])
+
+const designEvents = ref<DesignCatalogItem[]>([
+  { id:'call-created', name:'Call Created', category:'TRIGGER', description:'A new Call exists and may notify or invite relevant people.' },
+  { id:'call-started', name:'Call Started', category:'EVENT', description:'The scheduled Call becomes active.' },
+  { id:'call-joined', name:'Person Joined Call', category:'EVENT', description:'A person enters a Call as a participant.' },
+  { id:'zone-joined', name:'Person Joined Zone', category:'EVENT', description:'A person joins a Zone.' },
+  { id:'post-published', name:'Post Published', category:'EVENT', description:'A new Post becomes visible.' },
+  { id:'goal-created', name:'Goal Created', category:'EVENT', description:'A new Goal is created in a Zone or context.' },
+  { id:'suggestion-created', name:'Suggestion Created', category:'EVENT', description:'A new Suggestion is submitted.' },
+  { id:'suggestion-voted', name:'Suggestion Voted', category:'EVENT', description:'A person votes on a Suggestion.' },
+  { id:'entity-identified', name:'Entity Identified', category:'EVENT', description:'A place, business, organization or service is identified.' },
+  { id:'event-reminder', name:'Event Reminder Due', category:'TRIGGER', description:'A scheduled reminder condition becomes true.' },
+  { id:'notification-created', name:'Notification Created', category:'EVENT', description:'A notification has been generated and can be delivered.' },
+  { id:'permission-changed', name:'Permission Changed', category:'TRIGGER', description:'A role or permission changes and dependent systems must respond.' },
+  { id:'process-completed', name:'Process Completed', category:'EVENT', description:'A defined process reaches its completion state.' },
+  { id:'system-state-changed', name:'System State Changed', category:'TRIGGER', description:'A system changes state and may start another process.' }
+])
+
+const filteredDesignCatalog = computed(() => {
+  const source = designMode.value === 'elements' ? designElements.value
+    : designMode.value === 'relationships' ? designRelationships.value
+    : designMode.value === 'processes' ? designProcesses.value
+    : designEvents.value
+  const q = designSearch.value.trim().toLowerCase()
+  if (!q) return source
+  return source.filter(item => (item.name + ' ' + item.category + ' ' + item.description).toLowerCase().includes(q))
+})
+
+const selectedDesignSystemObject = computed(() =>
+  adminSystems.value.find(system => system.id === selectedDesignSystem.value) || null
+)
+
+const systemDesignItems = ref<Record<string, SystemDesignItem[]>>({
+  'calls-system': [
+    { instanceId:'calls-community-call', kind:'element', catalogId:'community-call' },
+    { instanceId:'calls-local-call', kind:'element', catalogId:'local-call' },
+    { instanceId:'calls-topic', kind:'element', catalogId:'call-topic' },
+    { instanceId:'calls-status', kind:'element', catalogId:'call-status' },
+    { instanceId:'calls-organizer', kind:'element', catalogId:'organizer' },
+    { instanceId:'calls-schedule', kind:'element', catalogId:'schedule' },
+    { instanceId:'calls-person-call', kind:'relationship', catalogId:'person-call' },
+    { instanceId:'calls-call-zone', kind:'relationship', catalogId:'call-zone' },
+    { instanceId:'calls-join', kind:'process', catalogId:'join-call' },
+    { instanceId:'calls-created', kind:'event', catalogId:'call-created' },
+    { instanceId:'calls-joined', kind:'event', catalogId:'call-joined' }
+  ],
+  'zones-system': [
+    { instanceId:'zones-zone', kind:'element', catalogId:'zone' },
+    { instanceId:'zones-member', kind:'element', catalogId:'zone-member' },
+    { instanceId:'zones-goal', kind:'element', catalogId:'goal' },
+    { instanceId:'zones-suggestion', kind:'element', catalogId:'suggestion' },
+    { instanceId:'zones-entity', kind:'element', catalogId:'entity' },
+    { instanceId:'zones-activity', kind:'element', catalogId:'zone-activity' },
+    { instanceId:'zones-person-zone', kind:'relationship', catalogId:'person-zone' },
+    { instanceId:'zones-zone-goal', kind:'relationship', catalogId:'zone-goal' },
+    { instanceId:'zones-create', kind:'process', catalogId:'create-zone' },
+    { instanceId:'zones-joined', kind:'event', catalogId:'zone-joined' }
+  ],
+  'people-system': [
+    { instanceId:'people-person', kind:'element', catalogId:'person' },
+    { instanceId:'people-profile', kind:'element', catalogId:'profile' },
+    { instanceId:'people-follow', kind:'element', catalogId:'follow' },
+    { instanceId:'people-connection', kind:'element', catalogId:'connection' },
+    { instanceId:'people-reason', kind:'element', catalogId:'connection-reason' },
+    { instanceId:'people-participation', kind:'element', catalogId:'participation' },
+    { instanceId:'people-person-person', kind:'relationship', catalogId:'person-person' },
+    { instanceId:'people-discover', kind:'process', catalogId:'discover-connection' }
+  ],
+  'content-system': [
+    { instanceId:'content-post', kind:'element', catalogId:'post' },
+    { instanceId:'content-page', kind:'element', catalogId:'page' },
+    { instanceId:'content-comment', kind:'element', catalogId:'comment' },
+    { instanceId:'content-interaction', kind:'element', catalogId:'interaction' },
+    { instanceId:'content-reaction', kind:'element', catalogId:'reaction' },
+    { instanceId:'content-post-author', kind:'relationship', catalogId:'post-author' },
+    { instanceId:'content-page-post', kind:'relationship', catalogId:'page-post' },
+    { instanceId:'content-publish', kind:'process', catalogId:'create-post' },
+    { instanceId:'content-published', kind:'event', catalogId:'post-published' }
+  ],
+  'events-system': [
+    { instanceId:'events-event', kind:'element', catalogId:'event' },
+    { instanceId:'events-my-event', kind:'element', catalogId:'my-event' },
+    { instanceId:'events-status', kind:'element', catalogId:'participation-status' },
+    { instanceId:'events-participation', kind:'element', catalogId:'participation' },
+    { instanceId:'events-event-participation', kind:'relationship', catalogId:'event-participation' },
+    { instanceId:'events-record', kind:'process', catalogId:'record-participation' },
+    { instanceId:'events-reminder', kind:'event', catalogId:'event-reminder' }
+  ],
+  'notifications-system': [
+    { instanceId:'notifications-notification', kind:'element', catalogId:'notification' },
+    { instanceId:'notifications-preference', kind:'element', catalogId:'notification-preference' },
+    { instanceId:'notifications-trigger', kind:'element', catalogId:'trigger' },
+    { instanceId:'notifications-trigger-notification', kind:'relationship', catalogId:'notification-trigger' },
+    { instanceId:'notifications-send', kind:'process', catalogId:'send-notification' },
+    { instanceId:'notifications-created', kind:'event', catalogId:'notification-created' }
+  ]
+})
+
+function catalogForKind(kind: SystemDesignItem['kind']) {
+  return kind === 'element' ? designElements.value
+    : kind === 'relationship' ? designRelationships.value
+    : kind === 'process' ? designProcesses.value
+    : designEvents.value
+}
+
+function addDesignNode(kind: SystemDesignItem['kind'], catalogId: string) {
+  if (!selectedDesignSystem.value) return
+  if (!systemDesignItems.value[selectedDesignSystem.value]) systemDesignItems.value[selectedDesignSystem.value] = []
+  const base = catalogForKind(kind).find(item => item.id === catalogId)
+  if (!base) return
+  systemDesignItems.value[selectedDesignSystem.value].push({
+    instanceId: catalogId + '-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7),
+    kind,
+    catalogId
+  })
+}
+
+function removeDesignNode(instanceId: string) {
+  const systemId = selectedDesignSystem.value
+  if (!systemId) return
+  systemDesignItems.value[systemId] = (systemDesignItems.value[systemId] || []).filter(item => item.instanceId !== instanceId)
+}
+
+function duplicateDesignNode(instanceId: string) {
+  const systemId = selectedDesignSystem.value
+  if (!systemId) return
+  const items = systemDesignItems.value[systemId] || []
+  const source = items.find(item => item.instanceId === instanceId)
+  if (!source) return
+  addDesignNode(source.kind, source.catalogId)
+}
+
+function handleDesignDrop() {
+  if (!draggedDesignNode.value) return
+  addDesignNode(draggedDesignNode.value.kind, draggedDesignNode.value.id)
+  draggedDesignNode.value = null
+}
+
+function createDesignSystem() {
+  const name = newDesignSystemName.value.trim()
+  if (!name) return
+  const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '-' + Date.now()
+  adminSystems.value.push({
+    id,
+    name,
+    purpose: newDesignSystemPurpose.value.trim() || 'A new functional system built from selected platform elements.',
+    contains: [],
+    connections: [],
+    functionalParts: [],
+    missing: []
+  })
+  systemDesignItems.value[id] = []
+  selectedDesignSystem.value = id
+  newDesignSystemName.value = ''
+  newDesignSystemPurpose.value = ''
+  designMode.value = 'elements'
+}
+
+function createSystemFromCatalog(kind: SystemDesignItem['kind'], catalogId: string) {
+  const item = catalogForKind(kind).find(entry => entry.id === catalogId)
+  if (!item) return
+  newDesignSystemName.value = item.name + ' System'
+  newDesignSystemPurpose.value = 'A functional system built around ' + item.name + '.'
+  createDesignSystem()
+  addDesignNode(kind, catalogId)
+}
+
+function designItemName(item: SystemDesignItem) {
+  return catalogForKind(item.kind).find(entry => entry.id === item.catalogId)?.name || item.catalogId
+}
+
+function designItemDescription(item: SystemDesignItem) {
+  return catalogForKind(item.kind).find(entry => entry.id === item.catalogId)?.description || ''
+}
+
+function designKindLabel(kind: SystemDesignItem['kind']) {
+  return kind === 'element' ? 'ELEMENT' : kind === 'relationship' ? 'RELATIONSHIP' : kind === 'process' ? 'PROCESS' : 'EVENT / TRIGGER'
+}
+
+function openSystemDesign() {
+  activeView.value = 'system-design'
+  systemDesignUnlocked.value = false
+  systemDesignPassword.value = ''
+  systemDesignPasswordError.value = false
+  designMode.value = 'systems'
+  selectedDesignSystem.value = adminSystems.value[0]?.id || null
+  selectedZone.value = null
+  selectedCall.value = null
+  selectedPage.value = null
+  selectedPerson.value = null
+  selectedEntity.value = null
+}
+
+function unlockSystemDesign() {
+  if (systemDesignPassword.value === '58337979') {
+    systemDesignUnlocked.value = true
+    systemDesignPassword.value = ''
+    systemDesignPasswordError.value = false
+    return
+  }
+  systemDesignPasswordError.value = true
+}
+
+function lockSystemDesign() {
+  systemDesignUnlocked.value = false
+  systemDesignPassword.value = ''
+  systemDesignPasswordError.value = false
+}
+
 type AdminSystem = {
   id: string
   name: string
@@ -2230,6 +2563,16 @@ onBeforeUnmount(() => {
           >
             <span class="subnav-dot"></span>
             Administration
+            <span class="admin-lock-mark">⌑</span>
+          </button>
+        </div>
+        <div class="sidebar-subnav admin-subnav">
+          <button
+            :class="{ active: activeView === 'system-design' }"
+            @click="openSystemDesign"
+          >
+            <span class="subnav-dot"></span>
+            System Design
             <span class="admin-lock-mark">⌑</span>
           </button>
         </div>
@@ -9899,6 +10242,34 @@ textarea:focus-visible {
   overflow:hidden;
 }
 .specific-zone-item-wrap .specific-zone-item { border:0; border-radius:0; }
+
+
+/* SYSTEM DESIGN */
+.system-design-header{margin-bottom:18px}
+.design-create-system{display:grid;grid-template-columns:1.2fr 1fr 1fr auto;gap:9px;align-items:center;margin-bottom:14px;padding:14px;border:1px solid rgba(255,255,255,.07);border-radius:14px;background:#0b1019}
+.design-create-system strong{display:block;margin-top:5px;color:#dfe8f4;font-size:10px}
+.design-create-system input,.design-search{width:100%;box-sizing:border-box;padding:10px 11px;border:1px solid rgba(255,255,255,.07);border-radius:9px;background:#080d15;color:#dce6f4;outline:0;font:inherit;font-size:9px}
+.design-create-system input:focus,.design-search:focus{border-color:rgba(103,164,255,.3)}
+.design-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.design-tabs button{padding:9px 11px;border:1px solid rgba(255,255,255,.06);border-radius:9px;background:#0b1019;color:#718096;font-size:8px;cursor:pointer}
+.design-tabs button.active{border-color:rgba(103,164,255,.25);background:rgba(74,120,194,.09);color:#b5d0f3}
+.design-system-browser,.system-designer{display:grid;grid-template-columns:330px minmax(0,1fr);gap:14px}
+.design-library-panel,.design-system-summary,.design-canvas-panel{min-width:0;padding:16px;border:1px solid rgba(255,255,255,.07);border-radius:15px;background:#0b1019}
+.design-system-card{display:flex;align-items:center;gap:10px;width:100%;margin-top:7px;padding:11px;border:1px solid rgba(255,255,255,.045);border-radius:10px;background:rgba(255,255,255,.015);color:inherit;text-align:left;cursor:pointer}
+.design-system-card:hover,.design-system-card.active{border-color:rgba(103,164,255,.28);background:rgba(74,120,194,.08)}
+.design-system-card span:nth-child(2){min-width:0;flex:1}.design-system-card strong,.design-system-card small{display:block}.design-system-card strong{font-size:10px;color:#e0e9f5}.design-system-card small{margin-top:3px;color:#66758a;font-size:7px}.design-system-card b{color:#718096}
+.design-node-icon{width:27px;height:27px;display:grid;place-items:center;border-radius:8px;background:rgba(74,120,194,.12);color:#9fc4f8}
+.design-system-summary{display:flex;flex-direction:column;justify-content:center;min-height:350px}.design-system-summary h2{margin:8px 0;font-size:25px}.design-system-summary p{max-width:650px;color:#7d899c;font-size:10px;line-height:1.7}.design-summary-stats{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 20px}.design-summary-stats span{padding:7px 9px;border:1px solid rgba(255,255,255,.06);border-radius:999px;color:#8ca4c2;font-size:8px}
+.design-library-head,.design-canvas-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}.design-library-head h2,.design-canvas-head h2{margin:6px 0 0;font-size:16px}.design-btn-small,.ghost-btn.small{padding:7px 9px;font-size:8px}
+.design-search{margin-bottom:9px}.design-library-list{display:grid;gap:7px;max-height:620px;overflow:auto;padding-right:2px}.design-library-item{display:flex;gap:8px;align-items:center;padding:10px;border:1px solid rgba(255,255,255,.045);border-radius:10px;background:rgba(255,255,255,.015)}.design-library-item:hover{border-color:rgba(103,164,255,.2);background:rgba(74,120,194,.045)}
+.design-library-copy{min-width:0;flex:1}.design-library-copy span,.design-library-copy strong,.design-library-copy small{display:block}.design-category{margin-bottom:3px;color:#6f9bd0;font-size:6px;font-weight:800;letter-spacing:.12em}.design-library-copy strong{color:#dce6f4;font-size:9px}.design-library-copy small{margin-top:4px;color:#68768b;font-size:7px;line-height:1.45}
+.design-library-actions{display:flex;gap:4px}.design-library-actions button,.design-node-top button{width:25px;height:25px;padding:0;border:1px solid rgba(255,255,255,.07);border-radius:7px;background:#101827;color:#9fc4f8;cursor:pointer}.design-library-actions button:hover,.design-node-top button:hover{background:rgba(74,120,194,.14)}
+.design-dropzone{min-height:520px;padding:12px;border:1px dashed rgba(103,164,255,.18);border-radius:12px;background:radial-gradient(circle at 50% 0,rgba(74,120,194,.06),transparent 45%),rgba(255,255,255,.012)}
+.design-dropzone.empty{display:grid;place-items:center}.design-canvas-empty{text-align:center;color:#68768b}.design-canvas-empty strong,.design-canvas-empty span{display:block}.design-canvas-empty strong{margin-bottom:7px;color:#a6bad3;font-size:12px}.design-canvas-empty span{font-size:8px}
+.design-node-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.design-node-card{padding:11px;border:1px solid rgba(255,255,255,.065);border-radius:11px;background:linear-gradient(145deg,rgba(22,34,53,.8),rgba(10,15,24,.9))}.design-node-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px}.design-node-top>span{color:#7198c8;font-size:6px;font-weight:800;letter-spacing:.12em}.design-node-top div{display:flex;gap:4px}.design-node-card>strong{display:block;color:#e3ebf5;font-size:10px}.design-node-card>small{display:block;min-height:30px;margin-top:5px;color:#718096;font-size:7px;line-height:1.5}.design-node-system-btn{width:100%;margin-top:9px;padding:7px;border:1px solid rgba(103,164,255,.1);border-radius:7px;background:transparent;color:#7fa9dc;font-size:7px;cursor:pointer}.design-node-system-btn:hover{background:rgba(74,120,194,.07)}
+.design-architecture-note{margin-top:12px;padding:11px;border:1px solid rgba(255,255,255,.05);border-radius:10px;background:rgba(255,255,255,.012)}.design-architecture-note span{color:#789ac2;font-size:7px;font-weight:800;letter-spacing:.12em}.design-architecture-note p{margin:5px 0 0;color:#69778c;font-size:8px;line-height:1.55}
+@media(max-width:950px){.design-create-system{grid-template-columns:1fr 1fr}.design-create-system .primary-btn{grid-column:1/-1}.design-system-browser,.system-designer{grid-template-columns:1fr}.design-library-list{max-height:430px}}
+@media(max-width:650px){.design-create-system{grid-template-columns:1fr}.design-create-system .primary-btn{grid-column:auto}.design-node-grid{grid-template-columns:1fr}}
 
 /* ADMINISTRATION */
 .administration-content{max-width:1180px}
