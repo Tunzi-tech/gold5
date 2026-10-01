@@ -10487,27 +10487,30 @@ textarea:focus-visible {
   display:flex;
   align-items:center;
   gap:8px;
-  padding:6px 8px;
-  border:0;
-  border-radius:7px;
-  background:transparent;
-  color:#526176;
+  padding:7px 9px;
+  border:1px solid rgba(120,135,155,.16);
+  border-radius:8px;
+  background:rgba(105,115,128,.14);
+  color:#aeb8c7;
   font-size:7px;
   font-weight:700;
   letter-spacing:.08em;
   text-transform:uppercase;
   text-align:left;
   cursor:pointer;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
 }
 
 .sidebar-zones-main:hover {
-  background:rgba(255,255,255,.025);
-  color:#8291a7;
+  background:rgba(125,135,150,.20);
+  border-color:rgba(145,160,180,.22);
+  color:#d7e0eb;
 }
 
 .sidebar-zones-main.active {
-  color:#9fc4f8;
-  background:rgba(74,120,194,.09);
+  background:rgba(92,108,128,.23);
+  border-color:rgba(125,155,195,.25);
+  color:#c5d9f4;
 }
 
 .sidebar-zones-main .icon {
@@ -10521,20 +10524,31 @@ textarea:focus-visible {
 }
 
 .sidebar-zones-toggle {
-  width:27px;
-  height:27px;
+  width:30px;
+  height:30px;
   display:grid;
   place-items:center;
-  flex:0 0 27px;
+  flex:0 0 30px;
+  margin-left:3px;
   padding:0;
-  border:0;
-  border-radius:7px;
-  background:transparent;
+  border:1px solid rgba(120,135,155,.14);
+  border-radius:8px;
+  background:rgba(85,96,110,.13);
+  color:#91a0b4;
   cursor:pointer;
+  transition:background .15s ease, color .15s ease, border-color .15s ease;
 }
 
 .sidebar-zones-toggle:hover {
-  background:rgba(255,255,255,.025);
+  background:rgba(115,130,150,.22);
+  border-color:rgba(145,160,180,.24);
+  color:#c5d5e8;
+}
+
+.sidebar-zones-toggle .subnav-chevron {
+  color:inherit;
+  font-size:11px;
+  font-weight:800;
 }
 
 .sidebar-subnav-toggle {
