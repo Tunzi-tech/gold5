@@ -157,6 +157,33 @@ const newCallLocation = ref('')
 const activeZoneTab = ref('overview')
 const search = ref('')
 const postText = ref('')
+
+const participatingEvents = ref([
+  {
+    id: 1,
+    title: 'Future Streets',
+    type: 'Community Call',
+    date: 'Today · 18:30',
+    location: 'Ariana',
+    status: 'Participating'
+  },
+  {
+    id: 2,
+    title: 'Water Between Us',
+    type: 'Local Call',
+    date: 'Tomorrow · 17:00',
+    location: 'Tunis',
+    status: 'Participating'
+  },
+  {
+    id: 3,
+    title: 'A Place for Everyone',
+    type: 'Community Call',
+    date: 'Saturday · 15:00',
+    location: 'Tunis North',
+    status: 'Participating'
+  }
+])
 const newZoneName = ref('')
 const newZoneLocation = ref('')
 const newZoneDescription = ref('')
@@ -2157,8 +2184,17 @@ onBeforeUnmount(() => {
         </div>
 
         <div class="top-actions">
-          <button class="top-icon">◌</button>
-          <button class="top-icon">✉</button>
+          <button class="top-icon" title="Notifications" aria-label="Notifications">◌</button>
+          <button class="top-icon" title="Messages" aria-label="Messages">✉</button>
+          <button
+            class="top-icon events-icon"
+            :class="{ active: activeView === 'my-events' }"
+            title="My events"
+            aria-label="My events"
+            @click="navigate('my-events')"
+          >
+            ◷
+          </button>
 
           <button
             class="primary-btn"
@@ -2169,6 +2205,32 @@ onBeforeUnmount(() => {
         </div>
 
       </header>
+
+      <!-- =================================================
+           MY EVENTS
+           ================================================= -->
+      <section v-if="activeView === 'my-events'" class="content my-events-content">
+        <div class="section-heading">
+          <span class="section-kicker">YOUR PARTICIPATION</span>
+          <h1>My Events</h1>
+          <p>Events and community calls you are participating in, all in one place.</p>
+        </div>
+
+        <div class="events-grid">
+          <article v-for="event in participatingEvents" :key="event.id" class="event-card">
+            <div class="event-card-top">
+              <span class="event-type">{{ event.type }}</span>
+              <span class="event-status">{{ event.status }}</span>
+            </div>
+            <h2>{{ event.title }}</h2>
+            <div class="event-meta">
+              <span>◷ {{ event.date }}</span>
+              <span>⌖ {{ event.location }}</span>
+            </div>
+            <button class="event-open-btn" type="button">View event</button>
+          </article>
+        </div>
+      </section>
 
       <!-- =================================================
            HOME
@@ -5331,6 +5393,98 @@ textarea:focus-visible {
   background: #5a86d8;
 }
 
+.my-events-content {
+  max-width: 1180px;
+}
+
+.section-heading {
+  margin-bottom: 30px;
+}
+
+.section-kicker {
+  display: block;
+  margin-bottom: 10px;
+  color: #60738f;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .18em;
+}
+
+.section-heading h1 {
+  margin: 0;
+  font-size: 34px;
+  letter-spacing: -.04em;
+}
+
+.section-heading p {
+  margin: 10px 0 0;
+  color: #7f8da2;
+  font-size: 13px;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.event-card {
+  padding: 22px;
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(14,21,33,.96), rgba(9,14,23,.96));
+  box-shadow: 0 14px 35px rgba(0,0,0,.12);
+}
+
+.event-card-top,
+.event-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.event-type,
+.event-status {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.event-type { color: #6e9bd8; }
+.event-status { color: #76b894; }
+
+.event-card h2 {
+  margin: 20px 0 18px;
+  font-size: 20px;
+  letter-spacing: -.025em;
+}
+
+.event-meta {
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: flex-start;
+  color: #7f8da2;
+  font-size: 11px;
+}
+
+.event-open-btn {
+  margin-top: 22px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 7px;
+  background: rgba(255,255,255,.035);
+  color: #cbd5e5;
+  font-size: 10px;
+}
+
+.event-open-btn:hover,
+.events-icon.active {
+  background: rgba(93,137,202,.12);
+  color: #8fb8f5;
+}
+
 .content {
   width: 100%;
   max-width: none;
@@ -8354,6 +8508,8 @@ textarea:focus-visible {
 }
 
 @media (max-width: 900px) {
+  .events-grid { grid-template-columns: 1fr; }
+
   .specific-zone-layout {
     grid-template-columns: 1fr;
   }
