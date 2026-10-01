@@ -2090,6 +2090,11 @@ function navigate(view: string) {
   selectedPerson.value = null
   selectedEntity.value = null
   activeZoneTab.value = 'overview'
+
+  // Impact always opens with its Zones submenu visible.
+  if (view === 'zones' || view === 'around-zones') {
+    showZonesSubnav.value = true
+  }
 }
 
 function openCallSpace(call: CommunityCall) {
