@@ -11,6 +11,7 @@ type Page = {
   color: string
   connected: boolean
   category: string
+  isMyNetwork?: boolean
 }
 
 type Post = {
@@ -131,7 +132,7 @@ type Entity = {
 const activeView = ref('home')
 const showZonesSubnav = ref(true)
 const showCallsSubnav = ref(true)
-const sidebarSpace = ref<'zones' | 'networks'>('zones')
+const sidebarSpace = ref<'zones' | 'networks' | 'connections'>('zones')
 const showAccountMenu = ref(false)
 const selectedZone = ref<Zone | null>(null)
 const selectedCall = ref<CommunityCall | null>(null)
@@ -881,7 +882,8 @@ const pages = ref<Page[]>([
     avatar: 'GH',
     color: '#4ade80',
     connected: true,
-    category: 'Environment'
+    category: 'Environment',
+    isMyNetwork: false
   },
   {
     id: 2,
@@ -892,7 +894,8 @@ const pages = ref<Page[]>([
     avatar: 'FM',
     color: '#8b5cf6',
     connected: true,
-    category: 'Innovation'
+    category: 'Innovation',
+    isMyNetwork: false
   },
   {
     id: 3,
@@ -903,7 +906,8 @@ const pages = ref<Page[]>([
     avatar: 'TC',
     color: '#38bdf8',
     connected: false,
-    category: 'Community'
+    category: 'Community',
+    isMyNetwork: false
   },
   {
     id: 4,
@@ -914,7 +918,8 @@ const pages = ref<Page[]>([
     avatar: 'UG',
     color: '#f59e0b',
     connected: false,
-    category: 'Nature'
+    category: 'Nature',
+    isMyNetwork: false
   }
 ])
 
@@ -1870,6 +1875,73 @@ const joinedZones = computed(() => zones.value.filter(zone => zone.joined))
 
 const followedCalls = computed(() => calls.value.filter(call => call.followed))
 
+const myNetworks = computed(() => pages.value.filter(page => page.isMyNetwork === true))
+
+type SidebarConnection = {
+  id: string
+  label: string
+  type: string
+  avatar: string
+  description: string
+  action: () => void
+}
+
+const myConnections = computed<SidebarConnection[]>(() => {
+  const connections: SidebarConnection[] = []
+
+  pages.value
+    .filter(page => page.connected && !page.isMyNetwork)
+    .forEach(page => {
+      connections.push({
+        id: 'page-' + page.id,
+        label: page.name,
+        type: 'NETWORK',
+        avatar: page.avatar,
+        description: 'A network you follow or are connected to.',
+        action: () => openPage(page)
+      })
+    })
+
+  followedCalls.value.forEach(call => {
+    connections.push({
+      id: 'call-' + call.id,
+      label: call.title,
+      type: 'CALL',
+      avatar: call.avatar,
+      description: 'A Call you are following.',
+      action: () => openCall(call)
+    })
+  })
+
+  people.value
+    .filter(person => person.followed)
+    .forEach(person => {
+      connections.push({
+        id: 'person-' + person.id,
+        label: person.name,
+        type: 'PERSON',
+        avatar: person.avatar,
+        description: 'A person you follow.',
+        action: () => openPerson(person)
+      })
+    })
+
+  entities.value
+    .filter(entity => entity.identified)
+    .forEach(entity => {
+      connections.push({
+        id: 'entity-' + entity.id,
+        label: entity.name,
+        type: 'ENTITY',
+        avatar: entity.name.slice(0, 2).toUpperCase(),
+        description: 'An entity you identified.',
+        action: () => openEntity(entity)
+      })
+    })
+
+  return connections
+})
+
 const officialZoneRoles = computed(() => {
   return myOfficialZoneRoles.value.filter(item =>
     zones.value.some(zone => zone.name === item.zoneName)
@@ -2272,7 +2344,8 @@ function createPage() {
     avatar: newPageName.value.trim().slice(0, 2).toUpperCase(),
     color: '#5b8def',
     connected: true,
-    category: newPageCategory.value
+    category: newPageCategory.value,
+    isMyNetwork: true
   }
 
   pages.value.unshift(page)
@@ -2601,11 +2674,36 @@ onBeforeUnmount(() => {
       <div class="sidebar-zone">
 
         <div class="sidebar-label-switcher">
-          <button class="sidebar-label-arrow" type="button" aria-label="Show zones" :disabled="sidebarSpace === 'zones'" @click="sidebarSpace = 'zones'">‹</button>
-          <div class="sidebar-label">
-            {{ sidebarSpace === 'zones' ? 'YOUR ZONES' : 'MY NETWORKS' }}
-          </div>
-          <button class="sidebar-label-arrow" type="button" aria-label="Show networks" :disabled="sidebarSpace === 'networks'" @click="sidebarSpace = 'networks'">›</button>
+          <button
+            class="sidebar-label-arrow"
+            type="button"
+            :aria-label="sidebarSpace === 'zones' ? 'Go to my connections' : sidebarSpace === 'networks' ? 'Go to my zones' : 'Go to my networks'"
+            @click="sidebarSpace = sidebarSpace === 'zones' ? 'connections' : sidebarSpace === 'networks' ? 'zones' : 'networks'"
+          >‹</button>
+
+          <button
+            class="sidebar-space-title"
+            type="button"
+            @click="sidebarSpace = sidebarSpace === 'zones' ? 'connections' : sidebarSpace === 'networks' ? 'zones' : 'networks'"
+          >
+            <span class="sidebar-label">
+              {{ sidebarSpace === 'zones' ? 'YOUR ZONES' : sidebarSpace === 'networks' ? 'MY NETWORKS' : 'MY CONNECTIONS' }}
+            </span>
+            <small>
+              {{ sidebarSpace === 'zones'
+                ? 'Places you belong to'
+                : sidebarSpace === 'networks'
+                  ? 'Spaces you create'
+                  : 'Everything connected to you' }}
+            </small>
+          </button>
+
+          <button
+            class="sidebar-label-arrow"
+            type="button"
+            :aria-label="sidebarSpace === 'zones' ? 'Go to my networks' : sidebarSpace === 'networks' ? 'Go to my connections' : 'Go to my zones'"
+            @click="sidebarSpace = sidebarSpace === 'zones' ? 'networks' : sidebarSpace === 'networks' ? 'connections' : 'zones'"
+          >›</button>
         </div>
 
         <template v-if="sidebarSpace === 'zones'">
@@ -2617,15 +2715,55 @@ onBeforeUnmount(() => {
           <button class="create-zone-small" @click="showCreateZone = true">
             + Create zone
           </button>
+
+          <div class="sidebar-space-hint">
+            <strong>Keep exploring your places.</strong>
+            <span>Next: build or discover the networks working around them.</span>
+          </div>
         </template>
 
-        <template v-else>
-          <button v-for="page in pages.filter(p => p.connected)" :key="page.id" class="mini-zone mini-network" type="button" @click="openPage(page)">
+        <template v-else-if="sidebarSpace === 'networks'">
+          <button v-for="page in myNetworks" :key="page.id" class="mini-zone mini-network" type="button" @click="openPage(page)">
             <span class="mini-dot network-dot"></span>
             {{ page.name }}
           </button>
-          <div v-if="pages.filter(p => p.connected).length === 0" class="sidebar-empty-small">
-            No connected networks yet.
+
+          <div v-if="myNetworks.length === 0" class="sidebar-empty-small">
+            You haven't created a network yet.
+          </div>
+
+          <button class="create-zone-small create-network-small" type="button" @click="openCreateChoice('page')">
+            + Create a network
+          </button>
+
+          <div class="sidebar-space-hint">
+            <strong>My Networks are yours to build.</strong>
+            <span>Create an organisation, community or initiative and grow its connections.</span>
+          </div>
+        </template>
+
+        <template v-else>
+          <button
+            v-for="connection in myConnections"
+            :key="connection.id"
+            class="mini-zone mini-network sidebar-connection"
+            type="button"
+            @click="connection.action()"
+          >
+            <span class="mini-dot connection-dot"></span>
+            <span class="sidebar-connection-copy">
+              <strong>{{ connection.label }}</strong>
+              <small>{{ connection.type }}</small>
+            </span>
+          </button>
+
+          <div v-if="myConnections.length === 0" class="sidebar-empty-small">
+            Your connections will appear here as you follow, join and identify things.
+          </div>
+
+          <div class="sidebar-space-hint">
+            <strong>See what your activity connects you to.</strong>
+            <span>People, networks, Calls and places can gather here as your Commons grows.</span>
           </div>
         </template>
 
@@ -10790,6 +10928,98 @@ textarea:focus-visible {
 .admin-system-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px}.admin-system-block{padding:13px;border:1px solid rgba(255,255,255,.05);border-radius:10px;background:rgba(255,255,255,.015)}.admin-system-block>.eyebrow{display:block;margin-bottom:2px}
 .admin-function-list{display:grid;gap:7px;margin-top:10px}.admin-function-item{display:flex;align-items:center;gap:11px;padding:10px 12px;border:1px solid rgba(103,164,255,.08);border-radius:9px;background:rgba(74,120,194,.025)}.admin-function-item span{color:#7198c8;font-size:8px;font-variant-numeric:tabular-nums}.admin-function-item strong{color:#b8c8dc;font-size:8px;font-weight:600}
 @media(max-width:900px){.admin-system-grid{grid-template-columns:1fr}}
+
+/* SIDEBAR SPACE SWITCHER */
+
+.sidebar-space-title {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0 3px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.sidebar-space-title:hover .sidebar-label {
+  color: #a6bad3;
+}
+
+.sidebar-space-title small {
+  max-width: 145px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #4f5f75;
+  font-size: 6px;
+  letter-spacing: .04em;
+  text-align: center;
+}
+
+.sidebar-space-hint {
+  display: grid;
+  gap: 3px;
+  margin: 9px 3px 3px;
+  padding: 8px 9px;
+  border: 1px solid rgba(103,164,255,.055);
+  border-radius: 8px;
+  background: rgba(74,120,194,.025);
+}
+
+.sidebar-space-hint strong {
+  color: #8199b7;
+  font-size: 7px;
+  font-weight: 700;
+}
+
+.sidebar-space-hint span {
+  color: #58687d;
+  font-size: 7px;
+  line-height: 1.45;
+}
+
+.create-network-small {
+  margin-top: 5px;
+}
+
+.sidebar-connection {
+  align-items: flex-start;
+}
+
+.sidebar-connection-copy {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.sidebar-connection-copy strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #8996a9;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.sidebar-connection-copy small {
+  color: #4f6076;
+  font-size: 6px;
+  letter-spacing: .08em;
+}
+
+.sidebar-connection:hover .sidebar-connection-copy strong {
+  color: #e3ebf5;
+}
+
+.connection-dot {
+  margin-top: 4px;
+  background: #7eb8e8;
+  box-shadow: 0 0 9px rgba(126,184,232,.35);
+}
 
 /* =====================================================
    SIDEBAR ENHANCEMENT
