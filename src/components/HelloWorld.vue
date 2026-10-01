@@ -131,6 +131,7 @@ type Entity = {
 const activeView = ref('home')
 const showZonesSubnav = ref(true)
 const showCallsSubnav = ref(true)
+const sidebarSpace = ref<'zones' | 'networks'>('zones')
 const selectedZone = ref<Zone | null>(null)
 const selectedCall = ref<CommunityCall | null>(null)
 const selectedPage = ref<Page | null>(null)
@@ -2581,26 +2582,34 @@ onBeforeUnmount(() => {
 
       <div class="sidebar-zone">
 
-        <div class="sidebar-label">
-          YOUR ZONES
+        <div class="sidebar-label-switcher">
+          <button class="sidebar-label-arrow" type="button" aria-label="Show zones" :disabled="sidebarSpace === 'zones'" @click="sidebarSpace = 'zones'">‹</button>
+          <div class="sidebar-label">
+            {{ sidebarSpace === 'zones' ? 'YOUR ZONES' : 'MY NETWORKS' }}
+          </div>
+          <button class="sidebar-label-arrow" type="button" aria-label="Show networks" :disabled="sidebarSpace === 'networks'" @click="sidebarSpace = 'networks'">›</button>
         </div>
 
-        <div
-          v-for="zone in zones.filter(z => z.joined)"
-          :key="zone.id"
-          class="mini-zone"
-          @click="openZone(zone)"
-        >
-          <span class="mini-dot"></span>
-          {{ zone.name }}
-        </div>
+        <template v-if="sidebarSpace === 'zones'">
+          <div v-for="zone in zones.filter(z => z.joined)" :key="zone.id" class="mini-zone" @click="openZone(zone)">
+            <span class="mini-dot"></span>
+            {{ zone.name }}
+          </div>
 
-        <button
-          class="create-zone-small"
-          @click="showCreateZone = true"
-        >
-          + Create zone
-        </button>
+          <button class="create-zone-small" @click="showCreateZone = true">
+            + Create zone
+          </button>
+        </template>
+
+        <template v-else>
+          <button v-for="page in pages.filter(p => p.connected)" :key="page.id" class="mini-zone mini-network" type="button" @click="openPage(page)">
+            <span class="mini-dot network-dot"></span>
+            {{ page.name }}
+          </button>
+          <div v-if="pages.filter(p => p.connected).length === 0" class="sidebar-empty-small">
+            No connected networks yet.
+          </div>
+        </template>
 
         <button
           class="sidebar-people-button"
@@ -6086,6 +6095,58 @@ textarea:focus-visible {
   letter-spacing: .17em;
   color: #657085;
   font-weight: 700;
+}
+
+.sidebar-label-switcher {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:5px;
+  margin:0 0 10px;
+}
+
+.sidebar-label-arrow {
+  width:18px;
+  height:18px;
+  display:grid;
+  place-items:center;
+  padding:0;
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:6px;
+  background:rgba(255,255,255,.015);
+  color:#718096;
+  font-size:13px;
+  line-height:1;
+  cursor:pointer;
+}
+
+.sidebar-label-arrow:hover:not(:disabled) {
+  border-color:rgba(103,164,255,.2);
+  background:rgba(74,120,194,.07);
+  color:#a8c6eb;
+}
+
+.sidebar-label-arrow:disabled {
+  opacity:.28;
+  cursor:default;
+}
+
+.mini-network {
+  border:0;
+  width:100%;
+  text-align:left;
+  color:inherit;
+}
+
+.network-dot {
+  background:#8b7bd8;
+}
+
+.sidebar-empty-small {
+  padding:5px 2px;
+  color:#56657a;
+  font-size:8px;
+  line-height:1.5;
 }
 
 .mini-zone {
