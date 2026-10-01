@@ -6354,6 +6354,29 @@ textarea:focus-visible {
   color: #d28a18;
 }
 
+/* Requested text treatment for the Zone / Flow submenu labels. */
+.sidebar-zones-main .subnav-section-label,
+.main-nav .sidebar-subnav button:not(.sidebar-subnav-toggle) {
+  color: #000000;
+}
+
+.main-nav .sidebar-subnav button:not(.sidebar-subnav-toggle) .subnav-dot {
+  background: #000000;
+}
+
+.sidebar-zones-main .icon {
+  color: #000000;
+}
+
+.sidebar-zones-main.active .subnav-section-label,
+.main-nav .sidebar-subnav button.active:not(.sidebar-subnav-toggle) {
+  color: #000000;
+}
+
+.sidebar-zones-main.active .icon {
+  color: #000000;
+}
+
 .icon {
   width: 20px;
   text-align: center;
