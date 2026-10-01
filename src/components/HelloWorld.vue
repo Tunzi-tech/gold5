@@ -10913,14 +10913,14 @@ textarea:focus-visible {
   cursor:pointer;
 }
 .country-selector-toggle:hover {
-  border-color:rgba(103,164,255,.3);
-  background:rgba(74,120,194,.06);
+  border-color:rgba(224,112,177,.28);
+  background:linear-gradient(90deg,rgba(74,120,194,.055),rgba(224,112,177,.035));
 }
 .country-selector-toggle small,
 .country-selector-toggle strong { display:block; }
-.country-selector-toggle small { color:#68768b; font-size:7px; letter-spacing:.12em; }
+.country-selector-toggle small { color:#8a7182; font-size:7px; letter-spacing:.12em; }
 .country-selector-toggle strong { margin-top:4px; font-size:13px; }
-.country-selector-toggle b { color:#9ebfe8; font-size:8px; letter-spacing:.08em; }
+.country-selector-toggle b { color:#c59bb9; font-size:8px; letter-spacing:.08em; }
 
 /* COUNTRY SELECTOR */
 .country-selector {
@@ -10943,8 +10943,8 @@ textarea:focus-visible {
   cursor:pointer;
 }
 .country-option:hover,.country-option.active {
-  border-color:rgba(103,164,255,.32);
-  background:rgba(74,120,194,.08);
+  border-color:rgba(224,112,177,.28);
+  background:linear-gradient(90deg,rgba(74,120,194,.07),rgba(224,112,177,.045));
 }
 .country-option-flag {
   width:30px;
@@ -10953,8 +10953,8 @@ textarea:focus-visible {
   place-items:center;
   flex:0 0 30px;
   border-radius:9px;
-  background:linear-gradient(135deg,rgba(74,120,194,.25),rgba(139,92,246,.16));
-  color:#bcd7fa;
+  background:linear-gradient(135deg,rgba(74,120,194,.25),rgba(139,92,246,.14) 58%,rgba(224,112,177,.16));
+  color:#d4b8cb;
   font-size:8px;
   font-weight:800;
 }
