@@ -224,6 +224,24 @@ type SystemDesignItem = {
 }
 
 const designElements = ref<DesignCatalogItem[]>([
+
+  { id:'official-role', name:'Official Role', category:'GOVERNANCE', description:'A formal Zone role with defined responsibilities.' },
+  { id:'official-member', name:'Official Member', category:'GOVERNANCE', description:'A person assigned to a formal Zone role.' },
+  { id:'election-candidate', name:'Election Candidate', category:'GOVERNANCE', description:'A candidate record inside an Election.' },
+  { id:'answer', name:'Answer', category:'CONTENT', description:'A direct response to a question, suggestion or discussion.' },
+  { id:'question', name:'Question', category:'CONTENT', description:'A question used to start discussion, discovery or a Call.' },
+  { id:'idea', name:'Idea', category:'ACTION', description:'A proposed thought that can become a Suggestion, Goal or action.' },
+  { id:'possibility', name:'Possibility', category:'ACTION', description:'A future direction or outcome that people can explore.' },
+  { id:'mission', name:'Mission', category:'ACTION', description:'A defined challenge or journey that people can undertake together.' },
+  { id:'raid', name:'Raid / Collaboration', category:'ACTION', description:'A focused collaboration activity around a shared challenge.' },
+  { id:'inspiration', name:'Inspiration', category:'DISCOVERY', description:'A new possibility discovered through activity or experience.' },
+  { id:'page-category', name:'Page Category', category:'CONTENT', description:'The category used to organize a Page.' },
+  { id:'call-category', name:'Call Category', category:'CALL', description:'The category used to organize a Call.' },
+  { id:'call-interaction', name:'Call Interaction', category:'CALL', description:'An interaction or contribution inside a Call.' },
+  { id:'place-review', name:'Place Review', category:'ENTITY', description:'A review specifically attached to a Place or local Entity.' },
+  { id:'location', name:'Location', category:'GEOGRAPHY', description:'A geographic location attached to a Call, Zone, Event or Entity.' },
+  { id:'member', name:'Member', category:'MEMBERSHIP', description:'A membership record connecting a person to a community, Zone or group.' },
+  { id:'organizer-permission', name:'Organizer Permission', category:'PERMISSION', description:'Permission allowing a person to manage a Call or Event.' }
   { id:'user-account', name:'User Account', category:'IDENTITY', description:'The account and access identity of a person on the platform.' },
   { id:'person', name:'Person', category:'IDENTITY', description:'A human participant in the Commons.' },
   { id:'profile', name:'Profile', category:'IDENTITY', description:'The public or personal representation of a Person.' },
@@ -422,6 +440,12 @@ const systemDesignItems = ref<Record<string, SystemDesignItem[]>>({
   ]
 })
 
+function setDesignMode(value: string) {
+  if (['systems', 'elements', 'relationships', 'processes', 'events'].includes(value)) {
+    designMode.value = value as typeof designMode.value
+  }
+}
+
 function catalogForKind(kind: SystemDesignItem['kind']) {
   return kind === 'element' ? designElements.value
     : kind === 'relationship' ? designRelationships.value
@@ -612,6 +636,21 @@ const adminElements = ref<AdminElement[]>([
   { id:'notification', name:'Notification', category:'SYSTEM', description:'The system layer that tells people when something relevant happens around their connections.', connections:['Community Call','Local Call','Zone','Person','Page','Post','Goal','Suggestion'], missing:['Event reminder rules','Notification preferences','Read/unread persistence'] },
   { id:'participation', name:'Participation', category:'SYSTEM', description:'The record of a person taking part in a Call, Zone, Goal or other activity.', connections:['Person','Community Call','Local Call','Zone','Goal','My Events'], missing:['Participation history','Participation notifications','Activity timeline'] }
 ])
+
+
+adminElements.value.push(
+  ...designElements.value
+    .filter(item => !adminElements.value.some(existing => existing.id === item.id))
+    .filter(item => !['system','process','trigger','workflow','audit-log'].includes(item.id))
+    .map(item => ({
+      id: item.id,
+      name: item.name,
+      category: item.category,
+      description: item.description,
+      connections: [],
+      missing: []
+    }))
+)
 
 const newZoneName = ref('')
 const newZoneLocation = ref('')
