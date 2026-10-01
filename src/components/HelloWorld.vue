@@ -6332,6 +6332,28 @@ textarea:focus-visible {
   color: #fbbf24;
 }
 
+/* Keep unselected navigation text softly brighter, while preserving the orange Home/Discover accent. */
+.main-nav button:not(.active) {
+  color: #aeb7c6;
+}
+
+.main-nav button:not(.active) .icon {
+  color: #8f9bad;
+}
+
+.main-nav .sidebar-zones-header button:not(.active) {
+  color: #aeb7c6;
+}
+
+.main-nav .sidebar-zones-header button:not(.active) .icon,
+.main-nav .sidebar-zones-toggle .subnav-chevron {
+  color: #f59e0b;
+}
+
+.sidebar-section-label {
+  color: #d28a18;
+}
+
 .icon {
   width: 20px;
   text-align: center;
