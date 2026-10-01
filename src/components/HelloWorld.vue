@@ -2655,6 +2655,8 @@ onBeforeUnmount(() => {
 
         
 
+        <div class="sidebar-section-label">Flow</div>
+
         <div class="sidebar-flow-header">
           <button
             class="sidebar-flow-main"
