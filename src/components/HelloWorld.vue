@@ -129,6 +129,8 @@ type Entity = {
    ===================================================== */
 
 const activeView = ref('home')
+const showZonesSubnav = ref(true)
+const showCallsSubnav = ref(true)
 const selectedZone = ref<Zone | null>(null)
 const selectedCall = ref<CommunityCall | null>(null)
 const selectedPage = ref<Page | null>(null)
@@ -2517,21 +2519,28 @@ onBeforeUnmount(() => {
           Zones
         </button>
 
-        <div v-if="['zones', 'around-zones'].includes(activeView)" class="sidebar-subnav zones-subnav">
-          <button
-            :class="{ active: activeView === 'zones' }"
-            @click="navigate('zones')"
-          >
-            <span class="subnav-dot"></span>
-            My Zones
+        <div class="sidebar-subnav zones-subnav">
+          <button class="sidebar-subnav-toggle" type="button" @click="showZonesSubnav = !showZonesSubnav">
+            <span class="subnav-section-label">Zones</span>
+            <span class="subnav-chevron">{{ showZonesSubnav ? '⌃' : '⌄' }}</span>
           </button>
-          <button
-            :class="{ active: activeView === 'around-zones' }"
-            @click="navigate('around-zones')"
-          >
-            <span class="subnav-dot"></span>
-            Zones Around
-          </button>
+
+          <template v-if="showZonesSubnav">
+            <button
+              :class="{ active: activeView === 'zones' }"
+              @click="navigate('zones')"
+            >
+              <span class="subnav-dot"></span>
+              My Zones
+            </button>
+            <button
+              :class="{ active: activeView === 'around-zones' }"
+              @click="navigate('around-zones')"
+            >
+              <span class="subnav-dot"></span>
+              Zones Around
+            </button>
+          </template>
         </div>
 
         
@@ -2544,21 +2553,28 @@ onBeforeUnmount(() => {
           Calls & Commons
         </button>
 
-        <div v-if="['pages', 'initiatives', 'entities', 'entity'].includes(activeView)" class="sidebar-subnav">
-          <button
-            :class="{ active: activeView === 'initiatives' }"
-            @click="navigate('initiatives')"
-          >
-            <span class="subnav-dot"></span>
-            Initiatives
+        <div class="sidebar-subnav">
+          <button class="sidebar-subnav-toggle" type="button" @click="showCallsSubnav = !showCallsSubnav">
+            <span class="subnav-section-label">Calls &amp; Commons</span>
+            <span class="subnav-chevron">{{ showCallsSubnav ? '⌃' : '⌄' }}</span>
           </button>
-          <button
-            :class="{ active: activeView === 'entities' || activeView === 'entity' }"
-            @click="navigate('entities')"
-          >
-            <span class="subnav-dot"></span>
-            Entities
-          </button>
+
+          <template v-if="showCallsSubnav">
+            <button
+              :class="{ active: activeView === 'initiatives' }"
+              @click="navigate('initiatives')"
+            >
+              <span class="subnav-dot"></span>
+              Initiatives
+            </button>
+            <button
+              :class="{ active: activeView === 'entities' || activeView === 'entity' }"
+              @click="navigate('entities')"
+            >
+              <span class="subnav-dot"></span>
+              Entities
+            </button>
+          </template>
         </div>
 
       </nav>
@@ -10186,6 +10202,40 @@ textarea:focus-visible {
   border-left: 1px solid rgba(255,255,255,.07);
   display: grid;
   gap: 2px;
+}
+
+.sidebar-subnav-toggle {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  width:100%;
+  padding:6px 8px 5px;
+  border:0;
+  border-radius:7px;
+  background:transparent;
+  color:#526176;
+  font-size:7px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  text-align:left;
+  cursor:pointer;
+}
+
+.sidebar-subnav-toggle:hover {
+  background:rgba(255,255,255,.025);
+  color:#8291a7;
+}
+
+.subnav-section-label {
+  min-width:0;
+}
+
+.subnav-chevron {
+  color:#65748a;
+  font-size:9px;
+  line-height:1;
 }
 .sidebar-subnav button {
   display:flex;
