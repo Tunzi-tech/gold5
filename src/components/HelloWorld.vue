@@ -6301,6 +6301,37 @@ textarea:focus-visible {
   color: #70a8ff;
 }
 
+.main-nav > button:nth-of-type(1),
+.main-nav > button:nth-of-type(2) {
+  color: #f59e0b;
+}
+
+.main-nav > button:nth-of-type(1) .icon,
+.main-nav > button:nth-of-type(2) .icon {
+  color: #f59e0b;
+}
+
+.main-nav > button:nth-of-type(1):hover,
+.main-nav > button:nth-of-type(2):hover {
+  color: #fbbf24;
+  background: rgba(245, 158, 11, .08);
+}
+
+.main-nav > button:nth-of-type(1).active,
+.main-nav > button:nth-of-type(2).active {
+  color: #fff7e6;
+  background: linear-gradient(
+    90deg,
+    rgba(245, 158, 11, .18),
+    rgba(245, 158, 11, .045)
+  );
+}
+
+.main-nav > button:nth-of-type(1).active .icon,
+.main-nav > button:nth-of-type(2).active .icon {
+  color: #fbbf24;
+}
+
 .icon {
   width: 20px;
   text-align: center;
