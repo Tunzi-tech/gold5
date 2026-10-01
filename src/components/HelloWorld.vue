@@ -10626,6 +10626,14 @@ textarea:focus-visible {
   opacity:1;
 }
 
+/* Zones circle: neutral instead of the previous blue accent. */
+.sidebar-zones-main .icon,
+.sidebar-zones-main.active .icon,
+.sidebar-zones-main:hover .icon {
+  color: #000000;
+  opacity: 1;
+}
+
 .sidebar-zones-toggle {
   width:30px;
   height:30px;
