@@ -3276,11 +3276,23 @@ onBeforeUnmount(() => {
 
         <div class="page-title live-network-title">
           <span class="eyebrow">LIVE NETWORK</span>
-          <h1>What's happening across the Commons.</h1>
+          <h1>What's happening across the network.</h1>
           <p>
             A live view of people joining, creating, participating, connecting and moving ideas
-            into action across the platform.
+            into action across places and communities.
           </p>
+        </div>
+
+        <div class="live-network-filters">
+          <button type="button" class="live-network-filter active">GLOBAL</button>
+          <button type="button" class="live-network-filter">LOCAL</button>
+          <span class="live-network-filter-separator"></span>
+          <button type="button" class="live-network-filter">NORTH TUNISIA</button>
+          <button type="button" class="live-network-filter">CENTRAL TUNISIA</button>
+          <button type="button" class="live-network-filter">SOUTH TUNISIA</button>
+          <button type="button" class="live-network-filter">TUNIS</button>
+          <button type="button" class="live-network-filter">LA MARSA</button>
+          <button type="button" class="live-network-filter">TUNIS NORTH</button>
         </div>
 
         <div class="live-network-layout">
@@ -11985,6 +11997,10 @@ textarea:focus-visible {
   background: rgba(255,255,255,.06);
 }
 
+.live-network-filters{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:0 0 14px}
+.live-network-filter{padding:7px 10px;border:1px solid rgba(255,255,255,.07);border-radius:7px;background:rgba(255,255,255,.018);color:#8794a7;font-size:7px;font-weight:700;letter-spacing:.08em;cursor:pointer}
+.live-network-filter:hover,.live-network-filter.active{background:rgba(88,108,135,.28);border-color:rgba(135,165,205,.34);color:#dce5f1}
+.live-network-filter-separator{width:1px;height:18px;margin:0 3px;background:rgba(255,255,255,.09)}
 .live-network-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:18px;align-items:start}
 .live-network-feed{display:flex;flex-direction:column;gap:8px}
 .live-network-event{display:flex;gap:13px;padding:14px 16px;border:1px solid rgba(255,255,255,.07);border-radius:12px;background:rgba(255,255,255,.025)}
