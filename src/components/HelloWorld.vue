@@ -198,6 +198,75 @@ type AdminElement = {
   missing: string[]
 }
 
+const selectedAdminSystem = ref<string | null>(null)
+
+type AdminSystem = {
+  id: string
+  name: string
+  purpose: string
+  contains: string[]
+  connections: string[]
+  functionalParts: string[]
+  missing: string[]
+}
+
+const adminSystems = ref<AdminSystem[]>([
+  {
+    id: 'calls-system',
+    name: 'Calls System',
+    purpose: 'Turns a topic, need or possibility into a structured space where people can gather and participate.',
+    contains: ['Community Call', 'Local Call', 'Call status', 'Participants', 'Organizer', 'Schedule'],
+    connections: ['People', 'Zones', 'My Events', 'Notifications', 'Pages', 'Participation'],
+    functionalParts: ['Create a Call', 'Define topic and location', 'Invite or discover participants', 'Join / leave', 'Schedule and reminders', 'Participant state', 'Organizer controls'],
+    missing: ['Complete reminder flow', 'Organizer permission model', 'Persistent participation history']
+  },
+  {
+    id: 'zones-system',
+    name: 'Zones System',
+    purpose: 'Connects people, places and local action around a real or defined area.',
+    contains: ['Zone', 'Members', 'Goals', 'Suggestions', 'Entities', 'Zone activity'],
+    connections: ['People', 'Calls', 'Pages', 'Posts', 'Goals', 'Suggestions'],
+    functionalParts: ['Create a Zone', 'Join / leave', 'Identify members', 'Create goals', 'Submit suggestions', 'Participate in action', 'Track Zone activity'],
+    missing: ['Complete activity timeline', 'Zone notification rules', 'Permission roles']
+  },
+  {
+    id: 'people-system',
+    name: 'People & Connections System',
+    purpose: 'Builds the human network through follows, shared context, participation and meaningful connections.',
+    contains: ['Person', 'Profile', 'Follow', 'Connection reason', 'Participation'],
+    connections: ['Zones', 'Pages', 'Calls', 'Posts', 'Notifications'],
+    functionalParts: ['Create profile', 'Follow', 'Discover connections', 'Show why people are connected', 'Participate', 'Keep connection history'],
+    missing: ['Connection history', 'Unified participation timeline']
+  },
+  {
+    id: 'content-system',
+    name: 'Content System',
+    purpose: 'Lets people and Pages publish ideas and connect those ideas to the Commons.',
+    contains: ['Post', 'Author', 'Page', 'Zone context', 'Interactions'],
+    connections: ['People', 'Pages', 'Zones', 'Goals', 'Suggestions', 'Notifications'],
+    functionalParts: ['Create post', 'Publish', 'Attach context', 'Like / interact', 'Open related connections', 'Generate relevant notifications'],
+    missing: ['Complete interaction history', 'Mention notifications']
+  },
+  {
+    id: 'events-system',
+    name: 'Events & Participation System',
+    purpose: 'Collects the activities a person has chosen to participate in and turns them into a personal activity layer.',
+    contains: ['My Events', 'Participating event', 'Date / time', 'Location', 'Participation status'],
+    connections: ['Community Call', 'Local Call', 'Person', 'Notifications', 'Zones'],
+    functionalParts: ['Join an event', 'Store participation', 'Show upcoming activity', 'Open event', 'Send reminders'],
+    missing: ['Real participation persistence', 'Calendar integration', 'Reminder notifications']
+  },
+  {
+    id: 'notifications-system',
+    name: 'Notifications System',
+    purpose: 'Translates activity across the platform into timely information for the people affected by it.',
+    contains: ['Notification', 'Trigger', 'Recipient', 'Read state', 'Notification preference'],
+    connections: ['Calls', 'Zones', 'People', 'Pages', 'Posts', 'Goals', 'Suggestions', 'Events'],
+    functionalParts: ['Detect trigger', 'Resolve recipient', 'Create notification', 'Deliver', 'Read / unread', 'Preference control'],
+    missing: ['Backend delivery', 'Persistent read state', 'Notification preference engine']
+  }
+])
+
 const adminElements = ref<AdminElement[]>([
   { id:'community-call', name:'Community Call', category:'CALL', description:'A shared conversation space where people gather around a topic, possibility or local need.', connections:['People','Zones','My Events','Notifications','Pages','Participation'], missing:['Call reminder notification','Participant history','Organizer notification controls'] },
   { id:'local-call', name:'Local Call', category:'CALL', description:'A Call connected to a specific local place or Zone.', connections:['People','Zones','Community Call','My Events','Notifications'], missing:['Location-based notifications','Local attendance history'] },
@@ -1508,6 +1577,16 @@ const publicGoals = computed(() => {
    NAVIGATION
    ===================================================== */
 
+function openAdministrationSystems() {
+  activeView.value = 'administration-systems'
+  selectedAdminSystem.value = null
+  selectedZone.value = null
+  selectedCall.value = null
+  selectedPage.value = null
+  selectedPerson.value = null
+  selectedEntity.value = null
+}
+
 function openAdministration() {
   activeView.value = 'administration'
   selectedAdminElement.value = null
@@ -2154,6 +2233,15 @@ onBeforeUnmount(() => {
             <span class="admin-lock-mark">⌑</span>
           </button>
         </div>
+        <div v-if="activeView === 'administration' || activeView === 'administration-systems'" class="sidebar-subnav admin-subnav">
+          <button
+            :class="{ active: activeView === 'administration-systems' }"
+            @click="openAdministrationSystems"
+          >
+            <span class="subnav-dot"></span>
+            Systems
+          </button>
+        </div>
 
       </div>
 
@@ -2715,6 +2803,110 @@ onBeforeUnmount(() => {
 
       </section>
 
+
+
+      <section v-if="activeView === 'administration-systems'" class="content administration-content">
+
+        <div class="administration-header">
+          <div>
+            <span class="eyebrow">SYSTEM ARCHITECTURE</span>
+            <h1>Systems</h1>
+            <p>See what each functional system contains, how its parts connect, and what makes the system actually work.</p>
+          </div>
+          <button class="ghost-btn" type="button" @click="openAdministration">Elements</button>
+        </div>
+
+        <div class="admin-overview">
+          <div class="admin-overview-card"><span>SYSTEMS</span><strong>{{ adminSystems.length }}</strong><small>Functional platform systems</small></div>
+          <div class="admin-overview-card"><span>PARTS</span><strong>{{ adminSystems.reduce((total, system) => total + system.functionalParts.length, 0) }}</strong><small>Functional building blocks</small></div>
+          <div class="admin-overview-card"><span>MISSING</span><strong>{{ adminSystems.reduce((total, system) => total + system.missing.length, 0) }}</strong><small>Pieces still to build</small></div>
+        </div>
+
+        <div class="admin-workspace">
+          <div class="admin-elements-panel">
+            <div class="admin-panel-heading">
+              <span class="eyebrow">FUNCTIONAL SYSTEMS</span>
+              <h2>Systems</h2>
+            </div>
+
+            <button
+              v-for="system in adminSystems"
+              :key="system.id"
+              type="button"
+              class="admin-element-folder"
+              :class="{ active: selectedAdminSystem === system.id }"
+              @click="selectedAdminSystem = system.id"
+            >
+              <span class="admin-folder-icon">◇</span>
+              <span class="admin-folder-copy">
+                <strong>{{ system.name }}</strong>
+                <small>{{ system.contains.length }} elements · {{ system.connections.length }} connections</small>
+              </span>
+              <span class="admin-folder-arrow">→</span>
+            </button>
+          </div>
+
+          <div class="admin-detail-panel">
+            <template v-if="selectedAdminSystem">
+              <template v-for="system in adminSystems" :key="system.id">
+                <div v-if="system.id === selectedAdminSystem" class="admin-element-detail">
+                  <span class="eyebrow">FUNCTIONAL SYSTEM</span>
+                  <div class="admin-detail-title">
+                    <div>
+                      <h2>{{ system.name }}</h2>
+                      <p>{{ system.purpose }}</p>
+                    </div>
+                    <span class="admin-status">DEFINED</span>
+                  </div>
+
+                  <div class="admin-system-grid">
+                    <div class="admin-system-block">
+                      <span class="eyebrow">WHAT IT CONTAINS</span>
+                      <div class="admin-chip-list">
+                        <span v-for="item in system.contains" :key="item" class="admin-chip connected">{{ item }}</span>
+                      </div>
+                    </div>
+
+                    <div class="admin-system-block">
+                      <span class="eyebrow">CONNECTIONS</span>
+                      <div class="admin-chip-list">
+                        <span v-for="connection in system.connections" :key="connection" class="admin-chip connected">↔ {{ connection }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="admin-detail-section">
+                    <span class="eyebrow">WHAT MAKES IT FUNCTIONAL</span>
+                    <div class="admin-function-list">
+                      <div v-for="(part, index) in system.functionalParts" :key="part" class="admin-function-item">
+                        <span>{{ String(index + 1).padStart(2, '0') }}</span>
+                        <strong>{{ part }}</strong>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="admin-detail-section">
+                    <span class="eyebrow">MISSING / TO BUILD</span>
+                    <div class="admin-missing-list">
+                      <div v-for="item in system.missing" :key="item" class="admin-missing-item">
+                        <span>!</span>
+                        <strong>{{ item }}</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </template>
+
+            <div v-else class="admin-detail-empty">
+              <div class="admin-empty-orbit">SYSTEM</div>
+              <span class="eyebrow">SELECT A SYSTEM</span>
+              <h2>Open a system to inspect how it works.</h2>
+              <p>Start with Calls, Zones, People, Content, Events or Notifications and trace the pieces that make the system functional.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section v-if="activeView === 'administration'" class="content administration-content">
 
@@ -9709,5 +9901,9 @@ textarea:focus-visible {
 .admin-detail-note{display:grid;gap:5px;margin-top:28px;padding:13px;border:1px solid rgba(255,255,255,.05);border-radius:10px;background:rgba(255,255,255,.015)}.admin-detail-note strong{color:#9bbde9;font-size:8px}.admin-detail-note span{color:#68768b;font-size:8px;line-height:1.6}
 .admin-detail-empty{min-height:430px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}.admin-empty-orbit{width:90px;height:90px;margin-bottom:20px;font-size:9px;letter-spacing:.15em}.admin-detail-empty h2{margin:8px 0;font-size:19px}.admin-detail-empty p{max-width:420px;margin:0;color:#748196;font-size:9px;line-height:1.7}.admin-lock-mark{margin-left:auto;color:#66758a;font-size:9px}
 @media(max-width:900px){.admin-workspace{grid-template-columns:1fr}.admin-detail-panel{min-height:350px}}@media(max-width:650px){.admin-overview{grid-template-columns:1fr}.administration-header{flex-direction:column}.administration-lock-card{margin:25px auto;padding:25px 18px}.administration-lock-card h1{font-size:28px}}
+
+.admin-system-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px}.admin-system-block{padding:13px;border:1px solid rgba(255,255,255,.05);border-radius:10px;background:rgba(255,255,255,.015)}.admin-system-block>.eyebrow{display:block;margin-bottom:2px}
+.admin-function-list{display:grid;gap:7px;margin-top:10px}.admin-function-item{display:flex;align-items:center;gap:11px;padding:10px 12px;border:1px solid rgba(103,164,255,.08);border-radius:9px;background:rgba(74,120,194,.025)}.admin-function-item span{color:#7198c8;font-size:8px;font-variant-numeric:tabular-nums}.admin-function-item strong{color:#b8c8dc;font-size:8px;font-weight:600}
+@media(max-width:900px){.admin-system-grid{grid-template-columns:1fr}}
 </style>
 
