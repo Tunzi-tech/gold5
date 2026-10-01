@@ -10488,29 +10488,29 @@ textarea:focus-visible {
   align-items:center;
   gap:8px;
   padding:7px 9px;
-  border:1px solid rgba(120,135,155,.16);
+  border:1px solid rgba(135,150,170,.22);
   border-radius:8px;
-  background:rgba(105,115,128,.14);
-  color:#aeb8c7;
+  background:rgba(112,122,136,.21);
+  color:#c0cad7;
   font-size:7px;
   font-weight:700;
   letter-spacing:.08em;
   text-transform:uppercase;
   text-align:left;
   cursor:pointer;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
 }
 
 .sidebar-zones-main:hover {
-  background:rgba(125,135,150,.20);
-  border-color:rgba(145,160,180,.22);
-  color:#d7e0eb;
+  background:rgba(130,142,158,.27);
+  border-color:rgba(155,170,190,.30);
+  color:#e0e7ef;
 }
 
 .sidebar-zones-main.active {
-  background:rgba(92,108,128,.23);
-  border-color:rgba(125,155,195,.25);
-  color:#c5d9f4;
+  background:rgba(88,108,135,.28);
+  border-color:rgba(135,165,205,.34);
+  color:#d0e1f7;
 }
 
 .sidebar-zones-main .icon {
