@@ -2608,6 +2608,14 @@ onBeforeUnmount(() => {
           Discover
         </button>
 
+        <button
+          :class="{ active: ['zones', 'around-zones'].includes(activeView) }"
+          @click="navigate('zones')"
+        >
+          <span class="icon">◉</span>
+          Impact
+        </button>
+
         <div class="sidebar-subnav zones-subnav">
           <div class="sidebar-zones-header">
             <button
