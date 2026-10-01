@@ -2608,19 +2608,28 @@ onBeforeUnmount(() => {
           Discover
         </button>
 
-        <button
-          :class="{ active: ['zones', 'around-zones'].includes(activeView) }"
-          @click="navigate('zones')"
-        >
-          <span class="icon">◉</span>
-          Impact
-        </button>
-
         <div class="sidebar-subnav zones-subnav">
-          <button class="sidebar-subnav-toggle" type="button" @click="showZonesSubnav = !showZonesSubnav">
-            <span class="subnav-section-label">Zones</span>
-            <span class="subnav-chevron">{{ showZonesSubnav ? '⌃' : '⌄' }}</span>
-          </button>
+          <div class="sidebar-zones-header">
+            <button
+              class="sidebar-zones-main"
+              :class="{ active: ['zones', 'around-zones'].includes(activeView) }"
+              type="button"
+              @click="navigate('zones')"
+            >
+              <span class="icon">◉</span>
+              <span class="subnav-section-label">Zones</span>
+            </button>
+
+            <button
+              class="sidebar-zones-toggle"
+              type="button"
+              @click="showZonesSubnav = !showZonesSubnav"
+              :aria-expanded="showZonesSubnav"
+              aria-label="Toggle Zones submenu"
+            >
+              <span class="subnav-chevron">{{ showZonesSubnav ? '⌃' : '⌄' }}</span>
+            </button>
+          </div>
 
           <template v-if="showZonesSubnav">
             <button
@@ -10453,6 +10462,68 @@ textarea:focus-visible {
   border-left: 1px solid rgba(255,255,255,.07);
   display: grid;
   gap: 2px;
+}
+
+.sidebar-zones-header {
+  display:flex;
+  align-items:center;
+  width:100%;
+}
+
+.sidebar-zones-main {
+  min-width:0;
+  flex:1;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 8px;
+  border:0;
+  border-radius:7px;
+  background:transparent;
+  color:#526176;
+  font-size:7px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  text-align:left;
+  cursor:pointer;
+}
+
+.sidebar-zones-main:hover {
+  background:rgba(255,255,255,.025);
+  color:#8291a7;
+}
+
+.sidebar-zones-main.active {
+  color:#9fc4f8;
+  background:rgba(74,120,194,.09);
+}
+
+.sidebar-zones-main .icon {
+  color:#65748a;
+  font-size:11px;
+}
+
+.sidebar-zones-main.active .icon,
+.sidebar-zones-main:hover .icon {
+  color:#9fc4f8;
+}
+
+.sidebar-zones-toggle {
+  width:27px;
+  height:27px;
+  display:grid;
+  place-items:center;
+  flex:0 0 27px;
+  padding:0;
+  border:0;
+  border-radius:7px;
+  background:transparent;
+  cursor:pointer;
+}
+
+.sidebar-zones-toggle:hover {
+  background:rgba(255,255,255,.025);
 }
 
 .sidebar-subnav-toggle {
