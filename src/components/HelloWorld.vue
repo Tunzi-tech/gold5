@@ -532,6 +532,7 @@ function designKindLabel(kind: SystemDesignItem['kind']) {
 }
 
 function openSystemDesign() {
+  showAccountMenu.value = false
   activeView.value = 'system-design'
   systemDesignUnlocked.value = false
   systemDesignPassword.value = ''
@@ -1954,6 +1955,7 @@ const publicGoals = computed(() => {
    ===================================================== */
 
 function openAdministrationSystems() {
+  showAccountMenu.value = false
   activeView.value = 'administration-systems'
   selectedAdminSystem.value = null
   selectedZone.value = null
@@ -1964,6 +1966,7 @@ function openAdministrationSystems() {
 }
 
 function openAdministration() {
+  showAccountMenu.value = false
   activeView.value = 'administration'
   selectedAdminElement.value = null
   administrationPassword.value = ''
