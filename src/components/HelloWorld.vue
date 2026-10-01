@@ -2807,7 +2807,8 @@ onBeforeUnmount(() => {
 
       <section v-if="activeView === 'administration-systems'" class="content administration-content">
 
-        <template v-if="administrationUnlocked">\n        <div class="administration-header">
+        <template v-if="administrationUnlocked">
+        <div class="administration-header">
           <div>
             <span class="eyebrow">SYSTEM ARCHITECTURE</span>
             <h1>Systems</h1>
@@ -2906,7 +2907,21 @@ onBeforeUnmount(() => {
             </div>
           </div>
         </div>
-        </template>\n\n        <div v-else class="administration-lock-card">\n          <div class="admin-lock-orbit" aria-hidden="true">⌑</div>\n          <span class="eyebrow">RESTRICTED AREA</span>\n          <h1>Administration Systems</h1>\n          <p>Systems contains the functional architecture of COMMON. Enter the Administration password to inspect how systems are built and what is still missing.</p>\n          <form class="admin-password-form" @submit.prevent="unlockAdministration">\n            <label for="systems-admin-password">Administration password</label>\n            <input id="systems-admin-password" v-model="administrationPassword" type="password" autocomplete="current-password" placeholder="Enter password" />\n            <span v-if="administrationPasswordError" class="admin-password-error">Incorrect password.</span>\n            <button class="primary-btn" type="submit">Unlock Systems</button>\n          </form>\n        </div>\n      </section>
+        </template>
+
+        <div v-else class="administration-lock-card">
+          <div class="admin-lock-orbit" aria-hidden="true">⌑</div>
+          <span class="eyebrow">RESTRICTED AREA</span>
+          <h1>Administration Systems</h1>
+          <p>Systems contains the functional architecture of COMMON. Enter the Administration password to inspect how systems are built and what is still missing.</p>
+          <form class="admin-password-form" @submit.prevent="unlockAdministration">
+            <label for="systems-admin-password">Administration password</label>
+            <input id="systems-admin-password" v-model="administrationPassword" type="password" autocomplete="current-password" placeholder="Enter password" />
+            <span v-if="administrationPasswordError" class="admin-password-error">Incorrect password.</span>
+            <button class="primary-btn" type="submit">Unlock Systems</button>
+          </form>
+        </div>
+      </section>
 
       <section v-if="activeView === 'administration'" class="content administration-content">
 
