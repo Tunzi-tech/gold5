@@ -10626,6 +10626,20 @@ textarea:focus-visible {
   border-color:rgba(135,165,205,.40);
 }
 
+/* Keep Flow's current blue background visible even when it is not selected. */
+.main-nav > button.active-flow-placeholder { display:none; }
+
+.main-nav > button:nth-of-type(3) {
+  background:rgba(88,108,135,.28);
+  border:1px solid rgba(135,165,205,.34);
+}
+
+.main-nav > button:nth-of-type(3):hover,
+.main-nav > button:nth-of-type(3).active {
+  background:rgba(88,108,135,.34);
+  border-color:rgba(135,165,205,.40);
+}
+
 .sidebar-zones-main .icon {
   color:#8293aa;
   font-size:10px;
