@@ -2655,19 +2655,29 @@ onBeforeUnmount(() => {
 
         
 
-        <button
-          :class="{ active: activeView === 'pages' }"
-          @click="navigate('pages')"
-        >
-          <span class="icon">▣</span>
-          Flow
-        </button>
-
-        <div class="sidebar-subnav">
-          <button class="sidebar-subnav-toggle" type="button" @click="showCallsSubnav = !showCallsSubnav">
+        <div class="sidebar-flow-header">
+          <button
+            class="sidebar-flow-main"
+            :class="{ active: ['pages', 'initiatives', 'entities'].includes(activeView) }"
+            type="button"
+            @click="navigate('pages')"
+          >
+            <span class="icon">▣</span>
             <span class="subnav-section-label">Flow</span>
+          </button>
+
+          <button
+            class="sidebar-flow-toggle"
+            type="button"
+            @click="showCallsSubnav = !showCallsSubnav"
+            :aria-expanded="showCallsSubnav"
+            aria-label="Toggle Flow submenu"
+          >
             <span class="subnav-chevron">{{ showCallsSubnav ? '⌃' : '⌄' }}</span>
           </button>
+        </div>
+
+        <div class="sidebar-subnav">
 
           <template v-if="showCallsSubnav">
             <button
@@ -10581,6 +10591,60 @@ textarea:focus-visible {
   display:flex;
   align-items:center;
   width:100%;
+}
+
+.sidebar-flow-header {
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+
+.sidebar-flow-main {
+  min-width:0;
+  flex:1;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 9px;
+  border:1px solid rgba(135,150,170,.22);
+  border-radius:8px;
+  background:rgba(88,108,135,.28);
+  border-color:rgba(135,165,205,.34);
+  color:#c0cad7;
+  font-size:7px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  text-align:left;
+  cursor:pointer;
+}
+
+.sidebar-flow-main:hover,
+.sidebar-flow-main.active {
+  background:rgba(88,108,135,.34);
+  border-color:rgba(135,165,205,.40);
+}
+
+.sidebar-flow-toggle {
+  display:grid;
+  place-items:center;
+  width:28px;
+  height:30px;
+  padding:0;
+  border:1px solid rgba(135,165,205,.34);
+  border-radius:8px;
+  background:rgba(88,108,135,.28);
+  color:#f59e0b;
+  cursor:pointer;
+}
+
+.sidebar-flow-toggle:hover {
+  background:rgba(88,108,135,.34);
+  border-color:rgba(135,165,205,.40);
+}
+
+.sidebar-flow-main .icon {
+  color:#000000;
 }
 
 .sidebar-zones-main {
