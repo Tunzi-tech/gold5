@@ -12033,11 +12033,11 @@ textarea:focus-visible {
 .live-network-stats div{padding-top:9px;border-top:1px solid rgba(255,255,255,.07)}
 .live-network-stats strong{margin:0;font-size:16px}
 .live-network-stats span{display:block;margin-top:3px;color:#718096;font-size:7px}
-.live-network-stat-detail{display:block;margin-top:4px;font-size:7px;line-height:1.35;font-weight:700;letter-spacing:.02em}
-.live-network-stat-detail.stat-voices{color:#7dd3fc}
-.live-network-stat-detail.stat-explore{color:#c4b5fd}
-.live-network-stat-detail.stat-opportunities{color:#f9a8d4}
-.live-network-stat-detail.stat-needs{color:#fbbf24}
+.live-network-stat-detail{display:block;margin-top:4px;font-size:7px;line-height:1.35;font-weight:600;letter-spacing:.02em}
+.live-network-stat-detail.stat-voices{color:#9aaab5}
+.live-network-stat-detail.stat-explore{color:#a19faa}
+.live-network-stat-detail.stat-opportunities{color:#a99aa4}
+.live-network-stat-detail.stat-needs{color:#aaa28f}
 
 @media(max-width:900px){.live-network-layout{grid-template-columns:1fr}.live-network-side{position:static}}
 </style>
