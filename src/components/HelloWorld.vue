@@ -2517,7 +2517,7 @@ onBeforeUnmount(() => {
           Zones
         </button>
 
-        <div class="sidebar-subnav zones-subnav">
+        <div v-if="['zones', 'around-zones'].includes(activeView)" class="sidebar-subnav zones-subnav">
           <button
             :class="{ active: activeView === 'zones' }"
             @click="navigate('zones')"
@@ -2544,7 +2544,7 @@ onBeforeUnmount(() => {
           Calls & Commons
         </button>
 
-        <div class="sidebar-subnav">
+        <div v-if="['pages', 'initiatives', 'entities', 'entity'].includes(activeView)" class="sidebar-subnav">
           <button
             :class="{ active: activeView === 'initiatives' }"
             @click="navigate('initiatives')"
