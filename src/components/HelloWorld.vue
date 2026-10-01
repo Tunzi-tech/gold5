@@ -241,7 +241,7 @@ const designElements = ref<DesignCatalogItem[]>([
   { id:'place-review', name:'Place Review', category:'ENTITY', description:'A review specifically attached to a Place or local Entity.' },
   { id:'location', name:'Location', category:'GEOGRAPHY', description:'A geographic location attached to a Call, Zone, Event or Entity.' },
   { id:'member', name:'Member', category:'MEMBERSHIP', description:'A membership record connecting a person to a community, Zone or group.' },
-  { id:'organizer-permission', name:'Organizer Permission', category:'PERMISSION', description:'Permission allowing a person to manage a Call or Event.' }
+  { id:'organizer-permission', name:'Organizer Permission', category:'PERMISSION', description:'Permission allowing a person to manage a Call or Event.' },
   { id:'user-account', name:'User Account', category:'IDENTITY', description:'The account and access identity of a person on the platform.' },
   { id:'person', name:'Person', category:'IDENTITY', description:'A human participant in the Commons.' },
   { id:'profile', name:'Profile', category:'IDENTITY', description:'The public or personal representation of a Person.' },
