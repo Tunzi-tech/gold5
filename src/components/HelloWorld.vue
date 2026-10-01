@@ -2642,8 +2642,8 @@ onBeforeUnmount(() => {
               Zones Around
             </button>
             <button
-              :class="{ active: activeView === 'zones' }"
-              @click="navigate('zones')"
+              :class="{ active: activeView === 'my-zones' }"
+              @click="navigate('my-zones')"
             >
               <span class="subnav-dot"></span>
               My Zones
@@ -4469,58 +4469,423 @@ onBeforeUnmount(() => {
       </section>
 
       <section v-if="activeView === 'zones'" class="content">
-        <div class="commons-hero compact-section-hero">
-          <div class="commons-hero-copy">
-            <span class="eyebrow">MY ZONES</span>
-            <h1>Your Zones<br /><span>the places you belong to.</span></h1>
-            <p>
-              These are the Zones you have joined. Open a Zone to see its people,
-              goals, suggestions, activity and structure.
-            </p>
-          </div>
-        </div>
 
-        <div v-if="joinedZones.length" class="my-zones-grid">
-          <article v-for="zone in joinedZones" :key="zone.id" class="my-zone-card">
-            <button type="button" class="my-zone-open" @click="openZone(zone)">
-              <div class="my-zone-cover" :style="{ backgroundImage: `url(${zone.cover})` }">
-                <div class="my-zone-cover-overlay"></div>
-                <span class="my-zone-location">◉ {{ zone.location }}</span>
+        <section class="zone-navigation-space">
+          <div v-if="zoneNavigationLevel === 'governorates' && !zonePreviewName" class="zone-area-selection">
+            <div class="zone-selection-heading">
+              <div>
+                <span class="eyebrow">GOVERNORATES</span>
+                <h2>Choose your governorate.</h2>
+                <p>
+                  Choose a country first, then explore its governorates, wilayas, regions or equivalent first-level areas.
+                </p>
               </div>
+              <span class="zone-selection-note">
+                {{ availableCountryAreas.length }} AREAS · {{ selectedCountry.toUpperCase() }}
+              </span>
+            </div>
 
-              <div class="my-zone-card-body">
-                <div class="my-zone-card-heading">
-                  <div>
-                    <span class="eyebrow">ZONE</span>
-                    <h2>{{ zone.name }}</h2>
-                  </div>
-                  <span class="my-zone-status">JOINED</span>
-                </div>
-
-                <p>{{ zone.description }}</p>
-
-                <div class="my-zone-meta">
-                  <span>{{ zone.members }} members</span>
-                  <span>{{ zone.participants }} participants</span>
-                </div>
-
-                <span class="my-zone-open-label">OPEN ZONE →</span>
-              </div>
+            <button
+              type="button"
+              class="country-selector-toggle"
+              @click="showCountrySelector = !showCountrySelector"
+            >
+              <span>
+                <small>COUNTRY</small>
+                <strong>{{ selectedCountry }}</strong>
+              </span>
+              <b>{{ showCountrySelector ? 'HIDE COUNTRIES ↑' : 'CHANGE COUNTRY ↓' }}</b>
             </button>
-          </article>
+
+            <div v-if="showCountrySelector" class="country-selector" aria-label="Choose a country">
+              <button
+                v-for="country in countryOptions"
+                :key="country.name"
+                type="button"
+                class="country-option"
+                :class="{ active: selectedCountry === country.name }"
+                @click="selectCountry(country.name)"
+              >
+                <span class="country-option-flag">{{ country.name.slice(0, 2).toUpperCase() }}</span>
+                <span class="country-option-copy">
+                  <strong>{{ country.label }}</strong>
+                  <small>{{ country.note }}</small>
+                </span>
+              </button>
+            </div>
+
+            <div v-if="selectedCountry === 'Tunisia'" class="governorate-region-selector country-region-selector" aria-label="Choose a Tunisia region">
+              <button
+                v-for="region in [{ name: 'All', description: 'Show all 24 governorates' }, ...zoneRegions]"
+                :key="region.name"
+                type="button"
+                class="governorate-region-option"
+                :class="{ active: selectedGovernorateRegion === region.name }"
+                @click="selectGovernorateRegion(region.name)"
+              >
+                <span class="governorate-region-orbit">
+                  <span class="governorate-region-orbit-core"></span>
+                </span>
+                <span class="governorate-region-option-copy">
+                  <strong>{{ region.name === 'All' ? 'ALL TUNISIA' : region.name.toUpperCase() + ' TUNISIA' }}</strong>
+                  <small>{{ region.description }}</small>
+                </span>
+              </button>
+            </div>
+
+            <div class="zone-area-grid">
+              <article
+                v-for="area in availableCountryAreas.filter(area => selectedCountry !== 'Tunisia' || selectedGovernorateRegion === 'All' || area.region === selectedGovernorateRegion)"
+                :key="selectedCountry + '-' + area.name"
+                class="zone-area-card zone-area-card-joinable"
+              >
+                <button type="button" class="zone-area-open" @click="selectGovernorate(area.name)">
+                  <span class="zone-area-image" :style="{ backgroundImage: 'url(' + area.image + ')' }"></span>
+                  <span class="zone-area-card-content">
+                    <strong>{{ area.name }}</strong>
+                    <span>{{ area.description }}</span>
+                    <small>{{ area.members }} members · {{ selectedCountry }}</small>
+                  </span>
+                  <b>OPEN →</b>
+                </button>
+              </article>
+            </div>
+          </div>
+          <div v-else class="selected-area-space">
+            <div class="zone-navigation-bar">
+              <button v-if="zoneNavigationLevel === 'specific-zones' && !zonePreviewName" class="zone-back-btn" @click="backToGovernorates">← All governorates</button>
+              <button v-else-if="zonePreviewName" class="zone-back-btn" @click="closeZonePreview">← {{ selectedZoneArea }}</button>
+              <span class="zone-selection-note zone-region-label">
+                {{ selectedZoneRegion ? selectedZoneRegion + ' · ' + selectedCountry.toUpperCase() : selectedCountry.toUpperCase() }}
+              </span>
+            </div>
+            <section v-if="!zonePreviewName" class="governorate-detail-panel">
+              <div class="governorate-detail-cover" :style="{ backgroundImage: 'url(' + selectedAreaImage + ')' }">
+                <div class="governorate-detail-cover-overlay"></div>
+                <div class="governorate-detail-heading">
+                  <span class="eyebrow">GOVERNORATE</span>
+                  <h1>{{ selectedZoneArea }}</h1>
+                  <p>{{ zoneAreas.find(area => area.name === selectedZoneArea)?.description }}</p>
+                </div>
+              </div>
+              <div class="governorate-detail-content">
+                <div class="governorate-detail-actions">
+                  <div>
+                    <span class="eyebrow">YOUR CONNECTION</span>
+                    <h3>How are you connected to {{ selectedZoneArea }}?</h3>
+                    <p>Select one point to describe your relationship with this governorate.</p>
+                  </div>
+                  <button type="button" class="zone-join-btn governorate-detail-join" :class="{ joined: isGovernorateJoined(selectedZoneArea) }" @click="toggleGovernorateJoin(selectedZoneArea)">
+                    {{ isGovernorateJoined(selectedZoneArea) ? '✓ Joined' : '+ Join Governorate' }}
+                  </button>
+                </div>
+                <div class="governorate-detail-relations">
+                  <button type="button" class="governorate-relation-option" :class="{ active: governorateRelations[selectedZoneArea] === 'home' }" @click="setGovernorateRelation(selectedZoneArea, 'home')">
+                    <span class="governorate-relation-point">●</span><span><strong>Where I live</strong><small>This is where I live</small></span>
+                  </button>
+                  <button type="button" class="governorate-relation-option" :class="{ active: governorateRelations[selectedZoneArea] === 'family' }" @click="setGovernorateRelation(selectedZoneArea, 'family')">
+                    <span class="governorate-relation-point">●</span><span><strong>Family lives here</strong><small>A family member lives here</small></span>
+                  </button>
+                  <button type="button" class="governorate-relation-option" :class="{ active: governorateRelations[selectedZoneArea] === 'other' }" @click="setGovernorateRelation(selectedZoneArea, 'other')">
+                    <span class="governorate-relation-point">●</span><span><strong>Another connection</strong><small>I have another connection here</small></span>
+                  </button>
+                </div>
+                <div v-if="governorateRelationLabel(selectedZoneArea)" class="governorate-selected-relation">
+                  Selected: {{ governorateRelationLabel(selectedZoneArea) }}
+                </div>
+              </div>
+            </section>
+
+                        <div v-if="zonePreviewName" class="selected-area-hero zone-preview-hero">
+              <div class="selected-area-hero-overlay"></div>
+              <div class="zone-conversation-space">
+                <div class="zone-conversation-heading">
+                  <div>
+                    <span class="eyebrow">WHAT PEOPLE ARE SAYING</span>
+                    <h2>{{ zonePreviewName }}</h2>
+                    <p>{{ zonePreviewData?.location || zonePreviewName + ', Tunisia' }}</p>
+                  </div>
+                  <button class="enter-zone-btn" @click="enterPreviewedZone">Enter {{ zonePreviewName }} →</button>
+                </div>
+
+                <div class="zone-conversation-section">
+                  <div class="zone-conversation-section-head">
+                    <div>
+                      <span class="eyebrow">LOCAL VOICES</span>
+                      <h3>What people are saying</h3>
+                    </div>
+                    <span class="zone-conversation-count">{{ zonePreviewPosts.length }} EXAMPLES</span>
+                  </div>
+
+                  <div class="zone-preview-posts">
+                    <article v-for="post in zonePreviewPosts" :key="post.id" class="zone-preview-post">
+                      <div class="avatar">{{ post.avatar }}</div>
+                      <div class="zone-preview-post-copy">
+                        <div class="zone-preview-post-meta">
+                          <strong>{{ post.author }}</strong>
+                          <span>{{ post.time }}</span>
+                        </div>
+                        <p>{{ post.content }}</p>
+                        <div class="zone-preview-post-actions">
+                          <span>♡ {{ post.likes }}</span>
+                          <span>◌ {{ post.comments }} comments</span>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                </div>
+
+                <div class="zone-conversation-split">
+                  <div class="zone-conversation-section zone-question-section">
+                  <div class="zone-conversation-section-head">
+                    <div>
+                      <span class="eyebrow">QUESTIONS & HELP</span>
+                      <h3>People have questions about this place</h3>
+                    </div>
+                    <span class="zone-conversation-count">PUBLIC SPACES · SERVICES · NATURE · MOBILITY</span>
+                  </div>
+
+                  <div class="zone-question-grid">
+                    <article v-for="question in zonePreviewQuestions" :key="question.id" class="zone-question-card">
+                      <div class="zone-question-top">
+                        <span class="zone-topic">{{ question.topic }}</span>
+                        <span>QUESTION</span>
+                      </div>
+                      <h4>{{ question.question }}</h4>
+                      <div class="zone-help">
+                        <div class="avatar zone-help-avatar">{{ question.helperAvatar }}</div>
+                        <div>
+                          <strong>{{ question.helper }}</strong>
+                          <p>{{ question.answer }}</p>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                </div>
+
+                  <aside class="zone-conversation-section zone-initiative-section">
+                  <div class="zone-conversation-section-head">
+                    <div>
+                      <span class="eyebrow">LOOKING FOR INITIATIVES</span>
+                      <h3>People looking for something already happening</h3>
+                    </div>
+                    <span class="zone-conversation-count">PROFILES HIDDEN</span>
+                  </div>
+
+                  <div class="zone-initiative-list">
+                    <article v-for="initiative in zonePreviewInitiatives" :key="initiative.id" class="zone-initiative-card">
+                      <div class="zone-initiative-private-avatar" aria-hidden="true">?</div>
+                      <div class="zone-initiative-copy">
+                        <span class="zone-topic">{{ initiative.topic }}</span>
+                        <h4>{{ initiative.title }}</h4>
+                        <p>{{ initiative.description }}</p>
+                        <span class="zone-initiative-note">Person requesting this is anonymous. Profile and photo are hidden.</span>
+                      </div>
+                      <span class="zone-initiative-status">{{ initiative.status }}</span>
+                    </article>
+                  </div>
+                  </aside>
+                </div>
+
+                <div class="zone-conversation-footer">
+                  <button class="zone-back-btn" @click="closeZonePreview">← Back to {{ selectedZoneArea }}</button>
+                  <span>These are example conversations to give every zone a starting point.</span>
+                </div>
+              </div>
+            </div>
+            <div v-else-if="selectedZoneArea" class="selected-area-hero" :style="{ backgroundImage: 'url(' + selectedAreaImage + ')' }"><div class="selected-area-hero-overlay"></div><div class="selected-area-hero-content"><span class="eyebrow">CURRENT GOVERNORATE · {{ selectedZoneRegion }} TUNISIA</span><h2>{{ selectedZoneArea }}</h2><p>Choose a specific zone inside this governorate.</p></div></div>
+            <section v-if="!zonePreviewName && zoneNavigationLevel === 'governorates'" class="specific-zone-directory">
+              <div class="zone-selection-heading compact"><div><span class="eyebrow">GOVERNORATES</span><h2>Governorates in {{ selectedZoneRegion }}.</h2><p>Each governorate stays inside its geographic region.</p></div><span class="zone-selection-note">{{ zoneAreas.filter(area => area.region === selectedZoneRegion).length }} GOVERNORATES</span></div>
+              <div class="zone-area-grid">
+                <article v-for="area in zoneAreas.filter(area => area.region === selectedZoneRegion)" :key="area.name" class="zone-area-card zone-area-card-joinable">
+                  <button type="button" class="zone-area-open" @click="selectGovernorate(area.name)">
+                    <span class="zone-area-image" :style="{ backgroundImage: 'url(' + area.image + ')' }"></span><span class="zone-area-card-content"><strong>{{ area.name }}</strong><span>{{ area.description }}</span><small>{{ area.members }} members</small></span><b>OPEN →</b>
+                  </button>
+                  <button type="button" class="zone-join-btn" :class="{ joined: isGovernorateJoined(area.name) }" @click="toggleGovernorateJoin(area.name)">
+                    {{ isGovernorateJoined(area.name) ? '✓ Joined' : '+ Join Governorate' }}
+                  </button>
+                </article>
+              </div>
+            </section>
+            <section v-else-if="!zonePreviewName" class="specific-zone-directory">
+              <div class="specific-zone-layout">
+                <div class="specific-zone-browser">
+                  <button type="button" class="create-action-card" @click="showCreateSuggestion = true">
+                    <span class="create-action-icon">+</span>
+                    <span>
+                      <strong>CREATE AN ACTION</strong>
+                      <small>Turn an idea for {{ selectedZoneArea }} into something people can respond to.</small>
+                    </span>
+                    <b>START →</b>
+                  </button>
+
+                  <div class="zone-selection-heading compact">
+                    <div>
+                      <span class="eyebrow">SPECIFIC ZONES</span>
+                      <h2>Choose a place inside {{ selectedZoneArea }}.</h2>
+                      <p>Select a municipality, neighborhood or local community to go deeper.</p>
+                    </div>
+                    <span class="zone-selection-note">{{ visibleSpecificZones.length }} ZONES</span>
+                  </div>
+                  <div class="specific-zone-list">
+                    <article v-for="zone in visibleSpecificZones" :key="zone.id" class="specific-zone-item-wrap">
+                      <button type="button" class="specific-zone-item" :class="{ active: selectedSpecificZone === zone.name }" @click="openSpecificZone(zone.name)">
+                        <span class="specific-zone-pin">◉</span>
+                        <span><strong>{{ zone.name }}</strong><small>{{ zone.location }}</small></span>
+                        <span class="specific-zone-area">OPEN →</span>
+                      </button>
+                    </article>
+                  </div>
+                </div>
+
+                <aside class="governorate-engagement">
+                  <div class="governorate-engagement-top">
+                    <span class="eyebrow">LOCAL POSSIBILITY</span>
+                    <span class="zone-selection-note">{{ selectedZoneArea.toUpperCase() }}</span>
+                  </div>
+                  <h2>What could {{ selectedZoneArea }} become?</h2>
+                  <p class="governorate-engagement-intro">Don't just choose a place. Start thinking about what could happen there.</p>
+
+                  <div class="governorate-prompt-list">
+                    <button
+                      v-for="prompt in governoratePrompts"
+                      :key="prompt.label"
+                      type="button"
+                      class="governorate-prompt"
+                      :class="{ active: selectedGovernoratePrompt === prompt.title }"
+                      @click="selectedGovernoratePrompt = prompt.title"
+                    >
+                      <span>{{ prompt.label }}</span>
+                      <strong>{{ prompt.title }}</strong>
+                    </button>
+                  </div>
+
+                  <div class="governorate-prompt-response">
+                    <span class="eyebrow">START WITH A THOUGHT</span>
+                    <p>{{ governoratePrompts.find(prompt => prompt.title === selectedGovernoratePrompt)?.text }}</p>
+                    <button type="button" class="governorate-engage-btn" @click="selectedGovernoratePrompt = 'What could become possible here?'">
+                      ADD YOUR PERSPECTIVE →
+                    </button>
+                  </div>
+                </aside>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <div class="zones-footer-intro">
+          <h2>Take care of your zone.</h2>
+          <p>A zone turns people around a place into a living community. Identify goals, propose ideas and participate.</p>
         </div>
 
-        <div v-else class="empty-state page-empty">
-          <span class="eyebrow">MY ZONES</span>
-          <h2>You haven't joined a Zone yet.</h2>
-          <p>Explore Zones around you and join the places you want to be part of.</p>
-          <button type="button" class="primary-btn" @click="navigate('around-zones')">
-            DISCOVER ZONES AROUND →
-          </button>
+        <div v-if="false && visibleZones.length" class="zone-grid">
+
+          <article
+            v-for="zone in visibleZones"
+            :key="zone.id"
+            class="zone-card"
+            @click="openZone(zone)"
+          >
+
+            <div
+              class="zone-cover"
+              :style="{ backgroundImage: `url(${zone.cover})` }"
+            >
+              <div class="zone-overlay"></div>
+
+              <div class="zone-location">
+                ◉ {{ zone.location }}
+              </div>
+
+              <div class="zone-members">
+                {{ zone.members }} members
+              </div>
+            </div>
+
+            <div class="zone-card-body">
+
+              <h2>{{ zone.name }}</h2>
+
+              <p>
+                {{ zone.description }}
+              </p>
+
+              <div class="zone-progress">
+
+                <div class="progress-label">
+                  <span>Community activity</span>
+                  <strong>
+                    {{
+                      Math.round(
+                        zone.goals.reduce((a, b) => a + b.progress, 0) /
+                        Math.max(zone.goals.length, 1)
+                      )
+                    }}%
+                  </strong>
+                </div>
+
+                <div class="progress">
+                  <span
+                    :style="{
+                      width:
+                        Math.round(
+                          zone.goals.reduce((a, b) => a + b.progress, 0) /
+                          Math.max(zone.goals.length, 1)
+                        ) + '%'
+                    }"
+                  ></span>
+                </div>
+
+              </div>
+
+              <div class="zone-footer">
+
+                <span>
+                  {{ zone.participants }} participating
+                </span>
+
+                <button
+                  @click.stop="participate(zone)"
+                  :class="{ joined: zone.joined }"
+                >
+                  {{ zone.joined ? 'Participating ✓' : 'Participate' }}
+                </button>
+
+              </div>
+
+            </div>
+
+          </article>
+
         </div>
+
       </section>
 
-      <!-- =================================================
+      
+      <section v-if="activeView === 'my-zones'" class="content my-zones-content">
+        <div class="my-zones-header">
+          <div><span class="eyebrow">YOUR SPACE</span><h1>My Zones</h1><p>Places you have chosen to belong to, participate in and help shape.</p></div>
+          <button type="button" class="ghost-btn my-zones-discover-btn" @click="navigate('around-zones')">DISCOVER ZONES <span>→</span></button>
+        </div>
+        <div v-if="joinedZones.length" class="my-zones-overview">
+          <div class="my-zones-overview-main"><span class="eyebrow">YOUR ZONES</span><strong>{{ joinedZones.length }}</strong><span>{{ joinedZones.length === 1 ? 'place you belong to' : 'places you belong to' }}</span></div>
+          <div class="my-zones-overview-note"><span class="my-zones-orbit">◉</span><div><strong>Your local layer</strong><p>Each Zone connects people, goals, ideas, places and actions around a real space.</p></div></div>
+        </div>
+        <div v-if="joinedZones.length" class="my-zones-list">
+          <article v-for="zone in joinedZones" :key="zone.id" class="my-zone-card">
+            <div class="my-zone-card-visual" :style="{ backgroundImage: 'url(' + zone.cover + ')' }"><div class="my-zone-card-visual-overlay"></div><div class="my-zone-card-location">◉ {{ zone.location }}</div><div class="my-zone-card-status">JOINED</div></div>
+            <div class="my-zone-card-body">
+              <div class="my-zone-card-title-row"><div><span class="eyebrow">ZONE</span><h2>{{ zone.name }}</h2></div><button type="button" class="my-zone-open-btn" @click="openZone(zone)">OPEN <span>→</span></button></div>
+              <p class="my-zone-description">{{ zone.description }}</p>
+              <div class="my-zone-signals"><div><strong>{{ zone.members }}</strong><span>members</span></div><div><strong>{{ zone.participants }}</strong><span>participating</span></div><div><strong>{{ zone.goals.length }}</strong><span>goals</span></div><div><strong>{{ zone.suggestions.length }}</strong><span>ideas</span></div></div>
+              <div class="my-zone-card-footer"><span>People · Goals · Ideas · Places</span><span class="my-zone-arrow">↗</span></div>
+            </div>
+          </article>
+        </div>
+        <div v-else class="my-zones-empty"><div class="my-zones-empty-orbit">◉</div><span class="eyebrow">YOUR ZONES</span><h2>You haven't joined a Zone yet.</h2><p>Explore the Zones around you and choose the places where you want to participate.</p><button type="button" class="primary-btn" @click="navigate('around-zones')">EXPLORE ZONES AROUND →</button></div>
+      </section>
+
+<!-- =================================================
            ZONE DETAIL
            ================================================= -->
       <section
@@ -11283,5 +11648,8 @@ textarea:focus-visible {
   }
 }
 
+
+/* MY ZONES */
+.my-zones-content{max-width:1180px}.my-zones-header{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:22px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.055)}.my-zones-header h1{margin:6px 0 5px;font-size:30px}.my-zones-header p{margin:0;color:#758297;font-size:10px;line-height:1.6}.my-zones-discover-btn{display:flex;align-items:center;gap:10px;white-space:nowrap}.my-zones-overview{display:grid;grid-template-columns:220px minmax(0,1fr);gap:12px;margin-bottom:16px}.my-zones-overview-main,.my-zones-overview-note{border:1px solid rgba(255,255,255,.065);border-radius:14px;background:linear-gradient(145deg,rgba(24,32,45,.82),rgba(10,15,23,.9))}.my-zones-overview-main{display:flex;flex-direction:column;justify-content:center;padding:18px}.my-zones-overview-main strong{margin:3px 0 0;color:#edf3fb;font-size:34px}.my-zones-overview-main>span:last-child{margin-top:6px;color:#718096;font-size:8px}.my-zones-overview-note{display:flex;align-items:center;gap:15px;padding:18px}.my-zones-orbit{width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;border:1px solid rgba(125,164,214,.28);border-radius:50%;color:#91b9e9;background:radial-gradient(circle,rgba(86,130,190,.16),rgba(8,13,21,.25) 68%)}.my-zones-overview-note strong{color:#c7d5e7;font-size:10px}.my-zones-overview-note p{margin:5px 0 0;color:#6f7d91;font-size:8px;line-height:1.55}.my-zones-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.my-zone-card{overflow:hidden;border:1px solid rgba(255,255,255,.065);border-radius:15px;background:#0b1018;box-shadow:0 16px 35px rgba(0,0,0,.18);transition:.18s ease}.my-zone-card:hover{transform:translateY(-2px);border-color:rgba(103,164,255,.16);box-shadow:0 20px 42px rgba(0,0,0,.25)}.my-zone-card-visual{position:relative;height:155px;background-size:cover;background-position:center}.my-zone-card-visual-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,10,16,.05) 15%,rgba(6,10,16,.72) 100%)}.my-zone-card-location{position:absolute;left:15px;bottom:13px;color:#d5e0ee;font-size:8px}.my-zone-card-status{position:absolute;top:12px;right:12px;padding:5px 7px;border:1px solid rgba(145,180,220,.22);border-radius:6px;background:rgba(7,12,19,.68);color:#a9c9ec;font-size:6px;font-weight:800;letter-spacing:.13em}.my-zone-card-body{padding:16px}.my-zone-card-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:15px}.my-zone-card-title-row h2{margin:5px 0 0;color:#edf3fb;font-size:19px}.my-zone-open-btn{display:flex;align-items:center;gap:7px;padding:7px 9px;border:1px solid rgba(103,164,255,.12);border-radius:8px;background:rgba(74,120,194,.055);color:#9fc4f8;font-size:7px;font-weight:800;cursor:pointer}.my-zone-description{min-height:34px;margin:10px 0 15px;color:#78869a;font-size:9px;line-height:1.55}.my-zone-signals{display:grid;grid-template-columns:repeat(4,1fr);padding:11px 0;border-top:1px solid rgba(255,255,255,.045);border-bottom:1px solid rgba(255,255,255,.045)}.my-zone-signals div{padding:0 9px;border-right:1px solid rgba(255,255,255,.045)}.my-zone-signals div:first-child{padding-left:0}.my-zone-signals div:last-child{border-right:0}.my-zone-signals strong,.my-zone-signals span{display:block}.my-zone-signals strong{color:#cbd8e8;font-size:13px}.my-zone-signals span{margin-top:3px;color:#5f6e82;font-size:6px;text-transform:uppercase}.my-zone-card-footer{display:flex;justify-content:space-between;margin-top:12px;color:#58677b;font-size:7px}.my-zone-arrow{color:#789ecb;font-size:13px}.my-zones-empty{min-height:380px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;border:1px dashed rgba(103,164,255,.12);border-radius:16px;background:rgba(255,255,255,.01);text-align:center}.my-zones-empty-orbit{width:62px;height:62px;display:grid;place-items:center;margin-bottom:18px;border:1px solid rgba(126,169,218,.28);border-radius:50%;color:#8db6e8;font-size:18px}.my-zones-empty h2{margin:7px 0 6px;color:#dbe5f2;font-size:19px}.my-zones-empty p{max-width:430px;margin:0 0 18px;color:#6e7c90;font-size:9px;line-height:1.65}@media(max-width:800px){.my-zones-overview,.my-zones-list{grid-template-columns:1fr}}@media(max-width:560px){.my-zones-header{align-items:flex-start;flex-direction:column}.my-zone-signals{grid-template-columns:repeat(2,1fr);gap:10px 0}}
 </style>
 
