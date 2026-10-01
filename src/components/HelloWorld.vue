@@ -10615,6 +10615,17 @@ textarea:focus-visible {
   color:#d0e1f7;
 }
 
+/* Keep the current blue background visible even when Impact is not selected. */
+.sidebar-zones-main {
+  background:rgba(88,108,135,.28);
+  border-color:rgba(135,165,205,.34);
+}
+
+.sidebar-zones-main:hover {
+  background:rgba(88,108,135,.34);
+  border-color:rgba(135,165,205,.40);
+}
+
 .sidebar-zones-main .icon {
   color:#8293aa;
   font-size:10px;
