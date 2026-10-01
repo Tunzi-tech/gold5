@@ -2608,13 +2608,7 @@ onBeforeUnmount(() => {
           Discover
         </button>
 
-        <button
-          :class="{ active: ['zones', 'around-zones'].includes(activeView) }"
-          @click="navigate('zones')"
-        >
-          <span class="icon">◉</span>
-          Impact
-        </button>
+        <div class="sidebar-section-label">Impact</div>
 
         <div class="sidebar-subnav zones-subnav">
           <div class="sidebar-zones-header">
@@ -10464,6 +10458,15 @@ textarea:focus-visible {
 @media(max-width:1000px){ .entity-grid{grid-template-columns:repeat(2,minmax(0,1fr));} }
 @media(max-width:700px){ .entity-grid,.entity-context-grid,.entity-profile-grid{grid-template-columns:1fr;}.entity-profile-hero{align-items:flex-start;flex-direction:column;} }
 /* CALLS & COMMONS SUBNAV */
+.sidebar-section-label {
+  padding:6px 8px 4px;
+  color:#526176;
+  font-size:7px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
 .sidebar-subnav {
   margin: 2px 0 6px 33px;
   padding-left: 10px;
