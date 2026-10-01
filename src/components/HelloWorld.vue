@@ -2619,7 +2619,7 @@ onBeforeUnmount(() => {
               @click="navigate('zones')"
             >
               <span class="icon">◉</span>
-              <span class="subnav-section-label">Zones</span>
+              <span class="subnav-section-label">Impact</span>
             </button>
 
             <button
