@@ -5954,7 +5954,7 @@ textarea:focus-visible {
   width: 250px;
   flex-shrink: 0;
   border-right: 1px solid rgba(255,255,255,.07);
-  background: rgba(8, 11, 18, .92);
+  background: #080b12;
   display: flex;
   flex-direction: column;
   padding: 25px 17px;
