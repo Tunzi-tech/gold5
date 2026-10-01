@@ -2608,7 +2608,7 @@ onBeforeUnmount(() => {
           @click="navigate('zones')"
         >
           <span class="icon">◉</span>
-          Zones
+          Impact
         </button>
 
         <div class="sidebar-subnav zones-subnav">
@@ -2642,12 +2642,12 @@ onBeforeUnmount(() => {
           @click="navigate('pages')"
         >
           <span class="icon">▣</span>
-          Calls & Commons
+          Flow
         </button>
 
         <div class="sidebar-subnav">
           <button class="sidebar-subnav-toggle" type="button" @click="showCallsSubnav = !showCallsSubnav">
-            <span class="subnav-section-label">Calls &amp; Commons</span>
+            <span class="subnav-section-label">Flow</span>
             <span class="subnav-chevron">{{ showCallsSubnav ? '⌃' : '⌄' }}</span>
           </button>
 
@@ -2665,6 +2665,13 @@ onBeforeUnmount(() => {
             >
               <span class="subnav-dot"></span>
               Entities
+            </button>
+            <button
+              :class="{ active: activeView === 'pages' }"
+              @click="navigate('pages')"
+            >
+              <span class="subnav-dot"></span>
+              Pages
             </button>
           </template>
         </div>
