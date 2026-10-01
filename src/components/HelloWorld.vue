@@ -184,6 +184,33 @@ const participatingEvents = ref([
     status: 'Participating'
   }
 ])
+const administrationUnlocked = ref(false)
+const administrationPassword = ref('')
+const administrationPasswordError = ref(false)
+const selectedAdminElement = ref<string | null>(null)
+
+type AdminElement = {
+  id: string
+  name: string
+  category: string
+  description: string
+  connections: string[]
+  missing: string[]
+}
+
+const adminElements = ref<AdminElement[]>([
+  { id:'community-call', name:'Community Call', category:'CALL', description:'A shared conversation space where people gather around a topic, possibility or local need.', connections:['People','Zones','My Events','Notifications','Pages','Participation'], missing:['Call reminder notification','Participant history','Organizer notification controls'] },
+  { id:'local-call', name:'Local Call', category:'CALL', description:'A Call connected to a specific local place or Zone.', connections:['People','Zones','Community Call','My Events','Notifications'], missing:['Location-based notifications','Local attendance history'] },
+  { id:'zone', name:'Zone', category:'PLACE', description:'A local space connecting people, places, goals, suggestions and action.', connections:['People','Places','Goals','Suggestions','Calls','Entities'], missing:['Zone activity notifications','Connection health overview'] },
+  { id:'person', name:'Person', category:'NETWORK', description:'A person participating in the Commons through connections, Zones, Pages and Calls.', connections:['Zones','Pages','Calls','Posts','Notifications','Participation'], missing:['Participation timeline','Connection history'] },
+  { id:'page', name:'Page', category:'NETWORK', description:'A public space for an organization, initiative, community or other shared identity.', connections:['People','Posts','Calls','Zones','Notifications'], missing:['Page activity notifications','Admin role management'] },
+  { id:'post', name:'Post', category:'CONTENT', description:'A piece of shared content that can create connections, ideas and participation.', connections:['Person','Page','Zone','Goals','Suggestions','Notifications'], missing:['Mention notifications','Post activity history'] },
+  { id:'goal', name:'Goal', category:'ACTION', description:'A concrete possibility or objective connected to a Zone and its participants.', connections:['Zone','People','Suggestions','Participation','Posts'], missing:['Progress notifications','Goal history'] },
+  { id:'suggestion', name:'Suggestion', category:'ACTION', description:'A proposed idea or response that people can discuss, answer and support.', connections:['People','Goals','Zones','Posts','Notifications'], missing:['Vote notification','Answer notification'] },
+  { id:'notification', name:'Notification', category:'SYSTEM', description:'The system layer that tells people when something relevant happens around their connections.', connections:['Community Call','Local Call','Zone','Person','Page','Post','Goal','Suggestion'], missing:['Event reminder rules','Notification preferences','Read/unread persistence'] },
+  { id:'participation', name:'Participation', category:'SYSTEM', description:'The record of a person taking part in a Call, Zone, Goal or other activity.', connections:['Person','Community Call','Local Call','Zone','Goal','My Events'], missing:['Participation history','Participation notifications','Activity timeline'] }
+])
+
 const newZoneName = ref('')
 const newZoneLocation = ref('')
 const newZoneDescription = ref('')
@@ -1481,6 +1508,36 @@ const publicGoals = computed(() => {
    NAVIGATION
    ===================================================== */
 
+function openAdministration() {
+  activeView.value = 'administration'
+  selectedAdminElement.value = null
+  administrationPassword.value = ''
+  administrationPasswordError.value = false
+  selectedZone.value = null
+  selectedCall.value = null
+  selectedPage.value = null
+  selectedPerson.value = null
+  selectedEntity.value = null
+}
+
+function unlockAdministration() {
+  if (administrationPassword.value === '58337979') {
+    administrationUnlocked.value = true
+    administrationPasswordError.value = false
+    administrationPassword.value = ''
+    selectedAdminElement.value = null
+    return
+  }
+  administrationPasswordError.value = true
+}
+
+function lockAdministration() {
+  administrationUnlocked.value = false
+  selectedAdminElement.value = null
+  administrationPassword.value = ''
+  administrationPasswordError.value = false
+}
+
 function navigate(view: string) {
   activeView.value = view
   selectedZone.value = null
@@ -2080,12 +2137,23 @@ onBeforeUnmount(() => {
 
         <button
           class="sidebar-people-button"
-          :class="{ active: activeView === 'people' }"
+          :class="{ active: ['people', 'administration'].includes(activeView) }"
           @click="navigate('people')"
         >
           <span class="icon">♧</span>
           People
         </button>
+
+        <div class="sidebar-subnav people-subnav">
+          <button
+            :class="{ active: activeView === 'administration' }"
+            @click="openAdministration"
+          >
+            <span class="subnav-dot"></span>
+            Administration
+            <span class="admin-lock-mark">⌑</span>
+          </button>
+        </div>
 
       </div>
 
@@ -2645,6 +2713,92 @@ onBeforeUnmount(() => {
 
         </div>
 
+      </section>
+
+
+      <section v-if="activeView === 'administration'" class="content administration-content">
+
+        <div v-if="!administrationUnlocked" class="administration-lock-card">
+          <div class="admin-lock-orbit" aria-hidden="true">⌑</div>
+          <span class="eyebrow">RESTRICTED AREA</span>
+          <h1>Administration</h1>
+          <p>This space contains the internal structure of the Commons: elements, connections and what is still missing.</p>
+
+          <form class="admin-password-form" @submit.prevent="unlockAdministration">
+            <label for="admin-password">Administration password</label>
+            <input id="admin-password" v-model="administrationPassword" type="password" inputmode="numeric" autocomplete="off" placeholder="Enter password" />
+            <span v-if="administrationPasswordError" class="admin-password-error">Incorrect password.</span>
+            <button class="primary-btn" type="submit">Enter Administration</button>
+          </form>
+        </div>
+
+        <template v-else>
+          <div class="administration-header">
+            <div>
+              <span class="eyebrow">SYSTEM ARCHITECTURE</span>
+              <h1>Administration</h1>
+              <p>Inspect every platform element, follow its connections and identify what still needs to be built.</p>
+            </div>
+            <button class="ghost-btn" type="button" @click="lockAdministration">Lock</button>
+          </div>
+
+          <div class="admin-overview">
+            <div class="admin-overview-card"><span>ELEMENTS</span><strong>{{ adminElements.length }}</strong><small>Platform building blocks</small></div>
+            <div class="admin-overview-card"><span>CONNECTIONS</span><strong>{{ adminElements.reduce((total, element) => total + element.connections.length, 0) }}</strong><small>Known relationships</small></div>
+            <div class="admin-overview-card"><span>MISSING</span><strong>{{ adminElements.reduce((total, element) => total + element.missing.length, 0) }}</strong><small>Things to build or connect</small></div>
+          </div>
+
+          <div class="admin-workspace">
+            <div class="admin-elements-panel">
+              <div class="admin-panel-heading"><span class="eyebrow">PLATFORM ELEMENTS</span><h2>Folders</h2></div>
+              <button v-for="element in adminElements" :key="element.id" type="button" class="admin-element-folder" :class="{ active: selectedAdminElement === element.id }" @click="selectedAdminElement = element.id">
+                <span class="admin-folder-icon">□</span>
+                <span class="admin-folder-copy"><strong>{{ element.name }}</strong><small>{{ element.category }} · {{ element.connections.length }} connections</small></span>
+                <span class="admin-folder-arrow">→</span>
+              </button>
+            </div>
+
+            <div class="admin-detail-panel">
+              <template v-if="selectedAdminElement">
+                <template v-for="element in adminElements" :key="element.id">
+                  <div v-if="element.id === selectedAdminElement" class="admin-element-detail">
+                    <span class="eyebrow">{{ element.category }}</span>
+                    <div class="admin-detail-title">
+                      <div><h2>{{ element.name }}</h2><p>{{ element.description }}</p></div>
+                      <span class="admin-status">IN SYSTEM</span>
+                    </div>
+
+                    <div class="admin-detail-section">
+                      <span class="eyebrow">CONNECTIONS</span>
+                      <div class="admin-chip-list">
+                        <span v-for="connection in element.connections" :key="connection" class="admin-chip connected">✓ {{ connection }}</span>
+                      </div>
+                    </div>
+
+                    <div class="admin-detail-section">
+                      <span class="eyebrow">MISSING / TO BUILD</span>
+                      <div class="admin-missing-list">
+                        <div v-for="item in element.missing" :key="item" class="admin-missing-item"><span>!</span><strong>{{ item }}</strong></div>
+                      </div>
+                    </div>
+
+                    <div class="admin-detail-note">
+                      <strong>Architecture idea</strong>
+                      <span>Use this element as the starting point to trace what it triggers, what depends on it and which connections still need implementation.</span>
+                    </div>
+                  </div>
+                </template>
+              </template>
+
+              <div v-else class="admin-detail-empty">
+                <div class="admin-empty-orbit">COMMON</div>
+                <span class="eyebrow">SELECT AN ELEMENT</span>
+                <h2>Open a folder to inspect it.</h2>
+                <p>Start from an element such as Community Call or Notification, then follow its connections and missing pieces.</p>
+              </div>
+            </div>
+          </div>
+        </template>
       </section>
 
       <section v-if="activeView === 'around-zones'" class="content">
@@ -9538,5 +9692,22 @@ textarea:focus-visible {
   overflow:hidden;
 }
 .specific-zone-item-wrap .specific-zone-item { border:0; border-radius:0; }
+
+/* ADMINISTRATION */
+.administration-content{max-width:1180px}
+.administration-lock-card{max-width:620px;margin:55px auto;padding:38px;border:1px solid rgba(103,164,255,.14);border-radius:22px;background:radial-gradient(circle at 50% 0,rgba(74,120,194,.12),transparent 42%),#0b1019;text-align:center}
+.admin-lock-orbit,.admin-empty-orbit{display:grid;place-items:center;width:76px;height:76px;margin:0 auto 22px;border:1px solid rgba(126,177,245,.3);border-radius:50%;background:radial-gradient(circle,#182b49,#080e17 68%);color:#a9c9f2;font-size:18px;box-shadow:0 0 45px rgba(70,130,210,.1)}
+.administration-lock-card h1{margin:8px 0;font-size:34px}.administration-lock-card p{max-width:480px;margin:0 auto;color:#7d899c;font-size:10px;line-height:1.7}
+.admin-password-form{display:grid;gap:8px;max-width:330px;margin:25px auto 0;text-align:left}.admin-password-form label{color:#8a98ac;font-size:9px}.admin-password-form input{width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid rgba(255,255,255,.08);border-radius:10px;outline:0;background:#080d15;color:#e4edf9;font:inherit}.admin-password-form input:focus{border-color:rgba(103,164,255,.4)}.admin-password-form .primary-btn{margin-top:5px}.admin-password-error{color:#e78b8b;font-size:8px}
+.administration-header{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:20px}.administration-header h1{margin:8px 0 6px;font-size:34px}.administration-header p{max-width:680px;margin:0;color:#7d899c;font-size:10px;line-height:1.7}
+.admin-overview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:15px}.admin-overview-card{padding:16px;border:1px solid rgba(255,255,255,.07);border-radius:14px;background:#0b1019}.admin-overview-card span,.admin-overview-card strong,.admin-overview-card small{display:block}.admin-overview-card span{color:#718096;font-size:7px;font-weight:800;letter-spacing:.13em}.admin-overview-card strong{margin-top:7px;color:#e7eef8;font-size:24px}.admin-overview-card small{margin-top:4px;color:#66758a;font-size:8px}
+.admin-workspace{display:grid;grid-template-columns:340px minmax(0,1fr);gap:15px}.admin-elements-panel,.admin-detail-panel{min-width:0;padding:18px;border:1px solid rgba(255,255,255,.07);border-radius:16px;background:#0b1019}.admin-panel-heading{margin-bottom:12px}.admin-panel-heading h2{margin:6px 0 0;font-size:16px}
+.admin-element-folder{width:100%;display:flex;align-items:center;gap:10px;margin-top:6px;padding:11px;border:1px solid rgba(255,255,255,.045);border-radius:10px;background:rgba(255,255,255,.015);color:inherit;text-align:left;cursor:pointer}.admin-element-folder:hover,.admin-element-folder.active{border-color:rgba(103,164,255,.28);background:rgba(74,120,194,.08)}.admin-folder-icon{width:28px;height:28px;display:grid;place-items:center;border-radius:8px;background:rgba(74,120,194,.12);color:#9fc4f8;font-size:13px}.admin-folder-copy{min-width:0;flex:1}.admin-folder-copy strong,.admin-folder-copy small{display:block}.admin-folder-copy strong{color:#e0e9f5;font-size:10px}.admin-folder-copy small{margin-top:3px;color:#66758a;font-size:7px}.admin-folder-arrow{color:#61728a;font-size:11px}
+.admin-detail-panel{min-height:470px}.admin-detail-title{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-top:10px}.admin-detail-title h2{margin:0 0 6px;font-size:25px}.admin-detail-title p{max-width:650px;margin:0;color:#7d899c;font-size:9px;line-height:1.7}.admin-status{flex:0 0 auto;padding:6px 8px;border:1px solid rgba(110,210,160,.18);border-radius:999px;color:#82cba8;font-size:7px;font-weight:800;letter-spacing:.1em}
+.admin-detail-section{margin-top:28px}.admin-chip-list{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.admin-chip{padding:7px 9px;border:1px solid rgba(255,255,255,.06);border-radius:999px;font-size:8px}.admin-chip.connected{border-color:rgba(103,164,255,.12);background:rgba(74,120,194,.06);color:#9bbde9}
+.admin-missing-list{display:grid;gap:7px;margin-top:10px}.admin-missing-item{display:flex;align-items:center;gap:9px;padding:9px 10px;border:1px solid rgba(230,170,90,.1);border-radius:9px;background:rgba(230,170,90,.025)}.admin-missing-item span{width:18px;height:18px;display:grid;place-items:center;border-radius:50%;background:rgba(230,170,90,.1);color:#d9aa6d;font-size:9px}.admin-missing-item strong{color:#b8a17e;font-size:8px;font-weight:600}
+.admin-detail-note{display:grid;gap:5px;margin-top:28px;padding:13px;border:1px solid rgba(255,255,255,.05);border-radius:10px;background:rgba(255,255,255,.015)}.admin-detail-note strong{color:#9bbde9;font-size:8px}.admin-detail-note span{color:#68768b;font-size:8px;line-height:1.6}
+.admin-detail-empty{min-height:430px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}.admin-empty-orbit{width:90px;height:90px;margin-bottom:20px;font-size:9px;letter-spacing:.15em}.admin-detail-empty h2{margin:8px 0;font-size:19px}.admin-detail-empty p{max-width:420px;margin:0;color:#748196;font-size:9px;line-height:1.7}.admin-lock-mark{margin-left:auto;color:#66758a;font-size:9px}
+@media(max-width:900px){.admin-workspace{grid-template-columns:1fr}.admin-detail-panel{min-height:350px}}@media(max-width:650px){.admin-overview{grid-template-columns:1fr}.administration-header{flex-direction:column}.administration-lock-card{margin:25px auto;padding:25px 18px}.administration-lock-card h1{font-size:28px}}
 </style>
 
