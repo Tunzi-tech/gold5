@@ -3470,18 +3470,22 @@ onBeforeUnmount(() => {
               <div class="live-network-stats">
                 <div>
                   <strong>28</strong>
+                  <span>active explorers</span>
                   <span class="live-network-stat-detail stat-voices">28 voices</span>
                 </div>
                 <div>
                   <strong>16</strong>
+                  <span>connected orbits</span>
                   <span class="live-network-stat-detail stat-explore">16 new things to be explored</span>
                 </div>
                 <div>
                   <strong>12</strong>
+                  <span>new connections</span>
                   <span class="live-network-stat-detail stat-opportunities">12 opportunities for someone</span>
                 </div>
                 <div>
                   <strong>5</strong>
+                  <span>active Calls</span>
                   <span class="live-network-stat-detail stat-needs">Someone right there needs us</span>
                 </div>
               </div>
