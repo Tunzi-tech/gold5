@@ -3187,6 +3187,222 @@ onBeforeUnmount(() => {
 
 
 
+      <section v-if="activeView === 'system-design'" class="content administration-content">
+
+        <div v-if="!systemDesignUnlocked" class="administration-lock-card">
+          <div class="admin-lock-orbit" aria-hidden="true">⌑</div>
+          <span class="eyebrow">RESTRICTED ARCHITECTURE</span>
+          <h1>System Design</h1>
+          <p>Build and evolve the platform architecture by combining reusable elements, relationships, processes and events.</p>
+
+          <form class="admin-password-form" @submit.prevent="unlockSystemDesign">
+            <label for="system-design-password">System Design password</label>
+            <input
+              id="system-design-password"
+              v-model="systemDesignPassword"
+              type="password"
+              autocomplete="off"
+              placeholder="Enter password"
+            />
+            <span v-if="systemDesignPasswordError" class="admin-password-error">Incorrect password.</span>
+            <button class="primary-btn" type="submit">Unlock System Design</button>
+          </form>
+        </div>
+
+        <template v-else>
+          <div class="administration-header system-design-header">
+            <div>
+              <span class="eyebrow">PLATFORM ARCHITECTURE</span>
+              <h1>System Design</h1>
+              <p>Start with an existing system, inspect its building blocks, then reuse or duplicate elements to create new systems.</p>
+            </div>
+            <button class="ghost-btn" type="button" @click="lockSystemDesign">Lock</button>
+          </div>
+
+          <div class="design-create-system">
+            <div>
+              <span class="eyebrow">CREATE SYSTEM</span>
+              <strong>Build a new functional system</strong>
+            </div>
+            <input v-model="newDesignSystemName" placeholder="System name" />
+            <input v-model="newDesignSystemPurpose" placeholder="Purpose (optional)" />
+            <button class="primary-btn" type="button" @click="createDesignSystem">Create System</button>
+          </div>
+
+          <div class="design-tabs">
+            <button
+              v-for="tab in [
+                { id: 'systems', label: 'Systems' },
+                { id: 'elements', label: 'Elements' },
+                { id: 'relationships', label: 'Relationships' },
+                { id: 'processes', label: 'Processes' },
+                { id: 'events', label: 'Events & Triggers' }
+              ]"
+              :key="tab.id"
+              type="button"
+              :class="{ active: designMode === tab.id }"
+              @click="setDesignMode(tab.id)"
+            >
+              {{ tab.label }}
+            </button>
+          </div>
+
+          <div v-if="designMode === 'systems'" class="design-system-browser">
+            <div class="design-library-panel">
+              <div class="design-library-head">
+                <div>
+                  <span class="eyebrow">EXISTING SYSTEMS</span>
+                  <h2>Choose a system</h2>
+                </div>
+              </div>
+
+              <button
+                v-for="system in adminSystems"
+                :key="system.id"
+                type="button"
+                class="design-system-card"
+                :class="{ active: selectedDesignSystem === system.id }"
+                @click="selectedDesignSystem = system.id"
+              >
+                <span class="design-node-icon">◇</span>
+                <span>
+                  <strong>{{ system.name }}</strong>
+                  <small>{{ (systemDesignItems[system.id] || []).length }} design nodes</small>
+                </span>
+                <b>→</b>
+              </button>
+            </div>
+
+            <div class="design-system-summary">
+              <template v-if="selectedDesignSystem">
+                <span class="eyebrow">SELECTED SYSTEM</span>
+                <template v-for="system in adminSystems" :key="system.id">
+                  <div v-if="system.id === selectedDesignSystem">
+                    <h2>{{ system.name }}</h2>
+                    <p>{{ system.purpose }}</p>
+                    <div class="design-summary-stats">
+                      <span>{{ (systemDesignItems[system.id] || []).length }} nodes</span>
+                      <span>{{ system.contains.length }} defined elements</span>
+                      <span>{{ system.connections.length }} connections</span>
+                    </div>
+                    <button class="primary-btn" type="button" @click="designMode = 'elements'">Open Designer →</button>
+                  </div>
+                </template>
+              </template>
+            </div>
+          </div>
+
+          <div v-else class="system-designer">
+            <div class="design-library-panel">
+              <div class="design-library-head">
+                <div>
+                  <span class="eyebrow">{{ designKindLabel(designMode === 'events' ? 'event' : designMode === 'relationships' ? 'relationship' : designMode === 'processes' ? 'process' : 'element') }}</span>
+                  <h2>Architecture Library</h2>
+                </div>
+              </div>
+
+              <input v-model="designSearch" class="design-search" placeholder="Search architecture..." />
+
+              <div class="design-library-list">
+                <div
+                  v-for="item in catalogForKind(
+                    designMode === 'events'
+                      ? 'event'
+                      : designMode === 'relationships'
+                        ? 'relationship'
+                        : designMode === 'processes'
+                          ? 'process'
+                          : 'element'
+                  ).filter(item => !designSearch || (item.name + ' ' + item.description + ' ' + item.category).toLowerCase().includes(designSearch.toLowerCase()))"
+                  :key="item.id"
+                  class="design-library-item"
+                  draggable="true"
+                  @dragstart="draggedDesignNode = {
+                    kind: designMode === 'events'
+                      ? 'event'
+                      : designMode === 'relationships'
+                        ? 'relationship'
+                        : designMode === 'processes'
+                          ? 'process'
+                          : 'element',
+                    id: item.id
+                  }"
+                >
+                  <div class="design-library-copy">
+                    <span class="design-category">{{ item.category }}</span>
+                    <strong>{{ item.name }}</strong>
+                    <small>{{ item.description }}</small>
+                  </div>
+                  <div class="design-library-actions">
+                    <button type="button" title="Add to selected system" @click="addDesignNode(
+                      designMode === 'events' ? 'event' : designMode === 'relationships' ? 'relationship' : designMode === 'processes' ? 'process' : 'element',
+                      item.id
+                    )">+</button>
+                    <button type="button" title="Create a new system from this" @click="createSystemFromCatalog(
+                      designMode === 'events' ? 'event' : designMode === 'relationships' ? 'relationship' : designMode === 'processes' ? 'process' : 'element',
+                      item.id
+                    )">◇</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="design-canvas-panel">
+              <div class="design-canvas-head">
+                <div>
+                  <span class="eyebrow">SYSTEM CANVAS</span>
+                  <h2>{{ adminSystems.find(system => system.id === selectedDesignSystem)?.name || 'Select a system' }}</h2>
+                </div>
+                <button class="ghost-btn small" type="button" @click="designMode = 'systems'">Systems</button>
+              </div>
+
+              <div
+                class="design-dropzone"
+                :class="{ empty: !(selectedDesignSystem && (systemDesignItems[selectedDesignSystem] || []).length) }"
+                @dragover.prevent
+                @drop.prevent="handleDesignDrop"
+              >
+                <div v-if="!selectedDesignSystem" class="design-canvas-empty">
+                  <strong>Select a system</strong>
+                  <span>Choose a system before adding architecture nodes.</span>
+                </div>
+
+                <div v-else-if="!(systemDesignItems[selectedDesignSystem] || []).length" class="design-canvas-empty">
+                  <strong>Empty system canvas</strong>
+                  <span>Drag an item here or use + in the library to add it.</span>
+                </div>
+
+                <div v-else class="design-node-grid">
+                  <article
+                    v-for="item in systemDesignItems[selectedDesignSystem]"
+                    :key="item.instanceId"
+                    class="design-node-card"
+                  >
+                    <div class="design-node-top">
+                      <span>{{ designKindLabel(item.kind) }}</span>
+                      <div>
+                        <button type="button" title="Duplicate" @click="duplicateDesignNode(item.instanceId)">⧉</button>
+                        <button type="button" title="Remove" @click="removeDesignNode(item.instanceId)">×</button>
+                      </div>
+                    </div>
+                    <strong>{{ designItemName(item) }}</strong>
+                    <small>{{ designItemDescription(item) }}</small>
+                    <button class="design-node-system-btn" type="button" @click="createSystemFromCatalog(item.kind, item.catalogId)">
+                      Create system from this
+                    </button>
+                  </article>
+                </div>
+              </div>
+
+              <div class="design-architecture-note">
+                <span>REUSABLE ARCHITECTURE</span>
+                <p>An element can exist in multiple systems. Duplicate it when a system needs another instance without removing the original from the library.</p>
+              </div>
+            </div>
+          </div>
+        </template>
+      </section>
+
       <section v-if="activeView === 'administration-systems'" class="content administration-content">
 
         <template v-if="administrationUnlocked">
