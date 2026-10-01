@@ -132,6 +132,7 @@ const activeView = ref('home')
 const showZonesSubnav = ref(true)
 const showCallsSubnav = ref(true)
 const sidebarSpace = ref<'zones' | 'networks'>('zones')
+const showAccountMenu = ref(false)
 const selectedZone = ref<Zone | null>(null)
 const selectedCall = ref<CommunityCall | null>(null)
 const selectedPage = ref<Page | null>(null)
@@ -1992,6 +1993,20 @@ function lockAdministration() {
   administrationPasswordError.value = false
 }
 
+function openAccountMenu() {
+  showAccountMenu.value = !showAccountMenu.value
+}
+
+function disconnect() {
+  showAccountMenu.value = false
+  activeView.value = 'disconnected'
+  selectedZone.value = null
+  selectedCall.value = null
+  selectedPage.value = null
+  selectedPerson.value = null
+  selectedEntity.value = null
+}
+
 function navigate(view: string) {
   activeView.value = view
   selectedZone.value = null
@@ -2620,36 +2635,6 @@ onBeforeUnmount(() => {
           People
         </button>
 
-        <div class="sidebar-subnav people-subnav">
-          <button
-            :class="{ active: activeView === 'administration' }"
-            @click="openAdministration"
-          >
-            <span class="subnav-dot"></span>
-            Administration
-            <span class="admin-lock-mark">⌑</span>
-          </button>
-        </div>
-        <div class="sidebar-subnav admin-subnav">
-          <button
-            :class="{ active: activeView === 'system-design' }"
-            @click="openSystemDesign"
-          >
-            <span class="subnav-dot"></span>
-            System Design
-            <span class="admin-lock-mark">⌑</span>
-          </button>
-        </div>
-        <div v-if="activeView === 'administration' || activeView === 'administration-systems'" class="sidebar-subnav admin-subnav">
-          <button
-            :class="{ active: activeView === 'administration-systems' }"
-            @click="openAdministrationSystems"
-          >
-            <span class="subnav-dot"></span>
-            Systems
-          </button>
-        </div>
-
       </div>
 
       <div class="sidebar-bottom">
@@ -2678,7 +2663,49 @@ onBeforeUnmount(() => {
             </span>
           </button>
 
-          <button class="dots profile-dots" type="button" aria-label="More account options">•••</button>
+          <div class="profile-menu-wrap">
+            <button
+              class="dots profile-dots"
+              type="button"
+              aria-label="More account options"
+              :aria-expanded="showAccountMenu"
+              @click.stop="openAccountMenu"
+            >•••</button>
+
+            <div v-if="showAccountMenu" class="profile-menu" @click.stop>
+              <button
+                type="button"
+                :class="{ active: activeView === 'administration' }"
+                @click="openAdministration"
+              >
+                <span class="profile-menu-dot"></span>
+                Administration
+                <span class="admin-lock-mark">⌑</span>
+              </button>
+              <button
+                type="button"
+                :class="{ active: activeView === 'system-design' }"
+                @click="openSystemDesign"
+              >
+                <span class="profile-menu-dot"></span>
+                System Design
+                <span class="admin-lock-mark">⌑</span>
+              </button>
+              <button
+                type="button"
+                :class="{ active: activeView === 'administration-systems' }"
+                @click="openAdministrationSystems"
+              >
+                <span class="profile-menu-dot"></span>
+                Systems
+              </button>
+              <div class="profile-menu-divider"></div>
+              <button type="button" class="profile-menu-disconnect" @click="disconnect">
+                <span class="profile-menu-dot"></span>
+                Disconnect
+              </button>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -3211,6 +3238,16 @@ onBeforeUnmount(() => {
       </section>
 
 
+
+      <section v-if="activeView === 'disconnected'" class="content disconnected-content">
+        <div class="game-over-card">
+          <div class="game-over-smiley" aria-hidden="true">🙂</div>
+          <span class="eyebrow">SESSION ENDED</span>
+          <h1>GAME OVER</h1>
+          <p>You have disconnected from COMMON.</p>
+          <button class="primary-btn" type="button" @click="navigate('home')">Return to COMMON</button>
+        </div>
+      </section>
 
       <section v-if="activeView === 'system-design'" class="content administration-content">
 
@@ -10609,6 +10646,99 @@ textarea:focus-visible {
 }
 .specific-zone-item-wrap .specific-zone-item { border:0; border-radius:0; }
 
+
+/* ACCOUNT MENU + DISCONNECT */
+.profile-menu-wrap {
+  position: relative;
+  margin-left: auto;
+}
+.profile-menu {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 10px);
+  width: 190px;
+  padding: 6px;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 12px;
+  background: #0b1019;
+  box-shadow: 0 18px 45px rgba(0,0,0,.38);
+  z-index: 60;
+}
+.profile-menu button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #9aa8bb;
+  text-align: left;
+  font: inherit;
+  font-size: 9px;
+  cursor: pointer;
+}
+.profile-menu button:hover,
+.profile-menu button.active {
+  background: rgba(74,120,194,.08);
+  color: #dce7f5;
+}
+.profile-menu-dot {
+  width: 5px;
+  height: 5px;
+  flex: 0 0 5px;
+  border-radius: 50%;
+  background: #7189aa;
+}
+.profile-menu-divider {
+  height: 1px;
+  margin: 5px 4px;
+  background: rgba(255,255,255,.06);
+}
+.profile-menu .profile-menu-disconnect {
+  color: #d58b8b;
+}
+.profile-menu .profile-menu-disconnect:hover {
+  background: rgba(180,80,80,.08);
+  color: #efaaaa;
+}
+.disconnected-content {
+  min-height: calc(100vh - 70px);
+  display: grid;
+  place-items: center;
+}
+.game-over-card {
+  width: min(560px, calc(100% - 40px));
+  box-sizing: border-box;
+  padding: 48px 35px;
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 22px;
+  background: radial-gradient(circle at 50% 0, rgba(74,120,194,.11), transparent 48%), #0b1019;
+  text-align: center;
+}
+.game-over-smiley {
+  width: 92px;
+  height: 92px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 22px;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 50%;
+  background: rgba(255,255,255,.025);
+  font-size: 46px;
+}
+.game-over-card h1 {
+  margin: 8px 0 10px;
+  font-size: 42px;
+  letter-spacing: .08em;
+}
+.game-over-card p {
+  margin: 0 0 25px;
+  color: #7d899c;
+  font-size: 10px;
+  line-height: 1.7;
+}
 
 /* SYSTEM DESIGN */
 .system-design-header{margin-bottom:18px}
