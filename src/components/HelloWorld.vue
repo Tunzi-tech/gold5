@@ -2605,7 +2605,7 @@ onBeforeUnmount(() => {
           @click="navigate('discover')"
         >
           <span class="icon">◎</span>
-          Discover
+          Commons
         </button>
 
         <div class="sidebar-section-label">Impact</div>
