@@ -2586,7 +2586,7 @@ onBeforeUnmount(() => {
 
         <div>
           <strong>COMMONS</strong>
-          <small>PEOPLE • PLACES • ACTION</small>
+          <small>PEOPLE • ACTIONS • VOICES</small>
         </div>
       </div>
 
@@ -2648,7 +2648,7 @@ onBeforeUnmount(() => {
               @click="navigate('my-zones')"
             >
               <span class="subnav-dot"></span>
-              My Zones
+              Your Zones
             </button></div>
           </template>
         </div>
@@ -2724,7 +2724,7 @@ onBeforeUnmount(() => {
             @click="sidebarSpace = sidebarSpace === 'zones' ? 'connections' : sidebarSpace === 'networks' ? 'zones' : 'networks'"
           >
             <span class="sidebar-label">
-              {{ sidebarSpace === 'zones' ? 'YOUR ZONES' : sidebarSpace === 'networks' ? 'MY NETWORKS' : 'MY CONNECTIONS' }}
+              {{ sidebarSpace === 'zones' ? 'MY ZONES' : sidebarSpace === 'networks' ? 'MY NETWORKS' : 'MY CONNECTIONS' }}
             </span>
             <small>
               {{ sidebarSpace === 'zones'
