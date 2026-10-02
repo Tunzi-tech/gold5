@@ -12635,7 +12635,7 @@ textarea:focus-visible {
 
 .zone-space-button-around.active .zone-orbit-core{animation:none;transform:scale(1.1)}
 .zone-space-button-mine.active .zone-orbit-core{animation:zone-core-mine 3.4s ease-in-out infinite;transform:scale(1.1)}
-.zone-space-button-mine.active .zone-orbit-ring-one{display:block;inset:1px;border:1px solid rgba(143,189,240,.7);border-radius:50%;box-shadow:0 0 7px rgba(143,189,240,.16);animation:zone-mine-yellow-ring 3.8s ease-in-out infinite;transform:rotate(-18deg)}
+.zone-space-button-mine.active .zone-orbit-ring-one{display:block;inset:1px;border:1px solid rgba(143,189,240,.7);border-radius:50%;box-shadow:0 0 7px rgba(143,189,240,.16);animation:none;transform:rotate(-18deg)}
 
 @keyframes zone-core-around{0%,100%{transform:scale(1)}50%{transform:scale(1.45)}}
 @keyframes zone-core-mine{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
