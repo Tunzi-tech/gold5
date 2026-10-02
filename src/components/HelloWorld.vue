@@ -4873,6 +4873,18 @@ onBeforeUnmount(() => {
           <p class="impact-guide-note">You don't have to know the whole network before you act. You can start from where you are.</p>
         </aside>
 
+        <aside class="impact-up-guide" aria-label="How impact can grow">
+          <span class="impact-up-guide-kicker">IMPACT CAN GROW</span>
+          <strong>START SMALL. MOVE UP.</strong>
+          <p>Your action can grow from a specific Zone into a wider region.</p>
+          <div class="impact-up-guide-flow" aria-hidden="true">
+            <span>ZONE</span>
+            <i>↑</i>
+            <span>REGION</span>
+          </div>
+          <p class="impact-up-guide-note">Or start with a specific Zone and build upward from there.</p>
+        </aside>
+
         <aside class="impact-space-rail" aria-label="Impact context">
           <span class="impact-space-rail-label">IMPACT</span>
           <button
@@ -12543,7 +12555,16 @@ textarea:focus-visible {
 .impact-guide-path{display:flex;align-items:center;gap:3px;flex-wrap:wrap;margin-top:9px;color:#7088a5;font-size:5px;font-weight:800;letter-spacing:.08em}
 .impact-guide-path span{padding:3px 4px;border:1px solid rgba(103,164,255,.08);border-radius:4px;background:rgba(74,120,194,.025)}
 .impact-guide-path i{font-style:normal;color:#4e627b}
-.impact-guide-note{margin:9px 0 0;color:#8a9bb0;font-size:7px;line-height:1.55}
+.impact-guide-note{margin:9px 0 0;color:#8a9bb0;font-size:7px;line-height:1.55}.impact-up-guide{position:absolute;left:-160px;top:245px;width:124px;display:flex;flex-direction:column;gap:5px;padding:10px 10px 10px 0;color:#718198;pointer-events:none}
+.impact-up-guide::before{content:'';position:absolute;right:-3px;top:0;width:1px;height:100%;background:linear-gradient(180deg,rgba(92,205,132,.2),rgba(92,205,132,.04),transparent)}
+.impact-up-guide-kicker{color:#668071;font-size:6px;font-weight:800;letter-spacing:.18em}
+.impact-up-guide>strong{color:#b9c9dc;font-size:9px;letter-spacing:.09em;line-height:1.3}
+.impact-up-guide p{margin:2px 0 0;color:#65758a;font-size:7px;line-height:1.55}
+.impact-up-guide-flow{display:flex;align-items:center;gap:6px;margin-top:5px;color:#7c8fa6;font-size:6px;font-weight:800;letter-spacing:.08em}
+.impact-up-guide-flow span{padding:3px 5px;border:1px solid rgba(92,205,132,.12);border-radius:4px;background:rgba(92,205,132,.025)}
+.impact-up-guide-flow i{font-style:normal;color:#61d38a;font-size:14px;line-height:1;text-shadow:0 0 7px rgba(92,205,132,.25)}
+.impact-up-guide-note{color:#7f8fa2!important}
+@media(max-width:900px){.impact-up-guide{display:none}}
 .impact-space-rail{position:absolute;left:-31px;top:43px;width:24px;display:flex;flex-direction:column;align-items:center;gap:10px;z-index:2}
 .impact-space-rail-label{writing-mode:vertical-rl;transform:rotate(180deg);color:#596a7f;font-size:6px;font-weight:800;letter-spacing:.18em}
 .impact-space-rail-item{width:22px;height:22px;padding:0;display:grid;place-items:center;border:1px solid rgba(255,255,255,.055);border-radius:7px;background:rgba(255,255,255,.018);color:#607188;font-size:10px;cursor:pointer}
