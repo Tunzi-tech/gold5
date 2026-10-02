@@ -12610,7 +12610,7 @@ textarea:focus-visible {
 .zone-space-button-around .zone-orbit::before,
 .zone-space-button-mine .zone-orbit::before{transform:translate(-50%,-50%) rotate(28deg)}
 .zone-space-button-around .zone-orbit::after,
-.zone-space-button-mine .zone-orbit::after{transform:translate(-50%,-50%) rotate(-28deg)}
+.zone-space-button-mine .zone-orbit::after{display:none}
 .zone-space-button-around .zone-orbit{overflow:visible}
 .zone-space-button-around .zone-orbit-ring-one{display:block;inset:2px;border:1px solid rgba(126,184,255,.12);border-radius:50%;box-shadow:0 0 4px rgba(126,184,255,.04)}
 .zone-space-button-around .zone-orbit::before,
