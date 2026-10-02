@@ -12584,9 +12584,21 @@ textarea:focus-visible {
 .zone-space-button.active .zone-orbit-node-one{animation:zone-orbit-node 2.8s linear infinite;transform-origin:6px 6px}
 .zone-space-button-mine.active .zone-orbit-ring-one{animation-duration:5s}
 .zone-space-button-mine.active .zone-orbit-node-one{width:2px;height:2px;animation-duration:4s}
+
+/* The two Zone spaces react to each other */
+.zone-space-button-around.active ~ .impact-subnav-line .zone-space-button-mine .zone-orbit-ring-one,
+.zone-space-button-around.active ~ .impact-subnav-line .zone-space-button-mine .zone-orbit-node-one,
+.zone-space-button-mine.active ~ .impact-subnav-line .zone-space-button-around .zone-orbit-ring-one,
+.zone-space-button-mine.active ~ .impact-subnav-line .zone-space-button-around .zone-orbit-node-one{animation-play-state:running}
+
+.zone-space-button-around.active .zone-orbit-core{animation:zone-core-around 2.6s ease-in-out infinite}
+.zone-space-button-mine.active .zone-orbit-core{animation:zone-core-mine 3.4s ease-in-out infinite}
+
+@keyframes zone-core-around{0%,100%{transform:scale(1)}50%{transform:scale(1.45)}}
+@keyframes zone-core-mine{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
 @keyframes zone-orbit-spin{to{transform:rotate(360deg)}}
 @keyframes zone-orbit-node{from{transform:rotate(0deg) translateX(5px)}to{transform:rotate(360deg) translateX(5px)}}
-@media(prefers-reduced-motion:reduce){.zone-space-button.active .zone-orbit-ring-one,.zone-space-button.active .zone-orbit-node-one{animation:none}}
+@media(prefers-reduced-motion:reduce){.zone-space-button.active .zone-orbit-ring-one,.zone-space-button.active .zone-orbit-node-one,.zone-space-button.active .zone-orbit-core{animation:none}}
 
 .live-network-filters{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:0 0 14px}
 .live-network-filter{padding:7px 10px;border:1px solid rgba(255,255,255,.07);border-radius:7px;background:rgba(255,255,255,.018);color:#8794a7;font-size:7px;font-weight:700;letter-spacing:.08em;cursor:pointer}
