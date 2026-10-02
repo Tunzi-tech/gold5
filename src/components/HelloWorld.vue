@@ -134,6 +134,7 @@ const showZonesSubnav = ref(true)
 const showCallsSubnav = ref(true)
 const sidebarSpace = ref<'zones' | 'networks' | 'connections'>('networks')
 const showAccountMenu = ref(false)
+const showWhatsGoingOn = ref(false)
 const selectedZone = ref<Zone | null>(null)
 const selectedCall = ref<CommunityCall | null>(null)
 const selectedPage = ref<Page | null>(null)
@@ -4080,7 +4081,39 @@ onBeforeUnmount(() => {
               </span>
               <span class="eyebrow">ZONES AROUND</span>
               <span class="zones-around-live-dot">LIVE</span>
+              <button
+                type="button"
+                class="zones-around-whats-going-on"
+                :class="{ active: showWhatsGoingOn }"
+                @click="showWhatsGoingOn = !showWhatsGoingOn"
+              >
+                WHAT'S GOING ON?
+                <span>{{ showWhatsGoingOn ? '⌃' : '↗' }}</span>
+              </button>
             </div>
+
+            <div v-if="showWhatsGoingOn" class="zones-around-live-panel">
+              <div class="zones-around-live-panel-title">
+                <span>RIGHT NOW</span>
+                <small>things you can join</small>
+              </div>
+              <button type="button" class="zones-around-live-item" @click="navigate('people')">
+                <span class="live-item-dot"></span>
+                <span><strong>People are talking</strong><small>Local conversations are starting around you.</small></span>
+                <b>JOIN →</b>
+              </button>
+              <button type="button" class="zones-around-live-item" @click="navigate('initiatives')">
+                <span class="live-item-dot"></span>
+                <span><strong>A new action is forming</strong><small>People are looking for others to participate.</small></span>
+                <b>EXPLORE →</b>
+              </button>
+              <button type="button" class="zones-around-live-item" @click="navigate('discover')">
+                <span class="live-item-dot"></span>
+                <span><strong>The network is moving</strong><small>See what people are joining, creating and connecting.</small></span>
+                <b>SEE FLOW →</b>
+              </button>
+            </div>
+
             <h1>Discover Zones<br /><span>around your network.</span></h1>
             <p>
               Explore Zones beyond the ones you have joined and discover the people,
@@ -12177,6 +12210,85 @@ textarea:focus-visible {
 @keyframes zones-network-link{0%,100%{opacity:.3}50%{opacity:.85}}
 @keyframes zones-live-pulse{0%,100%{opacity:.55}50%{opacity:1;box-shadow:0 0 9px rgba(103,164,255,.12)}}
 @media(max-width:560px){.zones-around-live-header{gap:7px}.zones-around-network-icon{width:24px;height:24px;flex-basis:24px}.network-core{left:9px;top:9px}}
+
+/* WHAT'S GOING ON? ENGAGEMENT PANEL */
+.zones-around-whats-going-on{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:5px 7px;
+  border:1px solid rgba(103,164,255,.12);
+  border-radius:6px;
+  background:rgba(74,120,194,.035);
+  color:#718eb6;
+  font-size:5px;
+  font-weight:800;
+  letter-spacing:.1em;
+  cursor:pointer;
+  transition:.2s ease;
+}
+.zones-around-whats-going-on span{font-size:8px;color:#8baedc}
+.zones-around-whats-going-on:hover,
+.zones-around-whats-going-on.active{
+  border-color:rgba(103,164,255,.24);
+  background:rgba(74,120,194,.08);
+  color:#a8c8ee;
+}
+.zones-around-live-panel{
+  display:grid;
+  gap:5px;
+  margin:3px 0 13px;
+  padding:8px;
+  border:1px solid rgba(103,164,255,.10);
+  border-radius:10px;
+  background:linear-gradient(145deg,rgba(35,55,82,.18),rgba(8,13,21,.55));
+  box-shadow:0 12px 28px rgba(0,0,0,.12);
+  animation:zones-live-panel-in .2s ease-out;
+}
+.zones-around-live-panel-title{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  padding:2px 3px 5px;
+}
+.zones-around-live-panel-title span{color:#88a8d2;font-size:5px;font-weight:800;letter-spacing:.13em}
+.zones-around-live-panel-title small{color:#4f6077;font-size:5px}
+.zones-around-live-item{
+  width:100%;
+  display:grid;
+  grid-template-columns:6px minmax(0,1fr) auto;
+  align-items:center;
+  gap:7px;
+  padding:7px;
+  border:1px solid rgba(255,255,255,.045);
+  border-radius:7px;
+  background:rgba(255,255,255,.018);
+  color:inherit;
+  text-align:left;
+  cursor:pointer;
+  transition:.18s ease;
+}
+.zones-around-live-item:hover{
+  border-color:rgba(103,164,255,.15);
+  background:rgba(74,120,194,.055);
+  transform:translateX(2px);
+}
+.live-item-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:#7db7ee;
+  box-shadow:0 0 8px rgba(125,183,238,.55);
+  animation:zones-item-pulse 1.8s ease-in-out infinite;
+}
+.zones-around-live-item strong{display:block;color:#aebfd4;font-size:6.5px;font-weight:700}
+.zones-around-live-item small{display:block;margin-top:2px;color:#5e6d81;font-size:5.5px;line-height:1.35}
+.zones-around-live-item b{color:#789fcf;font-size:5px;letter-spacing:.07em;white-space:nowrap}
+@keyframes zones-live-panel-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+@keyframes zones-item-pulse{0%,100%{opacity:.45}50%{opacity:1}}
+@media(max-width:560px){
+  .zones-around-whats-going-on{padding:4px 5px;font-size:4.5px}
+  .zones-around-live-panel{margin-top:2px}
+}
 
 /* PEOPLE CONTEXT SPACE */
 .people-context-space{
