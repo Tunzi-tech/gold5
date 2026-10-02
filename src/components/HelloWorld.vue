@@ -4068,7 +4068,19 @@ onBeforeUnmount(() => {
 
         <div class="commons-hero compact-section-hero">
           <div class="commons-hero-copy">
-            <span class="eyebrow">ZONES AROUND</span>
+            <div class="zones-around-live-header">
+              <span class="zones-around-network-icon" aria-hidden="true">
+                <span class="network-core"></span>
+                <span class="network-zone zone-a"></span>
+                <span class="network-zone zone-b"></span>
+                <span class="network-zone zone-c"></span>
+                <span class="network-link link-a"></span>
+                <span class="network-link link-b"></span>
+                <span class="network-link link-c"></span>
+              </span>
+              <span class="eyebrow">ZONES AROUND</span>
+              <span class="zones-around-live-dot">LIVE</span>
+            </div>
             <h1>Discover Zones<br /><span>around your network.</span></h1>
             <p>
               Explore Zones beyond the ones you have joined and discover the people,
@@ -12095,6 +12107,76 @@ textarea:focus-visible {
 /* MY ZONES */
 .my-zones-content{max-width:1180px}.my-zones-header{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:22px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.055)}.my-zones-header h1{margin:6px 0 5px;font-size:30px}.my-zones-header p{margin:0;color:#758297;font-size:10px;line-height:1.6}.my-zones-discover-btn{display:flex;align-items:center;gap:10px;white-space:nowrap}.my-zones-overview{display:grid;grid-template-columns:220px minmax(0,1fr);gap:12px;margin-bottom:16px}.my-zones-overview-main,.my-zones-overview-note{border:1px solid rgba(255,255,255,.065);border-radius:14px;background:linear-gradient(145deg,rgba(24,32,45,.82),rgba(10,15,23,.9))}.my-zones-overview-main{display:flex;flex-direction:column;justify-content:center;padding:18px}.my-zones-overview-main strong{margin:3px 0 0;color:#edf3fb;font-size:34px}.my-zones-overview-main>span:last-child{margin-top:6px;color:#718096;font-size:8px}.my-zones-overview-note{display:flex;align-items:center;gap:15px;padding:18px}.my-zones-orbit{width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;border:1px solid rgba(125,164,214,.28);border-radius:50%;color:#91b9e9;background:radial-gradient(circle,rgba(86,130,190,.16),rgba(8,13,21,.25) 68%)}.my-zones-overview-note strong{color:#c7d5e7;font-size:10px}.my-zones-overview-note p{margin:5px 0 0;color:#6f7d91;font-size:8px;line-height:1.55}.my-zones-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.my-zone-card{overflow:hidden;border:1px solid rgba(255,255,255,.065);border-radius:15px;background:#0b1018;box-shadow:0 16px 35px rgba(0,0,0,.18);transition:.18s ease}.my-zone-card:hover{transform:translateY(-2px);border-color:rgba(103,164,255,.16);box-shadow:0 20px 42px rgba(0,0,0,.25)}.my-zone-card-visual{position:relative;height:155px;background-size:cover;background-position:center}.my-zone-card-visual-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,10,16,.05) 15%,rgba(6,10,16,.72) 100%)}.my-zone-card-location{position:absolute;left:15px;bottom:13px;color:#d5e0ee;font-size:8px}.my-zone-card-status{position:absolute;top:12px;right:12px;padding:5px 7px;border:1px solid rgba(145,180,220,.22);border-radius:6px;background:rgba(7,12,19,.68);color:#a9c9ec;font-size:6px;font-weight:800;letter-spacing:.13em}.my-zone-card-body{padding:16px}.my-zone-card-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:15px}.my-zone-card-title-row h2{margin:5px 0 0;color:#edf3fb;font-size:19px}.my-zone-open-btn{display:flex;align-items:center;gap:7px;padding:7px 9px;border:1px solid rgba(103,164,255,.12);border-radius:8px;background:rgba(74,120,194,.055);color:#9fc4f8;font-size:7px;font-weight:800;cursor:pointer}.my-zone-description{min-height:34px;margin:10px 0 15px;color:#78869a;font-size:9px;line-height:1.55}.my-zone-signals{display:grid;grid-template-columns:repeat(4,1fr);padding:11px 0;border-top:1px solid rgba(255,255,255,.045);border-bottom:1px solid rgba(255,255,255,.045)}.my-zone-signals div{padding:0 9px;border-right:1px solid rgba(255,255,255,.045)}.my-zone-signals div:first-child{padding-left:0}.my-zone-signals div:last-child{border-right:0}.my-zone-signals strong,.my-zone-signals span{display:block}.my-zone-signals strong{color:#cbd8e8;font-size:13px}.my-zone-signals span{margin-top:3px;color:#5f6e82;font-size:6px;text-transform:uppercase}.my-zone-card-footer{display:flex;justify-content:space-between;margin-top:12px;color:#58677b;font-size:7px}.my-zone-arrow{color:#789ecb;font-size:13px}.my-zones-empty{min-height:380px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;border:1px dashed rgba(103,164,255,.12);border-radius:16px;background:rgba(255,255,255,.01);text-align:center}.my-zones-empty-orbit{width:62px;height:62px;display:grid;place-items:center;margin-bottom:18px;border:1px solid rgba(126,169,218,.28);border-radius:50%;color:#8db6e8;font-size:18px}.my-zones-empty h2{margin:7px 0 6px;color:#dbe5f2;font-size:19px}.my-zones-empty p{max-width:430px;margin:0 0 18px;color:#6e7c90;font-size:9px;line-height:1.65}@media(max-width:800px){.my-zones-overview,.my-zones-list{grid-template-columns:1fr}}@media(max-width:560px){.my-zones-header{align-items:flex-start;flex-direction:column}.my-zone-signals{grid-template-columns:repeat(2,1fr);gap:10px 0}}
 
+
+/* ZONES AROUND LIVE NETWORK ICON */
+.zones-around-live-header{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  min-height:28px;
+  margin-bottom:4px;
+}
+.zones-around-network-icon{
+  position:relative;
+  width:28px;
+  height:28px;
+  flex:0 0 28px;
+  display:block;
+  border:1px solid rgba(103,164,255,.18);
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(74,120,194,.09),rgba(8,13,21,.15) 68%,transparent 70%);
+  box-shadow:inset 0 0 12px rgba(74,120,194,.08),0 0 18px rgba(74,120,194,.05);
+  animation:zones-network-breathe 3.6s ease-in-out infinite;
+}
+.zones-around-network-icon::before{
+  content:'';
+  position:absolute;
+  inset:4px;
+  border:1px dashed rgba(122,166,224,.16);
+  border-radius:50%;
+  animation:zones-network-spin 12s linear infinite;
+}
+.network-core,.network-zone,.network-link{position:absolute;display:block}
+.network-core{
+  width:5px;height:5px;left:11px;top:11px;border-radius:50%;
+  background:#9ec8ff;box-shadow:0 0 10px rgba(126,184,255,.7);
+  animation:zones-network-core 2.4s ease-in-out infinite;
+}
+.network-zone{
+  width:4px;height:4px;border-radius:50%;
+  background:#a58ce8;box-shadow:0 0 8px rgba(165,140,232,.55);
+  animation:zones-network-node 2.8s ease-in-out infinite;
+}
+.network-zone.zone-a{left:4px;top:8px;animation-delay:-.7s}
+.network-zone.zone-b{right:4px;top:5px;animation-delay:-1.5s}
+.network-zone.zone-c{right:6px;bottom:5px;animation-delay:-2.1s}
+.network-link{
+  height:1px;transform-origin:left center;
+  background:linear-gradient(90deg,rgba(126,184,255,.38),rgba(165,140,232,.08));
+  opacity:.7;
+  animation:zones-network-link 2.8s ease-in-out infinite;
+}
+.network-link.link-a{width:10px;left:14px;top:13px;transform:rotate(-151deg)}
+.network-link.link-b{width:11px;left:14px;top:13px;transform:rotate(-38deg);animation-delay:-.8s}
+.network-link.link-c{width:10px;left:14px;top:14px;transform:rotate(52deg);animation-delay:-1.5s}
+.zones-around-live-dot{
+  padding:3px 5px;
+  border:1px solid rgba(103,164,255,.12);
+  border-radius:5px;
+  color:#6f9bd0;
+  background:rgba(74,120,194,.035);
+  font-size:5px;
+  font-weight:800;
+  letter-spacing:.14em;
+  animation:zones-live-pulse 2.2s ease-in-out infinite;
+}
+@keyframes zones-network-breathe{0%,100%{transform:scale(1);opacity:.88}50%{transform:scale(1.06);opacity:1}}
+@keyframes zones-network-spin{to{transform:rotate(360deg)}}
+@keyframes zones-network-core{0%,100%{transform:scale(.9);opacity:.75}50%{transform:scale(1.35);opacity:1}}
+@keyframes zones-network-node{0%,100%{transform:scale(.8);opacity:.55}50%{transform:scale(1.45);opacity:1}}
+@keyframes zones-network-link{0%,100%{opacity:.3}50%{opacity:.85}}
+@keyframes zones-live-pulse{0%,100%{opacity:.55}50%{opacity:1;box-shadow:0 0 9px rgba(103,164,255,.12)}}
+@media(max-width:560px){.zones-around-live-header{gap:7px}.zones-around-network-icon{width:24px;height:24px;flex-basis:24px}.network-core{left:9px;top:9px}}
 
 /* PEOPLE CONTEXT SPACE */
 .people-context-space{
