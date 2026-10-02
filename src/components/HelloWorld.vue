@@ -4854,6 +4854,7 @@ onBeforeUnmount(() => {
       </section>
 
       <section v-if="activeView === 'zones'" class="content impact-content">
+        <span class="impact-red-orb" aria-hidden="true"></span>
 
         <aside class="impact-guide" aria-label="Guide to making an impact">
           <span class="impact-guide-kicker">GUIDE</span>
@@ -12544,7 +12545,9 @@ textarea:focus-visible {
 .context-rail-flow p{margin:0;color:#59687c;font-size:5.5px;line-height:1.4}
 @media(max-width:900px){.contextual-space-rail{display:none}}
  
-.impact-content{position:relative}
+.impact-content{position:relative;overflow:hidden}
+.impact-red-orb{position:absolute;z-index:0;width:5px;height:5px;border-radius:50%;background:#ef6670;box-shadow:0 0 9px rgba(239,102,112,.55);pointer-events:none;animation:impact-red-orb-travel 11s ease-in-out infinite}
+.impact-guide,.impact-up-guide,.impact-space-rail,.zone-navigation-space{position:relative;z-index:1}
 .impact-guide{position:absolute;left:-160px;top:39px;width:124px;display:flex;flex-direction:column;gap:5px;padding:2px 10px 12px 0;color:#718198;pointer-events:none}
 .impact-guide::before{content:'';position:absolute;right:-3px;top:1px;width:1px;height:calc(100% - 2px);background:linear-gradient(180deg,rgba(103,164,255,.18),rgba(103,164,255,.04),transparent)}
 .impact-guide-kicker{color:#65758b;font-size:6px;font-weight:800;letter-spacing:.2em}
@@ -12617,16 +12620,19 @@ textarea:focus-visible {
 
 .zone-space-button-around.active .zone-orbit-core{animation:none;transform:scale(1.1)}
 .zone-space-button-mine.active .zone-orbit-core{animation:zone-core-mine 3.4s ease-in-out infinite;transform:scale(1.1)}
-.zone-space-button-mine.active .zone-orbit-ring-one{display:block;inset:1px;border:1px solid rgba(255,212,90,.65);border-radius:50%;box-shadow:0 0 7px rgba(255,212,90,.18);animation:zone-mine-yellow-ring 3.8s ease-in-out infinite;transform:rotate(-18deg)}
+.zone-space-button-mine.active .zone-orbit-ring-one{display:block;inset:1px;border:1px solid rgba(143,189,240,.7);border-radius:50%;box-shadow:0 0 7px rgba(143,189,240,.16);animation:zone-mine-yellow-ring 3.8s ease-in-out infinite;transform:rotate(-18deg)}
 
 @keyframes zone-core-around{0%,100%{transform:scale(1)}50%{transform:scale(1.45)}}
 @keyframes zone-core-mine{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
-@keyframes zone-mine-yellow-ring{0%,100%{opacity:.55;transform:rotate(-18deg) scale(.96)}50%{opacity:1;transform:rotate(-18deg) scale(1.04)}}
+@keyframes zone-mine-yellow-ring{0%{opacity:.58;border-color:rgba(143,189,240,.7);box-shadow:0 0 7px rgba(143,189,240,.16);transform:rotate(-18deg) scale(.96)}48%{opacity:1;border-color:rgba(255,212,90,.82);box-shadow:0 0 9px rgba(255,212,90,.22);transform:rotate(12deg) scale(1.04)}100%{opacity:.62;border-color:rgba(103,164,255,.78);box-shadow:0 0 8px rgba(103,164,255,.18);transform:rotate(42deg) scale(.98)}}
+@keyframes impact-red-orb-travel{0%{left:5%;top:18%;opacity:.35;transform:scale(.8)}20%{left:34%;top:10%;opacity:.9;transform:scale(1)}43%{left:82%;top:28%;opacity:.55;transform:scale(.9)}66%{left:58%;top:64%;opacity:.9;transform:scale(1.05)}84%{left:16%;top:82%;opacity:.45;transform:scale(.82)}100%{left:5%;top:18%;opacity:.35;transform:scale(.8)}}
 @keyframes zone-orbit-spin{to{transform:rotate(360deg)}}
 @keyframes zone-orbit-node{from{transform:rotate(0deg) translateX(5px)}to{transform:rotate(360deg) translateX(5px)}}
 @keyframes zone-orbit-node-two{from{transform:rotate(0deg) translateX(6px)}to{transform:rotate(360deg) translateX(6px)}}
 @keyframes zone-orbit-node-three{from{transform:rotate(0deg) translateX(4px)}to{transform:rotate(360deg) translateX(4px)}}
-@media(prefers-reduced-motion:reduce){.zone-space-button.active .zone-orbit-ring-one,.zone-space-button.active .zone-orbit-node-one,.zone-space-button.active .zone-orbit-core{animation:none}}
+@media(prefers-reduced-motion:reduce){
+  .impact-red-orb{animation:none}
+.zone-space-button.active .zone-orbit-ring-one,.zone-space-button.active .zone-orbit-node-one,.zone-space-button.active .zone-orbit-core{animation:none}}
 
 .live-network-filters{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:0 0 14px}
 .live-network-filter{padding:7px 10px;border:1px solid rgba(255,255,255,.07);border-radius:7px;background:rgba(255,255,255,.018);color:#8794a7;font-size:7px;font-weight:700;letter-spacing:.08em;cursor:pointer}
