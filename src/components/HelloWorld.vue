@@ -4843,6 +4843,24 @@ onBeforeUnmount(() => {
 
       <section v-if="activeView === 'zones'" class="content impact-content">
 
+        <aside class="impact-guide" aria-label="Guide to making an impact">
+          <span class="impact-guide-kicker">GUIDE</span>
+          <strong>MAKE AN IMPACT</strong>
+          <span class="impact-guide-subtitle">in your Zone or around it</span>
+
+          <div class="impact-guide-copy">
+            <p>Some people choose to start where they are.</p>
+            <p>Others start with what they care about.</p>
+            <p>Others discover something happening around them.</p>
+          </div>
+
+          <div class="impact-guide-path" aria-hidden="true">
+            <span>YOU</span><i>→</i><span>ZONE</span><i>→</i><span>AROUND</span><i>→</i><span>ACTION</span>
+          </div>
+
+          <p class="impact-guide-note">You don't have to know the whole network before you act. You can start from where you are.</p>
+        </aside>
+
         <aside class="impact-space-rail" aria-label="Impact context">
           <span class="impact-space-rail-label">IMPACT</span>
           <button
@@ -5175,8 +5193,8 @@ onBeforeUnmount(() => {
           </div>
         </section>
 
-        <div class="zones-footer-intro">
-          <h2>Take care of your zone.</h2>
+        <div v-if="zoneNavigationLevel !== 'governorates'" class="zones-footer-intro">
+          <h2>Take care of the zone.</h2>
           <p>A zone turns people around a place into a living community. Identify goals, propose ideas and participate.</p>
         </div>
 
@@ -12489,12 +12507,23 @@ textarea:focus-visible {
 @media(max-width:900px){.contextual-space-rail{display:none}}
  
 .impact-content{position:relative}
+.impact-guide{position:absolute;left:-160px;top:39px;width:124px;display:flex;flex-direction:column;gap:5px;padding:2px 10px 12px 0;color:#718198;pointer-events:none}
+.impact-guide::before{content:'';position:absolute;right:-3px;top:1px;width:1px;height:calc(100% - 2px);background:linear-gradient(180deg,rgba(103,164,255,.18),rgba(103,164,255,.04),transparent)}
+.impact-guide-kicker{color:#65758b;font-size:6px;font-weight:800;letter-spacing:.2em}
+.impact-guide>strong{color:#b9c9dc;font-size:9px;letter-spacing:.1em;line-height:1.3}
+.impact-guide-subtitle{color:#7f9fc5;font-size:7px;line-height:1.35}
+.impact-guide-copy{display:grid;gap:7px;margin-top:8px}
+.impact-guide-copy p{margin:0;color:#65758a;font-size:7px;line-height:1.55}
+.impact-guide-path{display:flex;align-items:center;gap:3px;flex-wrap:wrap;margin-top:9px;color:#7088a5;font-size:5px;font-weight:800;letter-spacing:.08em}
+.impact-guide-path span{padding:3px 4px;border:1px solid rgba(103,164,255,.08);border-radius:4px;background:rgba(74,120,194,.025)}
+.impact-guide-path i{font-style:normal;color:#4e627b}
+.impact-guide-note{margin:9px 0 0;color:#8a9bb0;font-size:7px;line-height:1.55}
 .impact-space-rail{position:absolute;left:-31px;top:43px;width:24px;display:flex;flex-direction:column;align-items:center;gap:10px;z-index:2}
 .impact-space-rail-label{writing-mode:vertical-rl;transform:rotate(180deg);color:#596a7f;font-size:6px;font-weight:800;letter-spacing:.18em}
 .impact-space-rail-item{width:22px;height:22px;padding:0;display:grid;place-items:center;border:1px solid rgba(255,255,255,.055);border-radius:7px;background:rgba(255,255,255,.018);color:#607188;font-size:10px;cursor:pointer}
 .impact-space-rail-item:hover,.impact-space-rail-item.active{border-color:rgba(103,164,255,.16);background:rgba(74,120,194,.07);color:#91b9e9}
 .impact-space-rail-line{width:1px;min-height:70px;background:linear-gradient(180deg,rgba(103,164,255,.18),rgba(255,255,255,.02));margin-top:1px}
-@media(max-width:900px){.impact-space-rail{display:none}}
+@media(max-width:900px){.impact-space-rail,.impact-guide{display:none}}
 
 /* Subtle Impact separators */
 .impact-section-line {
