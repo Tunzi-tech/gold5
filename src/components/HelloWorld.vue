@@ -4663,9 +4663,30 @@ onBeforeUnmount(() => {
 
         <aside class="impact-space-rail" aria-label="Impact context">
           <span class="impact-space-rail-label">IMPACT</span>
-          <button type="button" class="impact-space-rail-item active" title="Zones">◉</button>
-          <button type="button" class="impact-space-rail-item" title="People">♧</button>
-          <button type="button" class="impact-space-rail-item" title="Actions">↗</button>
+          <button
+            type="button"
+            class="impact-space-rail-item"
+            :class="{ active: activeView === 'zones' || activeView === 'zone' }"
+            title="Zones"
+            aria-label="Zones"
+            @click="navigate('zones')"
+          >◉</button>
+          <button
+            type="button"
+            class="impact-space-rail-item"
+            :class="{ active: activeView === 'people' }"
+            title="People"
+            aria-label="People"
+            @click="navigate('people')"
+          >♧</button>
+          <button
+            type="button"
+            class="impact-space-rail-item"
+            :class="{ active: activeView === 'initiatives' }"
+            title="Actions"
+            aria-label="Actions"
+            @click="navigate('initiatives')"
+          >↗</button>
           <span class="impact-space-rail-line"></span>
         </aside>
 
