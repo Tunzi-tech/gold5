@@ -12602,7 +12602,7 @@ textarea:focus-visible {
 .zone-orbit-ring-two,.zone-orbit-node-two{display:none}
 .zone-orbit-node-one{position:absolute;width:3px;height:3px;left:2px;top:2px;border-radius:50%;background:#ffd45a;box-shadow:0 0 7px rgba(255,212,90,.45)}
 .zone-space-button.active .zone-orbit-ring-one{display:none}
-.zone-space-button-around .zone-orbit-node-one{background:#ffd45a;box-shadow:0 0 7px rgba(255,212,90,.45)}
+.zone-space-button-around .zone-orbit-node-one{background:#ffd45a;box-shadow:0 0 7px rgba(255,212,90,.45);animation-duration:3.64s}
 .zone-space-button-around .zone-orbit-node-two{display:block;position:absolute;width:3px;height:3px;left:2px;top:2px;border-radius:50%;background:#ff9a4d;box-shadow:0 0 7px rgba(255,154,77,.45);animation:zone-orbit-node-two 3.4s linear infinite;transform-origin:7px 7px}
 .zone-space-button-around .zone-orbit-node-two::after{content:'';position:absolute;width:3px;height:3px;left:5px;top:5px;border-radius:50%;background:#61d38a;box-shadow:0 0 7px rgba(97,211,138,.45)}
 .zone-space-button-around::after{content:'';position:absolute;width:3px;height:3px;left:19px;top:8px;border-radius:50%;background:#ef6670;box-shadow:0 0 7px rgba(239,102,112,.45);animation:zone-orbit-node-three 4s linear infinite;transform-origin:-5px 2px}
