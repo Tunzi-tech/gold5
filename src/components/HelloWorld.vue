@@ -12602,6 +12602,9 @@ textarea:focus-visible {
 .zone-orbit-ring-two,.zone-orbit-node-two{display:none}
 .zone-orbit-node-one{position:absolute;width:3px;height:3px;left:2px;top:2px;border-radius:50%;background:#ffd45a;box-shadow:0 0 7px rgba(255,212,90,.45)}
 .zone-space-button.active .zone-orbit-ring-one{display:none}
+.zone-space-button-around .zone-orbit-node-one{background:#ffd45a;box-shadow:0 0 7px rgba(255,212,90,.45)}
+.zone-space-button-around .zone-orbit-node-two{display:block;position:absolute;width:3px;height:3px;left:2px;top:2px;border-radius:50%;background:#ff9a4d;box-shadow:0 0 7px rgba(255,154,77,.45);animation:zone-orbit-node-two 3.4s linear infinite;transform-origin:7px 7px}
+.zone-space-button-around::after{content:'';position:absolute;width:3px;height:3px;left:19px;top:8px;border-radius:50%;background:#ef6670;box-shadow:0 0 7px rgba(239,102,112,.45);animation:zone-orbit-node-three 4s linear infinite;transform-origin:-5px 2px}
 .zone-space-button.active .zone-orbit-node-one{animation:zone-orbit-node 2.8s linear infinite;transform-origin:6px 6px}
 .zone-space-button-mine.active .zone-orbit-ring-one{animation-duration:5s;transform:rotate(-18deg)}
 .zone-space-button-mine.active .zone-orbit-node-one{width:2px;height:2px;animation-duration:4s;transform-origin:5px 5px}
@@ -12619,6 +12622,8 @@ textarea:focus-visible {
 @keyframes zone-core-mine{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
 @keyframes zone-orbit-spin{to{transform:rotate(360deg)}}
 @keyframes zone-orbit-node{from{transform:rotate(0deg) translateX(5px)}to{transform:rotate(360deg) translateX(5px)}}
+@keyframes zone-orbit-node-two{from{transform:rotate(0deg) translateX(6px)}to{transform:rotate(360deg) translateX(6px)}}
+@keyframes zone-orbit-node-three{from{transform:rotate(0deg) translateX(4px)}to{transform:rotate(360deg) translateX(4px)}}
 @media(prefers-reduced-motion:reduce){.zone-space-button.active .zone-orbit-ring-one,.zone-space-button.active .zone-orbit-node-one,.zone-space-button.active .zone-orbit-core{animation:none}}
 
 .live-network-filters{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:0 0 14px}
