@@ -6884,6 +6884,8 @@ textarea:focus-visible {
 .main {
   margin-left: 250px;
   width: calc(100% - 250px);
+  padding-left: 180px;
+  box-sizing: border-box;
 }
 
 .topbar {
@@ -6892,7 +6894,8 @@ textarea:focus-visible {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 38px;
+  margin-left: -180px;
+  padding: 0 38px 0 218px;
   background: rgba(7,10,17,.78);
   backdrop-filter: blur(18px);
   position: sticky;
