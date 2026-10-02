@@ -12545,7 +12545,7 @@ textarea:focus-visible {
 .context-rail-flow p{margin:0;color:#59687c;font-size:5.5px;line-height:1.4}
 @media(max-width:900px){.contextual-space-rail{display:none}}
  
-.impact-content{position:relative;overflow:hidden}
+.impact-content{position:relative;overflow:visible}
 .impact-red-orb{position:absolute;z-index:0;width:5px;height:5px;border-radius:50%;background:#ef6670;box-shadow:0 0 9px rgba(239,102,112,.55);pointer-events:none;animation:impact-red-orb-travel 11s ease-in-out infinite}
 .impact-guide,.impact-up-guide,.impact-space-rail,.zone-navigation-space{position:relative;z-index:1}
 .impact-guide{position:absolute;left:-160px;top:39px;width:124px;display:flex;flex-direction:column;gap:5px;padding:2px 10px 12px 0;color:#718198;pointer-events:none}
