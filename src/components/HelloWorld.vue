@@ -6837,7 +6837,7 @@ textarea:focus-visible {
 }
 
 .sidebar-zones-main .icon {
-  color: #000000;
+  color: #f2c45a;
 }
 
 .sidebar-zones-main.active .subnav-section-label,
