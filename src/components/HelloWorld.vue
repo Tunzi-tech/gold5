@@ -12600,7 +12600,7 @@ textarea:focus-visible {
 .zone-orbit-core{position:absolute;left:50%;top:50%;width:3px;height:3px;margin:-1.5px;border-radius:50%;background:#8fbdf0}
 .zone-orbit-ring{position:absolute;inset:2px;border:1px solid rgba(128,171,224,.16);border-radius:50%}
 .zone-orbit-ring-two,.zone-orbit-node-two{display:none}
-.zone-orbit-node-one{position:absolute;width:3px;height:3px;left:2px;top:2px;border-radius:50%;background:#9b87d6}
+.zone-orbit-node-one{position:absolute;width:3px;height:3px;left:2px;top:2px;border-radius:50%;background:#ffd45a;box-shadow:0 0 7px rgba(255,212,90,.45)}
 .zone-space-button.active .zone-orbit-ring-one{display:none}
 .zone-space-button.active .zone-orbit-node-one{animation:zone-orbit-node 2.8s linear infinite;transform-origin:6px 6px}
 .zone-space-button-mine.active .zone-orbit-ring-one{animation-duration:5s;transform:rotate(-18deg)}
