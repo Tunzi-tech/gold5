@@ -2712,6 +2712,13 @@ onBeforeUnmount(() => {
               <span class="subnav-dot"></span>
               Entities
             </button>
+            <button
+              :class="{ active: activeView === 'pages' }"
+              @click="navigate('pages')"
+            >
+              <span class="subnav-dot"></span>
+              Pages
+            </button>
           </template>
         </div>
 
