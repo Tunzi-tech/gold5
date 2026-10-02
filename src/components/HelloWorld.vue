@@ -135,6 +135,7 @@ const showCallsSubnav = ref(true)
 const sidebarSpace = ref<'zones' | 'networks' | 'connections'>('networks')
 const showAccountMenu = ref(false)
 const showWhatsGoingOn = ref(false)
+const liveEngagement = ref<'people' | 'action' | 'flow' | null>(null)
 const selectedZone = ref<Zone | null>(null)
 const selectedCall = ref<CommunityCall | null>(null)
 const selectedPage = ref<Page | null>(null)
@@ -2091,11 +2092,25 @@ function navigate(view: string) {
   selectedPerson.value = null
   selectedEntity.value = null
   activeZoneTab.value = 'overview'
+  liveEngagement.value = null
 
   // Impact always opens with its Zones submenu visible.
   if (view === 'zones' || view === 'around-zones') {
     showZonesSubnav.value = true
   }
+}
+
+function openLiveEngagement(kind: 'people' | 'action' | 'flow') {
+  showWhatsGoingOn.value = false
+  liveEngagement.value = kind
+  activeView.value = 'live-' + kind
+  selectedZone.value = null
+  selectedCall.value = null
+  selectedPage.value = null
+  selectedPerson.value = null
+  selectedEntity.value = null
+  activeZoneTab.value = 'overview'
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 function openCallSpace(call: CommunityCall) {
@@ -3528,7 +3543,87 @@ onBeforeUnmount(() => {
         </div>
       </section>
 
-<section v-if="activeView === 'people'" class="content">
+<!-- LIVE ENGAGEMENT: PEOPLE ARE TALKING -->
+      <section v-if="activeView === 'live-people'" class="content live-engagement-content">
+        <div class="live-engagement-back"><button type="button" class="ghost-btn" @click="navigate('around-zones')">← Back to Zones Around</button></div>
+        <div class="live-engagement-hero">
+          <div>
+            <span class="eyebrow">PEOPLE ARE TALKING · LIVE</span>
+            <h1>Join a conversation<br /><span>already happening.</span></h1>
+            <p>Start with a real question, see who is here, and add your voice. This is where local curiosity becomes connection.</p>
+          </div>
+          <div class="live-engagement-signal"><span class="live-signal-dot"></span><strong>18 people here</strong><small>6 new messages</small></div>
+        </div>
+        <div class="live-engagement-grid">
+          <article class="live-conversation-card">
+            <div class="live-card-top"><span class="eyebrow">TUNIS NORTH · CONVERSATION</span><span class="live-card-status">ACTIVE NOW</span></div>
+            <h2>How can we create more green spaces around Tunis North?</h2>
+            <p>People are sharing places that need attention, ideas for community gardens and ways to involve nearby residents.</p>
+            <div class="conversation-preview">
+              <div class="conversation-message"><span class="conversation-avatar">AS</span><div><strong>Amine</strong><p>There is an unused corner near the school that could become a small garden.</p><small>2 min ago</small></div></div>
+              <div class="conversation-message"><span class="conversation-avatar purple">LM</span><div><strong>Leila</strong><p>I know three people nearby who would help organize the first meeting.</p><small>just now</small></div></div>
+            </div>
+            <div class="live-card-actions"><button type="button" class="primary-btn" @click="navigate('people')">JOIN CONVERSATION</button><button type="button" class="ghost-btn" @click="navigate('zones')">OPEN TUNIS NORTH</button></div>
+          </article>
+          <aside class="live-context-card">
+            <span class="eyebrow">CONNECTED CONTEXT</span>
+            <div class="live-context-row"><span>ZONE</span><strong>Tunis North</strong></div>
+            <div class="live-context-row"><span>INTEREST</span><strong>Urban nature</strong></div>
+            <div class="live-context-row"><span>IDEA</span><strong>Community gardens</strong></div>
+            <div class="live-context-row"><span>PEOPLE</span><strong>18 participating</strong></div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- LIVE ENGAGEMENT: A NEW ACTION IS FORMING -->
+      <section v-if="activeView === 'live-action'" class="content live-engagement-content">
+        <div class="live-engagement-back"><button type="button" class="ghost-btn" @click="navigate('around-zones')">← Back to Zones Around</button></div>
+        <div class="live-engagement-hero">
+          <div>
+            <span class="eyebrow">A NEW ACTION IS FORMING</span>
+            <h1>Explore something<br /><span>becoming possible.</span></h1>
+            <p>This is not a finished initiative yet. People are gathering around an idea and discovering what could happen next.</p>
+          </div>
+          <div class="live-engagement-signal action-signal"><strong>7 interested</strong><small>3 ideas · looking for participants</small></div>
+        </div>
+        <article class="forming-action-card">
+          <div class="forming-action-main">
+            <span class="eyebrow">EMERGING ACTION · TUNIS NORTH</span>
+            <h2>Create a community garden</h2>
+            <p>Explore the possibility of turning an underused local space into a shared garden where residents can grow, learn and meet.</p>
+            <div class="action-path"><span>IDEA</span><i>→</i><span>PEOPLE</span><i>→</i><span>ZONE</span><i>→</i><span>ACTION</span></div>
+            <div class="live-card-actions"><button type="button" class="primary-btn" @click="navigate('initiatives')">EXPLORE INITIATIVES</button><button type="button" class="ghost-btn" @click="navigate('people')">FIND PEOPLE</button></div>
+          </div>
+          <div class="forming-action-side"><div><strong>7</strong><span>people interested</span></div><div><strong>3</strong><span>ideas proposed</span></div><div><strong>1</strong><span>Zone connected</span></div><button type="button" class="follow-btn" @click="navigate('initiatives')">PARTICIPATE →</button></div>
+        </article>
+      </section>
+
+      <!-- LIVE ENGAGEMENT: THE NETWORK IS MOVING -->
+      <section v-if="activeView === 'live-flow'" class="content live-engagement-content">
+        <div class="live-engagement-back"><button type="button" class="ghost-btn" @click="navigate('around-zones')">← Back to Zones Around</button></div>
+        <div class="live-engagement-hero">
+          <div>
+            <span class="eyebrow">THE NETWORK IS MOVING</span>
+            <h1>See how people, ideas<br /><span>and Zones connect.</span></h1>
+            <p>Follow movement across the Commons: a question becomes an idea, an idea attracts people, and participation changes a Zone.</p>
+          </div>
+          <div class="live-engagement-signal flow-signal"><strong>4 new connections</strong><small>2 ideas · 1 action gaining participants</small></div>
+        </div>
+        <div class="network-flow-stage">
+          <div class="flow-column"><span class="flow-label">PEOPLE</span><div class="flow-node">Amine</div><div class="flow-node">Leila</div><div class="flow-node">Nour</div></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-column"><span class="flow-label">INTEREST</span><div class="flow-node">Urban nature</div><div class="flow-node">Clean streets</div></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-column"><span class="flow-label">IDEA</span><div class="flow-node highlighted">Community garden</div><div class="flow-node">Local clean-up</div></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-column"><span class="flow-label">ZONE</span><div class="flow-node highlighted">Tunis North</div></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-column"><span class="flow-label">ACTION</span><div class="flow-node highlighted">Garden forming</div><div class="flow-node">People joining</div></div>
+        </div>
+        <div class="flow-footer"><div><span>PARTICIPATION</span><strong>12 people connected to these actions</strong></div><div><span>WHAT HAPPENS NEXT</span><strong>Experience → Inspiration → new possibility</strong></div></div>
+      </section>
+
+      <section v-if="activeView === 'people'" class="content">
 
         <div class="page-title">
           <span class="eyebrow">PEOPLE</span>
@@ -4097,17 +4192,17 @@ onBeforeUnmount(() => {
                 <span>RIGHT NOW</span>
                 <small>things you can join</small>
               </div>
-              <button type="button" class="zones-around-live-item" @click="navigate('people')">
+              <button type="button" class="zones-around-live-item" @click="openLiveEngagement('people')">
                 <span class="live-item-dot"></span>
                 <span><strong>People are talking</strong><small>Local conversations are starting around you.</small></span>
                 <b>JOIN →</b>
               </button>
-              <button type="button" class="zones-around-live-item" @click="navigate('initiatives')">
+              <button type="button" class="zones-around-live-item" @click="openLiveEngagement('action')">
                 <span class="live-item-dot"></span>
                 <span><strong>A new action is forming</strong><small>People are looking for others to participate.</small></span>
                 <b>EXPLORE →</b>
               </button>
-              <button type="button" class="zones-around-live-item" @click="navigate('discover')">
+              <button type="button" class="zones-around-live-item" @click="openLiveEngagement('flow')">
                 <span class="live-item-dot"></span>
                 <span><strong>The network is moving</strong><small>See what people are joining, creating and connecting.</small></span>
                 <b>SEE FLOW →</b>
@@ -12447,5 +12542,24 @@ textarea:focus-visible {
 .live-network-stat-detail.stat-needs{color:#aaa28f}
 
 @media(max-width:900px){.live-network-layout{grid-template-columns:1fr}.live-network-side{position:static}}
+
+/* LIVE ENGAGEMENT DESTINATIONS */
+.live-engagement-content{max-width:1120px}
+.live-engagement-back{margin-bottom:18px}
+.live-engagement-hero{display:flex;align-items:flex-end;justify-content:space-between;gap:28px;padding:4px 0 22px;border-bottom:1px solid rgba(255,255,255,.06)}
+.live-engagement-hero h1{margin:7px 0 8px;color:#edf3fb;font-size:32px;line-height:1.08}
+.live-engagement-hero h1 span{color:#7fa9dc}
+.live-engagement-hero p{max-width:650px;margin:0;color:#748297;font-size:10px;line-height:1.7}
+.live-engagement-signal{min-width:150px;padding:13px 15px;border:1px solid rgba(103,164,255,.13);border-radius:12px;background:rgba(74,120,194,.045);text-align:right}
+.live-engagement-signal strong{display:block;color:#b9d2ef;font-size:12px}.live-engagement-signal small{display:block;margin-top:4px;color:#627188;font-size:7px}.live-signal-dot{display:inline-block;width:6px;height:6px;margin-right:5px;border-radius:50%;background:#75b8e8;box-shadow:0 0 9px rgba(117,184,232,.6)}
+.live-engagement-grid{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:14px;margin-top:16px}
+.live-conversation-card,.live-context-card,.forming-action-card{border:1px solid rgba(255,255,255,.065);border-radius:14px;background:linear-gradient(145deg,rgba(24,32,45,.7),rgba(10,15,23,.9));box-shadow:0 16px 35px rgba(0,0,0,.16)}
+.live-conversation-card{padding:19px}.live-card-top{display:flex;justify-content:space-between;gap:12px}.live-card-status{color:#78aeda;font-size:6px;font-weight:800;letter-spacing:.12em}.live-conversation-card h2,.forming-action-card h2{margin:10px 0 8px;color:#e8f0fa;font-size:19px;line-height:1.3}.live-conversation-card>p,.forming-action-main>p{color:#758398;font-size:9px;line-height:1.6}
+.conversation-preview{display:grid;gap:8px;margin:16px 0}.conversation-message{display:grid;grid-template-columns:27px 1fr;gap:8px;padding:9px;border:1px solid rgba(255,255,255,.045);border-radius:9px;background:rgba(255,255,255,.018)}.conversation-avatar{width:27px;height:27px;display:grid;place-items:center;border-radius:8px;background:rgba(74,120,194,.16);color:#9dc3ec;font-size:6px;font-weight:800}.conversation-avatar.purple{background:rgba(130,104,191,.16);color:#baa6e8}.conversation-message strong{color:#a9bdd5;font-size:7px}.conversation-message p{margin:3px 0;color:#6d7b8f;font-size:7px;line-height:1.45}.conversation-message small{color:#4f5d70;font-size:5px}.live-card-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.live-card-actions .primary-btn,.live-card-actions .ghost-btn{font-size:7px}
+.live-context-card{padding:17px;height:max-content}.live-context-row{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.045)}.live-context-row:last-child{border-bottom:0}.live-context-row span{color:#56657a;font-size:6px}.live-context-row strong{color:#aabed6;font-size:7px;text-align:right}
+.forming-action-card{display:grid;grid-template-columns:minmax(0,1fr) 230px;margin-top:16px;overflow:hidden}.forming-action-main{padding:22px}.action-path{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:18px;color:#759bc7;font-size:6px;font-weight:800;letter-spacing:.1em}.action-path span{padding:6px 8px;border:1px solid rgba(103,164,255,.1);border-radius:6px;background:rgba(74,120,194,.035)}.action-path i{color:#4d6079;font-style:normal}.forming-action-side{display:grid;align-content:start;gap:0;padding:19px;border-left:1px solid rgba(255,255,255,.055);background:rgba(255,255,255,.012)}.forming-action-side div{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.045)}.forming-action-side strong{display:block;color:#d2deed;font-size:17px}.forming-action-side span{display:block;margin-top:2px;color:#5d6d82;font-size:6px}.forming-action-side .follow-btn{margin-top:14px}
+.network-flow-stage{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;padding:28px 18px;border:1px solid rgba(255,255,255,.06);border-radius:14px;background:radial-gradient(circle at center,rgba(54,83,124,.09),rgba(8,13,21,.65) 62%);overflow:auto}.flow-column{display:grid;gap:7px;min-width:105px}.flow-label{margin-bottom:2px;color:#56677d;font-size:6px;font-weight:800;letter-spacing:.13em;text-align:center}.flow-node{padding:9px 8px;border:1px solid rgba(255,255,255,.055);border-radius:8px;background:rgba(255,255,255,.018);color:#8495aa;font-size:7px;text-align:center;white-space:nowrap;animation:live-flow-node 3.2s ease-in-out infinite}.flow-node.highlighted{border-color:rgba(103,164,255,.16);background:rgba(74,120,194,.07);color:#a9c8ea}.flow-arrow{color:#506782;font-size:16px;animation:live-flow-arrow 2.2s ease-in-out infinite}.flow-footer{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.flow-footer>div{padding:13px 15px;border:1px solid rgba(255,255,255,.05);border-radius:10px;background:rgba(255,255,255,.015)}.flow-footer span{display:block;color:#56677d;font-size:5px;font-weight:800;letter-spacing:.12em}.flow-footer strong{display:block;margin-top:5px;color:#9badc2;font-size:8px;font-weight:600}.flow-signal{min-width:180px}
+@keyframes live-flow-node{0%,100%{transform:translateY(0);opacity:.82}50%{transform:translateY(-2px);opacity:1}}@keyframes live-flow-arrow{0%,100%{opacity:.4;transform:translateX(0)}50%{opacity:1;transform:translateX(3px)}}
+@media(max-width:800px){.live-engagement-hero{align-items:flex-start;flex-direction:column}.live-engagement-signal{width:100%;text-align:left}.live-engagement-grid,.forming-action-card{grid-template-columns:1fr}.forming-action-side{border-left:0;border-top:1px solid rgba(255,255,255,.055)}.network-flow-stage{justify-content:flex-start}.flow-footer{grid-template-columns:1fr}}
 </style>
 
