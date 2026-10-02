@@ -4011,7 +4011,19 @@ onBeforeUnmount(() => {
         </template>
       </section>
 
-      <section v-if="activeView === 'around-zones'" class="content">
+      <section v-if="activeView === 'around-zones'" class="content contextual-rail-content">
+        <aside class="impact-space-rail contextual-space-rail" aria-label="Zones Around context">
+          <span class="impact-space-rail-label">ZONES AROUND</span>
+          <div class="context-rail-metric"><strong>{{ zones.filter(zone => !zone.joined).length }}</strong><span>nearby zones</span></div>
+          <div class="context-rail-metric"><strong>{{ zones.filter(zone => !zone.joined).reduce((total, zone) => total + zone.members, 0) }}</strong><span>people nearby</span></div>
+          <div class="context-rail-metric"><strong>{{ zones.filter(zone => !zone.joined).reduce((total, zone) => total + zone.goals.length, 0) }}</strong><span>active goals</span></div>
+          <span class="impact-space-rail-line"></span>
+          <span class="context-rail-flow-label">WHAT'S HAPPENING</span>
+          <div class="context-rail-flow"><span>•</span><p>New people are joining local Zones.</p></div>
+          <div class="context-rail-flow"><span>•</span><p>Goals are looking for participation.</p></div>
+          <div class="context-rail-flow"><span>•</span><p>Places and entities are being discovered.</p></div>
+        </aside>
+
         <div class="commons-hero compact-section-hero">
           <div class="commons-hero-copy">
             <span class="eyebrow">ZONES AROUND</span>
@@ -5049,7 +5061,20 @@ onBeforeUnmount(() => {
       </section>
 
       
-      <section v-if="activeView === 'my-zones'" class="content my-zones-content">
+      <section v-if="activeView === 'my-zones'" class="content my-zones-content contextual-rail-content">
+        <aside class="impact-space-rail contextual-space-rail" aria-label="Your Zones context">
+          <span class="impact-space-rail-label">YOUR ZONES</span>
+          <div class="context-rail-metric"><strong>{{ joinedZones.length }}</strong><span>zones you belong to</span></div>
+          <div class="context-rail-metric"><strong>{{ joinedZones.reduce((total, zone) => total + zone.participants, 0) }}</strong><span>participating</span></div>
+          <div class="context-rail-metric"><strong>{{ joinedZones.reduce((total, zone) => total + zone.goals.length, 0) }}</strong><span>active goals</span></div>
+          <div class="context-rail-metric"><strong>{{ joinedZones.reduce((total, zone) => total + zone.suggestions.length, 0) }}</strong><span>ideas & suggestions</span></div>
+          <span class="impact-space-rail-line"></span>
+          <span class="context-rail-flow-label">YOUR ACTIVITY</span>
+          <div class="context-rail-flow"><span>•</span><p>Your participation changes the Zone.</p></div>
+          <div class="context-rail-flow"><span>•</span><p>People are working on shared goals.</p></div>
+          <div class="context-rail-flow"><span>•</span><p>New actions can start from your Zones.</p></div>
+        </aside>
+
         <div class="my-zones-header">
           <div><span class="eyebrow">YOUR SPACE</span><h1>My Zones</h1><p>Places you have chosen to belong to, participate in and help shape.</p></div>
           <button type="button" class="ghost-btn my-zones-discover-btn" @click="navigate('around-zones')">DISCOVER ZONES <span>→</span></button>
@@ -12004,6 +12029,19 @@ textarea:focus-visible {
 
 
 /* IMPACT SPACE RAIL */
+/* CONTEXTUAL SPACE RAILS */
+.contextual-rail-content{position:relative}
+.contextual-space-rail{top:43px;width:82px;gap:8px;align-items:stretch}
+.contextual-space-rail .impact-space-rail-label{align-self:center;margin-bottom:3px}
+.context-rail-metric{display:grid;gap:2px;padding:5px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,.045)}
+.context-rail-metric strong{color:#a9c1dd;font-size:11px;font-weight:700}
+.context-rail-metric span{color:#5e6e83;font-size:5px;line-height:1.25;letter-spacing:.05em;text-transform:uppercase}
+.context-rail-flow-label{margin:2px 2px 0;color:#596a7f;font-size:5px;font-weight:800;letter-spacing:.12em;text-align:center}
+.context-rail-flow{display:flex;align-items:flex-start;gap:4px;padding:3px 2px}
+.context-rail-flow>span{color:#718db0;font-size:7px;line-height:1.2}
+.context-rail-flow p{margin:0;color:#59687c;font-size:5.5px;line-height:1.4}
+@media(max-width:900px){.contextual-space-rail{display:none}}
+ 
 .impact-content{position:relative}
 .impact-space-rail{position:absolute;left:4px;top:43px;width:24px;display:flex;flex-direction:column;align-items:center;gap:10px;z-index:2}
 .impact-space-rail-label{writing-mode:vertical-rl;transform:rotate(180deg);color:#596a7f;font-size:6px;font-weight:800;letter-spacing:.18em}
