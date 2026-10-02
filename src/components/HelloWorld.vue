@@ -2653,18 +2653,30 @@ onBeforeUnmount(() => {
 
           <template v-if="showZonesSubnav">
             <div class="impact-subnav-line"><button
+              class="zone-space-button zone-space-button-around"
               :class="{ active: activeView === 'around-zones' }"
               @click="navigate('around-zones')"
             >
-              <span class="subnav-dot"></span>
-              Zones Around
+              <span class="zone-orbit zone-orbit-large" aria-hidden="true">
+                <span class="zone-orbit-core"></span>
+                <span class="zone-orbit-ring zone-orbit-ring-one"></span>
+                <span class="zone-orbit-ring zone-orbit-ring-two"></span>
+                <span class="zone-orbit-node zone-orbit-node-one"></span>
+                <span class="zone-orbit-node zone-orbit-node-two"></span>
+              </span>
+              <span>Zones Around</span>
             </button></div>
             <div class="impact-subnav-line"><button
+              class="zone-space-button zone-space-button-mine"
               :class="{ active: activeView === 'my-zones' }"
               @click="navigate('my-zones')"
             >
-              <span class="subnav-dot"></span>
-              Your Zones
+              <span class="zone-orbit zone-orbit-small" aria-hidden="true">
+                <span class="zone-orbit-core"></span>
+                <span class="zone-orbit-ring zone-orbit-ring-one"></span>
+                <span class="zone-orbit-node zone-orbit-node-one"></span>
+              </span>
+              <span>Your Zones</span>
             </button></div>
           </template>
         </div>
@@ -12556,6 +12568,120 @@ textarea:focus-visible {
   height: 1px;
   margin: 5px 13px 2px;
   background: rgba(255,255,255,.06);
+}
+
+/* Interactive Zone space buttons */
+.zone-space-button{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  width:100%;
+  min-height:30px;
+  padding:5px 9px;
+  border:1px solid transparent;
+  border-radius:7px;
+  background:transparent;
+  color:#77869a;
+  font-size:7px;
+  font-weight:700;
+  letter-spacing:.03em;
+  text-align:left;
+  cursor:pointer;
+  transition:background .22s ease,border-color .22s ease,color .22s ease;
+}
+.zone-space-button:hover{
+  background:rgba(74,120,194,.045);
+  color:#a2b8d1;
+}
+.zone-space-button.active{
+  background:rgba(74,120,194,.075);
+  border-color:rgba(103,164,255,.15);
+  color:#d0deee;
+}
+.zone-orbit{
+  position:relative;
+  flex:0 0 auto;
+  display:block;
+  border:1px solid rgba(126,169,218,.18);
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(103,164,255,.08),transparent 68%);
+}
+.zone-orbit-large{width:25px;height:25px}
+.zone-orbit-small{width:19px;height:19px}
+.zone-orbit-core{
+  position:absolute;
+  left:50%;top:50%;
+  width:4px;height:4px;
+  margin:-2px;
+  border-radius:50%;
+  background:#8fbdf0;
+  opacity:.58;
+  transition:opacity .25s ease,box-shadow .25s ease,transform .25s ease;
+}
+.zone-orbit-ring{
+  position:absolute;
+  inset:3px;
+  border:1px solid rgba(128,171,224,.12);
+  border-radius:50%;
+}
+.zone-orbit-ring-one{transform:rotate(24deg)}
+.zone-orbit-ring-two{
+  inset:5px 1px;
+  transform:rotate(-38deg);
+  border-color:rgba(165,140,232,.10);
+}
+.zone-orbit-node{
+  position:absolute;
+  width:3px;height:3px;
+  border-radius:50%;
+  background:#9b87d6;
+  opacity:.42;
+}
+.zone-orbit-node-one{left:2px;top:5px}
+.zone-orbit-node-two{right:2px;bottom:4px}
+.zone-space-button.active .zone-orbit{
+  border-color:rgba(103,164,255,.30);
+  box-shadow:0 0 13px rgba(103,164,255,.07);
+}
+.zone-space-button.active .zone-orbit-core{
+  opacity:1;
+  transform:scale(1.25);
+  box-shadow:0 0 8px rgba(143,189,240,.55);
+}
+.zone-space-button.active .zone-orbit-ring-one{
+  animation:zone-orbit-spin 3.2s linear infinite;
+}
+.zone-space-button.active .zone-orbit-ring-two{
+  animation:zone-orbit-spin-reverse 4.6s linear infinite;
+}
+.zone-space-button.active .zone-orbit-node-one{
+  animation:zone-orbit-node 2.2s linear infinite;
+  transform-origin:9px 9px;
+}
+.zone-space-button.active .zone-orbit-node-two{
+  animation:zone-orbit-node-reverse 2.8s linear infinite;
+  transform-origin:-7px -7px;
+}
+.zone-space-button-mine.active .zone-orbit{
+  box-shadow:0 0 9px rgba(103,164,255,.06);
+}
+.zone-space-button-mine.active .zone-orbit-ring-one{
+  animation-duration:4.4s;
+}
+.zone-space-button-mine.active .zone-orbit-node-one{
+  width:2.5px;height:2.5px;
+  animation-duration:3.1s;
+}
+@keyframes zone-orbit-spin{to{transform:rotate(384deg)}}
+@keyframes zone-orbit-spin-reverse{to{transform:rotate(-398deg)}}
+@keyframes zone-orbit-node{from{transform:rotate(0deg) translateX(8px) rotate(0deg)}to{transform:rotate(360deg) translateX(8px) rotate(-360deg)}}
+@keyframes zone-orbit-node-reverse{from{transform:rotate(0deg) translateX(7px) rotate(0deg)}to{transform:rotate(-360deg) translateX(7px) rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){
+  .zone-space-button.active .zone-orbit-ring-one,
+  .zone-space-button.active .zone-orbit-ring-two,
+  .zone-space-button.active .zone-orbit-node-one,
+  .zone-space-button.active .zone-orbit-node-two{animation:none}
 }
 
 .live-network-filters{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:0 0 14px}
