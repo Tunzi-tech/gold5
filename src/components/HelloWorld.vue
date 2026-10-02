@@ -2681,7 +2681,7 @@ onBeforeUnmount(() => {
             @click="navigate('pages')"
           >
             <span class="icon">▣</span>
-            <span class="subnav-section-label">More Commons</span>
+            <span class="subnav-section-label">More Flow</span>
           </button>
 
           <button
@@ -2711,13 +2711,6 @@ onBeforeUnmount(() => {
             >
               <span class="subnav-dot"></span>
               Entities
-            </button>
-            <button
-              :class="{ active: activeView === 'pages' }"
-              @click="navigate('pages')"
-            >
-              <span class="subnav-dot"></span>
-              Pages
             </button>
           </template>
         </div>
