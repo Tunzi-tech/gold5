@@ -12614,7 +12614,7 @@ textarea:focus-visible {
 .zone-space-button-around .zone-orbit{overflow:visible}
 .zone-space-button-around .zone-orbit-ring-one{display:block;inset:2px;border:1px solid rgba(126,184,255,.12);border-radius:50%;box-shadow:0 0 4px rgba(126,184,255,.04)}
 .zone-space-button-around .zone-orbit::before,
-.zone-space-button-around .zone-orbit::after{background:linear-gradient(90deg,transparent,rgba(255,212,90,.22),rgba(239,102,112,.42),rgba(92,205,132,.22),transparent)}
+.zone-space-button-around .zone-orbit::after{background:linear-gradient(90deg,transparent,rgba(255,212,90,.22),rgba(255,212,90,.5),rgba(255,212,90,.22),transparent)}
 .zone-space-button-mine .zone-orbit::before,
 .zone-space-button-mine .zone-orbit::after{background:linear-gradient(90deg,transparent,rgba(103,164,255,.2),rgba(255,212,90,.45),rgba(103,164,255,.2),transparent)}
 .zone-orbit-node-one{position:absolute;width:3px;height:3px;left:2px;top:2px;border-radius:50%;background:#ffd45a;box-shadow:0 0 7px rgba(255,212,90,.45)}
