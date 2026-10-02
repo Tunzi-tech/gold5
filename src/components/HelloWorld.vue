@@ -12575,15 +12575,15 @@ textarea:focus-visible {
 .zone-space-button:hover,.zone-space-button.active{background:rgba(74,120,194,.045);color:#a9bdd5}
 .zone-space-button.active{border-color:rgba(103,164,255,.09)}
 .zone-orbit{position:relative;flex:0 0 auto;width:16px;height:16px;border:1px solid rgba(126,169,218,.22);border-radius:50%}
-.zone-orbit-large{width:18px;height:18px}.zone-orbit-small{width:14px;height:14px}
+.zone-orbit-large{width:18px;height:18px}.zone-orbit-small{width:14px;height:11px;border-radius:50%/42%}
 .zone-orbit-core{position:absolute;left:50%;top:50%;width:3px;height:3px;margin:-1.5px;border-radius:50%;background:#8fbdf0}
 .zone-orbit-ring{position:absolute;inset:2px;border:1px solid rgba(128,171,224,.16);border-radius:50%}
 .zone-orbit-ring-two,.zone-orbit-node-two{display:none}
 .zone-orbit-node-one{position:absolute;width:3px;height:3px;left:2px;top:2px;border-radius:50%;background:#9b87d6}
 .zone-space-button.active .zone-orbit-ring-one{animation:zone-orbit-spin 3.8s linear infinite}
 .zone-space-button.active .zone-orbit-node-one{animation:zone-orbit-node 2.8s linear infinite;transform-origin:6px 6px}
-.zone-space-button-mine.active .zone-orbit-ring-one{animation-duration:5s}
-.zone-space-button-mine.active .zone-orbit-node-one{width:2px;height:2px;animation-duration:4s}
+.zone-space-button-mine.active .zone-orbit-ring-one{animation-duration:5s;transform:rotate(-18deg)}
+.zone-space-button-mine.active .zone-orbit-node-one{width:2px;height:2px;animation-duration:4s;transform-origin:5px 5px}
 
 /* The two Zone spaces react to each other */
 .zone-space-button-around.active ~ .impact-subnav-line .zone-space-button-mine .zone-orbit-ring-one,
