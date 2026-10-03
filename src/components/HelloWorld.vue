@@ -2624,6 +2624,8 @@ onBeforeUnmount(() => {
           Live Flow
         </button>
 
+        <div class="live-flow-section-line"></div>
+
         <div class="sidebar-section-label">Impact</div>
 
 <div class="impact-section-line"></div>
