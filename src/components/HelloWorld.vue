@@ -2637,7 +2637,7 @@ onBeforeUnmount(() => {
               @click="navigate('zones')"
             >
               <span class="icon">◉</span>
-              <span class="subnav-section-label">Impact</span>
+              <span class="subnav-section-label">Impacting</span>
             </button>
 
             <button
@@ -2688,7 +2688,7 @@ onBeforeUnmount(() => {
         <div class="sidebar-flow-header">
           <button
             class="sidebar-flow-main"
-            :class="{ active: ['pages', 'initiatives', 'entities'].includes(activeView) }"
+            :class="{ active: ['pages', 'initiatives', 'entities', 'call'].includes(activeView) }"
             type="button"
             @click="navigate('pages')"
           >
@@ -2710,6 +2710,14 @@ onBeforeUnmount(() => {
         <div class="sidebar-subnav">
 
           <template v-if="showCallsSubnav">
+            <button
+              :class="{ active: activeView === 'call' }"
+              @click="navigate('call')"
+            >
+              <span class="subnav-dot"></span>
+              Calls
+            </button>
+
             <button
               :class="{ active: activeView === 'initiatives' }"
               @click="navigate('initiatives')"
