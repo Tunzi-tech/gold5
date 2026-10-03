@@ -12586,6 +12586,12 @@ textarea:focus-visible {
 @media(max-width:900px){.impact-space-rail,.impact-guide{display:none}}
 
 /* Subtle Impact separators */
+.live-flow-section-line {
+  height: 1px;
+  margin: 4px 13px 7px;
+  background: rgba(255,255,255,.08);
+}
+
 .impact-section-line {
   height: 1px;
   margin: 4px 13px 7px;
