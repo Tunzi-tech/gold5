@@ -107,6 +107,8 @@ type Zone = {
   officialMembers: OfficialMember[]
   elections: Election[]
   roleProposals: RoleProposal[]
+  isGovernorate?: boolean
+  governorateCountry?: string
 }
 
 type Entity = {
@@ -1888,7 +1890,45 @@ const zonePreviewInitiatives = computed(() => {
 })
 
 
-const joinedZones = computed(() => zones.value.filter(zone => zone.joined))
+const joinedZones = computed<Zone[]>(() => {
+  const joinedLocalZones = zones.value.filter(zone => zone.joined)
+
+  const joinedGovernorateZones = joinedGovernorates.value
+    .map((name, index) => {
+      const area =
+        availableCountryAreas.value.find(item => item.name === name) ||
+        zoneAreas.find(item => item.name === name)
+
+      if (!area) return null
+
+      const memberText = area.members.replace(/[^0-9.]/g, '')
+      const members = area.members.includes('K')
+        ? Math.round(Number(memberText) * 1000)
+        : Number(memberText) || 0
+
+      return {
+        id: -100000 - index,
+        name: area.name,
+        location: area.country + ' · ' + area.name,
+        description: area.description,
+        members,
+        participants: 0,
+        cover: area.image,
+        joined: true,
+        goals: [],
+        suggestions: [],
+        officialRoles: [],
+        officialMembers: [],
+        elections: [],
+        roleProposals: [],
+        isGovernorate: true,
+        governorateCountry: area.country
+      }
+    })
+    .filter((zone): zone is Zone => zone !== null)
+
+  return [...joinedGovernorateZones, ...joinedLocalZones]
+})
 
 const followedCalls = computed(() => calls.value.filter(call => call.followed))
 
@@ -2361,8 +2401,10 @@ function participate(zone: Zone) {
 
   if (zone.joined) {
     zone.participants++
+    // Keep the personal Zone layer synchronized immediately after joining.
+    sidebarSpace.value = 'zones'
   } else {
-    zone.participants--
+    zone.participants = Math.max(0, zone.participants - 1)
   }
 }
 
@@ -5436,10 +5478,10 @@ onBeforeUnmount(() => {
           <article v-for="zone in joinedZones" :key="zone.id" class="my-zone-card">
             <div class="my-zone-card-visual" :style="{ backgroundImage: 'url(' + zone.cover + ')' }"><div class="my-zone-card-visual-overlay"></div><div class="my-zone-card-location">◉ {{ zone.location }}</div><div class="my-zone-card-status">JOINED</div></div>
             <div class="my-zone-card-body">
-              <div class="my-zone-card-title-row"><div><span class="eyebrow">ZONE</span><h2>{{ zone.name }}</h2></div><button type="button" class="my-zone-open-btn" @click="openZone(zone)">OPEN <span>→</span></button></div>
+              <div class="my-zone-card-title-row"><div><span class="eyebrow">{{ zone.isGovernorate ? 'GOVERNORATE' : 'ZONE' }}</span><h2>{{ zone.name }}</h2></div><button type="button" class="my-zone-open-btn" @click="zone.isGovernorate ? openMyGovernorate(zone.name) : openZone(zone)">OPEN <span>→</span></button></div>
               <p class="my-zone-description">{{ zone.description }}</p>
               <div class="my-zone-signals"><div><strong>{{ zone.members }}</strong><span>members</span></div><div><strong>{{ zone.participants }}</strong><span>participating</span></div><div><strong>{{ zone.goals.length }}</strong><span>goals</span></div><div><strong>{{ zone.suggestions.length }}</strong><span>ideas</span></div></div>
-              <div class="my-zone-card-footer"><span>People · Goals · Ideas · Places</span><span class="my-zone-arrow">↗</span></div>
+              <div class="my-zone-card-footer"><span>{{ zone.isGovernorate ? 'People · Places · Activity' : 'People · Goals · Ideas · Places' }}</span><span class="my-zone-arrow">↗</span></div>
             </div>
           </article>
         </div>
