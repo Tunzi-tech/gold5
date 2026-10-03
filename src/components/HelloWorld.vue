@@ -673,6 +673,7 @@ const selectedGovernorateRegion = ref('All')
 const joinedGovernorates = ref<string[]>([])
 const governorateRelations = ref<Record<string, string[]>>({})
 const governorateOtherConnections = ref<Record<string, string>>({})
+const showGovernorateConnections = ref<Record<string, boolean>>({})
 const governorateConnectionOptions = [
   { id: 'live', icon: '🏠', title: 'I live here', description: 'My home is here.' },
   { id: 'work', icon: '💼', title: 'I work here', description: 'My workplace or professional activity is here.' },
@@ -5061,8 +5062,17 @@ onBeforeUnmount(() => {
                     {{ isGovernorateJoined(selectedZoneArea) ? '✓ Joined' : '+ Join Governorate' }}
                   </button>
                 </div>
-                <div class="governorate-connection-hint">SELECT ALL THAT APPLY</div>
-                <div class="governorate-detail-relations">
+                <div class="governorate-connection-controls">
+                  <div class="governorate-connection-hint">SELECT ALL THAT APPLY</div>
+                  <button
+                    type="button"
+                    class="governorate-connection-toggle"
+                    @click="showGovernorateConnections[selectedZoneArea] = !showGovernorateConnections[selectedZoneArea]"
+                  >
+                    {{ showGovernorateConnections[selectedZoneArea] === false ? 'SHOW CONNECTIONS ↓' : 'HIDE CONNECTIONS ↑' }}
+                  </button>
+                </div>
+                <div v-if="showGovernorateConnections[selectedZoneArea] !== false" class="governorate-detail-relations">
                   <button
                     v-for="option in governorateConnectionOptions"
                     :key="option.id"
@@ -11691,7 +11701,10 @@ textarea:focus-visible {
 .governorate-detail-actions h3 { margin:6px 0 5px; font-size:16px; }
 .governorate-detail-actions p { margin:0; color:#758398; font-size:9px; line-height:1.6; }
 .governorate-detail-join { width:auto; min-width:155px; border:1px solid rgba(103,164,255,.18); border-radius:9px; border-top:1px solid rgba(103,164,255,.18); }
-.governorate-connection-hint { margin-top:18px; color:#52657d; font-size:6px; font-weight:800; letter-spacing:.14em; }
+.governorate-connection-controls { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:18px; }
+.governorate-connection-hint { color:#52657d; font-size:6px; font-weight:800; letter-spacing:.14em; }
+.governorate-connection-toggle { padding:4px 7px; border:1px solid rgba(255,255,255,.07); border-radius:5px; background:rgba(255,255,255,.018); color:#61728a; font-size:6px; font-weight:800; letter-spacing:.06em; cursor:pointer; }
+.governorate-connection-toggle:hover { border-color:rgba(103,164,255,.2); color:#8fb7ee; background:rgba(74,120,194,.045); }
 .governorate-detail-relations { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin-top:8px; }
 .governorate-relation-option { display:flex; align-items:center; gap:10px; min-height:68px; padding:12px; border:1px solid rgba(255,255,255,.07); border-radius:11px; background:rgba(255,255,255,.018); color:#dce6f4; text-align:left; cursor:pointer; transition:.18s ease; }
 .governorate-relation-option:hover,.governorate-relation-option.active { border-color:rgba(103,164,255,.32); background:rgba(74,120,194,.08); }
