@@ -2232,6 +2232,27 @@ function toggleGovernorateJoin(name: string) {
   }
 }
 
+function openMyGovernorate(name: string) {
+  const area = zoneAreas.find(item => item.name === name) || availableCountryAreas.value.find(item => item.name === name)
+  selectedCountry.value = area?.country || 'Tunisia'
+  selectedZoneRegion.value = area?.region || ''
+  selectedZoneArea.value = name
+  selectedSpecificZone.value = ''
+  zonePreviewName.value = ''
+  zoneNavigationLevel.value = 'specific-zones'
+  selectedAreaImage.value = area?.image || ''
+  activeView.value = 'zones'
+  sidebarSpace.value = 'zones'
+  nextTick(() => window.scrollTo({ top: 0, behavior: 'smooth' }))
+}
+
+const myJoinedGovernorates = computed(() =>
+  joinedGovernorates.value.map(name => ({
+    name,
+    relation: governorateRelationLabel(name) || 'Connection not specified'
+  }))
+)
+
 
 function selectGovernorate(governorateName: string) {
   const governorate = availableCountryAreas.value.find(area => area.name === governorateName)
@@ -2806,6 +2827,20 @@ onBeforeUnmount(() => {
         </div>
 
         <template v-if="sidebarSpace === 'zones'">
+          <button
+            v-for="governorate in myJoinedGovernorates"
+            :key="'governorate-' + governorate.name"
+            class="mini-zone mini-governorate"
+            type="button"
+            @click="openMyGovernorate(governorate.name)"
+          >
+            <span class="mini-dot governorate-dot"></span>
+            <span class="sidebar-zone-copy">
+              <strong>{{ governorate.name }}</strong>
+              <small>{{ governorate.relation }}</small>
+            </span>
+          </button>
+
           <div v-for="zone in zones.filter(z => z.joined)" :key="zone.id" class="mini-zone" @click="openZone(zone)">
             <span class="mini-dot"></span>
             {{ zone.name }}
@@ -5069,10 +5104,10 @@ onBeforeUnmount(() => {
                     class="governorate-connection-toggle"
                     @click="showGovernorateConnections[selectedZoneArea] = !showGovernorateConnections[selectedZoneArea]"
                   >
-                    {{ showGovernorateConnections[selectedZoneArea] === false ? 'SHOW CONNECTIONS ↓' : 'HIDE CONNECTIONS ↑' }}
+                    {{ showGovernorateConnections[selectedZoneArea] ? 'HIDE CONNECTIONS ↑' : 'ADD CONNECTION ↓' }}
                   </button>
                 </div>
-                <div v-if="showGovernorateConnections[selectedZoneArea] !== false" class="governorate-detail-relations">
+                <div v-if="showGovernorateConnections[selectedZoneArea]" class="governorate-detail-relations">
                   <button
                     v-for="option in governorateConnectionOptions"
                     :key="option.id"
@@ -11701,6 +11736,12 @@ textarea:focus-visible {
 .governorate-detail-actions h3 { margin:6px 0 5px; font-size:16px; }
 .governorate-detail-actions p { margin:0; color:#758398; font-size:9px; line-height:1.6; }
 .governorate-detail-join { width:auto; min-width:155px; border:1px solid rgba(103,164,255,.18); border-radius:9px; border-top:1px solid rgba(103,164,255,.18); }
+.mini-governorate { width:100%; border:0; cursor:pointer; text-align:left; }
+.sidebar-zone-copy { display:flex; flex-direction:column; min-width:0; }
+.sidebar-zone-copy strong { font-size:7px; font-weight:700; color:#a9bdd5; }
+.sidebar-zone-copy small { margin-top:2px; font-size:5.5px; color:#627186; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.governorate-dot { background:#9b7bea; box-shadow:0 0 7px rgba(155,123,234,.35); }
+
 .governorate-connection-controls { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:18px; }
 .governorate-connection-hint { color:#52657d; font-size:6px; font-weight:800; letter-spacing:.14em; }
 .governorate-connection-toggle { padding:4px 7px; border:1px solid rgba(255,255,255,.07); border-radius:5px; background:rgba(255,255,255,.018); color:#61728a; font-size:6px; font-weight:800; letter-spacing:.06em; cursor:pointer; }
