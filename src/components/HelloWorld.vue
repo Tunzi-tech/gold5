@@ -13037,9 +13037,38 @@ textarea:focus-visible {
 
 /* Impacting: governorate Join action appears after opening the governorate */
 .governorate-detail-cover{position:relative}
-.governorate-detail-image-join{position:absolute;top:12px;right:12px;z-index:5;padding:8px 11px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:rgba(7,12,20,.76);backdrop-filter:blur(8px);color:#edf4ff;font-size:8px;font-weight:800;letter-spacing:.05em;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.22)}
-.governorate-detail-image-join:hover{background:rgba(15,25,40,.9);border-color:rgba(121,174,240,.42)}
-.governorate-detail-image-join.joined{border-color:rgba(121,174,240,.3);color:#a9c9ec;background:rgba(8,20,34,.82)}
+.governorate-detail-image-join{
+  position:absolute;
+  top:14px;
+  right:14px;
+  z-index:5;
+  min-width:92px;
+  padding:8px 12px;
+  border:1px solid rgba(220,232,248,.24);
+  border-radius:8px;
+  background:rgba(8,14,23,.82);
+  backdrop-filter:blur(10px);
+  color:#eef5ff;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  cursor:pointer;
+  box-shadow:0 8px 24px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.06);
+  transition:background .2s ease,border-color .2s ease,transform .2s ease,box-shadow .2s ease;
+}
+.governorate-detail-image-join:hover{
+  background:rgba(15,24,37,.94);
+  border-color:rgba(139,183,238,.5);
+  transform:translateY(-1px);
+  box-shadow:0 10px 28px rgba(0,0,0,.34),0 0 0 1px rgba(121,174,240,.08);
+}
+.governorate-detail-image-join:active{transform:translateY(0)}
+.governorate-detail-image-join.joined{
+  border-color:rgba(116,180,150,.38);
+  background:rgba(9,25,22,.88);
+  color:#b8dfcc;
+}
 
 </style>
 
