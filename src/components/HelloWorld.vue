@@ -4375,16 +4375,30 @@ onBeforeUnmount(() => {
         </div>
 
         <div class="zone-around-grid">
-          <article v-for="zone in zones.filter(zone => !zone.joined)" :key="zone.id" class="zone-around-card">
-            <div class="zone-around-top">
-              <span class="eyebrow">ZONE</span>
-              <span>{{ zone.members }} members</span>
+          <article v-for="zone in zones" :key="zone.id" class="zone-around-card">
+            <div class="zone-around-image" :style="{ backgroundImage: 'url(' + zone.cover + ')' }">
+              <div class="zone-around-image-overlay"></div>
+              <div class="zone-around-image-location">◉ {{ zone.location }}</div>
+              <button
+                type="button"
+                class="follow-btn zone-around-join-btn"
+                :class="{ following: zone.joined }"
+                @click="participate(zone)"
+              >
+                {{ zone.joined ? '✓ Joined' : 'Join Zone' }}
+              </button>
             </div>
-            <h3>{{ zone.name }}</h3>
-            <p>{{ zone.description }}</p>
-            <div class="zone-around-meta">
-              <span>◉ {{ zone.participants }} participants</span>
-              <button class="follow-btn" @click="participate(zone)">Join Zone</button>
+            <div class="zone-around-card-body">
+              <div class="zone-around-top">
+                <span class="eyebrow">ZONE</span>
+                <span>{{ zone.members }} members</span>
+              </div>
+              <h3>{{ zone.name }}</h3>
+              <p>{{ zone.description }}</p>
+              <div class="zone-around-meta">
+                <span>◉ {{ zone.participants }} participants</span>
+                <span v-if="zone.joined" class="zone-around-joined-note">JOINED · IN YOUR ZONES</span>
+              </div>
             </div>
           </article>
         </div>
@@ -13001,5 +13015,16 @@ textarea:focus-visible {
   font-size:5px;
   text-shadow:0 0 6px rgba(121,174,240,.35);
 }
+
+/* Zones Around: join control lives on the image */
+.zone-around-card{overflow:hidden}
+.zone-around-image{position:relative;min-height:150px;background-position:center;background-size:cover;background-repeat:no-repeat}
+.zone-around-image-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,8,15,.2),rgba(4,8,15,.68))}
+.zone-around-image-location{position:absolute;left:12px;bottom:10px;z-index:1;color:#d7e2f0;font-size:7px;font-weight:700;letter-spacing:.05em;text-shadow:0 1px 8px rgba(0,0,0,.55)}
+.zone-around-join-btn{position:absolute;top:10px;right:10px;z-index:2}
+.zone-around-join-btn.following{border-color:rgba(103,164,255,.24);background:rgba(7,14,24,.72);color:#a9c9ec}
+.zone-around-card-body{padding:13px 14px 14px}
+.zone-around-joined-note{color:#79aef0!important;font-size:6px!important;font-weight:800!important;letter-spacing:.08em}
+
 </style>
 
