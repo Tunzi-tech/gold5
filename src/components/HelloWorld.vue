@@ -5167,14 +5167,17 @@ onBeforeUnmount(() => {
             <section v-if="!zonePreviewName" class="governorate-detail-panel">
               <div class="governorate-detail-cover" :style="{ backgroundImage: 'url(' + selectedAreaImage + ')' }">
                 <div class="governorate-detail-cover-overlay"></div>
-                <button
-                  type="button"
-                  class="governorate-detail-image-join"
-                  :class="{ joined: isGovernorateJoined(selectedZoneArea) }"
-                  @click.stop="toggleGovernorateJoin(selectedZoneArea)"
-                >
-                  {{ isGovernorateJoined(selectedZoneArea) ? '✓ Joined' : '+ Join' }}
-                </button>
+                <div class="governorate-detail-join-stack">
+                  <button
+                    type="button"
+                    class="governorate-detail-image-join"
+                    :class="{ joined: isGovernorateJoined(selectedZoneArea) }"
+                    @click.stop="toggleGovernorateJoin(selectedZoneArea)"
+                  >
+                    {{ isGovernorateJoined(selectedZoneArea) ? '✓ Joined' : '+ Join' }}
+                  </button>
+                  <span class="governorate-detail-joined-count">{{ selectedZoneArea === 'Tunis North' ? '284 people joined' : selectedZoneArea === 'Tunis South' ? '197 people joined' : selectedZoneArea === 'Tunis Centre' ? '163 people joined' : '126 people joined' }}</span>
+                </div>
                 <div class="governorate-detail-heading">
                   <span class="eyebrow">CURRENT GOVERNORATE · {{ selectedZoneRegion }} TUN</span>
                   <h1>{{ selectedZoneArea }}</h1>
@@ -13033,10 +13036,12 @@ textarea:focus-visible {
 
 /* Impacting: governorate Join action appears after opening the governorate */
 .governorate-detail-cover{position:relative}
+.governorate-detail-join-stack{position:absolute;top:14px;right:14px;z-index:5;display:flex;flex-direction:column;align-items:center;gap:4px}
+.governorate-detail-joined-count{color:#d4dfed;font-size:6px;font-weight:700;letter-spacing:.04em;text-shadow:0 1px 7px rgba(0,0,0,.7);white-space:nowrap}
 .governorate-detail-image-join{
-  position:absolute;
-  top:14px;
-  right:14px;
+  position:relative;
+  top:auto;
+  right:auto;
   z-index:5;
   min-width:92px;
   padding:7px 11px;
