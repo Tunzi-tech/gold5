@@ -5153,14 +5153,6 @@ onBeforeUnmount(() => {
                   </span>
                   <b>OPEN →</b>
                 </button>
-                <button
-                  type="button"
-                  class="zone-area-image-join"
-                  :class="{ joined: isGovernorateJoined(area.name) }"
-                  @click.stop="toggleGovernorateJoin(area.name)"
-                >
-                  {{ isGovernorateJoined(area.name) ? '✓ Joined' : '+ Join' }}
-                </button>
               </article>
             </div>
           </div>
@@ -5175,6 +5167,14 @@ onBeforeUnmount(() => {
             <section v-if="!zonePreviewName" class="governorate-detail-panel">
               <div class="governorate-detail-cover" :style="{ backgroundImage: 'url(' + selectedAreaImage + ')' }">
                 <div class="governorate-detail-cover-overlay"></div>
+                <button
+                  type="button"
+                  class="governorate-detail-image-join"
+                  :class="{ joined: isGovernorateJoined(selectedZoneArea) }"
+                  @click.stop="toggleGovernorateJoin(selectedZoneArea)"
+                >
+                  {{ isGovernorateJoined(selectedZoneArea) ? '✓ Joined' : '+ Join' }}
+                </button>
                 <div class="governorate-detail-heading">
                   <span class="eyebrow">GOVERNORATE</span>
                   <h1>{{ selectedZoneArea }}</h1>
@@ -13035,12 +13035,11 @@ textarea:focus-visible {
 .zone-around-joined-note{color:#79aef0!important;font-size:6px!important;font-weight:800!important;letter-spacing:.08em}
 
 
-/* Impacting: keep the governorate Join action on the card image */
-.impacting-area-card{position:relative;overflow:hidden}
-.impacting-area-card .zone-area-open{position:relative}
-.zone-area-image-join{position:absolute;top:10px;right:10px;z-index:5;padding:7px 10px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:rgba(7,12,20,.76);backdrop-filter:blur(8px);color:#edf4ff;font-size:8px;font-weight:800;letter-spacing:.05em;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.22)}
-.zone-area-image-join:hover{background:rgba(15,25,40,.9);border-color:rgba(121,174,240,.42)}
-.zone-area-image-join.joined{border-color:rgba(121,174,240,.3);color:#a9c9ec;background:rgba(8,20,34,.82)}
+/* Impacting: governorate Join action appears after opening the governorate */
+.governorate-detail-cover{position:relative}
+.governorate-detail-image-join{position:absolute;top:12px;right:12px;z-index:5;padding:8px 11px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:rgba(7,12,20,.76);backdrop-filter:blur(8px);color:#edf4ff;font-size:8px;font-weight:800;letter-spacing:.05em;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.22)}
+.governorate-detail-image-join:hover{background:rgba(15,25,40,.9);border-color:rgba(121,174,240,.42)}
+.governorate-detail-image-join.joined{border-color:rgba(121,174,240,.3);color:#a9c9ec;background:rgba(8,20,34,.82)}
 
 </style>
 
