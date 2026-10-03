@@ -2225,11 +2225,16 @@ function isGovernorateJoined(name: string) {
 
 function toggleGovernorateJoin(name: string) {
   const index = joinedGovernorates.value.indexOf(name)
+
   if (index >= 0) {
     joinedGovernorates.value.splice(index, 1)
-  } else {
-    joinedGovernorates.value.push(name)
+    return
   }
+
+  joinedGovernorates.value.push(name)
+
+  // Joining a governorate immediately makes it visible in YOUR ZONES.
+  sidebarSpace.value = 'zones'
 }
 
 function openMyGovernorate(name: string) {
@@ -2807,7 +2812,7 @@ onBeforeUnmount(() => {
             @click="sidebarSpace = sidebarSpace === 'zones' ? 'connections' : sidebarSpace === 'networks' ? 'zones' : 'networks'"
           >
             <span class="sidebar-label">
-              {{ sidebarSpace === 'zones' ? 'MY ZONES' : sidebarSpace === 'networks' ? 'MY NETWORKS' : 'MY CONNECTIONS' }}
+              {{ sidebarSpace === 'zones' ? 'YOUR ZONES' : sidebarSpace === 'networks' ? 'YOUR NETWORKS' : 'YOUR CONNECTIONS' }}
             </span>
             <small>
               {{ sidebarSpace === 'zones'
