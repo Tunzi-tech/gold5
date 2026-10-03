@@ -13041,26 +13041,29 @@ textarea:focus-visible {
   z-index:5;
   min-width:92px;
   padding:7px 11px;
-  border:1px solid rgba(255,255,255,.07);
+  border:1px solid rgba(210,224,244,.32);
   border-radius:7px;
-  background:rgba(255,255,255,.018);
-  color:#8794a7;
+  background:#0a1220;
+  color:#eef5ff;
   font-size:7px;
-  font-weight:700;
+  font-weight:800;
   letter-spacing:.08em;
+  text-transform:uppercase;
   cursor:pointer;
+  box-shadow:0 6px 18px rgba(0,0,0,.42),0 0 0 1px rgba(0,0,0,.18);
   transition:.2s ease;
 }
 .governorate-detail-image-join:hover{
-  background:rgba(88,108,135,.28);
-  border-color:rgba(135,165,205,.34);
-  color:#dce5f1;
+  background:#111d2d;
+  border-color:rgba(151,190,236,.58);
+  color:#ffffff;
+  transform:translateY(-1px);
 }
-.governorate-detail-image-join:active{transform:translateY(1px)}
+.governorate-detail-image-join:active{transform:translateY(0)}
 .governorate-detail-image-join.joined{
-  border-color:rgba(103,164,255,.24);
-  background:rgba(7,14,24,.72);
-  color:#a9c9ec;
+  border-color:rgba(103,164,255,.42);
+  background:#0b1a2b;
+  color:#b9d7f7;
 }
 
 </style>
