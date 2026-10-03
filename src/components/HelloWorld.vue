@@ -2268,6 +2268,11 @@ function governorateRelationLabel(name: string) {
     .join(' · ')
 }
 
+function joinedZoneConnectionLabel(zone: Zone) {
+  const connection = governorateRelationLabel(zone.name)
+  return connection || 'Connection not specified'
+}
+
 function isGovernorateRelationSelected(name: string, relation: string) {
   return (governorateRelations.value[name] || []).includes(relation)
 }
@@ -5512,7 +5517,7 @@ onBeforeUnmount(() => {
           <article v-for="zone in filteredJoinedZones" :key="zone.id" class="my-zone-card">
             <div class="my-zone-card-visual" :style="{ backgroundImage: 'url(' + zone.cover + ')' }"><div class="my-zone-card-visual-overlay"></div><div class="my-zone-card-location">◉ {{ zone.location }}</div><div class="my-zone-card-status">JOINED</div></div>
             <div class="my-zone-card-body">
-              <div class="my-zone-card-title-row"><div><span class="eyebrow">{{ zone.isGovernorate ? 'GOVERNORATE' : 'ZONE' }}</span><h2>{{ zone.name }}</h2></div><button type="button" class="my-zone-open-btn" @click="zone.isGovernorate ? openMyGovernorate(zone.name) : openMyZone(zone)">OPEN <span>→</span></button></div>
+              <div class="my-zone-card-title-row"><div><span class="eyebrow">{{ zone.isGovernorate ? 'GOVERNORATE' : 'ZONE' }}</span><h2>{{ zone.name }}</h2><div class="my-zone-connection"><span class="my-zone-connection-dot">●</span><span>JOINED · {{ joinedZoneConnectionLabel(zone) }}</span></div></div><button type="button" class="my-zone-open-btn" @click="zone.isGovernorate ? openMyGovernorate(zone.name) : openMyZone(zone)">OPEN <span>→</span></button></div>
               <p class="my-zone-description">{{ zone.description }}</p>
               <div class="my-zone-signals"><div><strong>{{ zone.members }}</strong><span>members</span></div><div><strong>{{ zone.participants }}</strong><span>participating</span></div><div><strong>{{ zone.goals.length }}</strong><span>goals</span></div><div><strong>{{ zone.suggestions.length }}</strong><span>ideas</span></div></div>
               <div class="my-zone-card-footer">
@@ -12979,5 +12984,22 @@ textarea:focus-visible {
   .my-zones-filter select{max-width:125px}
 }
 
+
+.my-zone-connection{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  margin-top:4px;
+  color:#7f94ad;
+  font-size:6px;
+  font-weight:700;
+  letter-spacing:.07em;
+  text-transform:uppercase;
+}
+.my-zone-connection-dot{
+  color:#79aef0;
+  font-size:5px;
+  text-shadow:0 0 6px rgba(121,174,240,.35);
+}
 </style>
 
