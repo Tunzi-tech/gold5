@@ -5481,7 +5481,35 @@ onBeforeUnmount(() => {
               <div class="my-zone-card-title-row"><div><span class="eyebrow">{{ zone.isGovernorate ? 'GOVERNORATE' : 'ZONE' }}</span><h2>{{ zone.name }}</h2></div><button type="button" class="my-zone-open-btn" @click="zone.isGovernorate ? openMyGovernorate(zone.name) : openZone(zone)">OPEN <span>→</span></button></div>
               <p class="my-zone-description">{{ zone.description }}</p>
               <div class="my-zone-signals"><div><strong>{{ zone.members }}</strong><span>members</span></div><div><strong>{{ zone.participants }}</strong><span>participating</span></div><div><strong>{{ zone.goals.length }}</strong><span>goals</span></div><div><strong>{{ zone.suggestions.length }}</strong><span>ideas</span></div></div>
-              <div class="my-zone-card-footer"><span>{{ zone.isGovernorate ? 'People · Places · Activity' : 'People · Goals · Ideas · Places' }}</span><span class="my-zone-arrow">↗</span></div>
+              <div class="my-zone-card-footer">
+  <span>{{ zone.isGovernorate ? 'People · Places · Activity' : 'People · Goals · Ideas · Places' }}</span>
+  <span class="my-zone-arrow">↗</span>
+</div>
+<div v-if="zone.isGovernorate" class="my-zone-connection">
+  <span class="eyebrow">CONNECTION</span>
+  <div class="my-zone-connection-options">
+    <button
+      v-for="option in governorateConnectionOptions"
+      :key="zone.name + '-' + option.id"
+      type="button"
+      class="my-zone-connection-option"
+      :class="{ active: isGovernorateRelationSelected(zone.name, option.id) }"
+      :title="option.description"
+      @click.stop="setGovernorateRelation(zone.name, option.id)"
+    >
+      {{ option.icon }} {{ option.title }}
+    </button>
+  </div>
+  <div v-if="isGovernorateRelationSelected(zone.name, 'other')" class="my-zone-connection-other">
+    <input
+      v-model="governorateOtherConnections[zone.name]"
+      type="text"
+      maxlength="120"
+      placeholder="Describe your connection"
+      @click.stop
+    />
+  </div>
+</div>
             </div>
           </article>
         </div>
@@ -11794,6 +11822,14 @@ textarea:focus-visible {
 .governorate-connection-toggle { padding:4px 7px; border:1px solid rgba(255,255,255,.07); border-radius:5px; background:rgba(255,255,255,.018); color:#61728a; font-size:6px; font-weight:800; letter-spacing:.06em; cursor:pointer; }
 .governorate-connection-toggle:hover { border-color:rgba(103,164,255,.2); color:#8fb7ee; background:rgba(74,120,194,.045); }
 .governorate-detail-relations { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin-top:8px; }
+.my-zone-connection { margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,.07); }
+.my-zone-connection > .eyebrow { display:block; margin-bottom:9px; font-size:8px; letter-spacing:.16em; color:#718096; }
+.my-zone-connection-options { display:flex; flex-wrap:wrap; gap:7px; }
+.my-zone-connection-option { border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.025); color:#9aa8bb; border-radius:999px; padding:7px 10px; font-size:9px; cursor:pointer; transition:.18s ease; }
+.my-zone-connection-option:hover { border-color:rgba(103,164,255,.3); color:#dce6f4; }
+.my-zone-connection-option.active { border-color:rgba(103,164,255,.45); background:rgba(74,120,194,.12); color:#dce6f4; }
+.my-zone-connection-other { margin-top:8px; }
+.my-zone-connection-other input { width:100%; box-sizing:border-box; border:1px solid rgba(255,255,255,.08); background:rgba(0,0,0,.18); color:#dce6f4; border-radius:8px; padding:8px 10px; font-size:10px; outline:none; }
 .governorate-relation-option { display:flex; align-items:center; gap:10px; min-height:68px; padding:12px; border:1px solid rgba(255,255,255,.07); border-radius:11px; background:rgba(255,255,255,.018); color:#dce6f4; text-align:left; cursor:pointer; transition:.18s ease; }
 .governorate-relation-option:hover,.governorate-relation-option.active { border-color:rgba(103,164,255,.32); background:rgba(74,120,194,.08); }
 .governorate-relation-point { width:28px; height:28px; flex:0 0 28px; display:grid; place-items:center; border:1px solid rgba(143,183,238,.2); border-radius:50%; color:#61728a; font-size:12px; }
