@@ -194,6 +194,8 @@ const participatingEvents = ref([
   }
 ])
 const administrationUnlocked = ref(false)
+const myZonesConnectionFilter = ref('all')
+
 const administrationPassword = ref('')
 const administrationPasswordError = ref(false)
 const selectedAdminElement = ref<string | null>(null)
@@ -1928,6 +1930,17 @@ const joinedZones = computed<Zone[]>(() => {
     .filter((zone): zone is Zone => zone !== null)
 
   return [...joinedGovernorateZones, ...joinedLocalZones]
+})
+
+const filteredJoinedZones = computed<Zone[]>(() => {
+  if (myZonesConnectionFilter.value === 'all') return joinedZones.value
+
+  return joinedZones.value.filter(zone => {
+    if (!zone.isGovernorate) return myZonesConnectionFilter.value === 'unspecified'
+    const relations = governorateRelations.value[zone.name] || []
+    if (myZonesConnectionFilter.value === 'unspecified') return relations.length === 0
+    return relations.includes(myZonesConnectionFilter.value)
+  })
 })
 
 const followedCalls = computed(() => calls.value.filter(call => call.followed))
@@ -5474,8 +5487,21 @@ onBeforeUnmount(() => {
           <div class="my-zones-overview-main"><span class="eyebrow">YOUR ZONES</span><strong>{{ joinedZones.length }}</strong><span>{{ joinedZones.length === 1 ? 'place you belong to' : 'places you belong to' }}</span></div>
           <div class="my-zones-overview-note"><span class="my-zones-orbit">◉</span><div><strong>Your local layer</strong><p>Each Zone connects people, goals, ideas, places and actions around a real space.</p></div></div>
         </div>
+        <div v-if="joinedZones.length" class="my-zones-filter-row">
+          <label class="my-zones-filter">
+            <span>VIEW BY CONNECTION</span>
+            <select v-model="myZonesConnectionFilter" aria-label="Filter Your Zones by connection">
+              <option value="all">All connections</option>
+              <option v-for="option in governorateConnectionOptions" :key="'my-zones-filter-' + option.id" :value="option.id">
+                {{ option.icon }} {{ option.title }}
+              </option>
+              <option value="unspecified">◌ Connection not specified</option>
+            </select>
+          </label>
+          <span class="my-zones-filter-count">{{ filteredJoinedZones.length }} shown</span>
+        </div>
         <div v-if="joinedZones.length" class="my-zones-list">
-          <article v-for="zone in joinedZones" :key="zone.id" class="my-zone-card">
+          <article v-for="zone in filteredJoinedZones" :key="zone.id" class="my-zone-card">
             <div class="my-zone-card-visual" :style="{ backgroundImage: 'url(' + zone.cover + ')' }"><div class="my-zone-card-visual-overlay"></div><div class="my-zone-card-location">◉ {{ zone.location }}</div><div class="my-zone-card-status">JOINED</div></div>
             <div class="my-zone-card-body">
               <div class="my-zone-card-title-row"><div><span class="eyebrow">{{ zone.isGovernorate ? 'GOVERNORATE' : 'ZONE' }}</span><h2>{{ zone.name }}</h2></div><button type="button" class="my-zone-open-btn" @click="zone.isGovernorate ? openMyGovernorate(zone.name) : openZone(zone)">OPEN <span>→</span></button></div>
@@ -5485,35 +5511,12 @@ onBeforeUnmount(() => {
   <span>{{ zone.isGovernorate ? 'People · Places · Activity' : 'People · Goals · Ideas · Places' }}</span>
   <span class="my-zone-arrow">↗</span>
 </div>
-<div v-if="zone.isGovernorate" class="my-zone-connection">
-  <span class="eyebrow">CONNECTION</span>
-  <div class="my-zone-connection-options">
-    <button
-      v-for="option in governorateConnectionOptions"
-      :key="zone.name + '-' + option.id"
-      type="button"
-      class="my-zone-connection-option"
-      :class="{ active: isGovernorateRelationSelected(zone.name, option.id) }"
-      :title="option.description"
-      @click.stop="setGovernorateRelation(zone.name, option.id)"
-    >
-      {{ option.icon }} {{ option.title }}
-    </button>
-  </div>
-  <div v-if="isGovernorateRelationSelected(zone.name, 'other')" class="my-zone-connection-other">
-    <input
-      v-model="governorateOtherConnections[zone.name]"
-      type="text"
-      maxlength="120"
-      placeholder="Describe your connection"
-      @click.stop
-    />
-  </div>
-</div>
+
             </div>
           </article>
         </div>
-        <div v-else class="my-zones-empty"><div class="my-zones-empty-orbit">◉</div><span class="eyebrow">YOUR ZONES</span><h2>You haven't joined a Zone yet.</h2><p>Explore the Zones around you and choose the places where you want to participate.</p><button type="button" class="primary-btn" @click="navigate('around-zones')">EXPLORE ZONES AROUND →</button></div>
+        <div v-if="joinedZones.length && !filteredJoinedZones.length" class="my-zones-empty my-zones-filter-empty"><div class="my-zones-empty-orbit">◌</div><span class="eyebrow">YOUR ZONES</span><h2>No Zones match this connection.</h2><p>Choose another connection or add one from the Zone where you are connected.</p><button type="button" class="ghost-btn" @click="myZonesConnectionFilter = 'all'">SHOW ALL ZONES</button></div>
+        <div v-else-if="!joinedZones.length" class="my-zones-empty"><div class="my-zones-empty-orbit">◉</div><span class="eyebrow">YOUR ZONES</span><h2>You haven't joined a Zone yet.</h2><p>Explore the Zones around you and choose the places where you want to participate.</p><button type="button" class="primary-btn" @click="navigate('around-zones')">EXPLORE ZONES AROUND →</button></div>
       </section>
 
 <!-- =================================================
@@ -12918,5 +12921,55 @@ textarea:focus-visible {
 .network-flow-stage{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;padding:28px 18px;border:1px solid rgba(255,255,255,.06);border-radius:14px;background:radial-gradient(circle at center,rgba(54,83,124,.09),rgba(8,13,21,.65) 62%);overflow:auto}.flow-column{display:grid;gap:7px;min-width:105px}.flow-label{margin-bottom:2px;color:#56677d;font-size:6px;font-weight:800;letter-spacing:.13em;text-align:center}.flow-node{padding:9px 8px;border:1px solid rgba(255,255,255,.055);border-radius:8px;background:rgba(255,255,255,.018);color:#8495aa;font-size:7px;text-align:center;white-space:nowrap;animation:live-flow-node 3.2s ease-in-out infinite}.flow-node.highlighted{border-color:rgba(103,164,255,.16);background:rgba(74,120,194,.07);color:#a9c8ea}.flow-arrow{color:#506782;font-size:16px;animation:live-flow-arrow 2.2s ease-in-out infinite}.flow-footer{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.flow-footer>div{padding:13px 15px;border:1px solid rgba(255,255,255,.05);border-radius:10px;background:rgba(255,255,255,.015)}.flow-footer span{display:block;color:#56677d;font-size:5px;font-weight:800;letter-spacing:.12em}.flow-footer strong{display:block;margin-top:5px;color:#9badc2;font-size:8px;font-weight:600}.flow-signal{min-width:180px}
 @keyframes live-flow-node{0%,100%{transform:translateY(0);opacity:.82}50%{transform:translateY(-2px);opacity:1}}@keyframes live-flow-arrow{0%,100%{opacity:.4;transform:translateX(0)}50%{opacity:1;transform:translateX(3px)}}
 @media(max-width:800px){.live-engagement-hero{align-items:flex-start;flex-direction:column}.live-engagement-signal{width:100%;text-align:left}.live-engagement-grid,.forming-action-card{grid-template-columns:1fr}.forming-action-side{border-left:0;border-top:1px solid rgba(255,255,255,.055)}.network-flow-stage{justify-content:flex-start}.flow-footer{grid-template-columns:1fr}}
+
+/* Compact Your Zones connection filter */
+.my-zones-filter-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin:10px 0 12px;
+}
+.my-zones-filter{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:4px 7px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:7px;
+  background:rgba(255,255,255,.018);
+}
+.my-zones-filter span{
+  color:#66768b;
+  font-size:5px;
+  font-weight:800;
+  letter-spacing:.12em;
+  white-space:nowrap;
+}
+.my-zones-filter select{
+  max-width:145px;
+  padding:3px 20px 3px 4px;
+  border:0;
+  outline:0;
+  border-radius:4px;
+  background:#111a27;
+  color:#9eb2ca;
+  font-size:7px;
+  font-weight:700;
+  cursor:pointer;
+}
+.my-zones-filter select:focus{box-shadow:0 0 0 1px rgba(103,164,255,.25)}
+.my-zones-filter-count{
+  color:#56677d;
+  font-size:6px;
+  font-weight:700;
+  letter-spacing:.06em;
+}
+.my-zones-filter-empty{margin-top:12px}
+@media(max-width:600px){
+  .my-zones-filter-row{margin-top:8px}
+  .my-zones-filter{max-width:100%}
+  .my-zones-filter select{max-width:125px}
+}
+
 </style>
 
