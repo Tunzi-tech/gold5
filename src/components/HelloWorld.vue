@@ -2303,6 +2303,14 @@ function openMyGovernorate(name: string) {
   sidebarSpace.value = 'zones'
   nextTick(() => window.scrollTo({ top: 0, behavior: 'smooth' }))
 }
+function openMyZone(zone: Zone) {
+  selectedZone.value = zone
+  activeView.value = 'zone'
+  activeZoneTab.value = 'overview'
+  sidebarSpace.value = 'zones'
+  nextTick(() => window.scrollTo({ top: 0, behavior: 'smooth' }))
+}
+
 
 const myJoinedGovernorates = computed(() =>
   joinedGovernorates.value.map(name => ({
@@ -5504,7 +5512,7 @@ onBeforeUnmount(() => {
           <article v-for="zone in filteredJoinedZones" :key="zone.id" class="my-zone-card">
             <div class="my-zone-card-visual" :style="{ backgroundImage: 'url(' + zone.cover + ')' }"><div class="my-zone-card-visual-overlay"></div><div class="my-zone-card-location">◉ {{ zone.location }}</div><div class="my-zone-card-status">JOINED</div></div>
             <div class="my-zone-card-body">
-              <div class="my-zone-card-title-row"><div><span class="eyebrow">{{ zone.isGovernorate ? 'GOVERNORATE' : 'ZONE' }}</span><h2>{{ zone.name }}</h2></div><button type="button" class="my-zone-open-btn" @click="zone.isGovernorate ? openMyGovernorate(zone.name) : openZone(zone)">OPEN <span>→</span></button></div>
+              <div class="my-zone-card-title-row"><div><span class="eyebrow">{{ zone.isGovernorate ? 'GOVERNORATE' : 'ZONE' }}</span><h2>{{ zone.name }}</h2></div><button type="button" class="my-zone-open-btn" @click="zone.isGovernorate ? openMyGovernorate(zone.name) : openMyZone(zone)">OPEN <span>→</span></button></div>
               <p class="my-zone-description">{{ zone.description }}</p>
               <div class="my-zone-signals"><div><strong>{{ zone.members }}</strong><span>members</span></div><div><strong>{{ zone.participants }}</strong><span>participating</span></div><div><strong>{{ zone.goals.length }}</strong><span>goals</span></div><div><strong>{{ zone.suggestions.length }}</strong><span>ideas</span></div></div>
               <div class="my-zone-card-footer">
