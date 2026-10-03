@@ -5177,7 +5177,6 @@ onBeforeUnmount(() => {
                     {{ isGovernorateJoined(selectedZoneArea) ? '✓ Joined' : '+ Join' }}
                   </button>
                   <span class="governorate-detail-joined-count">{{ selectedZoneArea === 'Tunis North' ? '284 people joined' : selectedZoneArea === 'Tunis South' ? '197 people joined' : selectedZoneArea === 'Tunis Centre' ? '163 people joined' : '126 people joined' }}</span>
-
                 </div>
                 <div class="governorate-detail-heading">
                   <span class="eyebrow">CURRENT GOVERNORATE · {{ selectedZoneRegion }} TUN</span>
@@ -13037,10 +13036,8 @@ textarea:focus-visible {
 
 /* Impacting: governorate Join action appears after opening the governorate */
 .governorate-detail-cover{position:relative}
-  50%{transform:scale(1.35);opacity:1}
-}
 .governorate-detail-join-stack{position:absolute;top:14px;right:14px;z-index:5;display:flex;flex-direction:column;align-items:center;gap:4px}
-.governorate-detail-joined-count{color:#d4dfed;font-size:6px;font-weight:700;letter-spacing:.04em;text-shadow:0 1px 7px rgba(0,0,0,.7);white-space:nowrap}
+.governorate-detail-joined-count{display:inline-flex;align-items:center;justify-content:center;min-height:16px;padding:0 7px;border:1px solid rgba(157,190,225,.22);border-radius:999px;background:rgba(7,15,27,.78);color:#b9cde3;font-size:6px;font-weight:800;letter-spacing:.05em;text-shadow:0 1px 7px rgba(0,0,0,.7);white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.05)}
 .governorate-detail-image-join{
   position:relative;
   top:auto;
