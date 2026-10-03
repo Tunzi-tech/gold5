@@ -5177,6 +5177,7 @@ onBeforeUnmount(() => {
                     {{ isGovernorateJoined(selectedZoneArea) ? '✓ Joined' : '+ Join' }}
                   </button>
                   <span class="governorate-detail-joined-count">{{ selectedZoneArea === 'Tunis North' ? '284 people joined' : selectedZoneArea === 'Tunis South' ? '197 people joined' : selectedZoneArea === 'Tunis Centre' ? '163 people joined' : '126 people joined' }}</span>
+                  <span class="governorate-detail-live"><i></i> ACTIVE NOW</span>
                 </div>
                 <div class="governorate-detail-heading">
                   <span class="eyebrow">CURRENT GOVERNORATE · {{ selectedZoneRegion }} TUN</span>
@@ -13035,7 +13036,45 @@ textarea:focus-visible {
 
 
 /* Impacting: governorate Join action appears after opening the governorate */
-.governorate-detail-cover{position:relative}
+.governorate-detail-cover{position:relative;overflow:hidden}
+.governorate-detail-cover::after{
+  content:'';
+  position:absolute;
+  inset:-30%;
+  z-index:1;
+  pointer-events:none;
+  background:linear-gradient(115deg,transparent 35%,rgba(150,198,255,.055) 48%,rgba(255,255,255,.08) 50%,rgba(150,198,255,.035) 53%,transparent 66%);
+  transform:translateX(-38%) rotate(8deg);
+  animation:governorate-cover-flow 8s ease-in-out infinite;
+}
+.governorate-detail-heading,.governorate-detail-join-stack{z-index:2}
+.governorate-detail-live{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  color:#7ca9d7;
+  font-size:5px;
+  font-weight:800;
+  letter-spacing:.11em;
+  white-space:nowrap;
+}
+.governorate-detail-live i{
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  background:#72c5a0;
+  box-shadow:0 0 7px rgba(114,197,160,.65);
+  animation:governorate-live-pulse 1.8s ease-in-out infinite;
+}
+@keyframes governorate-cover-flow{
+  0%,25%{transform:translateX(-38%) rotate(8deg);opacity:0}
+  45%{opacity:1}
+  70%,100%{transform:translateX(38%) rotate(8deg);opacity:0}
+}
+@keyframes governorate-live-pulse{
+  0%,100%{transform:scale(.75);opacity:.55}
+  50%{transform:scale(1.35);opacity:1}
+}
 .governorate-detail-join-stack{position:absolute;top:14px;right:14px;z-index:5;display:flex;flex-direction:column;align-items:center;gap:4px}
 .governorate-detail-joined-count{color:#d4dfed;font-size:6px;font-weight:700;letter-spacing:.04em;text-shadow:0 1px 7px rgba(0,0,0,.7);white-space:nowrap}
 .governorate-detail-image-join{
