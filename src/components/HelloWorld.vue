@@ -5176,7 +5176,7 @@ onBeforeUnmount(() => {
                   {{ isGovernorateJoined(selectedZoneArea) ? '✓ Joined' : '+ Join' }}
                 </button>
                 <div class="governorate-detail-heading">
-                  <span class="eyebrow">GOVERNORATE</span>
+                  <span class="eyebrow">CURRENT GOVERNORATE · {{ selectedZoneRegion }} TUN</span>
                   <h1>{{ selectedZoneArea }}</h1>
                   <p>{{ zoneAreas.find(area => area.name === selectedZoneArea)?.description }}</p>
                 </div>
@@ -5328,7 +5328,6 @@ onBeforeUnmount(() => {
                 </div>
               </div>
             </div>
-            <div v-else-if="selectedZoneArea" class="selected-area-hero" :style="{ backgroundImage: 'url(' + selectedAreaImage + ')' }"><div class="selected-area-hero-overlay"></div><div class="selected-area-hero-content"><span class="eyebrow">CURRENT GOVERNORATE · {{ selectedZoneRegion }} TUNISIA</span><h2>{{ selectedZoneArea }}</h2><p>Choose a specific zone inside this governorate.</p></div></div>
             <section v-if="!zonePreviewName && zoneNavigationLevel === 'governorates'" class="specific-zone-directory">
               <div class="zone-selection-heading compact"><div><span class="eyebrow">GOVERNORATES</span><h2>Governorates in {{ selectedZoneRegion }}.</h2><p>Each governorate stays inside its geographic region.</p></div><span class="zone-selection-note">{{ zoneAreas.filter(area => area.region === selectedZoneRegion).length }} GOVERNORATES</span></div>
               <div class="zone-area-grid">
