@@ -5142,7 +5142,7 @@ onBeforeUnmount(() => {
               <article
                 v-for="area in availableCountryAreas.filter(area => selectedCountry !== 'Tunisia' || selectedGovernorateRegion === 'All' || area.region === selectedGovernorateRegion)"
                 :key="selectedCountry + '-' + area.name"
-                class="zone-area-card zone-area-card-joinable"
+                class="zone-area-card zone-area-card-joinable impacting-area-card"
               >
                 <button type="button" class="zone-area-open" @click="selectGovernorate(area.name)">
                   <span class="zone-area-image" :style="{ backgroundImage: 'url(' + area.image + ')' }"></span>
@@ -5152,6 +5152,14 @@ onBeforeUnmount(() => {
                     <small>{{ area.members }} members · {{ selectedCountry }}</small>
                   </span>
                   <b>OPEN →</b>
+                </button>
+                <button
+                  type="button"
+                  class="zone-area-image-join"
+                  :class="{ joined: isGovernorateJoined(area.name) }"
+                  @click.stop="toggleGovernorateJoin(area.name)"
+                >
+                  {{ isGovernorateJoined(area.name) ? '✓ Joined' : '+ Join' }}
                 </button>
               </article>
             </div>
@@ -13025,6 +13033,14 @@ textarea:focus-visible {
 .zone-around-join-btn.following{border-color:rgba(103,164,255,.24);background:rgba(7,14,24,.72);color:#a9c9ec}
 .zone-around-card-body{padding:13px 14px 14px}
 .zone-around-joined-note{color:#79aef0!important;font-size:6px!important;font-weight:800!important;letter-spacing:.08em}
+
+
+/* Impacting: keep the governorate Join action on the card image */
+.impacting-area-card{position:relative;overflow:hidden}
+.impacting-area-card .zone-area-open{position:relative}
+.zone-area-image-join{position:absolute;top:10px;right:10px;z-index:5;padding:7px 10px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:rgba(7,12,20,.76);backdrop-filter:blur(8px);color:#edf4ff;font-size:8px;font-weight:800;letter-spacing:.05em;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.22)}
+.zone-area-image-join:hover{background:rgba(15,25,40,.9);border-color:rgba(121,174,240,.42)}
+.zone-area-image-join.joined{border-color:rgba(121,174,240,.3);color:#a9c9ec;background:rgba(8,20,34,.82)}
 
 </style>
 
