@@ -671,7 +671,21 @@ const selectedZoneArea = ref('')
 const selectedSpecificZone = ref('')
 const selectedGovernorateRegion = ref('All')
 const joinedGovernorates = ref<string[]>([])
-const governorateRelations = ref<Record<string, string>>({})
+const governorateRelations = ref<Record<string, string[]>>({})
+const governorateOtherConnections = ref<Record<string, string>>({})
+const governorateConnectionOptions = [
+  { id: 'live', icon: '🏠', title: 'I live here', description: 'My home is here.' },
+  { id: 'work', icon: '💼', title: 'I work here', description: 'My workplace or professional activity is here.' },
+  { id: 'study', icon: '🎓', title: 'I study here', description: 'I attend a school, university, training, etc.' },
+  { id: 'family', icon: '👨‍👩‍👧', title: 'My family is here', description: 'Family or close relatives are here.' },
+  { id: 'participate', icon: '🤝', title: 'I participate here', description: 'I take part in local communities, groups or activities.' },
+  { id: 'impact', icon: '🌱', title: 'I impact here', description: 'I am already involved in an initiative, project or action.' },
+  { id: 'organization', icon: '🏢', title: 'My organization is here', description: 'My business, association, NGO, institution, etc. is here.' },
+  { id: 'time', icon: '📍', title: 'I spend time here', description: 'I regularly visit or move through the governorate.' },
+  { id: 'care', icon: '❤️', title: 'I care about this place', description: 'I do not necessarily live here, but I want to contribute.' },
+  { id: 'discover', icon: '🔎', title: "I'm discovering it", description: "I don't have a strong connection yet; I'm exploring." },
+  { id: 'other', icon: '✨', title: 'Something else', description: 'My connection is different.' }
+]
 const selectedGovernoratePrompt = ref('What could become possible here?')
 const governoratePrompts = [
   {
@@ -2180,19 +2194,28 @@ function selectGovernorateRegion(regionName: string) {
   selectedGovernorateRegion.value = regionName
 }
 
-function setGovernorateRelation(name: string, relation: 'home' | 'family' | 'other') {
+function setGovernorateRelation(name: string, relation: string) {
+  const current = governorateRelations.value[name] || []
+  const next = current.includes(relation)
+    ? current.filter(item => item !== relation)
+    : [...current, relation]
+
   governorateRelations.value = {
     ...governorateRelations.value,
-    [name]: governorateRelations.value[name] === relation ? '' : relation
+    [name]: next
   }
 }
 
 function governorateRelationLabel(name: string) {
-  const relation = governorateRelations.value[name]
-  if (relation === 'home') return 'Where I live'
-  if (relation === 'family') return 'Family lives here'
-  if (relation === 'other') return 'I have a connection'
-  return ''
+  const selected = governorateRelations.value[name] || []
+  return governorateConnectionOptions
+    .filter(option => selected.includes(option.id))
+    .map(option => option.title)
+    .join(' · ')
+}
+
+function isGovernorateRelationSelected(name: string, relation: string) {
+  return (governorateRelations.value[name] || []).includes(relation)
 }
 
 function isGovernorateJoined(name: string) {
@@ -5032,22 +5055,38 @@ onBeforeUnmount(() => {
                   <div>
                     <span class="eyebrow">YOUR CONNECTION</span>
                     <h3>How are you connected to {{ selectedZoneArea }}?</h3>
-                    <p>Select one point to describe your relationship with this governorate.</p>
+                    <p>Select all the points that describe your relationship with this governorate.</p>
                   </div>
                   <button type="button" class="zone-join-btn governorate-detail-join" :class="{ joined: isGovernorateJoined(selectedZoneArea) }" @click="toggleGovernorateJoin(selectedZoneArea)">
                     {{ isGovernorateJoined(selectedZoneArea) ? '✓ Joined' : '+ Join Governorate' }}
                   </button>
                 </div>
+                <div class="governorate-connection-hint">SELECT ALL THAT APPLY</div>
                 <div class="governorate-detail-relations">
-                  <button type="button" class="governorate-relation-option" :class="{ active: governorateRelations[selectedZoneArea] === 'home' }" @click="setGovernorateRelation(selectedZoneArea, 'home')">
-                    <span class="governorate-relation-point">●</span><span><strong>Where I live</strong><small>This is where I live</small></span>
+                  <button
+                    v-for="option in governorateConnectionOptions"
+                    :key="option.id"
+                    type="button"
+                    class="governorate-relation-option"
+                    :class="{ active: isGovernorateRelationSelected(selectedZoneArea, option.id) }"
+                    @click="setGovernorateRelation(selectedZoneArea, option.id)"
+                  >
+                    <span class="governorate-relation-point">{{ option.icon }}</span>
+                    <span>
+                      <strong>{{ option.title }}</strong>
+                      <small>{{ option.description }}</small>
+                    </span>
                   </button>
-                  <button type="button" class="governorate-relation-option" :class="{ active: governorateRelations[selectedZoneArea] === 'family' }" @click="setGovernorateRelation(selectedZoneArea, 'family')">
-                    <span class="governorate-relation-point">●</span><span><strong>Family lives here</strong><small>A family member lives here</small></span>
-                  </button>
-                  <button type="button" class="governorate-relation-option" :class="{ active: governorateRelations[selectedZoneArea] === 'other' }" @click="setGovernorateRelation(selectedZoneArea, 'other')">
-                    <span class="governorate-relation-point">●</span><span><strong>Another connection</strong><small>I have another connection here</small></span>
-                  </button>
+                </div>
+                <div v-if="isGovernorateRelationSelected(selectedZoneArea, 'other')" class="governorate-other-connection">
+                  <label for="governorate-other-connection">Tell us what connects you to this place.</label>
+                  <input
+                    id="governorate-other-connection"
+                    v-model="governorateOtherConnections[selectedZoneArea]"
+                    type="text"
+                    maxlength="120"
+                    placeholder="e.g. I have a personal history here"
+                  />
                 </div>
                 <div v-if="governorateRelationLabel(selectedZoneArea)" class="governorate-selected-relation">
                   Selected: {{ governorateRelationLabel(selectedZoneArea) }}
@@ -11652,15 +11691,22 @@ textarea:focus-visible {
 .governorate-detail-actions h3 { margin:6px 0 5px; font-size:16px; }
 .governorate-detail-actions p { margin:0; color:#758398; font-size:9px; line-height:1.6; }
 .governorate-detail-join { width:auto; min-width:155px; border:1px solid rgba(103,164,255,.18); border-radius:9px; border-top:1px solid rgba(103,164,255,.18); }
-.governorate-detail-relations { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin-top:18px; }
-.governorate-relation-option { display:flex; align-items:center; gap:10px; padding:13px; border:1px solid rgba(255,255,255,.07); border-radius:11px; background:rgba(255,255,255,.018); color:#dce6f4; text-align:left; cursor:pointer; }
+.governorate-connection-hint { margin-top:18px; color:#52657d; font-size:6px; font-weight:800; letter-spacing:.14em; }
+.governorate-detail-relations { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin-top:8px; }
+.governorate-relation-option { display:flex; align-items:center; gap:10px; min-height:68px; padding:12px; border:1px solid rgba(255,255,255,.07); border-radius:11px; background:rgba(255,255,255,.018); color:#dce6f4; text-align:left; cursor:pointer; transition:.18s ease; }
 .governorate-relation-option:hover,.governorate-relation-option.active { border-color:rgba(103,164,255,.32); background:rgba(74,120,194,.08); }
-.governorate-relation-point { width:24px; height:24px; display:grid; place-items:center; border:1px solid rgba(143,183,238,.2); border-radius:50%; color:#61728a; font-size:9px; }
-.governorate-relation-option.active .governorate-relation-point { color:#9fc4f8; border-color:rgba(143,183,238,.5); }
+.governorate-relation-point { width:28px; height:28px; flex:0 0 28px; display:grid; place-items:center; border:1px solid rgba(143,183,238,.2); border-radius:50%; color:#61728a; font-size:12px; }
+.governorate-relation-option.active .governorate-relation-point { color:#9fc4f8; border-color:rgba(143,183,238,.5); box-shadow:0 0 9px rgba(103,164,255,.12); }
 .governorate-relation-option strong,.governorate-relation-option small { display:block; }
-.governorate-relation-option strong { font-size:10px; }
-.governorate-relation-option small { margin-top:4px; color:#69778c; font-size:8px; }
-.governorate-selected-relation { margin-top:12px; color:#8fb7ee; font-size:9px; }
+.governorate-relation-option strong { font-size:9px; }
+.governorate-relation-option small { margin-top:4px; color:#69778c; font-size:7px; line-height:1.35; }
+.governorate-other-connection { display:grid; gap:6px; margin-top:10px; }
+.governorate-other-connection label { color:#687990; font-size:7px; }
+.governorate-other-connection input { width:100%; box-sizing:border-box; padding:10px 11px; border:1px solid rgba(103,164,255,.13); border-radius:8px; outline:none; background:rgba(255,255,255,.025); color:#dce6f4; font:inherit; font-size:8px; }
+.governorate-other-connection input:focus { border-color:rgba(103,164,255,.32); background:rgba(74,120,194,.05); }
+.governorate-selected-relation { margin-top:12px; color:#8fb7ee; font-size:8px; line-height:1.5; }
+@media(max-width:800px){.governorate-detail-relations{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.governorate-detail-relations{grid-template-columns:1fr}}
 
 .zone-area-card-joinable {
   display:flex;
