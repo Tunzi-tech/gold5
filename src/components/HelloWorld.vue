@@ -4927,6 +4927,10 @@ onBeforeUnmount(() => {
 
         <section class="zone-navigation-space">
           <div v-if="zoneNavigationLevel === 'governorates' && !zonePreviewName" class="zone-area-selection">
+            <div class="zone-discovery-note">
+              <span class="zone-discovery-note-icon" aria-hidden="true">◉</span>
+              <span>Every region you join will be added to <strong>Your Zones</strong>, making it easier to find and impact faster.</span>
+            </div>
             <div class="zone-selection-heading">
               <div>
                 <span class="eyebrow">GOVERNORATES</span>
@@ -8528,6 +8532,26 @@ textarea:focus-visible {
 .specific-zone-directory {
   margin-bottom: 30px;
 }
+
+.zone-discovery-note {
+  position: relative;
+  margin: 0 0 10px auto;
+  max-width: 270px;
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 7px 9px;
+  border: 1px solid rgba(103,164,255,.12);
+  border-radius: 8px;
+  background: rgba(10,17,28,.72);
+  color: #718198;
+  font-size: 8px;
+  line-height: 1.45;
+  letter-spacing: .01em;
+  box-shadow: 0 6px 18px rgba(0,0,0,.12);
+}
+.zone-discovery-note strong { color: #a9bdd5; font-weight: 700; }
+.zone-discovery-note-icon { flex: 0 0 auto; margin-top: 1px; color: #6fa8ff; font-size: 8px; text-shadow: 0 0 7px rgba(111,168,255,.35); }
 
 .zone-selection-heading {
   display: flex;
