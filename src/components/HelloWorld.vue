@@ -5188,9 +5188,6 @@ onBeforeUnmount(() => {
                     <h3>How are you connected to {{ selectedZoneArea }}?</h3>
                     <p>Select all the points that describe your relationship with this governorate.</p>
                   </div>
-                  <button type="button" class="zone-join-btn governorate-detail-join" :class="{ joined: isGovernorateJoined(selectedZoneArea) }" @click="toggleGovernorateJoin(selectedZoneArea)">
-                    {{ isGovernorateJoined(selectedZoneArea) ? '✓ Joined' : '+ Join Governorate' }}
-                  </button>
                 </div>
                 <div class="governorate-connection-controls">
                   <div class="governorate-connection-hint">SELECT ALL THAT APPLY</div>
@@ -13043,31 +13040,27 @@ textarea:focus-visible {
   right:14px;
   z-index:5;
   min-width:92px;
-  padding:8px 12px;
-  border:1px solid rgba(220,232,248,.24);
-  border-radius:8px;
-  background:rgba(8,14,23,.82);
-  backdrop-filter:blur(10px);
-  color:#eef5ff;
-  font-size:9px;
+  padding:7px 11px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:7px;
+  background:rgba(255,255,255,.018);
+  color:#8794a7;
+  font-size:7px;
   font-weight:700;
   letter-spacing:.08em;
-  text-transform:uppercase;
   cursor:pointer;
-  box-shadow:0 8px 24px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.06);
-  transition:background .2s ease,border-color .2s ease,transform .2s ease,box-shadow .2s ease;
+  transition:.2s ease;
 }
 .governorate-detail-image-join:hover{
-  background:rgba(15,24,37,.94);
-  border-color:rgba(139,183,238,.5);
-  transform:translateY(-1px);
-  box-shadow:0 10px 28px rgba(0,0,0,.34),0 0 0 1px rgba(121,174,240,.08);
+  background:rgba(88,108,135,.28);
+  border-color:rgba(135,165,205,.34);
+  color:#dce5f1;
 }
-.governorate-detail-image-join:active{transform:translateY(0)}
+.governorate-detail-image-join:active{transform:translateY(1px)}
 .governorate-detail-image-join.joined{
-  border-color:rgba(116,180,150,.38);
-  background:rgba(9,25,22,.88);
-  color:#b8dfcc;
+  border-color:rgba(103,164,255,.24);
+  background:rgba(7,14,24,.72);
+  color:#a9c9ec;
 }
 
 </style>
