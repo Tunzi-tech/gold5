@@ -2152,6 +2152,17 @@ function disconnect() {
   selectedEntity.value = null
 }
 
+function getPlaceConnectionReasons(place: Entity) {
+  const reasons: string[] = ['INSIDE YOUR ZONE']
+
+  if (place.relatedCalls.length) reasons.push('CONNECTED TO A CALL')
+  if (place.relatedPages.length) reasons.push('CONNECTED TO A NETWORK')
+  if (place.identified) reasons.push('YOU IDENTIFIED IT')
+  if (place.myReview) reasons.push('YOU REVIEWED IT')
+
+  return reasons
+}
+
 function navigate(view: string) {
   activeView.value = view
   selectedZone.value = null
@@ -2923,10 +2934,13 @@ onBeforeUnmount(() => {
             + Create zone
           </button>
 
-          <div class="sidebar-space-hint">
-            <strong>Keep exploring your places.</strong>
-            <span>Next: build or discover the networks working around them.</span>
-          </div>
+          <button type="button" class="sidebar-space-hint" @click="navigate('places')">
+            <span class="sidebar-space-hint-top">
+              <strong>Keep exploring your places.</strong>
+              <span class="sidebar-space-hint-arrow">→</span>
+            </span>
+            <span>Places connected to your Zones, your activity and the things happening around them.</span>
+          </button>
         </template>
 
         <template v-else-if="sidebarSpace === 'networks'">
@@ -4990,6 +5004,11 @@ onBeforeUnmount(() => {
                 <span class="place-info">
                   <strong>{{ place.name }}</strong>
                   <small>{{ place.location }}</small>
+                  <span class="place-connection-list">
+                    <span v-for="reason in getPlaceConnectionReasons(place)" :key="reason" class="place-connection-chip">
+                      {{ reason }}
+                    </span>
+                  </span>
                 </span>
                 <span class="place-arrow">→</span>
               </button>
@@ -11678,6 +11697,8 @@ textarea:focus-visible {
 }
 .places-zone-card p { color:#8997aa; line-height:1.55; }
 .places-zone-count { color:#8fb7ee; font-size:11px; white-space:nowrap; }
+.place-connection-list{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px}
+.place-connection-chip{padding:2px 4px;border:1px solid rgba(121,174,240,.09);border-radius:4px;color:#7189a4;font-size:5px;font-weight:800;letter-spacing:.05em}
 .places-list { display:grid; gap:7px; margin-top:15px; }
 .place-row {
   width:100%;
@@ -12121,14 +12142,28 @@ textarea:focus-visible {
 }
 
 .sidebar-space-hint {
-  display: grid;
-  gap: 3px;
-  margin: 9px 3px 3px;
-  padding: 8px 9px;
-  border: 1px solid rgba(103,164,255,.055);
-  border-radius: 8px;
-  background: rgba(74,120,194,.025);
+  width:100%;
+  display:grid;
+  gap:4px;
+  margin:9px 3px 3px;
+  padding:8px 9px;
+  border:1px solid rgba(103,164,255,.08);
+  border-radius:8px;
+  background:rgba(74,120,194,.025);
+  text-align:left;
+  cursor:pointer;
+  transition:.2s ease;
 }
+.sidebar-space-hint:hover{
+  border-color:rgba(103,164,255,.18);
+  background:rgba(74,120,194,.055);
+}
+.sidebar-space-hint-top{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.sidebar-space-hint strong{color:#9bb4d2;font-size:7px;font-weight:700}
+.sidebar-space-hint-arrow{color:#f0a45d;font-size:10px;transition:transform .2s ease}
+.sidebar-space-hint:hover .sidebar-space-hint-arrow{transform:translateX(2px)}
+.sidebar-space-hint>span:last-child{color:#63748a;font-size:7px;line-height:1.45}
+
 
 .sidebar-space-hint strong {
   color: #8199b7;
