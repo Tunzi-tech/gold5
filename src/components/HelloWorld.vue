@@ -5820,7 +5820,7 @@ onBeforeUnmount(() => {
                   <button type="button" class="create-action-card" @click="showCreateSuggestion = true">
                     <span class="create-action-icon">+</span>
                     <span>
-                      <strong>CREATE AN ACTION</strong>
+                      <strong>CREATE AN ACTION · IN {{ selectedZoneArea.toUpperCase() }}</strong>
                       <small>Turn an idea for {{ selectedZoneArea }} into something people can respond to.</small>
                     </span>
                     <b>START →</b>
@@ -5865,23 +5865,6 @@ onBeforeUnmount(() => {
                         <p>Posts, suggestions, questions and local possibilities can be discussed here.</p>
                       </div>
                       <span class="zone-posts-live"><i></i> LIVE IN ZONE</span>
-                    </div>
-
-                    <div class="zone-post-composer">
-                      <div class="zone-post-composer-avatar">YO</div>
-                      <div class="zone-post-composer-main">
-                        <textarea
-                          v-model="zonePostDraft"
-                          :placeholder="'Share something you noticed, an idea or a question about ' + selectedZoneArea + '...'"
-                          rows="2"
-                        ></textarea>
-                        <div class="zone-post-composer-footer">
-                          <span>POSTING IN · {{ selectedZoneArea.toUpperCase() }}</span>
-                          <button type="button" class="zone-post-publish" :disabled="!zonePostDraft.trim()" @click="publishZonePost">
-                            POST →
-                          </button>
-                        </div>
-                      </div>
                     </div>
 
                     <div class="zone-post-filters">
@@ -5958,6 +5941,23 @@ onBeforeUnmount(() => {
                 </div>
 
                 <aside class="governorate-engagement">
+                  <div class="zone-post-composer zone-post-composer-top">
+                    <div class="zone-post-composer-avatar">YO</div>
+                    <div class="zone-post-composer-main">
+                      <textarea
+                        v-model="zonePostDraft"
+                        :placeholder="'Share something you noticed, an idea or a question about ' + selectedZoneArea + '...'"
+                        rows="2"
+                      ></textarea>
+                      <div class="zone-post-composer-footer">
+                        <span>POSTING IN · {{ selectedZoneArea.toUpperCase() }}</span>
+                        <button type="button" class="zone-post-publish" :disabled="!zonePostDraft.trim()" @click="publishZonePost">
+                          POST →
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
                   <div class="governorate-engagement-top">
                     <span class="eyebrow">LOCAL POSSIBILITY</span>
                     <span class="zone-selection-note">{{ selectedZoneArea.toUpperCase() }}</span>
@@ -9944,6 +9944,9 @@ textarea:focus-visible {
   background:#79c7a1;
   box-shadow:0 0 8px rgba(121,199,161,.5);
   animation:zone-post-live 2.2s ease-in-out infinite;
+}
+.zone-post-composer-top{
+  margin:0 0 14px;
 }
 .zone-post-composer{
   display:flex;
