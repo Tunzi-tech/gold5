@@ -14477,7 +14477,7 @@ textarea:focus-visible {
 .sidebar-section-label{color:#e1b84d!important}
 .impact-zone-label{color:#9f8fff!important;font-weight:900;text-shadow:0 0 9px rgba(159,143,255,.18)}
 .zone-around-label{color:#d6d46a;font-weight:900;text-shadow:0 0 8px rgba(214,212,106,.16)}
-.your-zones-label{color:#b56cff;font-weight:900;text-shadow:0 0 10px rgba(181,108,255,.22)}
+.your-zones-label{color:#c66cff;font-weight:900;text-shadow:0 0 11px rgba(198,108,255,.24)}
 .flow-more-nested{margin-top:2px}
 .flow-more-button{display:flex;align-items:center;gap:7px;width:100%;padding:6px 8px 6px 13px;border:0;background:transparent;color:#718197;font-size:7px;text-align:left;cursor:pointer}
 .flow-more-button:hover,.flow-more-button[aria-expanded="true"]{color:#a9b9cc}
