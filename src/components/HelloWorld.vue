@@ -2496,6 +2496,13 @@ async function openSpecificZone(zoneName: string) {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
+function focusSpecificZones() {
+  document.querySelector('.specific-zone-list')?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  })
+}
+
 function closeZonePreview() {
   zonePreviewName.value = ''
   selectedSpecificZone.value = ''
@@ -5619,6 +5626,15 @@ onBeforeUnmount(() => {
                       <small>Turn an idea for {{ selectedZoneArea }} into something people can respond to.</small>
                     </span>
                     <b>START →</b>
+                  </button>
+
+                  <button type="button" class="specific-zone-subbutton" @click="focusSpecificZones">
+                    <span class="specific-zone-subbutton-mark">↳</span>
+                    <span class="specific-zone-subbutton-copy">
+                      <strong>SPECIFIC ZONE</strong>
+                      <small>Choose a place inside {{ selectedZoneArea }}</small>
+                    </span>
+                    <span class="specific-zone-subbutton-arrow">→</span>
                   </button>
 
                   <div class="zone-selection-heading compact">
@@ -9552,6 +9568,59 @@ textarea:focus-visible {
   letter-spacing: .08em;
 }
 
+.specific-zone-subbutton{
+  width:max-content;
+  max-width:100%;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  margin:-2px 0 14px 7px;
+  padding:6px 9px 6px 7px;
+  border:1px solid rgba(121,174,240,.14);
+  border-radius:7px;
+  background:rgba(72,112,177,.035);
+  color:#8da5c1;
+  text-align:left;
+  cursor:pointer;
+  transition:border-color .2s ease,background .2s ease,transform .2s ease;
+}
+.specific-zone-subbutton:hover{
+  border-color:rgba(121,174,240,.3);
+  background:rgba(72,112,177,.075);
+  color:#b5cbe4;
+  transform:translateX(2px);
+}
+.specific-zone-subbutton-mark{
+  display:grid;
+  place-items:center;
+  width:16px;
+  height:16px;
+  border:1px solid rgba(121,174,240,.18);
+  border-radius:5px;
+  color:#79aef0;
+  font-size:10px;
+  line-height:1;
+}
+.specific-zone-subbutton-copy{
+  display:grid;
+  gap:2px;
+}
+.specific-zone-subbutton-copy strong{
+  color:#9eb8d4;
+  font-size:6px;
+  font-weight:900;
+  letter-spacing:.11em;
+}
+.specific-zone-subbutton-copy small{
+  color:#62748a;
+  font-size:6px;
+  line-height:1.2;
+}
+.specific-zone-subbutton-arrow{
+  margin-left:2px;
+  color:#6f94bc;
+  font-size:9px;
+}
 .specific-zone-list {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
