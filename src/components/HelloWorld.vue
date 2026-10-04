@@ -3125,6 +3125,21 @@ onBeforeUnmount(() => {
 
         <div class="awareness-section-line"></div>
 
+        <div class="learn-discover-nav-block">
+          <div class="learn-discover-label">LEARN &amp; DISCOVER</div>
+          <button
+            class="awareness-nav-button learn-discover-button"
+            :class="{ active: activeView === 'learn' }"
+            type="button"
+            @click="navigate('learn')"
+          >
+            <span class="icon">✦</span>
+            <span>Learn &amp; Discover</span>
+          </button>
+        </div>
+
+        <div class="learn-discover-section-line"></div>
+
         <div class="sidebar-section-label">Impact</div>
 
 <div class="impact-section-line"></div>
@@ -14497,6 +14512,10 @@ textarea:focus-visible {
 .awareness-nav-button.active{color:#f4f7fc;background:linear-gradient(90deg,rgba(72,103,163,.2),rgba(72,103,163,.05))}
 .awareness-nav-button.active .icon{color:#70a8ff}
 .awareness-section-line{height:1px;margin:4px 13px 7px;background:rgba(255,255,255,.08)}
+.learn-discover-nav-block{margin-top:2px}
+.learn-discover-label{padding:7px 13px 3px;color:#e1b84d;font-size:7px;font-weight:900;letter-spacing:.12em}
+.learn-discover-button{margin:0!important}
+.learn-discover-section-line{height:1px;margin:4px 13px 7px;background:rgba(255,255,255,.08)}
 .awareness-content{max-width:1120px}
 .awareness-title{margin-bottom:15px}
 .awareness-title h1{max-width:760px}
