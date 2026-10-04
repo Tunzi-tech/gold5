@@ -1313,6 +1313,21 @@ const zoneRegions = [
   { name: 'South', description: 'The southern coast, oases, desert and deep south.', members: '2K+', image: commonsFile('Matmata - Tunisia.jpg') },
 ]
 
+type CommunitySignal = {
+  attentionReports: number
+  attentionUpvotes: number
+  impactReports: number
+  impactUpvotes: number
+}
+
+const communitySignals: Record<string, CommunitySignal> = {
+  'Tunis North': { attentionReports: 4, attentionUpvotes: 18, impactReports: 2, impactUpvotes: 11 },
+  'La Marsa': { attentionReports: 2, attentionUpvotes: 7, impactReports: 4, impactUpvotes: 14 },
+  'Sidi Bou Said': { attentionReports: 1, attentionUpvotes: 4, impactReports: 2, impactUpvotes: 8 },
+  'Tunis': { attentionReports: 3, attentionUpvotes: 9, impactReports: 1, impactUpvotes: 5 },
+  'Ariana': { attentionReports: 2, attentionUpvotes: 6, impactReports: 3, impactUpvotes: 10 }
+}
+
 const zoneAreas = [
   { name: 'Tunis', region: 'North', description: 'The capital governorate and its urban communities.', members: '1K+', image: commonsFile("Vue ville Tunis.jpg") },
   { name: 'Ariana', region: 'North', description: 'Communities, neighborhoods and local action across Ariana.', members: '600+', image: commonsFile("Ariana - Tunisia.jpg") },
@@ -2296,6 +2311,50 @@ function governorateRelationLabel(name: string) {
 function joinedZoneConnectionLabel(zone: Zone) {
   const connection = governorateRelationLabel(zone.name)
   return connection || 'Connection not specified'
+}
+
+function communitySignal(name: string): CommunitySignal {
+  return communitySignals[name] || {
+    attentionReports: 0,
+    attentionUpvotes: 0,
+    impactReports: 0,
+    impactUpvotes: 0
+  }
+}
+
+function communitySignalItems(name: string) {
+  const signal = communitySignal(name)
+  const items: Array<{ type: 'reported' | 'attention' | 'impact' | 'confirmed'; label: string; detail: string }> = []
+
+  if (signal.attentionReports > 0) {
+    items.push({
+      type: signal.attentionUpvotes >= 3 ? 'attention' : 'reported',
+      label: signal.attentionUpvotes >= 3 ? 'NEEDS ATTENTION' : 'REPORTED',
+      detail: signal.attentionUpvotes >= 3
+        ? `confirmed by ${signal.attentionUpvotes} upvotes`
+        : `${signal.attentionReports} report${signal.attentionReports === 1 ? '' : 's'}`
+    })
+  }
+
+  if (signal.impactReports > 0) {
+    items.push({
+      type: signal.impactUpvotes >= 3 ? 'impact' : 'reported',
+      label: signal.impactUpvotes >= 3 ? 'NEEDS IMPACT' : 'REPORTED',
+      detail: signal.impactUpvotes >= 3
+        ? `confirmed by ${signal.impactUpvotes} upvotes`
+        : `${signal.impactReports} report${signal.impactReports === 1 ? '' : 's'}`
+    })
+  }
+
+  if (!items.length) {
+    items.push({
+      type: 'confirmed',
+      label: 'NO SIGNAL YET',
+      detail: 'waiting for community reports'
+    })
+  }
+
+  return items
 }
 
 function isGovernorateRelationSelected(name: string, relation: string) {
@@ -4445,6 +4504,18 @@ onBeforeUnmount(() => {
               </div>
               <h3>{{ zone.name }}</h3>
               <p>{{ zone.description }}</p>
+              <div class="community-signal-list">
+                <span
+                  v-for="signal in communitySignalItems(zone.name)"
+                  :key="zone.name + signal.label"
+                  class="community-signal"
+                  :class="'signal-' + signal.type"
+                  :title="signal.detail"
+                >
+                  <b>{{ signal.label }}</b>
+                  <small>{{ signal.detail }}</small>
+                </span>
+              </div>
               <div class="zone-around-meta">
                 <span>◉ {{ zone.participants }} participants</span>
                 <span v-if="zone.joined" class="zone-around-joined-note">JOINED · IN YOUR ZONES</span>
@@ -5228,6 +5299,18 @@ onBeforeUnmount(() => {
                     <strong>{{ area.name }}</strong>
                     <span>{{ area.description }}</span>
                     <small>{{ area.members }} members · {{ selectedCountry }}</small>
+                    <span class="community-signal-list compact">
+                      <span
+                        v-for="signal in communitySignalItems(area.name)"
+                        :key="area.name + signal.label"
+                        class="community-signal"
+                        :class="'signal-' + signal.type"
+                        :title="signal.detail"
+                      >
+                        <b>{{ signal.label }}</b>
+                        <small>{{ signal.detail }}</small>
+                      </span>
+                    </span>
                   </span>
                   <b>OPEN →</b>
                 </button>
@@ -5260,6 +5343,17 @@ onBeforeUnmount(() => {
                   <span class="eyebrow">CURRENT GOVERNORATE · {{ selectedZoneRegion }} TUN</span>
                   <h1>{{ selectedZoneArea }}</h1>
                   <p>{{ zoneAreas.find(area => area.name === selectedZoneArea)?.description }}</p>
+                  <div class="community-signal-list detail">
+                    <span
+                      v-for="signal in communitySignalItems(selectedZoneArea)"
+                      :key="'detail-' + selectedZoneArea + signal.label"
+                      class="community-signal"
+                      :class="'signal-' + signal.type"
+                    >
+                      <b>{{ signal.label }}</b>
+                      <small>{{ signal.detail }}</small>
+                    </span>
+                  </div>
                 </div>
               </div>
               <div class="governorate-detail-content">
@@ -13141,6 +13235,42 @@ textarea:focus-visible {
 .zone-around-joined-note{color:#79aef0!important;font-size:6px!important;font-weight:800!important;letter-spacing:.08em}
 
 
+.community-signal-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px;
+  margin-top:7px;
+}
+.community-signal-list.compact{margin-top:4px}
+.community-signal-list.detail{margin-top:8px}
+.community-signal{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding:3px 6px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:999px;
+  background:rgba(7,14,24,.58);
+  white-space:nowrap;
+}
+.community-signal b{
+  font-size:5px;
+  font-weight:900;
+  letter-spacing:.07em;
+}
+.community-signal small{
+  color:#687a90;
+  font-size:5px;
+  font-weight:700;
+}
+.community-signal.signal-reported{border-color:rgba(240,109,97,.24)}
+.community-signal.signal-reported b{color:#f06d61}
+.community-signal.signal-attention{border-color:rgba(240,164,93,.28)}
+.community-signal.signal-attention b{color:#f0a45d}
+.community-signal.signal-impact{border-color:rgba(121,199,161,.24)}
+.community-signal.signal-impact b{color:#79c7a1}
+.community-signal.signal-confirmed{border-color:rgba(121,174,240,.16)}
+.community-signal.signal-confirmed b{color:#7896b7}
 /* Impacting: governorate Join action appears after opening the governorate */
 .governorate-detail-cover{position:relative}
 .governorate-detail-join-stack{position:absolute;top:14px;right:14px;z-index:5;display:flex;flex-direction:column;align-items:center;gap:4px}
