@@ -2165,7 +2165,7 @@ function getPlaceConnectionReasons(place: Entity) {
   return reasons
 }
 
-function showJoinConfirmation(name: string, kind: 'zone' | 'governorate') {
+function showJoinConfirmation(name: string) {
   joinConfirmation.value = name + ' was added to Your Zones.'
 
   if (joinConfirmationTimer) clearTimeout(joinConfirmationTimer)
@@ -2317,7 +2317,7 @@ function toggleGovernorateJoin(name: string) {
   joinedGovernorates.value.push(name)
 
   // Joining a governorate immediately makes it visible in YOUR ZONES.
-  showJoinConfirmation(name, 'governorate')
+  showJoinConfirmation(name)
 }
 
 function openMyGovernorate(name: string) {
@@ -2453,7 +2453,7 @@ function participate(zone: Zone) {
   if (zone.joined) {
     zone.participants++
     // Keep the personal Zone layer synchronized immediately after joining.
-    showJoinConfirmation(zone.name, 'zone')
+    showJoinConfirmation(zone.name)
   } else {
     zone.participants = Math.max(0, zone.participants - 1)
   }
