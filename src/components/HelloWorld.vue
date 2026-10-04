@@ -2496,11 +2496,19 @@ async function openSpecificZone(zoneName: string) {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
-function focusSpecificZones() {
-  document.querySelector('.specific-zone-list')?.scrollIntoView({
-    behavior: 'smooth',
-    block: 'start'
-  })
+const showSpecificZones = ref(false)
+
+function toggleSpecificZones() {
+  showSpecificZones.value = !showSpecificZones.value
+
+  if (showSpecificZones.value) {
+    nextTick(() => {
+      document.querySelector('.specific-zone-list')?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
+    })
+  }
 }
 
 function closeZonePreview() {
@@ -5628,24 +5636,25 @@ onBeforeUnmount(() => {
                     <b>START →</b>
                   </button>
 
-                  <button type="button" class="specific-zone-subbutton" @click="focusSpecificZones">
+                  <button type="button" class="specific-zone-subbutton" :class="{ expanded: showSpecificZones }" @click="toggleSpecificZones">
                     <span class="specific-zone-subbutton-mark">↳</span>
                     <span class="specific-zone-subbutton-copy">
                       <strong>SPECIFIC ZONE</strong>
                       <small>Choose a place inside {{ selectedZoneArea }}</small>
                     </span>
-                    <span class="specific-zone-subbutton-arrow">→</span>
+                    <span class="specific-zone-subbutton-arrow">{{ showSpecificZones ? '↓' : '→' }}</span>
                   </button>
 
-                  <div class="zone-selection-heading compact">
-                    <div>
-                      <span class="eyebrow">SPECIFIC ZONES</span>
-                      <h2>Choose a place inside {{ selectedZoneArea }}.</h2>
-                      <p>Select a municipality, neighborhood or local community to go deeper.</p>
+                  <div v-if="showSpecificZones" class="specific-zone-selection">
+                    <div class="zone-selection-heading compact">
+                      <div>
+                        <span class="eyebrow">SPECIFIC ZONES</span>
+                        <h2>Choose a place inside {{ selectedZoneArea }}.</h2>
+                        <p>Select a municipality, neighborhood or local community to go deeper.</p>
+                      </div>
+                      <span class="zone-selection-note">{{ visibleSpecificZones.length }} ZONES</span>
                     </div>
-                    <span class="zone-selection-note">{{ visibleSpecificZones.length }} ZONES</span>
-                  </div>
-                  <div class="specific-zone-list">
+                    <div class="specific-zone-list">
                     <article v-for="zone in visibleSpecificZones" :key="zone.id" class="specific-zone-item-wrap">
                       <button type="button" class="specific-zone-item" :class="{ active: selectedSpecificZone === zone.name }" @click="openSpecificZone(zone.name)">
                         <span class="specific-zone-pin">◉</span>
@@ -5653,6 +5662,7 @@ onBeforeUnmount(() => {
                         <span class="specific-zone-area">OPEN →</span>
                       </button>
                     </article>
+                    </div>
                   </div>
                 </div>
 
@@ -9566,6 +9576,15 @@ textarea:focus-visible {
   color: #8fb5e8;
   font-size: 7px;
   letter-spacing: .08em;
+}
+
+.specific-zone-subbutton.expanded{
+  border-color:rgba(121,174,240,.3);
+  background:rgba(72,112,177,.075);
+}
+.specific-zone-subbutton.expanded .specific-zone-subbutton-mark{
+  color:#a8c9ef;
+  border-color:rgba(121,174,240,.3);
 }
 
 .specific-zone-subbutton{
