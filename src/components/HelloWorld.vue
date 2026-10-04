@@ -2736,8 +2736,15 @@ onBeforeUnmount(() => {
   <div class="app-shell">
 
     <div v-if="joinConfirmation" class="join-confirmation" role="status" aria-live="polite">
-      <span class="join-confirmation-check">✓</span>
-      <span>{{ joinConfirmation }}</span>
+      <span class="join-confirmation-orbit" aria-hidden="true">
+        <span class="join-confirmation-orbit-ring"></span>
+        <span class="join-confirmation-check">✓</span>
+      </span>
+      <span class="join-confirmation-copy">
+        <strong>ADDED TO YOUR ZONES</strong>
+        <span>{{ joinConfirmation }}</span>
+      </span>
+      <span class="join-confirmation-arrow" aria-hidden="true">→</span>
       <button type="button" @click="joinConfirmation = ''" aria-label="Dismiss confirmation">×</button>
     </div>
 
@@ -13184,18 +13191,57 @@ textarea:focus-visible {
   font-weight:700;
   box-shadow:0 10px 30px rgba(0,0,0,.38),0 0 18px rgba(121,199,161,.06);
   backdrop-filter:blur(12px);
+  animation:join-confirmation-in .32s cubic-bezier(.2,.8,.2,1);
+}
+.join-confirmation-orbit{
+  position:relative;
+  display:grid;
+  place-items:center;
+  width:20px;
+  height:20px;
+  flex:0 0 20px;
 }
 .join-confirmation-check{
+  position:relative;
+  z-index:2;
   display:grid;
   place-items:center;
   width:17px;
   height:17px;
-  flex:0 0 17px;
   border:1px solid rgba(121,199,161,.35);
   border-radius:50%;
   background:rgba(121,199,161,.09);
   color:#79c7a1;
   font-size:9px;
+  animation:join-confirmation-check .45s ease-out;
+}
+.join-confirmation-orbit-ring{
+  position:absolute;
+  width:19px;
+  height:19px;
+  border:1px solid rgba(121,199,161,.4);
+  border-radius:50%;
+  animation:join-confirmation-ring .8s ease-out;
+}
+.join-confirmation-copy{
+  display:grid;
+  gap:2px;
+  min-width:0;
+}
+.join-confirmation-copy strong{
+  color:#79c7a1;
+  font-size:7px;
+  letter-spacing:.1em;
+}
+.join-confirmation-copy span{
+  color:#c9d9e9;
+  font-size:8px;
+  font-weight:600;
+}
+.join-confirmation-arrow{
+  color:#f0a45d;
+  font-size:12px;
+  animation:join-confirmation-arrow .55s ease-out;
 }
 .join-confirmation button{
   margin-left:auto;
@@ -13208,6 +13254,26 @@ textarea:focus-visible {
   cursor:pointer;
 }
 .join-confirmation button:hover{color:#aebed0}
+@keyframes join-confirmation-in{
+  from{opacity:0;transform:translate(-50%,-8px) scale(.96)}
+  to{opacity:1;transform:translate(-50%,0) scale(1)}
+}
+@keyframes join-confirmation-ring{
+  0%{transform:scale(.65);opacity:.9}
+  100%{transform:scale(1.65);opacity:0}
+}
+@keyframes join-confirmation-check{
+  0%{transform:scale(.5);opacity:0}
+  70%{transform:scale(1.15)}
+  100%{transform:scale(1);opacity:1}
+}
+@keyframes join-confirmation-arrow{
+  0%{transform:translateX(-5px);opacity:0}
+  100%{transform:translateX(0);opacity:1}
+}
+@media(prefers-reduced-motion:reduce){
+  .join-confirmation,.join-confirmation-check,.join-confirmation-orbit-ring,.join-confirmation-arrow{animation:none}
+}
 @media(max-width:600px){.join-confirmation{top:10px;min-width:0;width:calc(100vw - 20px)}}
 
 </style>
