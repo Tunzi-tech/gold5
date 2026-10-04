@@ -14476,7 +14476,7 @@ textarea:focus-visible {
 /* Sidebar hierarchy accents */
 .sidebar-section-label{color:#e1b84d!important}
 .impact-zone-label{color:#9f8fff!important;font-weight:900;text-shadow:0 0 9px rgba(159,143,255,.18)}
-.zone-around-label{color:#e6b84f;font-weight:900;text-shadow:0 0 8px rgba(230,184,79,.16)}
+.zone-around-label{color:#ff9f43;font-weight:900;text-shadow:0 0 8px rgba(255,159,67,.16)}
 .your-zones-label{color:#c66cff;font-weight:900;text-shadow:0 0 11px rgba(198,108,255,.24)}
 .flow-more-nested{margin-top:2px}
 .flow-more-button{display:flex;align-items:center;gap:7px;width:100%;padding:6px 8px 6px 13px;border:0;background:transparent;color:#718197;font-size:7px;text-align:left;cursor:pointer}
