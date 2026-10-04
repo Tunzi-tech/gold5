@@ -4202,6 +4202,103 @@ onBeforeUnmount(() => {
       </section>
 
       <!-- =================================================
+           LEARN & DISCOVER
+           ================================================= -->
+      <section v-if="activeView === 'learn'" class="content learn-discover-content">
+
+        <div class="page-title learn-discover-title">
+          <span class="eyebrow">LEARN &amp; DISCOVER</span>
+          <h1>Open a door. Follow your curiosity.</h1>
+          <p>
+            Learn something new, connect ideas that seem separate, explore what is already known,
+            and discover questions that can lead somewhere unexpected.
+          </p>
+        </div>
+
+        <div class="learn-discover-path">
+          <div class="learn-path-step active"><span>01</span><strong>NOTICE</strong><small>Start with what catches your attention.</small></div>
+          <i>→</i>
+          <div class="learn-path-step"><span>02</span><strong>EXPLORE</strong><small>Look beyond the first explanation.</small></div>
+          <i>→</i>
+          <div class="learn-path-step"><span>03</span><strong>CONNECT</strong><small>Find relationships between ideas.</small></div>
+          <i>→</i>
+          <div class="learn-path-step"><span>04</span><strong>DISCOVER</strong><small>Leave with a new possibility.</small></div>
+        </div>
+
+        <div class="learn-discover-grid">
+
+          <article class="learn-feature-card">
+            <div class="learn-card-orbit">◈</div>
+            <span class="learn-kicker">START HERE</span>
+            <h2>Why does a local issue become a bigger system?</h2>
+            <p>
+              A street, a tree, a public space or a local decision can be connected to health,
+              climate, economy, culture and the way people live. Learn to look for the connections.
+            </p>
+            <div class="learn-tags"><span>SYSTEMS</span><span>LOCAL</span><span>CONNECTIONS</span></div>
+            <button type="button" class="learn-discover-link" @click="navigate('awareness')">EXPLORE THE CONNECTIONS →</button>
+          </article>
+
+          <article class="learn-topic-card">
+            <div class="learn-topic-head"><span class="learn-topic-icon">◎</span><span class="learn-kicker">SCIENCE</span></div>
+            <h3>How does an ecosystem stay in balance?</h3>
+            <p>Explore relationships between organisms, energy, resources and change rather than looking at each part alone.</p>
+            <span class="learn-reading">FOUNDATIONS · 8 MIN</span>
+            <button type="button" class="learn-mini-link">OPEN DISCOVERY →</button>
+          </article>
+
+          <article class="learn-topic-card">
+            <div class="learn-topic-head"><span class="learn-topic-icon">✦</span><span class="learn-kicker">CITIES</span></div>
+            <h3>What makes a place feel alive?</h3>
+            <p>People, movement, shade, meeting places, culture and everyday activity all shape how a place is experienced.</p>
+            <span class="learn-reading">PLACE · 6 MIN</span>
+            <button type="button" class="learn-mini-link" @click="navigate('zones')">EXPLORE PLACES →</button>
+          </article>
+
+          <article class="learn-topic-card">
+            <div class="learn-topic-head"><span class="learn-topic-icon">◇</span><span class="learn-kicker">FUTURES</span></div>
+            <h3>How do we imagine a future before building it?</h3>
+            <p>Possible futures are not predictions. They are ways to make choices visible before those choices become reality.</p>
+            <span class="learn-reading">POSSIBILITIES · 7 MIN</span>
+            <button type="button" class="learn-mini-link" @click="navigate('awareness')">SEE POSSIBLE FUTURES →</button>
+          </article>
+
+          <article class="learn-question-card">
+            <div>
+              <span class="learn-kicker">A QUESTION TO FOLLOW</span>
+              <h2>What feels wrong enough to make you curious?</h2>
+              <p>
+                You do not need the answer first. Start with the observation. Ask why. Look for what
+                you may be missing. Then follow the thread until another part of the Commons becomes visible.
+              </p>
+            </div>
+            <div class="learn-question-flow"><span>OBSERVE</span><i>→</i><span>ASK</span><i>→</i><span>LEARN</span><i>→</i><span>DISCOVER</span></div>
+          </article>
+
+          <article class="learn-zone-card">
+            <div class="learn-zone-copy">
+              <span class="learn-kicker">LEARN FROM A ZONE</span>
+              <h2>Knowledge is also where people live it.</h2>
+              <p>
+                Explore a Zone to discover the people, places, goals, activity and local knowledge
+                already shaping it. Sometimes the best way to learn is to enter the context itself.
+              </p>
+              <button type="button" class="learn-discover-link" @click="navigate('around-zones')">DISCOVER ZONES AROUND →</button>
+            </div>
+            <div class="learn-zone-visual" aria-hidden="true"><span></span><i></i><b></b><em></em></div>
+          </article>
+
+        </div>
+
+        <div class="learn-closing-card">
+          <span class="eyebrow">KEEP EXPLORING</span>
+          <strong>One discovery can reconnect scattered parts.</strong>
+          <span>Learn from what works, learn from what fails, and let new questions open the next door.</span>
+        </div>
+
+      </section>
+
+      <!-- =================================================
            PEOPLE
            ================================================= -->
       
@@ -14516,6 +14613,53 @@ textarea:focus-visible {
 .learn-discover-label{padding:7px 13px 3px;color:#e1b84d;font-size:7px;font-weight:900;letter-spacing:.12em}
 .learn-discover-button{margin:0!important}
 .learn-discover-section-line{height:1px;margin:4px 13px 7px;background:rgba(255,255,255,.08)}
+
+.learn-discover-content{max-width:1120px}
+.learn-discover-title{margin-bottom:16px}
+.learn-discover-title h1{max-width:820px}
+.learn-discover-title p{max-width:760px}
+.learn-discover-path{display:flex;align-items:center;gap:7px;margin:0 0 16px;padding:11px 13px;border:1px solid rgba(255,255,255,.055);border-radius:12px;background:rgba(12,18,27,.7);overflow:auto}
+.learn-path-step{display:grid;grid-template-columns:auto 1fr;gap:2px 7px;min-width:150px;opacity:.68}
+.learn-path-step span{grid-row:1 / 3;color:#62748a;font-size:6px;font-weight:900}
+.learn-path-step strong{color:#8596ab;font-size:7px;letter-spacing:.1em}
+.learn-path-step small{color:#56677b;font-size:6px;line-height:1.35}
+.learn-path-step.active{opacity:1}
+.learn-path-step.active strong{color:#d7b96a}
+.learn-discover-path>i{color:#4e6178;font-style:normal;font-size:10px}
+.learn-discover-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.learn-feature-card,.learn-topic-card,.learn-question-card,.learn-zone-card,.learn-closing-card{border:1px solid rgba(255,255,255,.065);border-radius:14px;background:linear-gradient(145deg,rgba(24,32,45,.68),rgba(10,15,23,.92));box-shadow:0 14px 30px rgba(0,0,0,.13)}
+.learn-feature-card{grid-column:1 / -1;padding:20px;position:relative;overflow:hidden;background:radial-gradient(circle at 82% 15%,rgba(159,143,255,.09),rgba(10,15,23,.92) 42%)}
+.learn-card-orbit{position:absolute;right:25px;top:18px;width:42px;height:42px;border:1px solid rgba(159,143,255,.28);border-radius:50%;display:grid;place-items:center;color:#b59cff;font-size:15px;box-shadow:0 0 22px rgba(159,143,255,.08)}
+.learn-kicker{color:#73869d;font-size:6px;font-weight:900;letter-spacing:.12em}
+.learn-feature-card h2,.learn-question-card h2,.learn-zone-card h2{margin:10px 0 8px;color:#e5edf7;font-size:18px;line-height:1.3;max-width:720px}
+.learn-feature-card p,.learn-question-card p,.learn-zone-card p{margin:0;color:#7d8ea3;font-size:9px;line-height:1.65;max-width:760px}
+.learn-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+.learn-tags span,.learn-reading{padding:5px 7px;border:1px solid rgba(255,255,255,.055);border-radius:6px;color:#71849a;background:rgba(255,255,255,.015);font-size:6px;font-weight:800;letter-spacing:.08em}
+.learn-discover-link,.learn-mini-link{margin-top:15px;padding:0;border:0;background:transparent;color:#9abde5;font-size:6px;font-weight:900;letter-spacing:.1em;cursor:pointer}
+.learn-discover-link:hover,.learn-mini-link:hover{color:#d3e4f5}
+.learn-topic-card{padding:17px;min-height:178px;display:flex;flex-direction:column}
+.learn-topic-head{display:flex;align-items:center;gap:9px}
+.learn-topic-icon{width:24px;height:24px;border:1px solid rgba(159,143,255,.2);border-radius:50%;display:grid;place-items:center;color:#a992e8;font-size:10px}
+.learn-topic-card h3{margin:12px 0 7px;color:#dfe8f2;font-size:14px;line-height:1.35}
+.learn-topic-card p{margin:0;color:#718298;font-size:8px;line-height:1.6}
+.learn-reading{margin-top:auto;align-self:flex-start;padding:5px 6px;color:#63768b;background:rgba(255,255,255,.012)}
+.learn-mini-link{align-self:flex-start;margin-top:11px}
+.learn-question-card{grid-column:1 / -1;padding:18px;background:radial-gradient(circle at 15% 50%,rgba(114,201,107,.055),rgba(10,15,23,.9) 55%)}
+.learn-question-flow{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:14px}
+.learn-question-flow span{padding:6px 8px;border:1px solid rgba(121,199,161,.09);border-radius:6px;color:#7ea590;background:rgba(121,199,161,.02);font-size:6px;font-weight:900;letter-spacing:.08em}
+.learn-question-flow i{color:#50657a;font-style:normal}
+.learn-zone-card{grid-column:1 / -1;padding:18px;display:grid;grid-template-columns:1fr 180px;gap:20px;align-items:center}
+.learn-zone-visual{height:130px;position:relative;border:1px solid rgba(115,185,201,.08);border-radius:11px;background:radial-gradient(circle,rgba(115,185,201,.07),rgba(10,15,23,.2) 60%)}
+.learn-zone-visual span,.learn-zone-visual i,.learn-zone-visual b,.learn-zone-visual em{position:absolute;display:block;border-radius:50%;font-style:normal}
+.learn-zone-visual span{width:52px;height:52px;left:62px;top:38px;border:1px solid rgba(115,185,201,.35);box-shadow:0 0 22px rgba(115,185,201,.08)}
+.learn-zone-visual i{width:8px;height:8px;left:28px;top:30px;background:#9f8fff;box-shadow:0 0 12px rgba(159,143,255,.3)}
+.learn-zone-visual b{width:7px;height:7px;right:30px;top:68px;background:#d6d46a;box-shadow:0 0 11px rgba(214,212,106,.22)}
+.learn-zone-visual em{width:6px;height:6px;left:46px;bottom:23px;background:#73b9c9}
+.learn-closing-card{grid-column:1 / -1;padding:14px 17px;display:flex;align-items:center;gap:13px;flex-wrap:wrap;background:rgba(14,20,29,.72)}
+.learn-closing-card strong{color:#c5d2df;font-size:9px}
+.learn-closing-card>span:last-child{color:#68798d;font-size:7px}
+@media(max-width:800px){.learn-discover-grid{grid-template-columns:1fr}.learn-feature-card,.learn-question-card,.learn-zone-card,.learn-closing-card{grid-column:auto}.learn-zone-card{grid-template-columns:1fr}.learn-zone-visual{display:none}.learn-discover-path{align-items:flex-start}.learn-path-step{min-width:130px}}
+
 .awareness-content{max-width:1120px}
 .awareness-title{margin-bottom:15px}
 .awareness-title h1{max-width:760px}
