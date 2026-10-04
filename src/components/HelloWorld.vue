@@ -134,6 +134,7 @@ type Entity = {
 const activeView = ref('home')
 const showZonesSubnav = ref(true)
 const showCallsSubnav = ref(true)
+const showPagesMoreSubnav = ref(false)
 const sidebarSpace = ref<'zones' | 'networks' | 'connections'>('networks')
 const showAccountMenu = ref(false)
 const showWhatsGoingOn = ref(false)
@@ -3132,7 +3133,7 @@ onBeforeUnmount(() => {
               @click="navigate('zones')"
             >
               <span class="icon">◉</span>
-              <span class="subnav-section-label">Impacting</span>
+              <span class="subnav-section-label impact-zone-label">Impacting</span>
             </button>
 
             <button
@@ -3159,7 +3160,7 @@ onBeforeUnmount(() => {
                 <span class="zone-orbit-node zone-orbit-node-one"></span>
                 <span class="zone-orbit-node zone-orbit-node-two"></span>
               </span>
-              <span>Zones Around</span>
+              <span class="zone-around-label">Zones Around</span>
             </button></div>
             <div class="impact-subnav-line"><button
               class="zone-space-button zone-space-button-mine"
@@ -3171,7 +3172,7 @@ onBeforeUnmount(() => {
                 <span class="zone-orbit-ring zone-orbit-ring-one"></span>
                 <span class="zone-orbit-node zone-orbit-node-one"></span>
               </span>
-              <span>Your Zones</span>
+              <span class="your-zones-label">Your Zones</span>
             </button></div>
           </template>
         </div>
@@ -3188,7 +3189,7 @@ onBeforeUnmount(() => {
             @click="navigate('pages')"
           >
             <span class="icon">▣</span>
-            <span class="subnav-section-label">More Flow</span>
+            <span class="subnav-section-label">Within the Flow</span>
           </button>
 
           <button
@@ -3221,19 +3222,35 @@ onBeforeUnmount(() => {
               Initiatives
             </button>
             <button
-              :class="{ active: activeView === 'entities' || activeView === 'entity' }"
-              @click="navigate('entities')"
-            >
-              <span class="subnav-dot"></span>
-              Entities
-            </button>
-            <button
               :class="{ active: activeView === 'pages' }"
               @click="navigate('pages')"
             >
               <span class="subnav-dot"></span>
               Pages
             </button>
+
+            <div class="flow-more-nested">
+              <button
+                class="flow-more-button"
+                type="button"
+                @click="showPagesMoreSubnav = !showPagesMoreSubnav"
+                :aria-expanded="showPagesMoreSubnav"
+              >
+                <span class="subnav-dot"></span>
+                <span>More</span>
+                <span class="subnav-chevron">{{ showPagesMoreSubnav ? '⌃' : '⌄' }}</span>
+              </button>
+
+              <div v-if="showPagesMoreSubnav" class="flow-more-subnav">
+                <button
+                  :class="{ active: activeView === 'entities' || activeView === 'entity' }"
+                  @click="navigate('entities')"
+                >
+                  <span class="subnav-dot"></span>
+                  Entities
+                </button>
+              </div>
+            </div>
           </template>
         </div>
 
@@ -14455,6 +14472,19 @@ textarea:focus-visible {
   .join-confirmation,.join-confirmation-travel,.join-confirmation-destination-core,.join-confirmation-arrow{animation:none}
 }
 @media(max-width:600px){.join-confirmation{top:10px;min-width:0;width:calc(100vw - 20px)}}
+
+/* Sidebar hierarchy accents */
+.sidebar-section-label{color:#e1b84d!important}
+.impact-zone-label{color:#9b7dcc!important}
+.zone-around-label{color:#9b7dcc}
+.your-zones-label{color:#ad87dc;font-weight:800}
+.flow-more-nested{margin-top:2px}
+.flow-more-button{display:flex;align-items:center;gap:7px;width:100%;padding:6px 8px 6px 13px;border:0;background:transparent;color:#718197;font-size:7px;text-align:left;cursor:pointer}
+.flow-more-button:hover,.flow-more-button[aria-expanded="true"]{color:#a9b9cc}
+.flow-more-button .subnav-chevron{margin-left:auto;font-size:8px}
+.flow-more-subnav{margin:1px 0 3px 12px;padding-left:8px;border-left:1px solid rgba(154,125,204,.16)}
+.flow-more-subnav button{display:flex;align-items:center;gap:7px;width:100%;padding:6px 8px;border:0;border-radius:5px;background:transparent;color:#68788d;font-size:7px;text-align:left;cursor:pointer}
+.flow-more-subnav button:hover,.flow-more-subnav button.active{background:rgba(154,125,204,.06);color:#b394d8}
 
 /* IMPACT & AWARENESS */
 .awareness-nav-button{display:flex;align-items:center;gap:9px;width:100%;margin:5px 0;padding:8px 10px;border:1px solid transparent;border-radius:7px;background:transparent;color:#7d8da2;font-size:8px;font-weight:700;letter-spacing:.02em;text-align:left;cursor:pointer;transition:.2s ease}
