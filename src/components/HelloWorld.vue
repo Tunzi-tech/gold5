@@ -680,6 +680,7 @@ const joinedGovernorates = ref<string[]>([])
 const governorateRelations = ref<Record<string, string[]>>({})
 const governorateOtherConnections = ref<Record<string, string>>({})
 const showGovernorateConnections = ref<Record<string, boolean>>({})
+const showSignalEvidence = ref<Record<string, boolean>>({})
 const governorateConnectionOptions = [
   { id: 'live', icon: '🏠', title: 'I live here', description: 'My home is here.' },
   { id: 'work', icon: '💼', title: 'I work here', description: 'My workplace or professional activity is here.' },
@@ -2355,6 +2356,57 @@ function communitySignalItems(name: string) {
   }
 
   return items
+}
+
+type SignalEvidence = {
+  signal: 'attention' | 'impact'
+  source: string
+  excerpt: string
+  votes: number
+}
+
+const signalEvidence: Record<string, SignalEvidence[]> = {
+  'Tunis North': [
+    { signal: 'attention', source: 'POST · local resident', excerpt: 'The public garden needs better maintenance and more usable space.', votes: 8 },
+    { signal: 'attention', source: 'POST · Zone participant', excerpt: 'Several people are raising the same concern about the condition of shared streets.', votes: 6 },
+    { signal: 'impact', source: 'POST · community initiative', excerpt: 'A community garden could turn an underused space into something useful for the neighborhood.', votes: 7 },
+    { signal: 'impact', source: 'SUGGESTION · local action', excerpt: 'Who wants to help organize a first clean-up and planting day?', votes: 4 }
+  ],
+  'La Marsa': [
+    { signal: 'attention', source: 'POST · resident', excerpt: 'Some coastal areas need attention after busy weekends.', votes: 4 },
+    { signal: 'impact', source: 'POST · participant', excerpt: 'There is an opportunity to organize a local coastal care action.', votes: 9 }
+  ],
+  'Sidi Bou Said': [
+    { signal: 'attention', source: 'POST · resident', excerpt: 'Traffic and pedestrian pressure are affecting this part of the area.', votes: 4 },
+    { signal: 'impact', source: 'POST · cultural initiative', excerpt: 'Local cultural spaces could connect more people through shared activities.', votes: 8 }
+  ],
+  'Tunis': [
+    { signal: 'attention', source: 'POST · resident', excerpt: 'A recurring issue was reported around public-space maintenance.', votes: 5 },
+    { signal: 'impact', source: 'SUGGESTION · community member', excerpt: 'People could coordinate a small local action and measure the result.', votes: 5 }
+  ],
+  'Ariana': [
+    { signal: 'attention', source: 'POST · local participant', excerpt: 'Several people noticed the same issue and asked others to look closer.', votes: 6 },
+    { signal: 'impact', source: 'POST · initiative', excerpt: 'A local group is looking for people who want to turn this concern into action.', votes: 6 }
+  ]
+}
+
+function toggleSignalEvidence(name: string) {
+  showSignalEvidence.value = {
+    ...showSignalEvidence.value,
+    [name]: !showSignalEvidence.value[name]
+  }
+}
+
+function getSignalEvidence(name: string, signalType: 'attention' | 'impact') {
+  return (signalEvidence[name] || []).filter(item => item.signal === signalType)
+}
+
+function signalEvidenceSummary(name: string, signalType: 'attention' | 'impact') {
+  const signal = communitySignal(name)
+  const reports = signalType === 'attention' ? signal.attentionReports : signal.impactReports
+  const upvotes = signalType === 'attention' ? signal.attentionUpvotes : signal.impactUpvotes
+  const label = signalType === 'attention' ? 'attention' : 'impact'
+  return `${reports} report${reports === 1 ? '' : 's'} → ${upvotes} community upvote${upvotes === 1 ? '' : 's'} → NEEDS ${label.toUpperCase()}`
 }
 
 function isGovernorateRelationSelected(name: string, relation: string) {
@@ -4505,16 +4557,33 @@ onBeforeUnmount(() => {
               <h3>{{ zone.name }}</h3>
               <p>{{ zone.description }}</p>
               <div class="community-signal-list">
-                <span
+                <button
                   v-for="signal in communitySignalItems(zone.name)"
                   :key="zone.name + signal.label"
+                  type="button"
                   class="community-signal"
                   :class="'signal-' + signal.type"
                   :title="signal.detail"
+                  @click.stop="toggleSignalEvidence(zone.name)"
                 >
                   <b>{{ signal.label }}</b>
                   <small>{{ signal.detail }}</small>
-                </span>
+                </button>
+              </div>
+              <div v-if="showSignalEvidence[zone.name] && communitySignal(zone.name).attentionUpvotes + communitySignal(zone.name).impactUpvotes > 0" class="signal-evidence">
+                <div class="signal-evidence-head">
+                  <span>HOW THIS SIGNAL FORMED</span>
+                  <strong>REPORT → COMMUNITY VOTES → SIGNAL</strong>
+                </div>
+                <p class="signal-evidence-summary">{{ signalEvidenceSummary(zone.name, communitySignal(zone.name).attentionUpvotes >= communitySignal(zone.name).impactUpvotes ? 'attention' : 'impact') }}</p>
+                <div class="signal-evidence-list">
+                  <div v-for="item in signalEvidence[zone.name] || []" :key="zone.name + item.source + item.excerpt" class="signal-evidence-item">
+                    <span class="signal-evidence-source">{{ item.source }}</span>
+                    <p>“{{ item.excerpt }}”</p>
+                    <small>↑ {{ item.votes }} people confirmed this example</small>
+                  </div>
+                </div>
+                <small class="signal-evidence-note">Demo evidence for the prototype — in the real system these come from actual posts, reports and votes.</small>
               </div>
               <div class="zone-around-meta">
                 <span>◉ {{ zone.participants }} participants</span>
@@ -5344,15 +5413,38 @@ onBeforeUnmount(() => {
                   <h1>{{ selectedZoneArea }}</h1>
                   <p>{{ zoneAreas.find(area => area.name === selectedZoneArea)?.description }}</p>
                   <div class="community-signal-list detail">
-                    <span
+                    <button
                       v-for="signal in communitySignalItems(selectedZoneArea)"
                       :key="'detail-' + selectedZoneArea + signal.label"
+                      type="button"
                       class="community-signal"
                       :class="'signal-' + signal.type"
+                      @click="toggleSignalEvidence(selectedZoneArea)"
                     >
                       <b>{{ signal.label }}</b>
                       <small>{{ signal.detail }}</small>
-                    </span>
+                    </button>
+                  </div>
+                  <div v-if="showSignalEvidence[selectedZoneArea] && communitySignal(selectedZoneArea).attentionUpvotes + communitySignal(selectedZoneArea).impactUpvotes > 0" class="signal-evidence signal-evidence-detail">
+                    <div class="signal-evidence-head">
+                      <span>HOW DID {{ selectedZoneArea.toUpperCase() }} REACH THIS SIGNAL?</span>
+                      <strong>PEOPLE → POSTS / REPORTS → VOTES → CONFIRMATION</strong>
+                    </div>
+                    <div class="signal-evidence-flow">
+                      <span>1 · A person raises a concern or possibility</span>
+                      <i>→</i>
+                      <span>2 · Others read it and vote to confirm</span>
+                      <i>→</i>
+                      <span>3 · The community signal becomes visible</span>
+                    </div>
+                    <div class="signal-evidence-list">
+                      <div v-for="item in signalEvidence[selectedZoneArea] || []" :key="'detail-' + item.source + item.excerpt" class="signal-evidence-item">
+                        <span class="signal-evidence-source">{{ item.source }}</span>
+                        <p>“{{ item.excerpt }}”</p>
+                        <small>↑ {{ item.votes }} people confirmed this example</small>
+                      </div>
+                    </div>
+                    <small class="signal-evidence-note">Demo evidence for the prototype — later this should be generated from real posts, reports, comments and votes.</small>
                   </div>
                 </div>
               </div>
@@ -13253,11 +13345,37 @@ textarea:focus-visible {
   background:rgba(7,14,24,.58);
   white-space:nowrap;
 }
+.community-signal{
+  cursor:pointer;
+}
 .community-signal b{
   font-size:5px;
   font-weight:900;
   letter-spacing:.07em;
 }
+.community-signal:hover{background:rgba(12,24,40,.82);transform:translateY(-1px)}
+.signal-evidence{
+  display:grid;
+  gap:7px;
+  margin-top:6px;
+  padding:8px;
+  border:1px solid rgba(121,174,240,.1);
+  border-radius:8px;
+  background:rgba(5,11,19,.55);
+}
+.signal-evidence-head{display:grid;gap:2px}
+.signal-evidence-head span{color:#7189a4;font-size:5px;font-weight:900;letter-spacing:.12em}
+.signal-evidence-head strong{color:#aebed0;font-size:6px;letter-spacing:.05em}
+.signal-evidence-summary{margin:0;color:#f0a45d;font-size:6px;font-weight:800;letter-spacing:.04em}
+.signal-evidence-flow{display:flex;align-items:center;gap:5px;flex-wrap:wrap;color:#7d91a9;font-size:6px;line-height:1.4}
+.signal-evidence-flow span{padding:4px 5px;border:1px solid rgba(255,255,255,.06);border-radius:5px;background:rgba(255,255,255,.018)}
+.signal-evidence-flow i{color:#f0a45d;font-style:normal}
+.signal-evidence-list{display:grid;gap:5px}
+.signal-evidence-item{padding:6px;border-left:2px solid rgba(240,164,93,.35);background:rgba(255,255,255,.015)}
+.signal-evidence-source{display:block;color:#8da5c1;font-size:5px;font-weight:900;letter-spacing:.07em}
+.signal-evidence-item p{margin:3px 0;color:#aab8c9;font-size:6px;line-height:1.45}
+.signal-evidence-item small{color:#6d8096;font-size:5px}
+.signal-evidence-note{color:#596b80;font-size:5px;line-height:1.45}
 .community-signal small{
   color:#687a90;
   font-size:5px;
