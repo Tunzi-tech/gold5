@@ -5818,12 +5818,12 @@ onBeforeUnmount(() => {
               <div class="specific-zone-layout">
                 <div class="specific-zone-browser">
                   <button type="button" class="create-action-card" @click="showCreateSuggestion = true">
-                    <span class="create-action-icon">+</span>
+                    <span class="create-action-icon impact-action-icon" aria-hidden="true">↗</span>
                     <span>
                       <strong>CREATE AN ACTION · IN {{ selectedZoneArea.toUpperCase() }}</strong>
                       <small>Turn an idea for {{ selectedZoneArea }} into something people can respond to.</small>
                     </span>
-                    <b>START →</b>
+                    <b class="create-action-impact-mark" title="Impact">↗</b>
                   </button>
 
                   <button type="button" class="specific-zone-subbutton" :class="{ expanded: showSpecificZones }" @click="toggleSpecificZones">
@@ -5958,8 +5958,9 @@ onBeforeUnmount(() => {
                     </div>
                   </div>
 
-                  <div class="governorate-engagement-top">
-                    <span class="eyebrow">LOCAL POSSIBILITY</span>
+                  <div class="local-possibility-card">
+                    <div class="governorate-engagement-top">
+                      <span class="eyebrow">LOCAL POSSIBILITY</span>
                     <span class="zone-selection-note">{{ selectedZoneArea.toUpperCase() }}</span>
                   </div>
                   <h2>What could {{ selectedZoneArea }} become?</h2>
@@ -5985,6 +5986,7 @@ onBeforeUnmount(() => {
                     <button type="button" class="governorate-engage-btn" @click="selectedGovernoratePrompt = 'What could become possible here?'">
                       ADD YOUR PERSPECTIVE →
                     </button>
+                  </div>
                   </div>
                 </aside>
               </div>
@@ -9947,6 +9949,37 @@ textarea:focus-visible {
 }
 .zone-post-composer-top{
   margin:0 0 14px;
+  border-color:rgba(121,174,240,.16);
+  background:linear-gradient(145deg,rgba(74,120,194,.055),rgba(7,14,24,.48));
+}
+.local-possibility-card{
+  margin-top:4px;
+  padding:13px;
+  border:1px solid rgba(240,164,93,.12);
+  border-radius:10px;
+  background:rgba(240,164,93,.018);
+}
+.local-possibility-card .governorate-engagement-top{
+  margin-top:0;
+}
+.create-action-impact-mark{
+  display:grid;
+  place-items:center;
+  width:28px;
+  height:28px;
+  border:1px solid rgba(240,164,93,.28);
+  border-radius:50%;
+  color:#f0a45d;
+  background:rgba(240,164,93,.05);
+  font-size:15px!important;
+  line-height:1;
+  text-shadow:0 0 8px rgba(240,164,93,.2);
+}
+.impact-action-icon{
+  color:#f0a45d;
+  border-color:rgba(240,164,93,.3);
+  background:rgba(240,164,93,.04);
+  text-shadow:0 0 8px rgba(240,164,93,.22);
 }
 .zone-post-composer{
   display:flex;
