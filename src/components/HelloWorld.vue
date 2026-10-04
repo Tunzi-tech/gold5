@@ -14492,12 +14492,11 @@ textarea:focus-visible {
 .flow-more-subnav button:hover,.flow-more-subnav button.active{background:rgba(181,108,255,.08);color:#d09cff}
 
 /* IMPACT & AWARENESS */
-.awareness-nav-button{display:flex;align-items:center;gap:9px;width:100%;margin:5px 0;padding:8px 10px;border:1px solid transparent;border-radius:7px;background:transparent;color:#7d8da2;font-size:8px;font-weight:700;letter-spacing:.02em;text-align:left;cursor:pointer;transition:.2s ease}
-.awareness-nav-button .icon{width:16px;color:#879db8;font-size:14px;text-align:center}
-.awareness-nav-button:hover{background:rgba(255,255,255,.025);color:#d5e0ee}
-.awareness-nav-button.active{border-color:rgba(121,174,240,.13);background:rgba(74,120,194,.07);color:#b8d1ec}
-.awareness-nav-button.active .icon{color:#8eb7e7}
-.awareness-section-line{height:1px;margin:5px 9px 9px;background:linear-gradient(90deg,rgba(121,174,240,.12),rgba(255,255,255,.025),transparent)}
+.awareness-nav-button{display:flex;align-items:center;gap:13px;width:100%;padding:11px 13px;border:0;border-radius:9px;background:transparent;color:#858fa1;font-size:inherit;font-weight:inherit;letter-spacing:normal;text-align:left;cursor:pointer;transition:.2s}
+.awareness-nav-button:hover{color:#e9eef8;background:rgba(255,255,255,.035)}
+.awareness-nav-button.active{color:#f4f7fc;background:linear-gradient(90deg,rgba(72,103,163,.2),rgba(72,103,163,.05))}
+.awareness-nav-button.active .icon{color:#70a8ff}
+.awareness-section-line{height:1px;margin:4px 13px 7px;background:rgba(255,255,255,.08)}
 .awareness-content{max-width:1120px}
 .awareness-title{margin-bottom:15px}
 .awareness-title h1{max-width:760px}
