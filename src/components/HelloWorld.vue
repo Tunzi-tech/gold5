@@ -3107,6 +3107,18 @@ onBeforeUnmount(() => {
 
         <div class="live-flow-section-line"></div>
 
+        <button
+          class="awareness-nav-button"
+          :class="{ active: activeView === 'awareness' }"
+          type="button"
+          @click="navigate('awareness')"
+        >
+          <span class="icon">◌</span>
+          <span>Impact &amp; Awareness</span>
+        </button>
+
+        <div class="awareness-section-line"></div>
+
         <div class="sidebar-section-label">Impact</div>
 
 <div class="impact-section-line"></div>
@@ -4034,6 +4046,122 @@ onBeforeUnmount(() => {
           </aside>
         </div>
 
+      </section>
+
+      <!-- =================================================
+           IMPACT & AWARENESS
+           ================================================= -->
+      <section v-if="activeView === 'awareness'" class="content awareness-content">
+
+        <div class="page-title awareness-title">
+          <span class="eyebrow">IMPACT &amp; AWARENESS</span>
+          <h1>See what matters. Understand the impact.</h1>
+          <p>
+            Discover signals from people and entities, understand why they matter, explore what may
+            happen if nothing changes, and discover what we can do next.
+          </p>
+        </div>
+
+        <div class="awareness-filters">
+          <button type="button" class="awareness-filter active">ALL</button>
+          <button type="button" class="awareness-filter">WHAT'S HAPPENING</button>
+          <button type="button" class="awareness-filter">IF NOTHING CHANGES</button>
+          <button type="button" class="awareness-filter">WHAT WE CAN DO</button>
+          <button type="button" class="awareness-filter">LEARN &amp; DISCOVER</button>
+          <button type="button" class="awareness-filter">POSSIBLE FUTURES</button>
+        </div>
+
+        <div class="awareness-grid">
+
+          <article class="awareness-card awareness-signal-card">
+            <div class="awareness-card-head">
+              <span class="awareness-kicker">WHAT'S HAPPENING · PEOPLE</span>
+              <span class="awareness-live-dot">LIVE</span>
+            </div>
+            <h2>Shared green spaces are becoming a local concern.</h2>
+            <p>
+              People in Tunis North are raising concerns about the condition and accessibility of
+              public spaces. Others are already pointing to places where something could change.
+            </p>
+            <div class="awareness-source-row">
+              <span>8 residents</span>
+              <span>3 Zone participants</span>
+              <span>Tunis North</span>
+            </div>
+            <button type="button" class="awareness-link" @click="navigate('zones')">EXPLORE THE ZONE →</button>
+          </article>
+
+          <article class="awareness-card awareness-consequence-card">
+            <div class="awareness-card-head">
+              <span class="awareness-kicker">IF NOTHING CHANGES</span>
+              <span class="awareness-impact-mark">!</span>
+            </div>
+            <h2>What can this affect over time?</h2>
+            <div class="awareness-chain">
+              <span>Less usable green space</span>
+              <i>→</i>
+              <span>Less shade &amp; comfort</span>
+              <i>→</i>
+              <span>Less everyday use</span>
+              <i>→</i>
+              <span>More pressure on remaining spaces</span>
+            </div>
+            <p class="awareness-note">A possible consequence is not a prediction. It is a reason to look closer before the situation becomes harder to change.</p>
+          </article>
+
+          <article class="awareness-card awareness-action-card">
+            <div class="awareness-card-head">
+              <span class="awareness-kicker">WHAT WE CAN DO</span>
+              <span class="awareness-action-mark">✦</span>
+            </div>
+            <h2>Turn awareness into a possibility.</h2>
+            <div class="awareness-actions">
+              <div><strong>01</strong><span>Protect a place that already works.</span></div>
+              <div><strong>02</strong><span>Join people already working on it.</span></div>
+              <div><strong>03</strong><span>Bring the issue into a local Call.</span></div>
+              <div><strong>04</strong><span>Start one small action and learn from it.</span></div>
+            </div>
+            <button type="button" class="awareness-link" @click="navigate('call')">FIND A CALL →</button>
+          </article>
+
+          <article class="awareness-card awareness-learn-card">
+            <div class="awareness-card-head">
+              <span class="awareness-kicker">LEARN &amp; DISCOVER</span>
+              <span class="awareness-learn-mark">◈</span>
+            </div>
+            <h2>Why do cities need trees beyond aesthetics?</h2>
+            <p>
+              Trees can influence shade, heat, water movement, biodiversity and how people use
+              public space. Understanding the connections helps us see local choices differently.
+            </p>
+            <div class="awareness-meta">KNOWLEDGE · URBAN NATURE · 6 MIN</div>
+            <button type="button" class="awareness-link">READ ARTICLE →</button>
+          </article>
+
+          <article class="awareness-card awareness-future-card">
+            <div class="awareness-card-head">
+              <span class="awareness-kicker">POSSIBLE FUTURES</span>
+              <span class="awareness-future-mark">◇</span>
+            </div>
+            <h2>What could this place become?</h2>
+            <p>
+              An underused local space could become a community garden, a small biodiversity area,
+              a place for children, or simply a better shared public space.
+            </p>
+            <div class="awareness-future-path">
+              <span>TODAY</span><i>→</i><span>IDEA</span><i>→</i><span>PEOPLE</span><i>→</i><span>POSSIBILITY</span>
+            </div>
+          </article>
+
+          <aside class="awareness-principle-card">
+            <span class="eyebrow">THE FLOW</span>
+            <div class="awareness-principle">
+              <strong>SEE</strong><i>→</i><strong>UNDERSTAND</strong><i>→</i><strong>REALIZE</strong><i>→</i><strong>IMAGINE</strong><i>→</i><strong>CHOOSE</strong><i>→</i><strong>ACT</strong>
+            </div>
+            <p>Awareness is not only about knowing a problem. It is about seeing relationships, consequences and possibilities clearly enough to make a choice.</p>
+          </aside>
+
+        </div>
       </section>
 
       <!-- =================================================
@@ -14327,6 +14455,56 @@ textarea:focus-visible {
   .join-confirmation,.join-confirmation-travel,.join-confirmation-destination-core,.join-confirmation-arrow{animation:none}
 }
 @media(max-width:600px){.join-confirmation{top:10px;min-width:0;width:calc(100vw - 20px)}}
+
+/* IMPACT & AWARENESS */
+.awareness-nav-button{display:flex;align-items:center;gap:9px;width:100%;margin:5px 0;padding:8px 10px;border:1px solid transparent;border-radius:7px;background:transparent;color:#7d8da2;font-size:8px;font-weight:700;letter-spacing:.02em;text-align:left;cursor:pointer;transition:.2s ease}
+.awareness-nav-button .icon{width:16px;color:#879db8;font-size:14px;text-align:center}
+.awareness-nav-button:hover{background:rgba(255,255,255,.025);color:#d5e0ee}
+.awareness-nav-button.active{border-color:rgba(121,174,240,.13);background:rgba(74,120,194,.07);color:#b8d1ec}
+.awareness-nav-button.active .icon{color:#8eb7e7}
+.awareness-section-line{height:1px;margin:5px 9px 9px;background:linear-gradient(90deg,rgba(121,174,240,.12),rgba(255,255,255,.025),transparent)}
+.awareness-content{max-width:1120px}
+.awareness-title{margin-bottom:15px}
+.awareness-title h1{max-width:760px}
+.awareness-title p{max-width:760px}
+.awareness-filters{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 16px}
+.awareness-filter{padding:7px 9px;border:1px solid rgba(255,255,255,.07);border-radius:7px;background:rgba(255,255,255,.018);color:#78899e;font-size:6px;font-weight:800;letter-spacing:.08em;cursor:pointer}
+.awareness-filter:hover,.awareness-filter.active{border-color:rgba(121,174,240,.22);background:rgba(74,120,194,.07);color:#c4d8ee}
+.awareness-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.awareness-card,.awareness-principle-card{border:1px solid rgba(255,255,255,.065);border-radius:14px;background:linear-gradient(145deg,rgba(24,32,45,.66),rgba(10,15,23,.9));box-shadow:0 14px 30px rgba(0,0,0,.13)}
+.awareness-card{padding:18px}
+.awareness-card-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.awareness-kicker{color:#71869f;font-size:6px;font-weight:900;letter-spacing:.12em}
+.awareness-live-dot{color:#79c7a1;font-size:6px;font-weight:900;letter-spacing:.1em}
+.awareness-card h2{margin:10px 0 8px;color:#e5edf7;font-size:17px;line-height:1.3}
+.awareness-card p{margin:0;color:#7c8da2;font-size:9px;line-height:1.65}
+.awareness-source-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+.awareness-source-row span{padding:5px 7px;border:1px solid rgba(255,255,255,.055);border-radius:6px;background:rgba(255,255,255,.015);color:#6e8097;font-size:6px}
+.awareness-link{margin-top:15px;padding:0;border:0;background:transparent;color:#91b9e6;font-size:6px;font-weight:900;letter-spacing:.1em;cursor:pointer}
+.awareness-link:hover{color:#c8ddf3}
+.awareness-impact-mark,.awareness-action-mark,.awareness-learn-mark,.awareness-future-mark{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;font-size:10px}
+.awareness-impact-mark{border:1px solid rgba(240,164,93,.25);color:#f0a45d;background:rgba(240,164,93,.05)}
+.awareness-action-mark{border:1px solid rgba(121,199,161,.2);color:#79c7a1;background:rgba(121,199,161,.05)}
+.awareness-learn-mark{border:1px solid rgba(121,174,240,.2);color:#8eb7e7;background:rgba(121,174,240,.05)}
+.awareness-future-mark{border:1px solid rgba(174,146,221,.2);color:#b69be0;background:rgba(174,146,221,.05)}
+.awareness-chain{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin:14px 0}
+.awareness-chain span{padding:7px 8px;border:1px solid rgba(240,164,93,.09);border-radius:7px;background:rgba(240,164,93,.025);color:#a89178;font-size:6px;line-height:1.35}
+.awareness-chain i,.awareness-future-path i{color:#65768c;font-style:normal;font-size:10px}
+.awareness-note{font-size:7px!important;color:#68798e!important}
+.awareness-actions{display:grid;gap:7px;margin-top:13px}
+.awareness-actions div{display:grid;grid-template-columns:23px 1fr;gap:7px;align-items:center;padding:7px 8px;border:1px solid rgba(121,199,161,.07);border-radius:7px;background:rgba(121,199,161,.018)}
+.awareness-actions strong{color:#6f9b86;font-size:6px}
+.awareness-actions span{color:#91a398;font-size:7px}
+.awareness-meta{margin-top:14px;color:#5e7188;font-size:6px;font-weight:800;letter-spacing:.1em}
+.awareness-future-path{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:14px}
+.awareness-future-path span{padding:6px 7px;border:1px solid rgba(174,146,221,.09);border-radius:6px;color:#8d7ba9;background:rgba(174,146,221,.025);font-size:6px;font-weight:800;letter-spacing:.08em}
+.awareness-principle-card{grid-column:1 / -1;padding:16px 18px;display:grid;grid-template-columns:auto 1fr;gap:9px 20px;align-items:center;background:radial-gradient(circle at 20% 50%,rgba(74,120,194,.07),rgba(10,15,23,.88) 60%)}
+.awareness-principle-card .eyebrow{grid-column:1 / -1}
+.awareness-principle{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.awareness-principle strong{color:#a9bfd8;font-size:6px;letter-spacing:.08em}
+.awareness-principle i{color:#51667f;font-style:normal;font-size:9px}
+.awareness-principle-card p{margin:0;color:#718297;font-size:8px;line-height:1.55;max-width:540px}
+@media(max-width:800px){.awareness-grid{grid-template-columns:1fr}.awareness-principle-card{grid-column:auto;grid-template-columns:1fr}.awareness-principle-card p{max-width:none}}
 
 </style>
 
