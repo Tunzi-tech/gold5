@@ -195,6 +195,8 @@ const participatingEvents = ref([
 ])
 const administrationUnlocked = ref(false)
 const myZonesConnectionFilter = ref('all')
+const joinConfirmation = ref('')
+let joinConfirmationTimer: ReturnType<typeof setTimeout> | null = null
 
 const administrationPassword = ref('')
 const administrationPasswordError = ref(false)
@@ -2163,6 +2165,18 @@ function getPlaceConnectionReasons(place: Entity) {
   return reasons
 }
 
+function showJoinConfirmation(name: string, kind: 'zone' | 'governorate') {
+  joinConfirmation.value = name + ' was added to Your Zones.'
+
+  if (joinConfirmationTimer) clearTimeout(joinConfirmationTimer)
+  joinConfirmationTimer = setTimeout(() => {
+    joinConfirmation.value = ''
+    joinConfirmationTimer = null
+  }, 3200)
+
+  sidebarSpace.value = 'zones'
+}
+
 function navigate(view: string) {
   activeView.value = view
   selectedZone.value = null
@@ -2303,7 +2317,7 @@ function toggleGovernorateJoin(name: string) {
   joinedGovernorates.value.push(name)
 
   // Joining a governorate immediately makes it visible in YOUR ZONES.
-  sidebarSpace.value = 'zones'
+  showJoinConfirmation(name, 'governorate')
 }
 
 function openMyGovernorate(name: string) {
@@ -2439,7 +2453,7 @@ function participate(zone: Zone) {
   if (zone.joined) {
     zone.participants++
     // Keep the personal Zone layer synchronized immediately after joining.
-    sidebarSpace.value = 'zones'
+    showJoinConfirmation(zone.name, 'zone')
   } else {
     zone.participants = Math.max(0, zone.participants - 1)
   }
@@ -2720,6 +2734,12 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="app-shell">
+
+    <div v-if="joinConfirmation" class="join-confirmation" role="status" aria-live="polite">
+      <span class="join-confirmation-check">✓</span>
+      <span>{{ joinConfirmation }}</span>
+      <button type="button" @click="joinConfirmation = ''" aria-label="Dismiss confirmation">×</button>
+    </div>
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
@@ -13142,6 +13162,53 @@ textarea:focus-visible {
   background:#0b1a2b;
   color:#b9d7f7;
 }
+
+
+.join-confirmation{
+  position:fixed;
+  top:18px;
+  left:50%;
+  z-index:1000;
+  transform:translateX(-50%);
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:260px;
+  max-width:min(420px,calc(100vw - 28px));
+  padding:10px 11px;
+  border:1px solid rgba(121,199,161,.28);
+  border-radius:9px;
+  background:rgba(7,16,28,.94);
+  color:#c9d9e9;
+  font-size:8px;
+  font-weight:700;
+  box-shadow:0 10px 30px rgba(0,0,0,.38),0 0 18px rgba(121,199,161,.06);
+  backdrop-filter:blur(12px);
+}
+.join-confirmation-check{
+  display:grid;
+  place-items:center;
+  width:17px;
+  height:17px;
+  flex:0 0 17px;
+  border:1px solid rgba(121,199,161,.35);
+  border-radius:50%;
+  background:rgba(121,199,161,.09);
+  color:#79c7a1;
+  font-size:9px;
+}
+.join-confirmation button{
+  margin-left:auto;
+  padding:0 2px;
+  border:0;
+  background:transparent;
+  color:#617389;
+  font-size:13px;
+  line-height:1;
+  cursor:pointer;
+}
+.join-confirmation button:hover{color:#aebed0}
+@media(max-width:600px){.join-confirmation{top:10px;min-width:0;width:calc(100vw - 20px)}}
 
 </style>
 
