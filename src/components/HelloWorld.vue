@@ -2736,9 +2736,18 @@ onBeforeUnmount(() => {
   <div class="app-shell">
 
     <div v-if="joinConfirmation" class="join-confirmation" role="status" aria-live="polite">
-      <span class="join-confirmation-orbit" aria-hidden="true">
-        <span class="join-confirmation-orbit-ring"></span>
-        <span class="join-confirmation-check">✓</span>
+      <span class="join-confirmation-flow" aria-hidden="true">
+        <span class="join-confirmation-source">
+          <span class="join-confirmation-source-orbit"></span>
+          <span class="join-confirmation-source-core"></span>
+        </span>
+        <span class="join-confirmation-travel">
+          <span class="join-confirmation-travel-orbit"></span>
+        </span>
+        <span class="join-confirmation-destination">
+          <span class="join-confirmation-destination-orbit"></span>
+          <span class="join-confirmation-destination-core">✓</span>
+        </span>
       </span>
       <span class="join-confirmation-copy">
         <strong>ADDED TO YOUR ZONES</strong>
@@ -13193,35 +13202,102 @@ textarea:focus-visible {
   backdrop-filter:blur(12px);
   animation:join-confirmation-in .32s cubic-bezier(.2,.8,.2,1);
 }
-.join-confirmation-orbit{
+.join-confirmation-flow{
   position:relative;
+  width:48px;
+  height:24px;
+  flex:0 0 48px;
+  overflow:visible;
+}
+.join-confirmation-flow::before{
+  content:'';
+  position:absolute;
+  left:7px;
+  right:7px;
+  top:50%;
+  height:1px;
+  background:linear-gradient(90deg,rgba(240,164,93,.18),rgba(121,174,240,.3),rgba(121,199,161,.34));
+  transform:translateY(-50%);
+}
+.join-confirmation-source,
+.join-confirmation-destination{
+  position:absolute;
+  top:50%;
   display:grid;
   place-items:center;
-  width:20px;
-  height:20px;
-  flex:0 0 20px;
+  width:16px;
+  height:16px;
+  transform:translateY(-50%);
 }
-.join-confirmation-check{
+.join-confirmation-source{left:0}
+.join-confirmation-destination{right:0}
+.join-confirmation-source-orbit,
+.join-confirmation-destination-orbit{
+  position:absolute;
+  width:15px;
+  height:15px;
+  border:1px solid rgba(240,164,93,.45);
+  border-radius:50%;
+}
+.join-confirmation-destination-orbit{
+  border-color:rgba(121,199,161,.48);
+}
+.join-confirmation-source-orbit{
+  transform:rotate(22deg) scaleY(.58);
+}
+.join-confirmation-destination-orbit{
+  transform:rotate(-22deg) scaleY(.58);
+}
+.join-confirmation-source-core,
+.join-confirmation-destination-core{
   position:relative;
   z-index:2;
   display:grid;
   place-items:center;
-  width:17px;
-  height:17px;
-  border:1px solid rgba(121,199,161,.35);
+  width:7px;
+  height:7px;
   border-radius:50%;
+}
+.join-confirmation-source-core{
+  background:#f0a45d;
+  box-shadow:0 0 7px rgba(240,164,93,.55);
+}
+.join-confirmation-destination-core{
+  width:15px;
+  height:15px;
+  border:1px solid rgba(121,199,161,.35);
   background:rgba(121,199,161,.09);
   color:#79c7a1;
-  font-size:9px;
-  animation:join-confirmation-check .45s ease-out;
+  font-size:8px;
+  animation:join-confirmation-destination-pop .45s ease-out;
 }
-.join-confirmation-orbit-ring{
+.join-confirmation-travel{
   position:absolute;
-  width:19px;
-  height:19px;
-  border:1px solid rgba(121,199,161,.4);
+  left:4px;
+  top:50%;
+  width:11px;
+  height:11px;
+  transform:translateY(-50%);
+  animation:join-confirmation-travel 1.05s cubic-bezier(.45,.05,.2,1) both;
+}
+.join-confirmation-travel-orbit{
+  position:absolute;
+  inset:0;
+  border:1px solid rgba(126,184,255,.72);
   border-radius:50%;
-  animation:join-confirmation-ring .8s ease-out;
+  transform:rotate(24deg) scaleY(.58);
+  box-shadow:0 0 7px rgba(126,184,255,.18);
+}
+.join-confirmation-travel::after{
+  content:'';
+  position:absolute;
+  width:4px;
+  height:4px;
+  left:3px;
+  top:3px;
+  border-radius:50%;
+  background:#79aef0;
+  box-shadow:0 0 7px rgba(121,174,240,.6);
 }
 .join-confirmation-copy{
   display:grid;
@@ -13258,13 +13334,15 @@ textarea:focus-visible {
   from{opacity:0;transform:translate(-50%,-8px) scale(.96)}
   to{opacity:1;transform:translate(-50%,0) scale(1)}
 }
-@keyframes join-confirmation-ring{
-  0%{transform:scale(.65);opacity:.9}
-  100%{transform:scale(1.65);opacity:0}
+@keyframes join-confirmation-travel{
+  0%{left:4px;opacity:0;transform:translateY(-50%) scale(.7)}
+  12%{opacity:1}
+  72%{opacity:1}
+  100%{left:33px;opacity:0;transform:translateY(-50%) scale(1)}
 }
-@keyframes join-confirmation-check{
-  0%{transform:scale(.5);opacity:0}
-  70%{transform:scale(1.15)}
+@keyframes join-confirmation-destination-pop{
+  0%{transform:scale(.72);opacity:.45}
+  65%{transform:scale(1.18)}
   100%{transform:scale(1);opacity:1}
 }
 @keyframes join-confirmation-arrow{
@@ -13272,7 +13350,7 @@ textarea:focus-visible {
   100%{transform:translateX(0);opacity:1}
 }
 @media(prefers-reduced-motion:reduce){
-  .join-confirmation,.join-confirmation-check,.join-confirmation-orbit-ring,.join-confirmation-arrow{animation:none}
+  .join-confirmation,.join-confirmation-travel,.join-confirmation-destination-core,.join-confirmation-arrow{animation:none}
 }
 @media(max-width:600px){.join-confirmation{top:10px;min-width:0;width:calc(100vw - 20px)}}
 
