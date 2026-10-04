@@ -14475,9 +14475,9 @@ textarea:focus-visible {
 
 /* Sidebar hierarchy accents */
 .sidebar-section-label{color:#e1b84d!important}
-.impact-zone-label{color:#c96cff!important;font-weight:900;text-shadow:0 0 9px rgba(201,108,255,.18)}
-.zone-around-label{color:#d276ff;font-weight:900}
-.your-zones-label{color:#d87cff;font-weight:900;text-shadow:0 0 10px rgba(216,124,255,.22)}
+.impact-zone-label{color:#a97dff!important;font-weight:900;text-shadow:0 0 9px rgba(169,125,255,.18)}
+.zone-around-label{color:#9c9cff;font-weight:900}
+.your-zones-label{color:#86bfff;font-weight:900;text-shadow:0 0 10px rgba(134,191,255,.22)}
 .flow-more-nested{margin-top:2px}
 .flow-more-button{display:flex;align-items:center;gap:7px;width:100%;padding:6px 8px 6px 13px;border:0;background:transparent;color:#718197;font-size:7px;text-align:left;cursor:pointer}
 .flow-more-button:hover,.flow-more-button[aria-expanded="true"]{color:#a9b9cc}
