@@ -139,6 +139,7 @@ const sidebarSpace = ref<'zones' | 'networks' | 'connections'>('networks')
 const showAccountMenu = ref(false)
 const showWhatsGoingOn = ref(false)
 const liveEngagement = ref<'people' | 'action' | 'flow' | null>(null)
+const awarenessFilter = ref('ALL')
 const selectedZone = ref<Zone | null>(null)
 const selectedCall = ref<CommunityCall | null>(null)
 const selectedPage = ref<Page | null>(null)
@@ -2384,6 +2385,10 @@ function showJoinConfirmation(name: string) {
   sidebarSpace.value = 'zones'
 }
 
+function setAwarenessFilter(filter: string) {
+  awarenessFilter.value = filter
+}
+
 function navigate(view: string) {
   activeView.value = view
   selectedZone.value = null
@@ -4080,17 +4085,17 @@ onBeforeUnmount(() => {
         </div>
 
         <div class="awareness-filters">
-          <button type="button" class="awareness-filter active">ALL</button>
-          <button type="button" class="awareness-filter">WHAT'S HAPPENING</button>
-          <button type="button" class="awareness-filter">IF NOTHING CHANGES</button>
-          <button type="button" class="awareness-filter">WHAT WE CAN DO</button>
-          <button type="button" class="awareness-filter">LEARN &amp; DISCOVER</button>
-          <button type="button" class="awareness-filter">POSSIBLE FUTURES</button>
+          <button type="button" class="awareness-filter" :class="{ active: awarenessFilter === 'ALL' }" @click="setAwarenessFilter('ALL')">ALL</button>
+          <button type="button" class="awareness-filter" :class="{ active: awarenessFilter === 'WHAT'S HAPPENING' }" @click="setAwarenessFilter('WHAT'S HAPPENING')">WHAT'S HAPPENING</button>
+          <button type="button" class="awareness-filter" :class="{ active: awarenessFilter === 'IF NOTHING CHANGES' }" @click="setAwarenessFilter('IF NOTHING CHANGES')">IF NOTHING CHANGES</button>
+          <button type="button" class="awareness-filter" :class="{ active: awarenessFilter === 'WHAT WE CAN DO' }" @click="setAwarenessFilter('WHAT WE CAN DO')">WHAT WE CAN DO</button>
+          <button type="button" class="awareness-filter" :class="{ active: awarenessFilter === 'LEARN &amp; DISCOVER' }" @click="setAwarenessFilter('LEARN &amp; DISCOVER')">LEARN &amp; DISCOVER</button>
+          <button type="button" class="awareness-filter" :class="{ active: awarenessFilter === 'POSSIBLE FUTURES' }" @click="setAwarenessFilter('POSSIBLE FUTURES')">POSSIBLE FUTURES</button>
         </div>
 
         <div class="awareness-grid">
 
-          <article class="awareness-card awareness-signal-card">
+          <article v-show="awarenessFilter === 'ALL' || awarenessFilter === 'WHAT'S HAPPENING'" class="awareness-card awareness-signal-card">
             <div class="awareness-card-head">
               <span class="awareness-kicker">WHAT'S HAPPENING · PEOPLE</span>
               <span class="awareness-live-dot">LIVE</span>
@@ -4108,7 +4113,7 @@ onBeforeUnmount(() => {
             <button type="button" class="awareness-link" @click="navigate('zones')">EXPLORE THE ZONE →</button>
           </article>
 
-          <article class="awareness-card awareness-consequence-card">
+          <article v-show="awarenessFilter === 'ALL' || awarenessFilter === 'IF NOTHING CHANGES'" class="awareness-card awareness-consequence-card">
             <div class="awareness-card-head">
               <span class="awareness-kicker">IF NOTHING CHANGES</span>
               <span class="awareness-impact-mark">!</span>
@@ -4126,7 +4131,7 @@ onBeforeUnmount(() => {
             <p class="awareness-note">A possible consequence is not a prediction. It is a reason to look closer before the situation becomes harder to change.</p>
           </article>
 
-          <article class="awareness-card awareness-action-card">
+          <article v-show="awarenessFilter === 'ALL' || awarenessFilter === 'WHAT WE CAN DO'" class="awareness-card awareness-action-card">
             <div class="awareness-card-head">
               <span class="awareness-kicker">WHAT WE CAN DO</span>
               <span class="awareness-action-mark">✦</span>
@@ -4141,7 +4146,7 @@ onBeforeUnmount(() => {
             <button type="button" class="awareness-link" @click="navigate('call')">FIND A CALL →</button>
           </article>
 
-          <article class="awareness-card awareness-learn-card">
+          <article v-show="awarenessFilter === 'ALL' || awarenessFilter === 'LEARN & DISCOVER'" class="awareness-card awareness-learn-card">
             <div class="awareness-card-head">
               <span class="awareness-kicker">LEARN &amp; DISCOVER</span>
               <span class="awareness-learn-mark">◈</span>
@@ -4155,7 +4160,7 @@ onBeforeUnmount(() => {
             <button type="button" class="awareness-link">READ ARTICLE →</button>
           </article>
 
-          <article class="awareness-card awareness-future-card">
+          <article v-show="awarenessFilter === 'ALL' || awarenessFilter === 'POSSIBLE FUTURES'" class="awareness-card awareness-future-card">
             <div class="awareness-card-head">
               <span class="awareness-kicker">POSSIBLE FUTURES</span>
               <span class="awareness-future-mark">◇</span>
