@@ -14475,16 +14475,16 @@ textarea:focus-visible {
 
 /* Sidebar hierarchy accents */
 .sidebar-section-label{color:#e1b84d!important}
-.impact-zone-label{color:#4d8dff!important}
-.zone-around-label{color:#6fa8ff}
-.your-zones-label{color:#4fc3f7;font-weight:800}
+.impact-zone-label{color:#9b7dcc!important}
+.zone-around-label{color:#9b7dcc}
+.your-zones-label{color:#ad87dc;font-weight:800}
 .flow-more-nested{margin-top:2px}
 .flow-more-button{display:flex;align-items:center;gap:7px;width:100%;padding:6px 8px 6px 13px;border:0;background:transparent;color:#718197;font-size:7px;text-align:left;cursor:pointer}
 .flow-more-button:hover,.flow-more-button[aria-expanded="true"]{color:#a9b9cc}
 .flow-more-button .subnav-chevron{margin-left:auto;font-size:8px}
-.flow-more-subnav{margin:1px 0 3px 12px;padding-left:8px;border-left:1px solid rgba(79,195,247,.14)}
+.flow-more-subnav{margin:1px 0 3px 12px;padding-left:8px;border-left:1px solid rgba(154,125,204,.16)}
 .flow-more-subnav button{display:flex;align-items:center;gap:7px;width:100%;padding:6px 8px;border:0;border-radius:5px;background:transparent;color:#68788d;font-size:7px;text-align:left;cursor:pointer}
-.flow-more-subnav button:hover,.flow-more-subnav button.active{background:rgba(79,195,247,.06);color:#8fcff0}
+.flow-more-subnav button:hover,.flow-more-subnav button.active{background:rgba(154,125,204,.06);color:#b394d8}
 
 /* IMPACT & AWARENESS */
 .awareness-nav-button{display:flex;align-items:center;gap:9px;width:100%;margin:5px 0;padding:8px 10px;border:1px solid transparent;border-radius:7px;background:transparent;color:#7d8da2;font-size:8px;font-weight:700;letter-spacing:.02em;text-align:left;cursor:pointer;transition:.2s ease}
