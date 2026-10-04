@@ -166,6 +166,196 @@ const newCallLocation = ref('')
 const activeZoneTab = ref('overview')
 const search = ref('')
 const postText = ref('')
+const zonePostFilter = ref<'all' | 'posts' | 'suggestions'>('all')
+const zonePostDraft = ref('')
+const zonePostCommentOpen = ref<number | null>(null)
+const zonePostCommentDraft = ref<Record<number, string>>({})
+
+type ZoneCommunityPost = Post & {
+  zone: string
+}
+
+type ZoneCommunitySuggestion = Suggestion & {
+  zone: string
+}
+
+const zoneCommunityPosts = ref<ZoneCommunityPost[]>([
+  {
+    id: 101,
+    author: 'Amine Ben Salem',
+    handle: '@amine',
+    avatar: 'AB',
+    time: '1 h',
+    content: 'What are people noticing around this Zone that deserves more attention or discussion?',
+    zone: 'Tunis',
+    likes: 14,
+    comments: 5,
+    liked: false
+  },
+  {
+    id: 102,
+    author: 'Green Horizon',
+    handle: '@greenhorizon',
+    avatar: 'GH',
+    page: 'Green Horizon',
+    time: '3 h',
+    content: 'There may be a small opportunity here to connect a local place with people who already care about it.',
+    zone: 'Tunis North',
+    likes: 18,
+    comments: 7,
+    liked: false
+  },
+  {
+    id: 103,
+    author: 'Future Makers',
+    handle: '@futuremakers',
+    avatar: 'FM',
+    page: 'Future Makers',
+    time: '5 h',
+    content: 'A Zone becomes more useful when observations, ideas and possible actions can meet in one place.',
+    zone: 'Ariana',
+    likes: 11,
+    comments: 4,
+    liked: false
+  },
+  {
+    id: 104,
+    author: 'Local Participant',
+    handle: '@localparticipant',
+    avatar: 'LP',
+    time: 'Yesterday',
+    content: 'What is already working here that we should strengthen instead of starting from zero?',
+    zone: 'La Marsa',
+    likes: 9,
+    comments: 3,
+    liked: false
+  },
+  {
+    id: 105,
+    author: 'Community Voice',
+    handle: '@communityvoice',
+    avatar: 'CV',
+    time: 'Yesterday',
+    content: 'A shared observation can become the beginning of a useful local conversation.',
+    zone: 'Sidi Bou Said',
+    likes: 8,
+    comments: 2,
+    liked: false
+  }
+])
+
+const zoneCommunitySuggestions = ref<ZoneCommunitySuggestion[]>([
+  {
+    id: 201,
+    author: 'Nour',
+    avatar: 'NO',
+    text: 'Could we identify one small local action that people can start together this week?',
+    votes: 12,
+    voted: false,
+    answers: 4,
+    status: 'OPEN',
+    zone: 'Tunis'
+  },
+  {
+    id: 202,
+    author: 'Green Horizon',
+    avatar: 'GH',
+    text: 'Create a community activity around an underused public space and invite nearby people to participate.',
+    votes: 16,
+    voted: false,
+    answers: 6,
+    status: 'OPEN',
+    zone: 'Tunis North'
+  },
+  {
+    id: 203,
+    author: 'Future Makers',
+    avatar: 'FM',
+    text: 'Map the places and people already working on similar ideas before creating something new.',
+    votes: 10,
+    voted: false,
+    answers: 3,
+    status: 'OPEN',
+    zone: 'Ariana'
+  },
+  {
+    id: 204,
+    author: 'Local Participant',
+    avatar: 'LP',
+    text: 'What could connect the coast, local businesses and people who want to care for the area?',
+    votes: 13,
+    voted: false,
+    answers: 5,
+    status: 'OPEN',
+    zone: 'La Marsa'
+  },
+  {
+    id: 205,
+    author: 'Community Voice',
+    avatar: 'CV',
+    text: 'Bring local cultural spaces and residents into one conversation about shared activities.',
+    votes: 9,
+    voted: false,
+    answers: 2,
+    status: 'OPEN',
+    zone: 'Sidi Bou Said'
+  }
+])
+
+const visibleZoneCommunityPosts = computed(() =>
+  zoneCommunityPosts.value.filter(post => post.zone === selectedZoneArea.value)
+)
+
+const visibleZoneCommunitySuggestions = computed(() =>
+  zoneCommunitySuggestions.value.filter(suggestion => suggestion.zone === selectedZoneArea.value)
+)
+
+function publishZonePost() {
+  const text = zonePostDraft.value.trim()
+  if (!text || !selectedZoneArea.value) return
+
+  zoneCommunityPosts.value.unshift({
+    id: Date.now(),
+    author: 'You',
+    handle: '@you',
+    avatar: 'YO',
+    time: 'now',
+    content: text,
+    zone: selectedZoneArea.value,
+    likes: 0,
+    comments: 0,
+    liked: false
+  })
+
+  zonePostDraft.value = ''
+  zonePostFilter.value = 'posts'
+}
+
+function toggleZonePostLike(post: ZoneCommunityPost) {
+  post.liked = !post.liked
+  post.likes += post.liked ? 1 : -1
+}
+
+function toggleZoneSuggestionVote(suggestion: ZoneCommunitySuggestion) {
+  suggestion.voted = !suggestion.voted
+  suggestion.votes += suggestion.voted ? 1 : -1
+}
+
+function toggleZonePostComments(postId: number) {
+  zonePostCommentOpen.value = zonePostCommentOpen.value === postId ? null : postId
+}
+
+function addZonePostComment(post: ZoneCommunityPost) {
+  const text = (zonePostCommentDraft.value[post.id] || '').trim()
+  if (!text) return
+
+  post.comments += 1
+  zonePostCommentDraft.value = {
+    ...zonePostCommentDraft.value,
+    [post.id]: ''
+  }
+  zonePostCommentOpen.value = null
+}
 
 const participatingEvents = ref([
   {
@@ -5664,6 +5854,107 @@ onBeforeUnmount(() => {
                     </article>
                     </div>
                   </div>
+
+                  <div class="zone-posts-section">
+                    <div class="zone-posts-divider" aria-hidden="true"><span></span></div>
+
+                    <div class="zone-posts-heading">
+                      <div>
+                        <span class="eyebrow">ZONE POSTS</span>
+                        <h2>What people are saying in {{ selectedZoneArea }}.</h2>
+                        <p>Posts, suggestions, questions and local possibilities can be discussed here.</p>
+                      </div>
+                      <span class="zone-posts-live"><i></i> LIVE IN ZONE</span>
+                    </div>
+
+                    <div class="zone-post-composer">
+                      <div class="zone-post-composer-avatar">YO</div>
+                      <div class="zone-post-composer-main">
+                        <textarea
+                          v-model="zonePostDraft"
+                          :placeholder="'Share something you noticed, an idea or a question about ' + selectedZoneArea + '...'"
+                          rows="2"
+                        ></textarea>
+                        <div class="zone-post-composer-footer">
+                          <span>POSTING IN · {{ selectedZoneArea.toUpperCase() }}</span>
+                          <button type="button" class="zone-post-publish" :disabled="!zonePostDraft.trim()" @click="publishZonePost">
+                            POST →
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="zone-post-filters">
+                      <button type="button" :class="{ active: zonePostFilter === 'all' }" @click="zonePostFilter = 'all'">ALL</button>
+                      <button type="button" :class="{ active: zonePostFilter === 'posts' }" @click="zonePostFilter = 'posts'">POSTS · {{ visibleZoneCommunityPosts.length }}</button>
+                      <button type="button" :class="{ active: zonePostFilter === 'suggestions' }" @click="zonePostFilter = 'suggestions'">SUGGESTIONS · {{ visibleZoneCommunitySuggestions.length }}</button>
+                    </div>
+
+                    <div class="zone-post-feed">
+                      <article
+                        v-if="zonePostFilter !== 'suggestions'"
+                        v-for="post in visibleZoneCommunityPosts"
+                        :key="'zone-post-' + post.id"
+                        class="zone-post-card"
+                      >
+                        <div class="zone-post-card-top">
+                          <div class="zone-post-author">
+                            <span class="zone-post-avatar">{{ post.avatar }}</span>
+                            <span>
+                              <strong>{{ post.author }}</strong>
+                              <small>{{ post.page ? post.page + ' · ' : '' }}{{ post.time }}</small>
+                            </span>
+                          </div>
+                          <span class="zone-post-type">POST</span>
+                        </div>
+                        <p class="zone-post-content">{{ post.content }}</p>
+                        <div class="zone-post-actions">
+                          <button type="button" :class="{ liked: post.liked }" @click="toggleZonePostLike(post)">↑ {{ post.likes }} UPVOTE</button>
+                          <button type="button" @click="toggleZonePostComments(post)">💬 {{ post.comments }} COMMENT{{ post.comments === 1 ? '' : 'S' }}</button>
+                          <span>·</span>
+                          <span>INSIDE {{ post.zone.toUpperCase() }}</span>
+                        </div>
+                        <div v-if="zonePostCommentOpen === post.id" class="zone-post-comment-box">
+                          <input
+                            v-model="zonePostCommentDraft[post.id]"
+                            type="text"
+                            placeholder="Add to the conversation..."
+                            @keyup.enter="addZonePostComment(post)"
+                          />
+                          <button type="button" @click="addZonePostComment(post)">SEND</button>
+                        </div>
+                      </article>
+
+                      <article
+                        v-if="zonePostFilter !== 'posts'"
+                        v-for="suggestion in visibleZoneCommunitySuggestions"
+                        :key="'zone-suggestion-' + suggestion.id"
+                        class="zone-post-card zone-suggestion-card"
+                      >
+                        <div class="zone-post-card-top">
+                          <div class="zone-post-author">
+                            <span class="zone-post-avatar suggestion">{{ suggestion.avatar }}</span>
+                            <span>
+                              <strong>{{ suggestion.author }}</strong>
+                              <small>Suggested possibility · {{ suggestion.answers }} answers</small>
+                            </span>
+                          </div>
+                          <span class="zone-post-type suggestion">SUGGESTION</span>
+                        </div>
+                        <p class="zone-post-content">{{ suggestion.text }}</p>
+                        <div class="zone-post-actions">
+                          <button type="button" :class="{ liked: suggestion.voted }" @click="toggleZoneSuggestionVote(suggestion)">↑ {{ suggestion.votes }} UPVOTE</button>
+                          <button type="button">{{ suggestion.answers }} ANSWERS</button>
+                          <span class="zone-suggestion-status">{{ suggestion.status }}</span>
+                        </div>
+                      </article>
+
+                      <div v-if="(zonePostFilter !== 'suggestions' && !visibleZoneCommunityPosts.length) || (zonePostFilter !== 'posts' && !visibleZoneCommunitySuggestions.length)" class="zone-post-empty">
+                        <strong>Nothing here yet.</strong>
+                        <span>Be the first person to add a post or suggestion for {{ selectedZoneArea }}.</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <aside class="governorate-engagement">
@@ -9587,6 +9878,316 @@ textarea:focus-visible {
   border-color:rgba(121,174,240,.3);
 }
 
+/* Zone Posts: the conversation layer under Specific Zone */
+.zone-posts-section{
+  margin-top:18px;
+}
+.zone-posts-divider{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  height:12px;
+  margin:0 0 16px;
+}
+.zone-posts-divider::before,
+.zone-posts-divider::after{
+  content:'';
+  flex:1;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(121,174,240,.14));
+}
+.zone-posts-divider::after{
+  background:linear-gradient(90deg,rgba(121,174,240,.14),transparent);
+}
+.zone-posts-divider span{
+  width:4px;
+  height:4px;
+  border:1px solid rgba(121,174,240,.28);
+  border-radius:50%;
+  background:#0c1726;
+  box-shadow:0 0 8px rgba(121,174,240,.14);
+}
+.zone-posts-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:12px;
+  padding-bottom:10px;
+  border-bottom:1px solid rgba(255,255,255,.045);
+}
+.zone-posts-heading h2{
+  margin:5px 0 4px;
+  color:#dce6f2;
+  font-size:14px;
+  line-height:1.25;
+}
+.zone-posts-heading p{
+  margin:0;
+  color:#63748a;
+  font-size:7px;
+  line-height:1.5;
+}
+.zone-posts-live{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  color:#6f9bc8;
+  font-size:5px;
+  font-weight:900;
+  letter-spacing:.1em;
+  white-space:nowrap;
+}
+.zone-posts-live i{
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#79c7a1;
+  box-shadow:0 0 8px rgba(121,199,161,.5);
+  animation:zone-post-live 2.2s ease-in-out infinite;
+}
+.zone-post-composer{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+  padding:9px;
+  border:1px solid rgba(121,174,240,.1);
+  border-radius:9px;
+  background:rgba(7,14,24,.45);
+}
+.zone-post-composer-avatar,
+.zone-post-avatar{
+  display:grid;
+  place-items:center;
+  width:25px;
+  height:25px;
+  flex:0 0 25px;
+  border-radius:7px;
+  background:rgba(74,120,194,.16);
+  color:#a5c8ed;
+  font-size:6px;
+  font-weight:900;
+}
+.zone-post-composer-main{min-width:0;flex:1}
+.zone-post-composer textarea{
+  width:100%;
+  min-height:37px;
+  resize:vertical;
+  padding:7px 8px;
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:6px;
+  outline:0;
+  background:rgba(255,255,255,.018);
+  color:#b8c7d8;
+  font:inherit;
+  font-size:7px;
+  line-height:1.45;
+}
+.zone-post-composer textarea:focus{
+  border-color:rgba(121,174,240,.22);
+  background:rgba(255,255,255,.025);
+}
+.zone-post-composer-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-top:6px;
+}
+.zone-post-composer-footer span{
+  color:#52657c;
+  font-size:5px;
+  font-weight:800;
+  letter-spacing:.08em;
+}
+.zone-post-publish{
+  padding:5px 8px;
+  border:1px solid rgba(121,174,240,.2);
+  border-radius:5px;
+  background:rgba(74,120,194,.08);
+  color:#8eb3dc;
+  font-size:5px;
+  font-weight:900;
+  letter-spacing:.08em;
+  cursor:pointer;
+}
+.zone-post-publish:disabled{
+  opacity:.35;
+  cursor:default;
+}
+.zone-post-filters{
+  display:flex;
+  gap:4px;
+  margin:9px 0 6px;
+}
+.zone-post-filters button{
+  padding:4px 6px;
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:5px;
+  background:rgba(255,255,255,.012);
+  color:#61738a;
+  font-size:5px;
+  font-weight:900;
+  letter-spacing:.07em;
+  cursor:pointer;
+}
+.zone-post-filters button:hover,
+.zone-post-filters button.active{
+  border-color:rgba(121,174,240,.2);
+  background:rgba(74,120,194,.07);
+  color:#9db9d7;
+}
+.zone-post-feed{
+  display:grid;
+  gap:6px;
+}
+.zone-post-card{
+  padding:9px;
+  border:1px solid rgba(255,255,255,.055);
+  border-radius:8px;
+  background:rgba(255,255,255,.014);
+}
+.zone-post-card:hover{
+  border-color:rgba(121,174,240,.11);
+  background:rgba(255,255,255,.018);
+}
+.zone-post-card-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:8px;
+}
+.zone-post-author{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  min-width:0;
+}
+.zone-post-avatar{
+  width:22px;
+  height:22px;
+  flex-basis:22px;
+  border-radius:6px;
+  font-size:5px;
+}
+.zone-post-avatar.suggestion{
+  background:rgba(153,124,201,.14);
+  color:#c3afe4;
+}
+.zone-post-author>span:last-child{
+  display:grid;
+  gap:2px;
+  min-width:0;
+}
+.zone-post-author strong{
+  color:#aebed0;
+  font-size:6px;
+}
+.zone-post-author small{
+  color:#5e7087;
+  font-size:5px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.zone-post-type{
+  padding:3px 5px;
+  border:1px solid rgba(121,174,240,.13);
+  border-radius:999px;
+  color:#759bc7;
+  font-size:4px;
+  font-weight:900;
+  letter-spacing:.08em;
+}
+.zone-post-type.suggestion{
+  border-color:rgba(176,142,221,.18);
+  color:#a991cb;
+}
+.zone-post-content{
+  margin:7px 0 6px;
+  color:#9eacbd;
+  font-size:7px;
+  line-height:1.55;
+}
+.zone-post-actions{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  flex-wrap:wrap;
+  color:#53667e;
+  font-size:5px;
+  font-weight:800;
+  letter-spacing:.04em;
+}
+.zone-post-actions button{
+  padding:3px 5px;
+  border:1px solid transparent;
+  border-radius:4px;
+  background:transparent;
+  color:#637991;
+  font-size:5px;
+  font-weight:800;
+  cursor:pointer;
+}
+.zone-post-actions button:hover,
+.zone-post-actions button.liked{
+  border-color:rgba(121,174,240,.15);
+  background:rgba(74,120,194,.06);
+  color:#9abce0;
+}
+.zone-suggestion-status{
+  margin-left:auto;
+  color:#79c7a1;
+  font-size:4px;
+  font-weight:900;
+  letter-spacing:.08em;
+}
+.zone-post-comment-box{
+  display:flex;
+  gap:5px;
+  margin-top:7px;
+  padding-top:7px;
+  border-top:1px solid rgba(255,255,255,.04);
+}
+.zone-post-comment-box input{
+  min-width:0;
+  flex:1;
+  padding:5px 6px;
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:5px;
+  outline:0;
+  background:rgba(255,255,255,.015);
+  color:#9eacbd;
+  font-size:6px;
+}
+.zone-post-comment-box button{
+  padding:5px 7px;
+  border:1px solid rgba(121,174,240,.15);
+  border-radius:5px;
+  background:rgba(74,120,194,.06);
+  color:#8eafd2;
+  font-size:5px;
+  font-weight:900;
+  cursor:pointer;
+}
+.zone-post-empty{
+  display:grid;
+  gap:3px;
+  padding:18px 10px;
+  border:1px dashed rgba(255,255,255,.07);
+  border-radius:8px;
+  text-align:center;
+}
+.zone-post-empty strong{color:#8194aa;font-size:6px}
+.zone-post-empty span{color:#53657b;font-size:5px}
+@keyframes zone-post-live{
+  0%,100%{opacity:.55;transform:scale(.8)}
+  50%{opacity:1;transform:scale(1.15)}
+}
+@media(max-width:700px){
+  .zone-posts-heading{align-items:flex-start;flex-direction:column}
+  .zone-post-composer{align-items:flex-start}
+  .zone-post-suggestion-status{margin-left:0}
+}
 .specific-zone-subbutton{
   width:max-content;
   max-width:100%;
