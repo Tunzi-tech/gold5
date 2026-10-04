@@ -5425,6 +5425,9 @@ onBeforeUnmount(() => {
                       <small>{{ signal.detail }}</small>
                     </button>
                   </div>
+
+                </div>
+              </div>
                   <div v-if="showSignalEvidence[selectedZoneArea] && communitySignal(selectedZoneArea).attentionUpvotes + communitySignal(selectedZoneArea).impactUpvotes > 0" class="signal-evidence signal-evidence-detail">
                     <div class="signal-evidence-head">
                       <span>HOW DID {{ selectedZoneArea.toUpperCase() }} REACH THIS SIGNAL?</span>
@@ -5446,8 +5449,6 @@ onBeforeUnmount(() => {
                     </div>
                     <small class="signal-evidence-note">Demo evidence for the prototype — later this should be generated from real posts, reports, comments and votes.</small>
                   </div>
-                </div>
-              </div>
               <div class="governorate-detail-content">
                 <div class="governorate-detail-actions">
                   <div>
