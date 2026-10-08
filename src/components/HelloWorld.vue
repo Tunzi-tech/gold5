@@ -4004,6 +4004,7 @@ onBeforeUnmount(() => {
           <transition name="hero-fade" mode="out-in">
             <div :key="activeHero" class="hero hero-rotating">
               <div class="hero-copy">
+                <span class="hero-label hero-initiatives-label">INITIATIVES · ACTION</span>
                 <span class="hero-label">
                   {{ heroes[activeHero].label }}
                 </span>
@@ -5478,7 +5479,7 @@ onBeforeUnmount(() => {
       <section v-if="activeView === 'initiatives'" class="content pages-commons-page initiatives-page">
         <div class="commons-hero compact-section-hero initiative-hero">
           <div class="commons-hero-copy">
-            <span class="eyebrow">INITIATIVES · ACTION</span>
+            
             <h1>Ideas become <span>something people do.</span></h1>
             <p>
               Discover initiatives already moving around your Zones — and find a place where
