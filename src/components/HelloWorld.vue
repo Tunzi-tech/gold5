@@ -2070,6 +2070,76 @@ const zonePreviewQuestions = computed(() => {
   }))
 })
 
+const initiativeFilter = ref('ALL')
+
+const initiatives = ref([
+  {
+    id: 1,
+    topic: 'URBAN NATURE',
+    title: 'Tunis North Community Garden',
+    description: 'A local initiative connecting residents around community gardening, planting and making shared spaces more alive.',
+    zone: 'Tunis North',
+    status: 'ACTIVE',
+    people: 38,
+    actions: 7
+  },
+  {
+    id: 2,
+    topic: 'PUBLIC SPACE',
+    title: 'Future Streets',
+    description: 'People exploring shade, walking, mobility and more human public streets through small local actions.',
+    zone: 'Ariana',
+    status: 'GROWING',
+    people: 54,
+    actions: 11
+  },
+  {
+    id: 3,
+    topic: 'COAST & WATER',
+    title: 'Water Between Us',
+    description: 'A community effort to notice, discuss and act around water, coastline and the places people share.',
+    zone: 'Tunis',
+    status: 'ACTIVE',
+    people: 71,
+    actions: 9
+  },
+  {
+    id: 4,
+    topic: 'CULTURE',
+    title: 'Sidi Bou Said Cultural Circle',
+    description: 'A growing circle connecting local cultural spaces, residents and activities around shared heritage.',
+    zone: 'Sidi Bou Said',
+    status: 'GROWING',
+    people: 29,
+    actions: 5
+  },
+  {
+    id: 5,
+    topic: 'LOCAL FOOD',
+    title: 'Neighbourhood Food Network',
+    description: 'A local network connecting people interested in food, small producers, sharing and community resilience.',
+    zone: 'La Marsa',
+    status: 'OPEN',
+    people: 46,
+    actions: 6
+  },
+  {
+    id: 6,
+    topic: 'MOBILITY',
+    title: 'Safer Routes',
+    description: 'Residents mapping difficult routes and working together toward safer walking and cycling connections.',
+    zone: 'Tunis North',
+    status: 'OPEN',
+    people: 22,
+    actions: 4
+  }
+])
+
+const visibleInitiatives = computed(() => {
+  if (initiativeFilter.value === 'ALL') return initiatives.value
+  return initiatives.value.filter(item => item.topic === initiativeFilter.value)
+})
+
 const zonePreviewInitiatives = computed(() => {
   if (!zonePreviewName.value) return []
 
@@ -5405,41 +5475,70 @@ onBeforeUnmount(() => {
            PAGES & COMMONS
            ================================================= -->
 
-      <section v-if="activeView === 'initiatives'" class="content pages-commons-page">
-        <div class="commons-hero compact-section-hero">
+      <section v-if="activeView === 'initiatives'" class="content pages-commons-page initiatives-page">
+        <div class="commons-hero compact-section-hero initiative-hero">
           <div class="commons-hero-copy">
-            <span class="eyebrow">INITIATIVES</span>
-            <h1>Existing action<br /><span>around your Zones.</span></h1>
+            <span class="eyebrow">INITIATIVES · ACTION</span>
+            <h1>Ideas become <span>something people do.</span></h1>
             <p>
-              Discover initiatives already happening around the Zones, Calls and communities
-              connected to you.
+              Discover initiatives already moving around your Zones — and find a place where
+              your interest can become participation, action and experience.
             </p>
             <div class="commons-hero-actions">
-              <button class="ghost-btn" @click="navigate('pages')">← Calls & Commons</button>
+              <button class="primary-btn" type="button" @click="openCreateChoice('call')">Start something</button>
+              <button class="ghost-btn" type="button" @click="navigate('call')">Explore Calls →</button>
             </div>
+          </div>
+          <div class="initiative-hero-orbit" aria-hidden="true">
+            <span></span><i></i><b></b><em></em>
           </div>
         </div>
 
-        <div class="initiative-grid">
-          <article v-for="initiative in zonePreviewInitiatives" :key="initiative.id" class="entity-card">
-            <div class="entity-card-top">
-              <span class="entity-type">{{ initiative.topic }}</span>
-              <span class="entity-detection">{{ initiative.status }}</span>
+        <div class="initiatives-toolbar">
+          <div class="initiatives-toolbar-copy">
+            <strong><b>{{ initiatives.length }}</b> initiatives moving</strong>
+            <span>Existing efforts you can discover, connect with and join.</span>
+          </div>
+          <div class="initiatives-filters">
+            <button type="button" :class="{ active: initiativeFilter === 'ALL' }" @click="initiativeFilter = 'ALL'">All</button>
+            <button type="button" :class="{ active: initiativeFilter === 'URBAN NATURE' }" @click="initiativeFilter = 'URBAN NATURE'">Nature</button>
+            <button type="button" :class="{ active: initiativeFilter === 'PUBLIC SPACE' }" @click="initiativeFilter = 'PUBLIC SPACE'">Public Space</button>
+            <button type="button" :class="{ active: initiativeFilter === 'COAST & WATER' }" @click="initiativeFilter = 'COAST & WATER'">Water</button>
+            <button type="button" :class="{ active: initiativeFilter === 'CULTURE' }" @click="initiativeFilter = 'CULTURE'">Culture</button>
+            <button type="button" :class="{ active: initiativeFilter === 'MOBILITY' }" @click="initiativeFilter = 'MOBILITY'">Mobility</button>
+          </div>
+        </div>
+
+        <div class="initiative-grid initiative-card-grid">
+          <article v-for="initiative in visibleInitiatives" :key="initiative.id" class="initiative-card">
+            <div class="initiative-card-top">
+              <span class="initiative-topic">{{ initiative.topic }}</span>
+              <span class="initiative-status">{{ initiative.status }}</span>
             </div>
-            <h3>{{ initiative.title }}</h3>
+            <div class="initiative-orb" aria-hidden="true"><span></span></div>
+            <h2>{{ initiative.title }}</h2>
             <p>{{ initiative.description }}</p>
-            <div class="entity-card-footer">
-              <span>LOCAL INITIATIVE</span>
-              <button class="follow-btn" @click="navigate('pages')">Explore</button>
+            <div class="initiative-context">
+              <span>◉ {{ initiative.zone }}</span>
+              <span>{{ initiative.people }} people</span>
+              <span>{{ initiative.actions }} actions</span>
+            </div>
+            <div class="initiative-card-footer">
+              <span>OPEN TO PARTICIPATION</span>
+              <button class="follow-btn" type="button" @click="navigate('zones')">Explore →</button>
             </div>
           </article>
         </div>
 
-        <div v-if="zonePreviewInitiatives.length === 0" class="empty-state page-empty">
-          Join a Zone to discover initiatives connected to your local context.
+        <div class="initiative-bottom-note">
+          <span class="initiative-bottom-orbit">↗</span>
+          <div>
+            <strong>Not every initiative starts with a finished plan.</strong>
+            <p>Sometimes it starts with a question, a person who cares, or a small action in a Zone.</p>
+          </div>
+          <button class="ghost-btn" type="button" @click="navigate('learn')">Learn how it moves →</button>
         </div>
       </section>
-
       <section v-if="activeView === 'entities'" class="content pages-commons-page">
         <div class="commons-hero compact-section-hero">
           <div class="commons-hero-copy">
@@ -15038,6 +15137,48 @@ textarea:focus-visible {
   .join-confirmation,.join-confirmation-travel,.join-confirmation-destination-core,.join-confirmation-arrow{animation:none}
 }
 @media(max-width:600px){.join-confirmation{top:10px;min-width:0;width:calc(100vw - 20px)}}
+
+/* INITIATIVES */
+.initiatives-page{max-width:1180px}
+.initiative-hero{position:relative;overflow:hidden}
+.initiative-hero .commons-hero-copy{position:relative;z-index:2}
+.initiative-hero-orbit{position:absolute;right:54px;top:18px;width:125px;height:125px;border:1px solid rgba(159,143,255,.16);border-radius:50%;opacity:.8}
+.initiative-hero-orbit::before{content:'';position:absolute;inset:19px;border:1px solid rgba(115,185,201,.2);border-radius:50%;transform:rotate(28deg) scaleY(.58)}
+.initiative-hero-orbit span{position:absolute;width:42px;height:42px;left:41px;top:41px;border:1px solid rgba(159,143,255,.28);border-radius:50%;box-shadow:0 0 28px rgba(159,143,255,.08)}
+.initiative-hero-orbit i,.initiative-hero-orbit b,.initiative-hero-orbit em{position:absolute;display:block;border-radius:50%;font-style:normal}
+.initiative-hero-orbit i{width:7px;height:7px;left:8px;top:45px;background:#9f8fff;box-shadow:0 0 12px rgba(159,143,255,.42)}
+.initiative-hero-orbit b{width:6px;height:6px;right:12px;top:24px;background:#73b9c9}
+.initiative-hero-orbit em{width:5px;height:5px;left:28px;bottom:12px;background:#d6d46a}
+.initiatives-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 14px;padding:10px 12px;border:1px solid rgba(255,255,255,.06);border-radius:12px;background:linear-gradient(110deg,rgba(18,27,40,.88),rgba(9,14,22,.8))}
+.initiatives-toolbar-copy{display:flex;flex-direction:column;gap:3px}
+.initiatives-toolbar-copy strong{color:#cbd8e6;font-size:9px}
+.initiatives-toolbar-copy strong b{color:#c8b9ff;font-size:15px;margin-right:4px}
+.initiatives-toolbar-copy span{color:#687b91;font-size:6px}
+.initiatives-filters{display:flex;gap:5px;overflow-x:auto}
+.initiatives-filters button{flex:0 0 auto;padding:6px 8px;border:1px solid rgba(255,255,255,.06);border-radius:7px;background:rgba(255,255,255,.015);color:#72849a;font-size:6px;font-weight:800;cursor:pointer}
+.initiatives-filters button:hover,.initiatives-filters button.active{border-color:rgba(159,143,255,.24);background:rgba(159,143,255,.07);color:#cfc2ff}
+.initiative-card-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.initiative-card{position:relative;min-height:225px;padding:17px;border:1px solid rgba(255,255,255,.065);border-radius:14px;background:linear-gradient(145deg,rgba(24,32,45,.68),rgba(10,15,23,.92));box-shadow:0 14px 30px rgba(0,0,0,.13);overflow:hidden}
+.initiative-card::after{content:'';position:absolute;right:-35px;bottom:-45px;width:110px;height:110px;border:1px solid rgba(115,185,201,.07);border-radius:50%;pointer-events:none}
+.initiative-card-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.initiative-topic{color:#8295ab;font-size:6px;font-weight:900;letter-spacing:.11em}
+.initiative-status{padding:4px 6px;border:1px solid rgba(121,199,161,.13);border-radius:5px;color:#79a991;background:rgba(121,199,161,.025);font-size:5px;font-weight:900;letter-spacing:.08em}
+.initiative-orb{position:absolute;right:17px;top:45px;width:28px;height:28px;border:1px solid rgba(159,143,255,.17);border-radius:50%;display:grid;place-items:center}
+.initiative-orb span{width:7px;height:7px;border-radius:50%;background:#9f8fff;box-shadow:0 0 10px rgba(159,143,255,.34)}
+.initiative-card h2{margin:28px 40px 8px 0;color:#e1e9f3;font-size:15px;line-height:1.35}
+.initiative-card p{margin:0;color:#74869c;font-size:8px;line-height:1.6;min-height:50px}
+.initiative-context{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.initiative-context span{padding:5px 6px;border:1px solid rgba(255,255,255,.05);border-radius:5px;color:#65788f;background:rgba(255,255,255,.012);font-size:5px}
+.initiative-card-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:15px;padding-top:10px;border-top:1px solid rgba(255,255,255,.05)}
+.initiative-card-footer>span{color:#596d84;font-size:5px;font-weight:900;letter-spacing:.08em}
+.initiative-card-footer .follow-btn{font-size:6px}
+.initiative-bottom-note{display:flex;align-items:center;gap:11px;margin-top:13px;padding:12px 14px;border:1px solid rgba(255,255,255,.055);border-radius:11px;background:rgba(13,19,28,.72)}
+.initiative-bottom-note>div{flex:1}
+.initiative-bottom-note strong{color:#b8c7d7;font-size:8px}
+.initiative-bottom-note p{margin:3px 0 0;color:#687a90;font-size:6px}
+.initiative-bottom-orbit{width:25px;height:25px;display:grid;place-items:center;border:1px solid rgba(159,143,255,.2);border-radius:50%;color:#a895ef;font-size:10px}
+@media(max-width:900px){.initiative-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.initiative-hero-orbit{right:15px;opacity:.45}}
+@media(max-width:650px){.initiative-card-grid{grid-template-columns:1fr}.initiatives-toolbar{align-items:flex-start;flex-direction:column}.initiatives-filters{width:100%}.initiative-bottom-note{align-items:flex-start;flex-wrap:wrap}}
 
 /* Sidebar hierarchy accents */
 .sidebar-section-label{color:#e1b84d!important}
