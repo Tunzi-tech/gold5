@@ -14664,7 +14664,7 @@ textarea:focus-visible {
 .awareness-title{margin-bottom:15px}
 .awareness-title h1{max-width:760px}
 .awareness-title p{max-width:760px}
-.awareness-filters{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 16px}
+.awareness-filters{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;margin:0 0 16px;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}
 .awareness-filter{padding:7px 9px;border:1px solid rgba(255,255,255,.07);border-radius:7px;background:rgba(255,255,255,.018);color:#78899e;font-size:6px;font-weight:800;letter-spacing:.08em;cursor:pointer}
 .awareness-filter:hover,.awareness-filter.active{border-color:rgba(121,174,240,.22);background:rgba(74,120,194,.07);color:#c4d8ee}
 .awareness-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
