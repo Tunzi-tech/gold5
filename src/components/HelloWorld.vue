@@ -137,6 +137,8 @@ const showCallsSubnav = ref(true)
 const showPagesMoreSubnav = ref(false)
 const sidebarSpace = ref<'zones' | 'networks' | 'connections'>('networks')
 const showAccountMenu = ref(false)
+const language = ref<'en' | 'ar'>('en')
+const showLanguageMenu = ref(false)
 const showWhatsGoingOn = ref(false)
 const liveEngagement = ref<'people' | 'action' | 'flow' | null>(null)
 const awarenessFilter = ref('ALL')
@@ -2350,6 +2352,35 @@ function lockAdministration() {
 
 function openAccountMenu() {
   showAccountMenu.value = !showAccountMenu.value
+  showLanguageMenu.value = false
+}
+
+const translations = {
+  en: {
+    home:'Home', liveFlow:'Live Flow', impactAwareness:'Impact & Awareness', learnDiscover:'Learn & Discover',
+    impact:'Impact', flow:'Flow', calls:'Calls', initiatives:'Initiatives', pages:'Pages', more:'More', entities:'Entities',
+    people:'People', create:'Create', administration:'Administration', systemDesign:'System Design', systems:'Systems',
+    disconnect:'Disconnect', language:'Language', english:'English', arabic:'العربية', search:'Search people, pages, posts or zones...'
+  },
+  ar: {
+    home:'الرئيسية', liveFlow:'التدفق الحي', impactAwareness:'الأثر والوعي', learnDiscover:'تعلّم واكتشف',
+    impact:'التأثير', flow:'التدفق', calls:'المكالمات', initiatives:'المبادرات', pages:'الصفحات', more:'المزيد', entities:'الكيانات',
+    people:'الأشخاص', create:'إنشاء', administration:'الإدارة', systemDesign:'تصميم النظام', systems:'الأنظمة',
+    disconnect:'قطع الاتصال', language:'اللغة', english:'English', arabic:'العربية', search:'ابحث عن أشخاص أو صفحات أو منشورات أو مناطق...'
+  }
+} as const
+
+function t(key: keyof typeof translations.en) {
+  return translations[language.value][key]
+}
+
+function setLanguage(value: 'en' | 'ar') {
+  language.value = value
+  showLanguageMenu.value = false
+  showAccountMenu.value = false
+  document.documentElement.lang = value
+  document.documentElement.dir = value === 'ar' ? 'rtl' : 'ltr'
+  localStorage.setItem('commons-language', value)
 }
 
 function disconnect() {
@@ -3040,6 +3071,10 @@ function voteRoleProposal(proposal: RoleProposal, choice: 'yes' | 'no') {
   proposal.voted = true
 }
 onMounted(() => {
+  const savedLanguage = localStorage.getItem('commons-language')
+  if (savedLanguage === 'ar' || savedLanguage === 'en') language.value = savedLanguage
+  document.documentElement.lang = language.value
+  document.documentElement.dir = language.value === 'ar' ? 'rtl' : 'ltr'
   heroTimer = setInterval(() => {
     activeHero.value = (activeHero.value + 1) % heroes.length
   }, 8000)
@@ -3055,7 +3090,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="app-shell">
+  <div class="app-shell" :class="{ 'rtl-mode': language === 'ar' }">
 
     <div v-if="joinConfirmation" class="join-confirmation" role="status" aria-live="polite">
       <span class="join-confirmation-flow" aria-hidden="true">
@@ -3120,7 +3155,7 @@ onBeforeUnmount(() => {
           @click="navigate('awareness')"
         >
           <span class="icon">◌</span>
-          <span>Impact &amp; Awareness</span>
+          <span>{{ t('impactAwareness') }}</span>
         </button>
 
         <div class="awareness-section-line"></div>
@@ -3134,13 +3169,13 @@ onBeforeUnmount(() => {
             @click="navigate('learn')"
           >
             <span class="icon">✦</span>
-            <span>Learn &amp; Discover</span>
+            <span>{{ t('learnDiscover') }}</span>
           </button>
         </div>
 
         <div class="learn-discover-section-line"></div>
 
-        <div class="sidebar-section-label">Impact</div>
+        <div class="sidebar-section-label">{{ t('impact') }}</div>
 
 <div class="impact-section-line"></div>
 
@@ -3411,7 +3446,7 @@ onBeforeUnmount(() => {
             @click="openCreateChoice()"
           >
             <span class="create-sidebar-icon">+</span>
-            <span class="create-sidebar-label">Create</span>
+            <span class="create-sidebar-label">{{ t('create') }}</span>
           </button>
 
           <button
@@ -3463,6 +3498,16 @@ onBeforeUnmount(() => {
                 Systems
               </button>
               <div class="profile-menu-divider"></div>
+              <button type="button" class="profile-menu-language" @click="showLanguageMenu = !showLanguageMenu">
+                <span class="profile-menu-dot"></span>
+                {{ t('language') }}
+                <span class="profile-menu-chevron">{{ language === 'en' ? 'EN' : 'AR' }}⌄</span>
+              </button>
+              <div v-if="showLanguageMenu" class="language-options">
+                <button type="button" :class="{ active: language === 'en' }" @click="setLanguage('en')">{{ t('english') }}</button>
+                <button type="button" :class="{ active: language === 'ar' }" @click="setLanguage('ar')">{{ t('arabic') }}</button>
+              </div>
+              <div class="profile-menu-divider"></div>
               <button type="button" class="profile-menu-disconnect" @click="disconnect">
                 <span class="profile-menu-dot"></span>
                 Disconnect
@@ -3485,8 +3530,8 @@ onBeforeUnmount(() => {
       </div>
 
       <div v-if="['pages', 'initiatives', 'entities', 'entity'].includes(activeView)" class="mobile-context-nav">
-        <button :class="{ active: activeView === 'initiatives' }" @click="navigate('initiatives')">Initiatives</button>
-        <button :class="{ active: ['entities', 'entity'].includes(activeView) }" @click="navigate('entities')">Entities</button>
+        <button :class="{ active: activeView === 'initiatives' }" @click="navigate('initiatives')">{{ t('initiatives') }}</button>
+        <button :class="{ active: ['entities', 'entity'].includes(activeView) }" @click="navigate('entities')">{{ t('entities') }}</button>
       </div>
 
       <nav class="mobile-nav">
@@ -3530,7 +3575,7 @@ onBeforeUnmount(() => {
 
           <input
             v-model="search"
-            placeholder="Search people, pages, posts or zones..."
+            :placeholder="t('search')"
           />
 
           <kbd>⌘ K</kbd>
@@ -13180,6 +13225,20 @@ textarea:focus-visible {
 
 
 /* ACCOUNT MENU + DISCONNECT */
+
+/* LANGUAGE / RTL */
+.rtl-mode{direction:rtl}
+.rtl-mode .sidebar{text-align:right}
+.rtl-mode .main-nav button,.rtl-mode .awareness-nav-button{text-align:right}
+.rtl-mode .profile-menu{right:auto;left:0}
+.rtl-mode .profile-menu button{text-align:right}
+.profile-menu-language{justify-content:flex-start}
+.profile-menu-chevron{margin-left:auto;color:#687b92;font-size:7px;font-weight:800}
+.language-options{display:grid;gap:2px;margin:2px 4px 4px;padding:4px;border-radius:7px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.04)}
+.language-options button{padding:7px 8px!important;font-size:8px!important}
+.language-options button.active{background:rgba(74,120,194,.1);color:#dce7f5}
+.rtl-mode .profile-menu-chevron{margin-left:auto;margin-right:0}
+
 .profile-menu-wrap {
   position: relative;
   margin-left: auto;
