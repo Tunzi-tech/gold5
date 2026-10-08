@@ -14660,8 +14660,22 @@ textarea:focus-visible {
 .learn-closing-card>span:last-child{color:#68798d;font-size:7px}
 @media(max-width:800px){.learn-discover-grid{grid-template-columns:1fr}.learn-feature-card,.learn-question-card,.learn-zone-card,.learn-closing-card{grid-column:auto}.learn-zone-card{grid-template-columns:1fr}.learn-zone-visual{display:none}.learn-discover-path{align-items:flex-start}.learn-path-step{min-width:130px}}
 
-.awareness-content{max-width:1120px}
+.awareness-content{max-width:1120px;position:relative;padding-top:88px}
 .awareness-title{margin-bottom:15px}
+.awareness-content .awareness-filters{
+  position:absolute;
+  left:-165px;
+  top:18px;
+  width:calc(100% + 165px);
+  z-index:2;
+  padding:7px 10px;
+  margin:0;
+  border:1px solid rgba(255,255,255,.055);
+  border-radius:9px;
+  background:rgba(8,13,21,.72);
+  box-shadow:0 8px 22px rgba(0,0,0,.16);
+  backdrop-filter:blur(10px);
+}
 .awareness-title h1{max-width:760px}
 .awareness-title p{max-width:760px}
 .awareness-filters{display:flex;align-items:center;justify-content:flex-start;gap:6px;width:100%;min-width:0;flex-wrap:nowrap;white-space:nowrap;margin:0 0 16px;overflow-x:auto;overflow-y:hidden;padding:0 0 3px;scrollbar-width:thin}
