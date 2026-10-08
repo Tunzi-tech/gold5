@@ -3477,7 +3477,7 @@ onBeforeUnmount(() => {
                 @click="openAdministration"
               >
                 <span class="profile-menu-dot"></span>
-                Administration
+                {{ t('administration') }}
                 <span class="admin-lock-mark">⌑</span>
               </button>
               <button
@@ -3486,7 +3486,7 @@ onBeforeUnmount(() => {
                 @click="openSystemDesign"
               >
                 <span class="profile-menu-dot"></span>
-                System Design
+                {{ t('systemDesign') }}
                 <span class="admin-lock-mark">⌑</span>
               </button>
               <button
@@ -3495,7 +3495,7 @@ onBeforeUnmount(() => {
                 @click="openAdministrationSystems"
               >
                 <span class="profile-menu-dot"></span>
-                Systems
+                {{ t('systems') }}
               </button>
               <div class="profile-menu-divider"></div>
               <button type="button" class="profile-menu-language" @click="showLanguageMenu = !showLanguageMenu">
@@ -3510,7 +3510,7 @@ onBeforeUnmount(() => {
               <div class="profile-menu-divider"></div>
               <button type="button" class="profile-menu-disconnect" @click="disconnect">
                 <span class="profile-menu-dot"></span>
-                Disconnect
+                {{ t('disconnect') }}
               </button>
             </div>
           </div>
