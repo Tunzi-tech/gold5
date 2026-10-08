@@ -2631,27 +2631,33 @@ function t(key: keyof typeof translations.en) {
   return translations[language.value][key]
 }
 
-const originalTextNodes = new WeakMap<Text, string>()
+const originalTextNodes = new Map<Text, string>()
 
 function translatePage() {
-  if (language.value === 'en') {
-    document.querySelectorAll('[data-commons-ar]').forEach(el => {
-      el.textContent = el.getAttribute('data-commons-en') || el.textContent
-      el.removeAttribute('data-commons-ar')
-    })
-  } else {
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
-    let node: Node | null
-    while ((node = walker.nextNode())) {
-      const textNode = node as Text
-      const value = textNode.textContent?.replace(/\\s+/g, ' ').trim() || ''
-      const translated = arabicDictionary[value]
-      if (translated && textNode.parentElement) {
-        if (!originalTextNodes.has(textNode)) originalTextNodes.set(textNode, textNode.textContent || '')
-        textNode.textContent = (textNode.textContent || '').replace(value, translated)
-      }
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
+  const nodes: Text[] = []
+  let node: Node | null
+  while ((node = walker.nextNode())) nodes.push(node as Text)
+
+  nodes.forEach((textNode) => {
+    if (!originalTextNodes.has(textNode)) {
+      originalTextNodes.set(textNode, textNode.textContent || '')
     }
-  }
+
+    const original = originalTextNodes.get(textNode) || ''
+    const value = original.replace(/\\s+/g, ' ').trim()
+    if (!value) return
+
+    if (language.value === 'ar') {
+      const translated = arabicDictionary[value]
+      if (translated) {
+        const current = textNode.textContent || ''
+        textNode.textContent = current.replace(value, translated)
+      }
+    } else {
+      textNode.textContent = original
+    }
+  })
 }
 
 
