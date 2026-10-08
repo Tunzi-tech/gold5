@@ -5574,6 +5574,50 @@ onBeforeUnmount(() => {
       </section>
 
 
+      <section v-if="activeView === 'call' && !selectedCall" class="content calls-page">
+        <div class="page-title">
+          <span class="eyebrow">CALLS · COMMONS</span>
+          <h1>Questions become places to participate.</h1>
+          <p>Open Calls bring people together around a real question, a shared possibility or something that needs attention.</p>
+        </div>
+
+        <div class="calls-page-toolbar">
+          <div>
+            <strong>{{ calls.length }} active Calls</strong>
+            <span>Open spaces for questions, ideas and participation.</span>
+          </div>
+          <button class="primary-btn" type="button" @click="openCreateChoice('call')">Launch a Call</button>
+        </div>
+
+        <div class="calls-grid">
+          <article v-for="call in calls" :key="call.id" class="call-card">
+            <div class="call-card-top">
+              <span class="call-card-category">{{ call.category }}</span>
+              <span class="call-card-status">{{ call.status }}</span>
+            </div>
+            <h2>{{ call.title }}</h2>
+            <p class="call-card-headline">{{ call.headline }}</p>
+            <p class="call-card-description">{{ call.description }}</p>
+
+            <div class="call-card-location">◉ {{ call.location }}</div>
+
+            <div class="call-card-stats">
+              <span><strong>{{ call.participants }}</strong> people</span>
+              <span><strong>{{ call.ideas }}</strong> ideas</span>
+              <span><strong>{{ call.interactions }}</strong> interactions</span>
+            </div>
+
+            <div class="call-card-footer">
+              <div class="call-launcher">
+                <span class="avatar">{{ call.avatar }}</span>
+                <span><strong>{{ call.launchedBy }}</strong><small>{{ call.time }}</small></span>
+              </div>
+              <button class="ghost-btn" type="button" @click="selectedCall = call">Open Call →</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
       <section v-if="activeView === 'call' && selectedCall" class="content call-space-page">
         <button class="ghost-btn back-inline" @click="navigate('pages')">← Back to Calls</button>
         <div class="call-space-hero">
@@ -12796,6 +12840,33 @@ textarea:focus-visible {
 .page-profile-logo { width:90px; height:90px; flex:0 0 90px; display:grid; place-items:center; border-radius:22px; color:#fff; font-size:24px; font-weight:800; }
 .page-profile-space { display:flex; justify-content:space-between; gap:20px; align-items:center; }
 .page-profile-actions { display:flex; gap:8px; flex-wrap:wrap; }
+.calls-page{max-width:1120px}
+.calls-page .page-title{margin-bottom:16px}
+.calls-page .page-title h1{max-width:760px}
+.calls-page .page-title p{max-width:760px}
+.calls-page-toolbar{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:14px;padding:13px 15px;border:1px solid rgba(255,255,255,.06);border-radius:12px;background:rgba(12,18,27,.72)}
+.calls-page-toolbar div{display:flex;flex-direction:column;gap:4px}
+.calls-page-toolbar strong{color:#cbd8e6;font-size:10px}
+.calls-page-toolbar span{color:#687b91;font-size:7px}
+.calls-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.call-card{padding:17px;border:1px solid rgba(255,255,255,.065);border-radius:14px;background:linear-gradient(145deg,rgba(24,32,45,.68),rgba(10,15,23,.92));box-shadow:0 14px 30px rgba(0,0,0,.13)}
+.call-card-top{display:flex;justify-content:space-between;align-items:center}
+.call-card-category{color:#9f8fff;font-size:6px;font-weight:900;letter-spacing:.11em}
+.call-card-status{padding:4px 6px;border:1px solid rgba(114,201,107,.13);border-radius:5px;color:#80a88a;font-size:6px;font-weight:900;letter-spacing:.08em}
+.call-card h2{margin:13px 0 7px;color:#e2ebf5;font-size:16px;line-height:1.3}
+.call-card-headline{margin:0;color:#a7b8ca;font-size:9px;line-height:1.5}
+.call-card-description{margin:8px 0 0;color:#6f8196;font-size:8px;line-height:1.6}
+.call-card-location{margin-top:12px;color:#7e91a7;font-size:7px}
+.call-card-stats{display:flex;gap:15px;margin-top:14px;padding-top:11px;border-top:1px solid rgba(255,255,255,.05)}
+.call-card-stats span{color:#64768b;font-size:7px}
+.call-card-stats strong{color:#b6c7d8;font-size:10px;margin-right:3px}
+.call-card-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px}
+.call-launcher{display:flex;align-items:center;gap:7px;min-width:0}
+.call-launcher .avatar{width:25px;height:25px;display:grid;place-items:center;border-radius:50%;background:rgba(74,120,194,.12);color:#91b9e8;font-size:7px}
+.call-launcher span:last-child{display:flex;flex-direction:column;gap:2px;min-width:0}
+.call-launcher strong{color:#8fa2b8;font-size:7px}
+.call-launcher small{color:#586a7e;font-size:6px}
+@media(max-width:800px){.calls-grid{grid-template-columns:1fr}.calls-page-toolbar{align-items:flex-start;flex-direction:column}}
 .call-space-page { max-width:1080px; }
 .call-space-hero { display:grid; grid-template-columns:190px minmax(0,1fr); gap:30px; align-items:center; padding:32px; border:1px solid rgba(111,145,199,.18); border-radius:20px; background:radial-gradient(circle at 12% 50%,rgba(83,117,191,.18),transparent 28%),linear-gradient(135deg,#111b2b,#090e17); }
 .call-space-orbit { width:150px; height:150px; display:grid; place-items:center; margin:auto; border:1px solid rgba(119,176,255,.28); border-radius:50%; box-shadow:0 0 55px rgba(70,130,210,.12); background:radial-gradient(circle,#182b49,#0a111d 65%); color:#a8caff; font-size:10px; letter-spacing:.18em; }
