@@ -1084,6 +1084,7 @@ const heroes = [
 ]
 
 let heroTimer: ReturnType<typeof setInterval> | null = null
+let languageObserver: MutationObserver | null = null
 
 
 /* =====================================================
@@ -3356,12 +3357,19 @@ onMounted(() => {
   if (savedLanguage === 'ar' || savedLanguage === 'en') language.value = savedLanguage
   document.documentElement.lang = language.value
   document.documentElement.dir = language.value === 'ar' ? 'rtl' : 'ltr'
+  translatePage()
+  languageObserver = new MutationObserver(() => {
+    if (language.value === 'ar') translatePage()
+  })
+  languageObserver.observe(document.body, { childList: true, subtree: true })
   heroTimer = setInterval(() => {
     activeHero.value = (activeHero.value + 1) % heroes.length
   }, 8000)
 })
 
 onBeforeUnmount(() => {
+  languageObserver?.disconnect()
+  languageObserver = null
   if (heroTimer) {
     clearInterval(heroTimer)
     heroTimer = null
