@@ -4059,6 +4059,31 @@ onBeforeUnmount(() => {
           </div>
         </div>
 
+        <div class="initiative-home-intro">
+          <span class="initiative-flow-kicker">WHAT PEOPLE DO</span>
+          <h2>Ideas become <span>something people do.</span></h2>
+          <p>Discover initiatives already moving around your Zones — and find a place where your interest can become participation, action and experience.</p>
+        </div>
+
+        <div class="initiative-flow-path" aria-label="From what people do to impact">
+          <button type="button" class="initiative-flow-step people-do" @click="navigate('initiatives')">
+            <span class="initiative-flow-kicker">EXPLORE</span>
+            <span class="initiative-explore-icon" aria-hidden="true"><i></i><b></b><em></em></span>
+            <strong>See what people are already doing.</strong>
+            <small>Discover initiatives already moving around your Zones.</small>
+          </button>
+          <button type="button" class="initiative-flow-step make-impact" @click="navigate('zones')">
+            <span class="initiative-flow-kicker">MAKE AN IMPACT</span>
+            <strong>Turn interest into participation.</strong>
+            <small>Find a place where you can join, contribute and act.</small>
+          </button>
+          <button type="button" class="initiative-flow-step going-around" @click="navigate('around-zones')">
+            <span class="initiative-flow-kicker">WHAT'S GOING ON AROUND YOU?</span>
+            <strong>See what is moving right now.</strong>
+            <small>Follow the flow and discover where people are engaging.</small>
+          </button>
+        </div>
+
         <div class="section-heading">
 
           <div>
@@ -5496,24 +5521,6 @@ onBeforeUnmount(() => {
           <div class="initiative-hero-orbit" aria-hidden="true">
             <span></span><i></i><b></b><em></em>
           </div>
-        </div>
-
-        <div class="initiative-flow-path" aria-label="From what people do to impact">
-          <button type="button" class="initiative-flow-step people-do" @click="navigate('initiatives')">
-            <span class="initiative-flow-kicker">WHAT PEOPLE DO</span>
-            <strong>Ideas become something people do.</strong>
-            <small>Discover initiatives already moving around your Zones.</small>
-          </button>
-          <button type="button" class="initiative-flow-step make-impact" @click="navigate('zones')">
-            <span class="initiative-flow-kicker">MAKE AN IMPACT</span>
-            <strong>Turn interest into participation.</strong>
-            <small>Find a place where you can join, contribute and act.</small>
-          </button>
-          <button type="button" class="initiative-flow-step going-around" @click="navigate('around-zones')">
-            <span class="initiative-flow-kicker">WHAT'S GOING ON AROUND YOU?</span>
-            <strong>See what is moving right now.</strong>
-            <small>Follow the flow and discover where people are engaging.</small>
-          </button>
         </div>
 
         <div class="initiatives-toolbar">
@@ -15171,6 +15178,11 @@ textarea:focus-visible {
 .initiative-hero-orbit i{width:7px;height:7px;left:8px;top:45px;background:#9f8fff;box-shadow:0 0 12px rgba(159,143,255,.42)}
 .initiative-hero-orbit b{width:6px;height:6px;right:12px;top:24px;background:#73b9c9}
 .initiative-hero-orbit em{width:5px;height:5px;left:28px;bottom:12px;background:#d6d46a}
+.initiative-home-intro{margin:0 0 10px;padding:14px 16px 4px}
+.initiative-home-intro h2{margin:4px 0 6px;color:#e6edf7;font-size:20px;letter-spacing:-.025em}
+.initiative-home-intro h2 span{color:#73b9c9}
+.initiative-home-intro p{max-width:760px;margin:0;color:#748196;font-size:9px;line-height:1.65}
+.initiative-flow-step .initiative-explore-icon{float:right;margin:0 2px 5px 10px}
 .initiative-explore-btn{display:inline-flex;align-items:center;gap:8px}
 .initiative-explore-icon{position:relative;width:18px;height:18px;display:inline-block;border:1px solid rgba(115,185,201,.3);border-radius:50%;animation:initiative-icon-pulse 3.2s ease-in-out infinite}
 .initiative-explore-icon::before{content:'';position:absolute;inset:4px;border:1px solid rgba(159,143,255,.5);border-radius:50%}
