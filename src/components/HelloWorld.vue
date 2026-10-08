@@ -5582,11 +5582,21 @@ onBeforeUnmount(() => {
         </div>
 
         <div class="calls-page-toolbar">
-          <div>
-            <strong>{{ calls.length }} active Calls</strong>
-            <span>Open spaces for questions, ideas and participation.</span>
+          <div class="calls-toolbar-status">
+            <span class="calls-toolbar-orbit" aria-hidden="true"><i></i></span>
+            <div class="calls-toolbar-copy">
+              <strong><b>{{ calls.length }}</b> active Calls</strong>
+              <span>Open spaces for questions, ideas and participation.</span>
+            </div>
           </div>
-          <button class="primary-btn" type="button" @click="openCreateChoice('call')">Launch a Call</button>
+          <button class="calls-launch-button" type="button" @click="openCreateChoice('call')">
+            <span class="calls-launch-icon">+</span>
+            <span>
+              <strong>Launch a Call</strong>
+              <small>Start a new possibility</small>
+            </span>
+            <span class="calls-launch-arrow">↗</span>
+          </button>
         </div>
 
         <div class="calls-grid">
@@ -12844,10 +12854,24 @@ textarea:focus-visible {
 .calls-page .page-title{margin-bottom:16px}
 .calls-page .page-title h1{max-width:760px}
 .calls-page .page-title p{max-width:760px}
-.calls-page-toolbar{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:14px;padding:13px 15px;border:1px solid rgba(255,255,255,.06);border-radius:12px;background:rgba(12,18,27,.72)}
-.calls-page-toolbar div{display:flex;flex-direction:column;gap:4px}
-.calls-page-toolbar strong{color:#cbd8e6;font-size:10px}
-.calls-page-toolbar span{color:#687b91;font-size:7px}
+.calls-page-toolbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:14px;padding:10px 10px 10px 13px;border:1px solid rgba(255,255,255,.065);border-radius:14px;background:linear-gradient(110deg,rgba(19,28,42,.9),rgba(9,14,22,.78));box-shadow:0 12px 28px rgba(0,0,0,.16);overflow:hidden;position:relative}
+.calls-page-toolbar::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 18% 50%,rgba(159,143,255,.08),transparent 32%),radial-gradient(circle at 82% 50%,rgba(115,185,201,.06),transparent 28%);pointer-events:none}
+.calls-toolbar-status{display:flex;align-items:center;gap:10px;position:relative;z-index:1}
+.calls-toolbar-orbit{width:32px;height:32px;display:grid;place-items:center;border:1px solid rgba(159,143,255,.22);border-radius:50%;position:relative;box-shadow:0 0 18px rgba(159,143,255,.07)}
+.calls-toolbar-orbit::before{content:'';width:17px;height:17px;border:1px solid rgba(115,185,201,.28);border-radius:50%;position:absolute;transform:rotate(25deg)}
+.calls-toolbar-orbit i{width:5px;height:5px;border-radius:50%;background:#a994ff;box-shadow:0 0 10px rgba(169,148,255,.45)}
+.calls-toolbar-copy{display:flex;flex-direction:column;gap:3px}
+.calls-toolbar-copy strong{color:#cbd8e6;font-size:9px;letter-spacing:.01em}
+.calls-toolbar-copy strong b{color:#d4c7ff;font-size:15px;margin-right:4px}
+.calls-toolbar-copy span{color:#687b91;font-size:6px;letter-spacing:.02em}
+.calls-launch-button{display:flex;align-items:center;gap:9px;min-width:185px;padding:9px 10px;border:1px solid rgba(159,143,255,.2);border-radius:10px;background:linear-gradient(135deg,rgba(110,87,192,.18),rgba(64,126,166,.08));color:#cdd9e7;text-align:left;cursor:pointer;position:relative;z-index:1;transition:.2s}
+.calls-launch-button:hover{border-color:rgba(159,143,255,.38);background:linear-gradient(135deg,rgba(110,87,192,.25),rgba(64,126,166,.12));transform:translateY(-1px);box-shadow:0 8px 20px rgba(85,72,145,.12)}
+.calls-launch-icon{width:24px;height:24px;display:grid;place-items:center;border:1px solid rgba(199,180,255,.28);border-radius:7px;color:#c6b5ff;font-size:15px;line-height:1}
+.calls-launch-button>span:nth-child(2){display:flex;flex-direction:column;gap:2px;flex:1}
+.calls-launch-button strong{font-size:7px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.calls-launch-button small{color:#708297;font-size:6px}
+.calls-launch-arrow{color:#93b9db;font-size:11px}
+
 .calls-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .call-card{padding:17px;border:1px solid rgba(255,255,255,.065);border-radius:14px;background:linear-gradient(145deg,rgba(24,32,45,.68),rgba(10,15,23,.92));box-shadow:0 14px 30px rgba(0,0,0,.13)}
 .call-card-top{display:flex;justify-content:space-between;align-items:center}
@@ -12866,7 +12890,7 @@ textarea:focus-visible {
 .call-launcher span:last-child{display:flex;flex-direction:column;gap:2px;min-width:0}
 .call-launcher strong{color:#8fa2b8;font-size:7px}
 .call-launcher small{color:#586a7e;font-size:6px}
-@media(max-width:800px){.calls-grid{grid-template-columns:1fr}.calls-page-toolbar{align-items:flex-start;flex-direction:column}}
+@media(max-width:800px){.calls-grid{grid-template-columns:1fr}.calls-page-toolbar{align-items:stretch;flex-direction:column}.calls-launch-button{width:100%}}
 .call-space-page { max-width:1080px; }
 .call-space-hero { display:grid; grid-template-columns:190px minmax(0,1fr); gap:30px; align-items:center; padding:32px; border:1px solid rgba(111,145,199,.18); border-radius:20px; background:radial-gradient(circle at 12% 50%,rgba(83,117,191,.18),transparent 28%),linear-gradient(135deg,#111b2b,#090e17); }
 .call-space-orbit { width:150px; height:150px; display:grid; place-items:center; margin:auto; border:1px solid rgba(119,176,255,.28); border-radius:50%; box-shadow:0 0 55px rgba(70,130,210,.12); background:radial-gradient(circle,#182b49,#0a111d 65%); color:#a8caff; font-size:10px; letter-spacing:.18em; }
