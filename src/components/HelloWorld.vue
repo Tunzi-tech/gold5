@@ -14664,8 +14664,8 @@ textarea:focus-visible {
 .awareness-title{margin-bottom:15px}
 .awareness-title h1{max-width:760px}
 .awareness-title p{max-width:760px}
-.awareness-filters{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;margin:0 0 16px;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}
-.awareness-filter{padding:7px 9px;border:1px solid rgba(255,255,255,.07);border-radius:7px;background:rgba(255,255,255,.018);color:#78899e;font-size:6px;font-weight:800;letter-spacing:.08em;cursor:pointer}
+.awareness-filters{display:flex;align-items:center;justify-content:flex-start;gap:6px;width:100%;min-width:0;flex-wrap:nowrap;white-space:nowrap;margin:0 0 16px;overflow-x:auto;overflow-y:hidden;padding:0 0 3px;scrollbar-width:thin}
+.awareness-filter{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;white-space:nowrap;padding:7px 9px;border:1px solid rgba(255,255,255,.07);border-radius:7px;background:rgba(255,255,255,.018);color:#78899e;font-size:6px;font-weight:800;letter-spacing:.08em;cursor:pointer}
 .awareness-filter:hover,.awareness-filter.active{border-color:rgba(121,174,240,.22);background:rgba(74,120,194,.07);color:#c4d8ee}
 .awareness-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .awareness-card,.awareness-principle-card{border:1px solid rgba(255,255,255,.065);border-radius:14px;background:linear-gradient(145deg,rgba(24,32,45,.66),rgba(10,15,23,.9));box-shadow:0 14px 30px rgba(0,0,0,.13)}
