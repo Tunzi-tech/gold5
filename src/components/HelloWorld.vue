@@ -3513,19 +3513,7 @@ onBeforeUnmount(() => {
 
         <div class="live-flow-section-line"></div>
 
-        <button
-          class="awareness-nav-button"
-          :class="{ active: activeView === 'awareness' }"
-          type="button"
-          @click="navigate('awareness')"
-        >
-          <span class="icon">◌</span>
-          <span>{{ t('impactAwareness') }}</span>
-        </button>
-
-        <div class="awareness-section-line"></div>
-
-        <div class="learn-discover-nav-block">
+<div class="learn-discover-nav-block">
           <div class="learn-discover-label">LEARN &amp; DISCOVER</div>
           <button
             class="awareness-nav-button learn-discover-button"
@@ -3539,6 +3527,18 @@ onBeforeUnmount(() => {
         </div>
 
         <div class="learn-discover-section-line"></div>
+
+        <button
+          class="awareness-nav-button"
+          :class="{ active: activeView === 'awareness' }"
+          type="button"
+          @click="navigate('awareness')"
+        >
+          <span class="icon">◌</span>
+          <span>{{ t('impactAwareness') }}</span>
+        </button>
+
+        <div class="awareness-section-line"></div>
 
         <div class="sidebar-section-label">{{ t('impact') }}</div>
 
