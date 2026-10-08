@@ -5487,12 +5487,33 @@ onBeforeUnmount(() => {
             </p>
             <div class="commons-hero-actions">
               <button class="primary-btn" type="button" @click="openCreateChoice('call')">Start something</button>
-              <button class="ghost-btn" type="button" @click="navigate('call')">Explore Calls →</button>
+              <button class="ghost-btn initiative-explore-btn" type="button" @click="navigate('around-zones')">
+                <span class="initiative-explore-icon" aria-hidden="true"><i></i><b></b><em></em></span>
+                Explore
+              </button>
             </div>
           </div>
           <div class="initiative-hero-orbit" aria-hidden="true">
             <span></span><i></i><b></b><em></em>
           </div>
+        </div>
+
+        <div class="initiative-flow-path" aria-label="From what people do to impact">
+          <button type="button" class="initiative-flow-step people-do" @click="navigate('initiatives')">
+            <span class="initiative-flow-kicker">WHAT PEOPLE DO</span>
+            <strong>Ideas become something people do.</strong>
+            <small>Discover initiatives already moving around your Zones.</small>
+          </button>
+          <button type="button" class="initiative-flow-step make-impact" @click="navigate('zones')">
+            <span class="initiative-flow-kicker">MAKE AN IMPACT</span>
+            <strong>Turn interest into participation.</strong>
+            <small>Find a place where you can join, contribute and act.</small>
+          </button>
+          <button type="button" class="initiative-flow-step going-around" @click="navigate('around-zones')">
+            <span class="initiative-flow-kicker">WHAT'S GOING ON AROUND YOU?</span>
+            <strong>See what is moving right now.</strong>
+            <small>Follow the flow and discover where people are engaging.</small>
+          </button>
         </div>
 
         <div class="initiatives-toolbar">
@@ -15150,6 +15171,25 @@ textarea:focus-visible {
 .initiative-hero-orbit i{width:7px;height:7px;left:8px;top:45px;background:#9f8fff;box-shadow:0 0 12px rgba(159,143,255,.42)}
 .initiative-hero-orbit b{width:6px;height:6px;right:12px;top:24px;background:#73b9c9}
 .initiative-hero-orbit em{width:5px;height:5px;left:28px;bottom:12px;background:#d6d46a}
+.initiative-explore-btn{display:inline-flex;align-items:center;gap:8px}
+.initiative-explore-icon{position:relative;width:18px;height:18px;display:inline-block;border:1px solid rgba(115,185,201,.3);border-radius:50%;animation:initiative-icon-pulse 3.2s ease-in-out infinite}
+.initiative-explore-icon::before{content:'';position:absolute;inset:4px;border:1px solid rgba(159,143,255,.5);border-radius:50%}
+.initiative-explore-icon i,.initiative-explore-icon b,.initiative-explore-icon em{position:absolute;display:block;border-radius:50%;font-style:normal}
+.initiative-explore-icon i{width:4px;height:4px;left:1px;top:7px;background:#d6d46a;animation:initiative-icon-orbit 2.8s linear infinite}
+.initiative-explore-icon b{width:3px;height:3px;right:2px;top:3px;background:#73b9c9}
+.initiative-explore-icon em{width:3px;height:3px;left:6px;bottom:1px;background:#9f8fff}
+@keyframes initiative-icon-pulse{50%{transform:scale(1.08);opacity:.78}}
+@keyframes initiative-icon-orbit{to{transform:rotate(360deg) translateX(6px) rotate(-360deg)}}
+.initiative-flow-path{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 18px}
+.initiative-flow-step{position:relative;text-align:left;padding:14px 15px;border:1px solid rgba(255,255,255,.06);border-radius:13px;background:linear-gradient(145deg,rgba(18,27,40,.82),rgba(8,13,21,.9));cursor:pointer;transition:border-color .25s ease,transform .25s ease,background .25s ease}
+.initiative-flow-step:hover{transform:translateY(-2px);border-color:rgba(115,185,201,.2);background:linear-gradient(145deg,rgba(23,34,49,.9),rgba(9,14,22,.94))}
+.initiative-flow-kicker{display:block;margin-bottom:6px;font-size:7px;letter-spacing:.16em;font-weight:900}
+.initiative-flow-step strong{display:block;color:#dce6f2;font-size:12px;line-height:1.35}
+.initiative-flow-step small{display:block;margin-top:6px;color:#718196;font-size:7px;line-height:1.45}
+.people-do .initiative-flow-kicker{color:#73b9c9}
+.make-impact .initiative-flow-kicker{color:#d6d46a}
+.going-around .initiative-flow-kicker{color:#9f8fff}
+@media (max-width:900px){.initiative-flow-path{grid-template-columns:1fr}.initiative-hero-orbit{right:18px;opacity:.5}}
 .initiatives-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 14px;padding:10px 12px;border:1px solid rgba(255,255,255,.06);border-radius:12px;background:linear-gradient(110deg,rgba(18,27,40,.88),rgba(9,14,22,.8))}
 .initiatives-toolbar-copy{display:flex;flex-direction:column;gap:3px}
 .initiatives-toolbar-copy strong{color:#cbd8e6;font-size:9px}
