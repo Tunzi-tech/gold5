@@ -2857,6 +2857,9 @@ function setAwarenessFilter(filter: string) {
   awarenessFilter.value = filter
 }
 
+const awarenessLensExpanded = ref(false)
+const awarenessTopicsExpanded = ref(false)
+
 const awarenessImpactTypes = [
   'Environmental',
   'Social & wellbeing',
@@ -4826,19 +4829,25 @@ onBeforeUnmount(() => {
           </div>
         </form>
 
-        <div class="awareness-category-panel">
+        <div class="awareness-category-panel awareness-category-compact">
           <div class="awareness-category-group">
             <span class="awareness-kicker">AWARENESS LENS</span>
             <div class="awareness-category-chips">
               <button type="button" class="awareness-filter" :class="{ active: awarenessImpactType === 'ALL' }" @click="awarenessImpactType = 'ALL'">ALL IMPACTS</button>
-              <button v-for="type in awarenessImpactTypes" :key="type" type="button" class="awareness-filter awareness-impact-chip" :class="{ active: awarenessImpactType === type }" @click="awarenessImpactType = type">{{ type }}</button>
+              <template v-for="(type, index) in awarenessImpactTypes" :key="type">
+                <button v-if="awarenessLensExpanded || index < 4 || awarenessImpactType === type" type="button" class="awareness-filter awareness-impact-chip" :class="{ active: awarenessImpactType === type }" @click="awarenessImpactType = type">{{ type }}</button>
+              </template>
+              <button v-if="awarenessImpactTypes.length > 4" type="button" class="awareness-filter awareness-more-filter" @click="awarenessLensExpanded = !awarenessLensExpanded">{{ awarenessLensExpanded ? 'SHOW LESS −' : 'SHOW ALL +' }}</button>
             </div>
           </div>
           <div class="awareness-category-group">
             <span class="awareness-kicker">EARTH &amp; OUR SHARED WORLD</span>
             <div class="awareness-category-chips">
               <button type="button" class="awareness-filter" :class="{ active: awarenessCategory === 'ALL' }" @click="awarenessCategory = 'ALL'; awarenessImpactType = 'ALL'">ALL TOPICS</button>
-              <button v-for="category in awarenessCategories" :key="category" type="button" class="awareness-filter awareness-earth-chip" :class="{ active: awarenessCategory === category }" @click="awarenessCategory = category">{{ category }}</button>
+              <template v-for="(category, index) in awarenessCategories" :key="category">
+                <button v-if="awarenessTopicsExpanded || index < 5 || awarenessCategory === category" type="button" class="awareness-filter awareness-earth-chip" :class="{ active: awarenessCategory === category }" @click="awarenessCategory = category">{{ category }}</button>
+              </template>
+              <button v-if="awarenessCategories.length > 5" type="button" class="awareness-filter awareness-more-filter" @click="awarenessTopicsExpanded = !awarenessTopicsExpanded">{{ awarenessTopicsExpanded ? 'SHOW LESS −' : 'SHOW ALL +' }}</button>
             </div>
           </div>
           <div class="awareness-category-group">
@@ -15742,8 +15751,13 @@ textarea:focus-visible {
 .awareness-category-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 14px;padding:0 0 10px;border-bottom:1px solid rgba(255,255,255,.08)}
 .awareness-category-heading .eyebrow{color:#9ab4d3}
 .awareness-category-panel{margin:0 0 18px;background:rgba(9,15,24,.7)}
-.awareness-category-panel{display:flex;flex-direction:column;gap:18px}
-.awareness-category-group{display:flex;flex-direction:column;gap:10px}
+.awareness-category-panel{display:flex;flex-direction:column;gap:12px}
+.awareness-category-panel.awareness-category-compact{padding:12px 14px}
+.awareness-category-group{display:flex;flex-direction:column;gap:8px}
+.awareness-category-compact .awareness-category-chips{gap:5px}
+.awareness-category-compact .awareness-category-chips .awareness-filter{padding:6px 9px;font-size:8px}
+.awareness-category-compact .awareness-more-filter{border-style:dashed;border-color:rgba(139,167,198,.35);color:#a9c9ed;background:rgba(121,174,240,.06)}
+.awareness-category-compact .awareness-more-filter:hover{border-color:rgba(121,174,240,.65);background:rgba(74,120,194,.14)}
 .awareness-category-group+.awareness-category-group{padding-top:15px;border-top:1px solid rgba(255,255,255,.08)}
 .awareness-category-group>.awareness-kicker{font-size:10px;letter-spacing:.14em;font-weight:800;color:#9ab4d3}
 .awareness-category-chips .awareness-section-filter{border-style:dashed;border-color:rgba(139,167,198,.25);background:rgba(121,174,240,.045)}
