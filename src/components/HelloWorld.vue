@@ -8948,8 +8948,23 @@ textarea:focus-visible {
 }
 
 .hero-accent-blue {
-  color: #6ea7ff;
-  text-shadow: 0 0 28px rgba(110,167,255,.14);
+  color: #82b5ff;
+  background: linear-gradient(100deg, #6ea7ff 0%, #a9d5ff 48%, #6ea7ff 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 10px rgba(174,213,255,.2), 0 0 24px rgba(110,167,255,.2);
+  animation: hero-blue-shimmer 4s ease-in-out infinite;
+}
+
+@keyframes hero-blue-shimmer {
+  0%, 100% { background-position: 100% 50%; }
+  50% { background-position: 0% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-accent-blue { animation: none; }
 }
 
 .hero-accent-gold {
