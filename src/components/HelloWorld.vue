@@ -142,6 +142,7 @@ const showLanguageMenu = ref(false)
 const showWhatsGoingOn = ref(false)
 const liveEngagement = ref<'people' | 'action' | 'flow' | null>(null)
 const awarenessFilter = ref('ALL')
+const showImpactCategories = ref(false)
 const selectedZone = ref<Zone | null>(null)
 const selectedCall = ref<CommunityCall | null>(null)
 const selectedPage = ref<Page | null>(null)
@@ -4102,6 +4103,28 @@ onBeforeUnmount(() => {
             </div>
             <button type="button" class="initiative-card-action" @click="navigate('live-flow')">Open Live Flow <span aria-hidden="true">→</span></button>
           </section>
+
+          <div class="impact-category-picker">
+            <button
+              type="button"
+              class="impact-category-toggle"
+              :aria-expanded="showImpactCategories"
+              @click="showImpactCategories = !showImpactCategories"
+            >
+              <span>{{ showImpactCategories ? 'Hide categories' : 'What would you like to make an impact on?' }}</span>
+              <span class="impact-category-toggle-icon" aria-hidden="true">{{ showImpactCategories ? '−' : '+' }}</span>
+            </button>
+            <div v-if="showImpactCategories" class="impact-category-options" aria-label="Choose an impact category">
+              <button type="button" @click="navigate('awareness'); awarenessFilter = 'ALL'"><span>🌿</span> Nature & green spaces</button>
+              <button type="button" @click="navigate('awareness'); awarenessFilter = 'ALL'"><span>♻</span> Clean streets & waste</button>
+              <button type="button" @click="navigate('awareness'); awarenessFilter = 'ALL'"><span>🏘</span> Better neighborhoods</button>
+              <button type="button" @click="navigate('awareness'); awarenessFilter = 'ALL'"><span>🌊</span> Climate & coast</button>
+              <button type="button" @click="navigate('awareness'); awarenessFilter = 'ALL'"><span>📚</span> Education & awareness</button>
+              <button type="button" @click="navigate('awareness'); awarenessFilter = 'ALL'"><span>🤝</span> Community wellbeing</button>
+              <button type="button" @click="navigate('awareness'); awarenessFilter = 'ALL'"><span>♿</span> Inclusion & accessibility</button>
+              <button type="button" @click="navigate('awareness'); awarenessFilter = 'ALL'"><span>💡</span> Ideas & innovation</button>
+            </div>
+          </div>
 
           <div class="initiative-hover-story story-people-do" aria-label="Example of what people are doing">
             <div class="initiative-hover-story-heading">
@@ -15313,6 +15336,14 @@ textarea:focus-visible {
 .people-do .initiative-flow-kicker{color:#73b9c9}
 .make-impact .initiative-flow-kicker{color:#d6d46a}
 .going-around .initiative-flow-kicker{color:#9f8fff}
+.impact-category-picker{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;gap:10px;padding:2px 0 5px}
+.impact-category-toggle{display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border:0;border-bottom:1px solid rgba(115,185,201,.35);background:transparent;color:#a8c5d2;font:inherit;font-size:10px;font-weight:750;cursor:pointer;transition:color .18s ease,border-color .18s ease}
+.impact-category-toggle:hover,.impact-category-toggle:focus-visible{color:#fff;border-color:#73b9c9;outline:none}
+.impact-category-toggle-icon{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border:1px solid rgba(115,185,201,.3);border-radius:50%;font-size:13px;line-height:1}
+.impact-category-options{display:flex;justify-content:center;flex-wrap:wrap;gap:7px;max-width:900px;animation:initiative-story-in .2s ease both}
+.impact-category-options button{display:inline-flex;align-items:center;gap:7px;padding:8px 10px;border:1px solid rgba(255,255,255,.08);border-radius:9px;background:rgba(17,29,42,.78);color:#c2d0df;font:inherit;font-size:9px;cursor:pointer;transition:background .18s ease,border-color .18s ease,transform .18s ease}
+.impact-category-options button:hover,.impact-category-options button:focus-visible{background:rgba(115,185,201,.1);border-color:rgba(115,185,201,.4);color:#fff;transform:translateY(-1px);outline:none}
+.impact-category-options button span{font-size:13px}
 .initiative-hover-story{grid-column:1/-1;display:none;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;padding:12px;border:1px solid rgba(115,185,201,.14);border-radius:13px;background:linear-gradient(120deg,rgba(17,29,42,.96),rgba(10,16,26,.97));animation:initiative-story-in .22s ease both}
 .initiative-flow-path:has(.people-do:hover, .story-people-do:hover) .story-people-do,
 .initiative-flow-path:has(.people-do:focus-visible, .story-people-do:focus-within) .story-people-do,
