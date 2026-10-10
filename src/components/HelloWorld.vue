@@ -4039,7 +4039,7 @@ onBeforeUnmount(() => {
                 <div class="orbit-ring ring-one"></div>
                 <div class="orbit-ring ring-two"></div>
                 <div class="orbit-core">
-                  <span v-if="activeHero === 0">ACT</span>
+                  <span v-if="activeHero === 0">AC</span>
                   <span v-else>ZONE</span>
                 </div>
                 <div class="orbit-node node-a"></div>
