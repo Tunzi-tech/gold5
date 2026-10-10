@@ -4090,11 +4090,11 @@ onBeforeUnmount(() => {
               <span class="initiative-flow-kicker">AN IDEA IN MOTION</span>
               <strong>See how people turn a shared concern into action.</strong>
             </div>
-            <div class="initiative-hover-story-step story-idea"><span>01 · AN IDEA</span><strong>More green spaces</strong><small>Someone imagines a greener neighborhood.</small></div>
-            <div class="initiative-hover-story-step story-people"><span>02 · PEOPLE</span><strong>Residents connect</strong><small>Neighbors who care about the same issue.</small></div>
-            <div class="initiative-hover-story-step story-place"><span>03 · A PLACE</span><strong>Tunis North</strong><small>A local starting point.</small></div>
-            <div class="initiative-hover-story-step story-action"><span>04 · AN ACTION</span><strong>Start a community garden</strong><small>People work on the idea together.</small></div>
-            <div class="initiative-hover-story-step story-impact"><span>05 · AN IMPACT</span><strong>A greener neighborhood</strong><small>A change the community can experience.</small></div>
+            <button type="button" class="initiative-hover-story-step story-idea" @click="navigate('discover')" aria-label="Explore ideas"><span>01 · AN IDEA</span><strong>More green spaces</strong><small>Someone imagines a greener neighborhood.</small><span class="initiative-step-action">Explore ideas →</span></button>
+            <button type="button" class="initiative-hover-story-step story-people" @click="navigate('people')" aria-label="Discover people"><span>02 · PEOPLE</span><strong>Residents connect</strong><small>Neighbors who care about the same issue.</small><span class="initiative-step-action">Meet people →</span></button>
+            <button type="button" class="initiative-hover-story-step story-place" @click="navigate('zones')" aria-label="Explore Zones"><span>03 · A PLACE</span><strong>Tunis North</strong><small>A local starting point.</small><span class="initiative-step-action">Explore Zones →</span></button>
+            <button type="button" class="initiative-hover-story-step story-action" @click="navigate('initiatives')" aria-label="Explore initiatives"><span>04 · AN ACTION</span><strong>Start a community garden</strong><small>People work on the idea together.</small><span class="initiative-step-action">See initiatives →</span></button>
+            <button type="button" class="initiative-hover-story-step story-impact" @click="navigate('awareness')" aria-label="Explore impact and awareness"><span>05 · AN IMPACT</span><strong>A greener neighborhood</strong><small>A change the community can experience.</small><span class="initiative-step-action">Explore impact →</span></button>
           </div>
 
           <div class="initiative-hover-story story-make-impact" aria-label="Ways to make an impact">
@@ -4102,11 +4102,11 @@ onBeforeUnmount(() => {
               <span class="initiative-flow-kicker">YOUR NEXT STEP</span>
               <strong>There are many ways to turn interest into participation.</strong>
             </div>
-            <div class="initiative-hover-story-step story-idea"><span>01 · NOTICE</span><strong>Choose an issue</strong><small>What would you like to improve?</small></div>
-            <div class="initiative-hover-story-step story-people"><span>02 · CONNECT</span><strong>Find your people</strong><small>Meet others who care about it.</small></div>
-            <div class="initiative-hover-story-step story-place"><span>03 · JOIN</span><strong>Choose a place or group</strong><small>Start where you can contribute.</small></div>
-            <div class="initiative-hover-story-step story-action"><span>04 · PARTICIPATE</span><strong>Take one useful step</strong><small>Share a skill, help, or start an action.</small></div>
-            <div class="initiative-hover-story-step story-impact"><span>05 · MAKE A DIFFERENCE</span><strong>Build progress together</strong><small>Small contributions can create local change.</small></div>
+            <button type="button" class="initiative-hover-story-step story-idea" @click="navigate('awareness')" aria-label="Explore issues"><span>01 · NOTICE</span><strong>Choose an issue</strong><small>What would you like to improve?</small><span class="initiative-step-action">Explore issues →</span></button>
+            <button type="button" class="initiative-hover-story-step story-people" @click="navigate('people')" aria-label="Find people"><span>02 · CONNECT</span><strong>Find your people</strong><small>Meet others who care about it.</small><span class="initiative-step-action">Find people →</span></button>
+            <button type="button" class="initiative-hover-story-step story-place" @click="navigate('zones')" aria-label="Choose a Zone"><span>03 · JOIN</span><strong>Choose a place or group</strong><small>Start where you can contribute.</small><span class="initiative-step-action">Choose a Zone →</span></button>
+            <button type="button" class="initiative-hover-story-step story-action" @click="navigate('initiatives')" aria-label="Participate in an initiative"><span>04 · PARTICIPATE</span><strong>Take one useful step</strong><small>Share a skill, help, or start an action.</small><span class="initiative-step-action">Take part →</span></button>
+            <button type="button" class="initiative-hover-story-step story-impact" @click="navigate('awareness')" aria-label="Explore community impact"><span>05 · MAKE A DIFFERENCE</span><strong>Build progress together</strong><small>Small contributions can create local change.</small><span class="initiative-step-action">See impact →</span></button>
           </div>
 
           <div class="initiative-hover-story story-going-around" aria-label="Example of activity happening nearby">
@@ -4114,11 +4114,11 @@ onBeforeUnmount(() => {
               <span class="initiative-flow-kicker">AROUND YOUR ZONE</span>
               <strong>Discover what is happening and where you could join in.</strong>
             </div>
-            <div class="initiative-hover-story-step story-idea"><span>01 · A VOICE</span><strong>A neighbor raises a need</strong><small>Cleaner streets or more green space.</small></div>
-            <div class="initiative-hover-story-step story-people"><span>02 · PEOPLE RESPOND</span><strong>Others join the conversation</strong><small>Residents share ideas and experience.</small></div>
-            <div class="initiative-hover-story-step story-place"><span>03 · LOCAL SIGNAL</span><strong>Tunis North</strong><small>See which concerns are connected to your Zone.</small></div>
-            <div class="initiative-hover-story-step story-action"><span>04 · AN OPPORTUNITY</span><strong>An action starts forming</strong><small>Explore a call, initiative, or local activity.</small></div>
-            <div class="initiative-hover-story-step story-impact"><span>05 · JOIN THE FLOW</span><strong>Find your way to contribute</strong><small>Follow along or take part when you're ready.</small></div>
+            <button type="button" class="initiative-hover-story-step story-idea" @click="navigate('live-people')" aria-label="See community voices"><span>01 · A VOICE</span><strong>A neighbor raises a need</strong><small>Cleaner streets or more green space.</small><span class="initiative-step-action">Hear voices →</span></button>
+            <button type="button" class="initiative-hover-story-step story-people" @click="navigate('people')" aria-label="Discover people responding"><span>02 · PEOPLE RESPOND</span><strong>Others join the conversation</strong><small>Residents share ideas and experience.</small><span class="initiative-step-action">Meet people →</span></button>
+            <button type="button" class="initiative-hover-story-step story-place" @click="navigate('around-zones')" aria-label="Explore activity around your Zones"><span>03 · LOCAL SIGNAL</span><strong>Tunis North</strong><small>See which concerns are connected to your Zone.</small><span class="initiative-step-action">See nearby →</span></button>
+            <button type="button" class="initiative-hover-story-step story-action" @click="navigate('initiatives')" aria-label="Explore opportunities"><span>04 · AN OPPORTUNITY</span><strong>An action starts forming</strong><small>Explore a call, initiative, or local activity.</small><span class="initiative-step-action">Explore actions →</span></button>
+            <button type="button" class="initiative-hover-story-step story-impact" @click="navigate('live-flow')" aria-label="Join the Live Flow"><span>05 · JOIN THE FLOW</span><strong>Find your way to contribute</strong><small>Follow along or take part when you're ready.</small><span class="initiative-step-action">Open Live Flow →</span></button>
           </div>
         </div>
 
@@ -15298,7 +15298,7 @@ textarea:focus-visible {
 .initiative-hover-story-heading{grid-column:1/-1;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding:0 2px 3px}
 .initiative-hover-story-heading .initiative-flow-kicker{margin:0;color:#73b9c9}
 .initiative-hover-story-heading>strong{color:#dce6f2;font-size:10px}
-.initiative-hover-story-step{min-width:0;padding:9px;border:1px solid rgba(255,255,255,.055);border-radius:9px;background:rgba(255,255,255,.018)}
+.initiative-hover-story-step{display:block;width:100%;min-width:0;padding:9px;text-align:left;font:inherit;color:inherit;border:1px solid rgba(255,255,255,.055);border-radius:9px;background:rgba(255,255,255,.018);cursor:pointer;transition:background .18s ease,border-color .18s ease,transform .18s ease}.initiative-hover-story-step:hover,.initiative-hover-story-step:focus-visible{background:rgba(115,185,201,.09);border-color:rgba(115,185,201,.4);transform:translateY(-2px);outline:none}.initiative-step-action{display:block;margin-top:9px;color:#9cc9d6;font-size:8px;font-weight:800;letter-spacing:.04em}.initiative-hover-story-step:focus-visible .initiative-step-action{color:#fff}
 .initiative-hover-story-step>span{display:block;margin-bottom:7px;font-size:7px;font-weight:900;letter-spacing:.09em}
 .initiative-hover-story-step>strong{display:block;color:#dce6f2;font-size:10px;line-height:1.4}
 .initiative-hover-story-step>small{display:block;margin-top:5px;color:#8090a4;font-size:8px;line-height:1.45}
