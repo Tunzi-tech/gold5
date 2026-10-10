@@ -4084,6 +4084,37 @@ onBeforeUnmount(() => {
             <strong>See what is moving right now.</strong>
             <small>Follow the flow and discover where people are engaging.</small>
           </button>
+          <div class="initiative-hover-story" aria-label="Example: how an idea becomes impact">
+            <div class="initiative-hover-story-heading">
+              <span class="initiative-flow-kicker">AN IDEA IN MOTION</span>
+              <strong>From a shared concern to a real change.</strong>
+            </div>
+            <div class="initiative-hover-story-step story-idea">
+              <span>01 · AN IDEA</span>
+              <strong>More green spaces</strong>
+              <small>In the neighborhood.</small>
+            </div>
+            <div class="initiative-hover-story-step story-people">
+              <span>02 · PEOPLE</span>
+              <strong>Residents come together</strong>
+              <small>People who care about the same issue.</small>
+            </div>
+            <div class="initiative-hover-story-step story-place">
+              <span>03 · A PLACE</span>
+              <strong>Tunis North</strong>
+              <small>A shared local starting point.</small>
+            </div>
+            <div class="initiative-hover-story-step story-action">
+              <span>04 · AN ACTION</span>
+              <strong>Start a community garden</strong>
+              <small>Turn interest into participation.</small>
+            </div>
+            <div class="initiative-hover-story-step story-impact">
+              <span>05 · AN IMPACT</span>
+              <strong>A greener neighborhood</strong>
+              <small>A visible change people create together.</small>
+            </div>
+          </div>
         </div>
 
         <div class="section-heading">
@@ -15252,7 +15283,19 @@ textarea:focus-visible {
 .people-do .initiative-flow-kicker{color:#73b9c9}
 .make-impact .initiative-flow-kicker{color:#d6d46a}
 .going-around .initiative-flow-kicker{color:#9f8fff}
-@media (max-width:900px){.initiative-flow-path{grid-template-columns:1fr}.initiative-hero-orbit{right:18px;opacity:.5}}
+.initiative-hover-story{grid-column:1/-1;display:none;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;padding:12px;border:1px solid rgba(115,185,201,.14);border-radius:13px;background:linear-gradient(120deg,rgba(17,29,42,.96),rgba(10,16,26,.97));animation:initiative-story-in .22s ease both}
+.initiative-flow-path:has(.people-do:hover, .initiative-hover-story:hover) .initiative-hover-story,.initiative-flow-path:has(.people-do:focus-visible, .initiative-hover-story:focus-within) .initiative-hover-story{display:grid}
+.initiative-hover-story-heading{grid-column:1/-1;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding:0 2px 3px}
+.initiative-hover-story-heading .initiative-flow-kicker{margin:0;color:#73b9c9}
+.initiative-hover-story-heading>strong{color:#dce6f2;font-size:10px}
+.initiative-hover-story-step{min-width:0;padding:9px;border:1px solid rgba(255,255,255,.055);border-radius:9px;background:rgba(255,255,255,.018)}
+.initiative-hover-story-step>span{display:block;margin-bottom:7px;font-size:7px;font-weight:900;letter-spacing:.09em}
+.initiative-hover-story-step>strong{display:block;color:#dce6f2;font-size:10px;line-height:1.4}
+.initiative-hover-story-step>small{display:block;margin-top:5px;color:#8090a4;font-size:8px;line-height:1.45}
+.story-idea>span{color:#e8c66d}.story-people>span{color:#8ec9ff}.story-place>span{color:#a99aff}.story-action>span{color:#e6b36f}.story-impact>span{color:#83d6a5}
+@keyframes initiative-story-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+@media (max-width:900px){.initiative-flow-path{grid-template-columns:1fr}.initiative-hover-story{grid-template-columns:repeat(2,minmax(0,1fr))}.initiative-hover-story-heading{grid-column:1/-1}.initiative-hero-orbit{right:18px;opacity:.5}}
+@media (max-width:520px){.initiative-hover-story{grid-template-columns:1fr}.initiative-hover-story-heading{display:block}.initiative-hover-story-heading>strong{display:block;margin-top:6px}}
 .initiatives-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 14px;padding:10px 12px;border:1px solid rgba(255,255,255,.06);border-radius:12px;background:linear-gradient(110deg,rgba(18,27,40,.88),rgba(9,14,22,.8))}
 .initiatives-toolbar-copy{display:flex;flex-direction:column;gap:3px}
 .initiatives-toolbar-copy strong{color:#cbd8e6;font-size:9px}
