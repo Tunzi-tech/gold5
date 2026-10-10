@@ -15677,5 +15677,29 @@ textarea:focus-visible {
 .awareness-principle-card p{margin:0;color:#718297;font-size:8px;line-height:1.55;max-width:540px}
 @media(max-width:800px){.awareness-grid{grid-template-columns:1fr}.awareness-principle-card{grid-column:auto;grid-template-columns:1fr}.awareness-principle-card p{max-width:none}}
 
+
+/* Shared Impact & Awareness composer and category navigation */
+.awareness-category-panel{margin:18px 0 16px;padding:15px;border:1px solid rgba(255,255,255,.06);border-radius:12px;background:linear-gradient(135deg,rgba(28,42,59,.45),rgba(10,15,23,.62))}
+.awareness-category-panel>div:first-child p{margin:6px 0 12px;color:#7c8da2;font-size:9px;line-height:1.6}
+.awareness-category-chips{display:flex;flex-wrap:wrap;gap:6px}
+.awareness-category-chips .awareness-filter{font-size:8px;letter-spacing:.02em;text-transform:none;padding:7px 10px}
+.awareness-create-card{margin:16px 0;grid-column:1/-1}
+.awareness-form-label{display:flex;flex:1;flex-direction:column;gap:6px;margin:12px 0;color:#9aacc1;font-size:9px;font-weight:700}
+.awareness-form-label input,.awareness-form-label select,.awareness-form-label textarea{width:100%;box-sizing:border-box;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:rgba(5,10,17,.72);color:#dce7f5;padding:10px 11px;font:inherit;font-size:10px;outline:none}
+.awareness-form-label input:focus,.awareness-form-label select:focus,.awareness-form-label textarea:focus{border-color:rgba(121,174,240,.48);box-shadow:0 0 0 2px rgba(74,120,194,.08)}
+.awareness-form-label textarea{resize:vertical;min-height:58px;line-height:1.55}
+.awareness-form-row{display:flex;gap:12px}
+.awareness-form-actions,.awareness-item-actions{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:12px}
+.awareness-submit-button{border:1px solid rgba(121,174,240,.24);border-radius:8px;padding:9px 12px;background:rgba(74,120,194,.13);color:#c4d8ee;font-size:8px;font-weight:900;letter-spacing:.06em;cursor:pointer}
+.awareness-submit-button:hover{background:rgba(74,120,194,.22)}
+.awareness-shared-item{min-width:0}
+.awareness-story-section{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.055)}
+.awareness-story-section .awareness-kicker{display:block;margin-bottom:7px;color:#8fa9c6}
+.awareness-story-section p{font-size:10px;line-height:1.7;color:#a1b0c2}
+.awareness-item-actions{gap:8px}
+.awareness-item-actions .awareness-link{margin-top:5px}
+.awareness-empty-state{grid-column:1/-1}
+.awareness-note{margin-top:12px!important;font-size:8px!important;color:#687b92!important}
+@media(max-width:760px){.awareness-form-row{flex-direction:column;gap:0}.awareness-grid{grid-template-columns:minmax(0,1fr)}.awareness-content{padding-top:96px}.awareness-content .awareness-filters{left:0;width:100%;box-sizing:border-box}.awareness-category-panel{margin-top:14px}}
 </style>
 
