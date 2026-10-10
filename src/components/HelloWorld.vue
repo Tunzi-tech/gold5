@@ -8985,7 +8985,7 @@ textarea:focus-visible {
 
 .hero-heading-blue {
   color: #72c995;
-  background: linear-gradient(100deg, #ef6464 0%, #f2c45d 50%, #72c995 100%);
+  background: linear-gradient(115deg, #f2c45d 0%, #72c995 48%, #ef6464 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
