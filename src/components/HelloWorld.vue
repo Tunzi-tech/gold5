@@ -132,6 +132,7 @@ type Entity = {
    ===================================================== */
 
 const activeView = ref('home')
+const showPeopleDoingList = ref(false)
 const showZonesSubnav = ref(true)
 const showCallsSubnav = ref(true)
 const showPagesMoreSubnav = ref(false)
@@ -4237,7 +4238,33 @@ onBeforeUnmount(() => {
               <button type="button" @click="navigate('initiatives')">Community gardens</button>
               <button type="button" @click="navigate('people')">People taking action</button>
             </div>
-            <button type="button" class="initiative-card-action" @click="navigate('initiatives')">See what people are doing <span aria-hidden="true">→</span></button>
+            <button type="button" class="initiative-card-action" :aria-expanded="showPeopleDoingList" @click="showPeopleDoingList = !showPeopleDoingList">{{ showPeopleDoingList ? 'Hide activity categories' : 'See what people are doing' }} <span aria-hidden="true">{{ showPeopleDoingList ? '−' : '→' }}</span></button>
+            <div v-if="showPeopleDoingList" class="people-doing-category-list" aria-label="Categories of what people are doing">
+              <article class="people-doing-category">
+                <span class="people-doing-category-type">IDEAS</span>
+                <strong>Ideas & proposals</strong>
+                <p>Suggestions people want to bring to life.</p>
+                <button type="button" @click="navigate('awareness')">View category <span aria-hidden="true">→</span></button>
+              </article>
+              <article class="people-doing-category">
+                <span class="people-doing-category-type">PROJECTS</span>
+                <strong>Community projects</strong>
+                <p>People building something together.</p>
+                <button type="button" @click="navigate('initiatives')">View category <span aria-hidden="true">→</span></button>
+              </article>
+              <article class="people-doing-category">
+                <span class="people-doing-category-type">PEOPLE</span>
+                <strong>People taking action</strong>
+                <p>Find others who care about the same things.</p>
+                <button type="button" @click="navigate('people')">View category <span aria-hidden="true">→</span></button>
+              </article>
+              <article class="people-doing-category">
+                <span class="people-doing-category-type">CALLS</span>
+                <strong>Open calls</strong>
+                <p>Discover invitations to contribute or participate.</p>
+                <button type="button" @click="navigate('calls')">View category <span aria-hidden="true">→</span></button>
+              </article>
+            </div>
           </section>
           <section class="initiative-flow-step make-impact" aria-label="Find a way to make an impact">
             <span class="initiative-flow-kicker">MAKE AN IMPACT</span>
@@ -15537,6 +15564,15 @@ textarea:focus-visible {
 .initiative-card-action:hover,.initiative-card-action:focus-visible{color:#fff;outline:none}
 .initiative-card-action span{font-size:14px;transition:transform .18s ease}
 .initiative-card-action:hover span{transform:translateX(3px)}
+.people-doing-category-list{display:flex;gap:8px;overflow-x:auto;overscroll-behavior-x:contain;margin-top:10px;padding:2px 1px 8px;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:rgba(115,185,201,.35) transparent}
+.people-doing-category{display:flex;flex:0 0 148px;flex-direction:column;align-items:flex-start;min-height:142px;padding:10px;border:1px solid rgba(115,185,201,.16);border-radius:10px;background:linear-gradient(145deg,rgba(115,185,201,.07),rgba(255,255,255,.018));scroll-snap-align:start}
+.people-doing-category-type{margin-bottom:7px;color:#73b9c9;font-size:7px;font-weight:850;letter-spacing:.12em}
+.people-doing-category strong{color:#dce7f2;font-size:10px;line-height:1.35}
+.people-doing-category p{margin:5px 0 10px;color:#8191a5;font-size:8px;line-height:1.5}
+.people-doing-category button{display:flex;align-items:center;justify-content:space-between;gap:5px;width:100%;margin-top:auto;padding:7px 0 0;border:0;border-top:1px solid rgba(255,255,255,.07);background:transparent;color:#a9d9e3;font:inherit;font-size:8px;font-weight:800;text-align:left;cursor:pointer}
+.people-doing-category button:hover,.people-doing-category button:focus-visible{color:#fff;outline:none}
+.people-doing-category button span{font-size:12px}
+
 .people-do .initiative-flow-kicker{color:#73b9c9}
 .make-impact .initiative-flow-kicker{color:#d6d46a}
 .going-around .initiative-flow-kicker{color:#9f8fff}
