@@ -4012,7 +4012,7 @@ onBeforeUnmount(() => {
                 <h1>
                   {{ heroes[activeHero].titleBefore }}
                   <span
-                    :class="activeHero === 0 ? 'hero-accent-blue' : 'hero-accent-gold'"
+                    :class="activeHero === 0 ? 'hero-accent-white' : 'hero-accent-impact'"
                   >
                     {{ heroes[activeHero].titleAccent }}
                   </span>
@@ -8954,6 +8954,20 @@ textarea:focus-visible {
 .hero-accent-gold {
   color: #d6a65e;
   text-shadow: 0 0 28px rgba(214,166,94,.14);
+}
+
+.hero-accent-white {
+  color: #f5f7fb;
+  text-shadow: none;
+}
+
+.hero-accent-impact {
+  color: #c05b91;
+  background: linear-gradient(100deg, #e05b55 0%, #c85c87 48%, #9565cf 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 26px rgba(192,91,145,.12);
 }
 
 .hero-progress {
