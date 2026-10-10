@@ -8949,7 +8949,7 @@ textarea:focus-visible {
 
 .hero-accent-blue {
   color: #8bbcff;
-  text-shadow: none;
+  text-shadow: 0 2px 10px rgba(110,167,255,.24), 0 0 18px rgba(139,188,255,.16);
 }
 
 .hero-accent-gold {
