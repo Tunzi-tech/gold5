@@ -143,6 +143,78 @@ const showWhatsGoingOn = ref(false)
 const liveEngagement = ref<'people' | 'action' | 'flow' | null>(null)
 const awarenessFilter = ref('ALL')
 const showImpactCategories = ref(false)
+const awarenessCategory = ref('ALL')
+const showRaiseAwareness = ref(false)
+const awarenessDraft = ref({
+  title: '',
+  category: 'Nature & green spaces',
+  sourceType: 'Person',
+  sourceName: '',
+  zone: '',
+  happening: '',
+  ifNothingChanges: '',
+  whatWeCanDo: '',
+  possibleChange: '',
+  evidence: ''
+})
+const awarenessItems = ref([
+  {
+    id: 1,
+    title: 'Are we losing usable green spaces in our neighborhood?',
+    category: 'Nature & green spaces',
+    sourceType: 'Residents',
+    sourceName: 'Residents and Zone participants',
+    zone: 'Tunis North',
+    happening: 'Residents are raising questions about the condition, availability and accessibility of nearby green spaces. Specific locations and observations still need to be gathered.',
+    ifNothingChanges: 'Possible consequences could include less shade, fewer comfortable outdoor spaces and greater pressure on the green areas that remain. These are possibilities to investigate, not confirmed predictions.',
+    whatWeCanDo: 'Identify locations, share observations, connect residents and explore existing local initiatives.',
+    possibleChange: 'A clearer picture of local needs, a shared proposal or a small community-led improvement.',
+    evidence: '',
+    createdAt: 'Featured example'
+  },
+  {
+    id: 2,
+    title: 'How can we make local streets cleaner?',
+    category: 'Clean streets & waste',
+    sourceType: 'Community',
+    sourceName: 'Community observation',
+    zone: 'Tunis',
+    happening: 'People can use this space to identify litter hotspots, discuss waste collection and share observations about public cleanliness.',
+    ifNothingChanges: 'If concerns are left unexamined, some places may remain unpleasant or harder to use. The actual causes and scale should be checked locally.',
+    whatWeCanDo: 'Map specific locations, compare observations, contact relevant local services and organize a focused clean-up where appropriate.',
+    possibleChange: 'A shared map of needs and a practical, locally coordinated response.',
+    evidence: '',
+    createdAt: 'Illustrative example'
+  },
+  {
+    id: 3,
+    title: 'What would make our neighborhood easier for everyone to move around?',
+    category: 'Better neighborhoods',
+    sourceType: 'Community',
+    sourceName: 'Community question',
+    zone: 'Tunis',
+    happening: 'Residents may notice barriers involving sidewalks, crossings, mobility, accessibility or public services. Specific examples help make the discussion useful.',
+    ifNothingChanges: 'Some people may continue to face avoidable barriers when moving around. The impact depends on the location and the needs involved.',
+    whatWeCanDo: 'Share precise locations, describe the barrier, listen to affected people and connect the issue to a local Call.',
+    possibleChange: 'A better understanding of accessibility needs and a prioritized list of improvements.',
+    evidence: '',
+    createdAt: 'Illustrative example'
+  },
+  {
+    id: 4,
+    title: 'How can we understand local heat, water and coastal changes?',
+    category: 'Climate & coast',
+    sourceType: 'Community',
+    sourceName: 'Community question',
+    zone: 'Tunisia',
+    happening: 'People can collect observations and connect local experiences with reliable climate, water and coastal information.',
+    ifNothingChanges: 'Unexamined risks can be harder to plan for. Possible consequences should be assessed using local evidence and relevant scientific sources.',
+    whatWeCanDo: 'Record observations with dates and locations, consult trusted sources and connect with people working on adaptation.',
+    possibleChange: 'More informed local conversations and practical ideas for resilience.',
+    evidence: '',
+    createdAt: 'Illustrative example'
+  }
+])
 const selectedZone = ref<Zone | null>(null)
 const selectedCall = ref<CommunityCall | null>(null)
 const selectedPage = ref<Page | null>(null)
@@ -2779,6 +2851,65 @@ function setAwarenessFilter(filter: string) {
   awarenessFilter.value = filter
 }
 
+const awarenessCategories = [
+  'Nature & green spaces',
+  'Clean streets & waste',
+  'Better neighborhoods',
+  'Climate & coast',
+  'Education & awareness',
+  'Community wellbeing',
+  'Ideas & innovation'
+]
+
+const filteredAwarenessItems = computed(() => {
+  return awarenessItems.value.filter(item => {
+    const matchesCategory = awarenessCategory.value === 'ALL' || item.category === awarenessCategory.value
+    const filter = awarenessFilter.value
+    const matchesSection = filter === 'ALL'
+      || (filter === 'HAPPENING' && !!item.happening)
+      || (filter === 'CONSEQUENCES' && !!item.ifNothingChanges)
+      || (filter === 'ACTION' && !!item.whatWeCanDo)
+      || (filter === 'LEARN' && !!item.evidence)
+      || (filter === 'FUTURES' && !!item.possibleChange)
+      || filter === 'LEARN &amp; DISCOVER'
+    return matchesCategory && matchesSection
+  })
+})
+
+function submitAwarenessItem() {
+  const draft = awarenessDraft.value
+  if (!draft.title.trim() || !draft.happening.trim()) return
+  awarenessItems.value.unshift({
+    id: Date.now(),
+    title: draft.title.trim(),
+    category: draft.category,
+    sourceType: draft.sourceType,
+    sourceName: draft.sourceName.trim() || draft.sourceType,
+    zone: draft.zone.trim() || 'No Zone specified',
+    happening: draft.happening.trim(),
+    ifNothingChanges: draft.ifNothingChanges.trim() || 'Possible consequences have not been explored yet. Add observations and reliable context before drawing conclusions.',
+    whatWeCanDo: draft.whatWeCanDo.trim() || 'Invite people to discuss the issue and identify a constructive next step.',
+    possibleChange: draft.possibleChange.trim() || 'A clearer shared understanding and a next step shaped by the people involved.',
+    evidence: draft.evidence.trim(),
+    createdAt: 'Just now'
+  })
+  awarenessCategory.value = 'ALL'
+  awarenessFilter.value = 'ALL'
+  showRaiseAwareness.value = false
+  awarenessDraft.value = {
+    title: '',
+    category: 'Nature & green spaces',
+    sourceType: 'Person',
+    sourceName: '',
+    zone: '',
+    happening: '',
+    ifNothingChanges: '',
+    whatWeCanDo: '',
+    possibleChange: '',
+    evidence: ''
+  }
+}
+
 function navigate(view: string) {
   activeView.value = view
   selectedZone.value = null
@@ -4608,10 +4739,74 @@ onBeforeUnmount(() => {
         <div class="page-title awareness-title">
           <span class="eyebrow">IMPACT &amp; AWARENESS</span>
           <h1>See what matters. Understand the impact.</h1>
-          <p>
-            Discover signals from people and entities, understand why they matter, explore what may
-            happen if nothing changes, and discover what we can do next.
-          </p>
+          <p>One shared space for people, pages, entities and communities to raise awareness, understand what is happening, and find constructive ways forward.</p>
+          <button type="button" class="awareness-link" @click="showRaiseAwareness = !showRaiseAwareness">{{ showRaiseAwareness ? 'CLOSE FORM' : '+ RAISE AWARENESS' }}</button>
+        </div>
+
+        <form v-if="showRaiseAwareness" class="awareness-card awareness-create-card" @submit.prevent="submitAwarenessItem">
+          <div class="awareness-card-head">
+            <span class="awareness-kicker">RAISE AWARENESS</span>
+            <span class="awareness-learn-mark">✦</span>
+          </div>
+          <h2>What deserves more attention?</h2>
+          <p>Share what you have noticed, what you want to understand, and what people could explore together. Be clear about what is observed and what is still uncertain.</p>
+          <label class="awareness-form-label">Title
+            <input v-model="awarenessDraft.title" required maxlength="140" placeholder="What should people understand?" />
+          </label>
+          <div class="awareness-form-row">
+            <label class="awareness-form-label">Category
+              <select v-model="awarenessDraft.category">
+                <option v-for="category in awarenessCategories" :key="category" :value="category">{{ category }}</option>
+              </select>
+            </label>
+            <label class="awareness-form-label">Raised by
+              <select v-model="awarenessDraft.sourceType">
+                <option>Person</option>
+                <option>Page</option>
+                <option>Entity</option>
+                <option>Zone / community</option>
+                <option>Initiative / action group</option>
+              </select>
+            </label>
+          </div>
+          <div class="awareness-form-row">
+            <label class="awareness-form-label">Source name (optional)
+              <input v-model="awarenessDraft.sourceName" placeholder="Person, page, entity or community" />
+            </label>
+            <label class="awareness-form-label">Connected Zone or place (optional)
+              <input v-model="awarenessDraft.zone" placeholder="e.g. Tunis North" />
+            </label>
+          </div>
+          <label class="awareness-form-label">What's happening?
+            <textarea v-model="awarenessDraft.happening" required rows="3" placeholder="Describe the observation, question or concern. What is known, and what still needs checking?" />
+          </label>
+          <label class="awareness-form-label">What if nothing changes?
+            <textarea v-model="awarenessDraft.ifNothingChanges" rows="2" placeholder="Describe plausible consequences without presenting uncertainty as fact." />
+          </label>
+          <label class="awareness-form-label">What can we do?
+            <textarea v-model="awarenessDraft.whatWeCanDo" rows="2" placeholder="Possible next steps, conversations or actions." />
+          </label>
+          <label class="awareness-form-label">What could change?
+            <textarea v-model="awarenessDraft.possibleChange" rows="2" placeholder="What positive possibility could people work toward?" />
+          </label>
+          <label class="awareness-form-label">Evidence or references (optional)
+            <input v-model="awarenessDraft.evidence" placeholder="Add a source, report, link title or note" />
+          </label>
+          <div class="awareness-form-actions">
+            <button type="button" class="awareness-link" @click="showRaiseAwareness = false">CANCEL</button>
+            <button type="submit" class="awareness-submit-button">PUBLISH AWARENESS ITEM →</button>
+          </div>
+        </form>
+
+        <div class="awareness-category-panel">
+          <div>
+            <span class="awareness-kicker">EXPLORE BY CATEGORY</span>
+            <p>Categories connect concerns across people, pages, entities, initiatives and Zones.</p>
+          </div>
+          <div class="awareness-category-chips">
+            <button type="button" class="awareness-filter" :class="{ active: awarenessCategory === 'ALL' }" @click="awarenessCategory = 'ALL'">ALL CATEGORIES</button>
+            <button v-for="category in awarenessCategories" :key="category" type="button" class="awareness-filter" :class="{ active: awarenessCategory === category }" @click="awarenessCategory = category">{{ category }}</button>
+          </div>
         </div>
 
         <div class="awareness-filters">
@@ -4619,100 +4814,62 @@ onBeforeUnmount(() => {
           <button type="button" class="awareness-filter" :class="{ active: awarenessFilter === 'HAPPENING' }" @click="setAwarenessFilter('HAPPENING')">WHAT'S HAPPENING</button>
           <button type="button" class="awareness-filter" :class="{ active: awarenessFilter === 'CONSEQUENCES' }" @click="setAwarenessFilter('CONSEQUENCES')">IF NOTHING CHANGES</button>
           <button type="button" class="awareness-filter" :class="{ active: awarenessFilter === 'ACTION' }" @click="setAwarenessFilter('ACTION')">WHAT WE CAN DO</button>
-          <button type="button" class="awareness-filter" :class="{ active: awarenessFilter === 'LEARN &amp; DISCOVER' }" @click="setAwarenessFilter('LEARN &amp; DISCOVER')">LEARN &amp; DISCOVER</button>
+          <button type="button" class="awareness-filter" :class="{ active: awarenessFilter === 'LEARN' }" @click="setAwarenessFilter('LEARN')">LEARN &amp; DISCOVER</button>
           <button type="button" class="awareness-filter" :class="{ active: awarenessFilter === 'FUTURES' }" @click="setAwarenessFilter('FUTURES')">POSSIBLE FUTURES</button>
         </div>
 
         <div class="awareness-grid">
-
-          <article v-show="awarenessFilter === 'ALL' || awarenessFilter === 'HAPPENING'" class="awareness-card awareness-signal-card">
+          <article v-for="item in filteredAwarenessItems" :key="item.id" class="awareness-card awareness-signal-card awareness-shared-item">
             <div class="awareness-card-head">
-              <span class="awareness-kicker">WHAT'S HAPPENING · PEOPLE</span>
-              <span class="awareness-live-dot">LIVE</span>
+              <span class="awareness-kicker">{{ item.category }}</span>
+              <span class="awareness-live-dot">{{ item.createdAt }}</span>
             </div>
-            <h2>Shared green spaces are becoming a local concern.</h2>
-            <p>
-              People in Tunis North are raising concerns about the condition and accessibility of
-              public spaces. Others are already pointing to places where something could change.
-            </p>
+            <h2>{{ item.title }}</h2>
             <div class="awareness-source-row">
-              <span>8 residents</span>
-              <span>3 Zone participants</span>
-              <span>Tunis North</span>
+              <span>Raised by {{ item.sourceType }}</span>
+              <span>{{ item.sourceName }}</span>
+              <span>{{ item.zone }}</span>
             </div>
-            <button type="button" class="awareness-link" @click="navigate('zones')">EXPLORE THE ZONE →</button>
+            <div v-if="awarenessFilter === 'ALL' || awarenessFilter === 'HAPPENING'" class="awareness-story-section">
+              <span class="awareness-kicker">WHAT'S HAPPENING?</span>
+              <p>{{ item.happening }}</p>
+            </div>
+            <div v-if="awarenessFilter === 'ALL' || awarenessFilter === 'CONSEQUENCES'" class="awareness-story-section">
+              <span class="awareness-kicker">WHAT IF NOTHING CHANGES?</span>
+              <p>{{ item.ifNothingChanges }}</p>
+            </div>
+            <div v-if="awarenessFilter === 'ALL' || awarenessFilter === 'ACTION'" class="awareness-story-section">
+              <span class="awareness-kicker">WHAT CAN WE DO?</span>
+              <p>{{ item.whatWeCanDo }}</p>
+            </div>
+            <div v-if="awarenessFilter === 'ALL' || awarenessFilter === 'FUTURES'" class="awareness-story-section">
+              <span class="awareness-kicker">WHAT COULD CHANGE?</span>
+              <p>{{ item.possibleChange }}</p>
+            </div>
+            <div v-if="item.evidence && (awarenessFilter === 'ALL' || awarenessFilter === 'LEARN')" class="awareness-story-section">
+              <span class="awareness-kicker">LEARN &amp; DISCOVER · REFERENCES</span>
+              <p>{{ item.evidence }}</p>
+            </div>
+            <p v-if="!item.evidence && (awarenessFilter === 'ALL' || awarenessFilter === 'LEARN')" class="awareness-note">No reference added yet. Explore reliable sources and add evidence before treating a claim as established.</p>
+            <div class="awareness-item-actions">
+              <button type="button" class="awareness-link" @click="navigate('zones')">EXPLORE ZONES →</button>
+              <button type="button" class="awareness-link" @click="navigate('call')">FIND A CALL →</button>
+              <button type="button" class="awareness-link" @click="navigate('initiatives')">EXPLORE INITIATIVES →</button>
+            </div>
+            <p class="awareness-note">Community-shared content can include observations, questions and hypotheses. Check sources before treating uncertain claims as facts.</p>
           </article>
-
-          <article v-show="awarenessFilter === 'ALL' || awarenessFilter === 'CONSEQUENCES'" class="awareness-card awareness-consequence-card">
-            <div class="awareness-card-head">
-              <span class="awareness-kicker">IF NOTHING CHANGES</span>
-              <span class="awareness-impact-mark">!</span>
-            </div>
-            <h2>What can this affect over time?</h2>
-            <div class="awareness-chain">
-              <span>Less usable green space</span>
-              <i>→</i>
-              <span>Less shade &amp; comfort</span>
-              <i>→</i>
-              <span>Less everyday use</span>
-              <i>→</i>
-              <span>More pressure on remaining spaces</span>
-            </div>
-            <p class="awareness-note">A possible consequence is not a prediction. It is a reason to look closer before the situation becomes harder to change.</p>
-          </article>
-
-          <article v-show="awarenessFilter === 'ALL' || awarenessFilter === 'ACTION'" class="awareness-card awareness-action-card">
-            <div class="awareness-card-head">
-              <span class="awareness-kicker">WHAT WE CAN DO</span>
-              <span class="awareness-action-mark">✦</span>
-            </div>
-            <h2>Turn awareness into a possibility.</h2>
-            <div class="awareness-actions">
-              <div><strong>01</strong><span>Protect a place that already works.</span></div>
-              <div><strong>02</strong><span>Join people already working on it.</span></div>
-              <div><strong>03</strong><span>Bring the issue into a local Call.</span></div>
-              <div><strong>04</strong><span>Start one small action and learn from it.</span></div>
-            </div>
-            <button type="button" class="awareness-link" @click="navigate('call')">FIND A CALL →</button>
-          </article>
-
-          <article v-show="awarenessFilter === 'ALL' || awarenessFilter === 'LEARN'" class="awareness-card awareness-learn-card">
-            <div class="awareness-card-head">
-              <span class="awareness-kicker">LEARN &amp; DISCOVER</span>
-              <span class="awareness-learn-mark">◈</span>
-            </div>
-            <h2>Why do cities need trees beyond aesthetics?</h2>
-            <p>
-              Trees can influence shade, heat, water movement, biodiversity and how people use
-              public space. Understanding the connections helps us see local choices differently.
-            </p>
-            <div class="awareness-meta">KNOWLEDGE · URBAN NATURE · 6 MIN</div>
-            <button type="button" class="awareness-link">READ ARTICLE →</button>
-          </article>
-
-          <article v-show="awarenessFilter === 'ALL' || awarenessFilter === 'FUTURES'" class="awareness-card awareness-future-card">
-            <div class="awareness-card-head">
-              <span class="awareness-kicker">POSSIBLE FUTURES</span>
-              <span class="awareness-future-mark">◇</span>
-            </div>
-            <h2>What could this place become?</h2>
-            <p>
-              An underused local space could become a community garden, a small biodiversity area,
-              a place for children, or simply a better shared public space.
-            </p>
-            <div class="awareness-future-path">
-              <span>TODAY</span><i>→</i><span>IDEA</span><i>→</i><span>PEOPLE</span><i>→</i><span>POSSIBILITY</span>
-            </div>
-          </article>
-
+          <div v-if="filteredAwarenessItems.length === 0" class="awareness-card awareness-empty-state">
+            <h2>No awareness items in this category yet.</h2>
+            <p>Be the first to raise a question or share an observation that helps people understand what matters.</p>
+            <button type="button" class="awareness-link" @click="showRaiseAwareness = true">RAISE AWARENESS →</button>
+          </div>
           <aside class="awareness-principle-card">
             <span class="eyebrow">THE FLOW</span>
             <div class="awareness-principle">
-              <strong>SEE</strong><i>→</i><strong>UNDERSTAND</strong><i>→</i><strong>REALIZE</strong><i>→</i><strong>IMAGINE</strong><i>→</i><strong>CHOOSE</strong><i>→</i><strong>ACT</strong>
+              <strong>NOTICE</strong><i>→</i><strong>UNDERSTAND</strong><i>→</i><strong>CONNECT</strong><i>→</i><strong>IMAGINE</strong><i>→</i><strong>CHOOSE</strong><i>→</i><strong>ACT</strong>
             </div>
-            <p>Awareness is not only about knowing a problem. It is about seeing relationships, consequences and possibilities clearly enough to make a choice.</p>
+            <p>Awareness is the beginning: connect what people notice with knowledge, discussion, Calls, initiatives and participation.</p>
           </aside>
-
         </div>
       </section>
 
