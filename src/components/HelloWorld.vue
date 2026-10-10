@@ -8984,8 +8984,8 @@ textarea:focus-visible {
 }
 
 .hero-heading-blue {
-  color: #8bbcff;
-  text-shadow: 0 2px 10px rgba(110,167,255,.18);
+  color: #72c995;
+  text-shadow: 0 2px 10px rgba(114,201,149,.18);
 }
 
 .hero-heading-white-home {
