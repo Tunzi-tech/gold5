@@ -4068,22 +4068,40 @@ onBeforeUnmount(() => {
         </div>
 
         <div class="initiative-flow-path" aria-label="From what people do to impact">
-          <button type="button" class="initiative-flow-step people-do" @click="navigate('initiatives')">
+          <section class="initiative-flow-step people-do" aria-label="Explore what people are doing">
             <span class="initiative-flow-kicker">EXPLORE</span>
             <span class="initiative-explore-icon" aria-hidden="true"><i></i><b></b><em></em></span>
             <strong>See what people are already doing.</strong>
-            <small>Discover initiatives already moving around your Zones.</small>
-          </button>
-          <button type="button" class="initiative-flow-step make-impact" @click="navigate('zones')">
+            <small>Choose an example to explore, or open all initiatives.</small>
+            <div class="initiative-example-options" aria-label="Explore examples">
+              <button type="button" @click="navigate('discover')">Green spaces</button>
+              <button type="button" @click="navigate('initiatives')">Community gardens</button>
+              <button type="button" @click="navigate('people')">People taking action</button>
+            </div>
+            <button type="button" class="initiative-card-action" @click="navigate('initiatives')">Explore initiatives <span aria-hidden="true">→</span></button>
+          </section>
+          <section class="initiative-flow-step make-impact" aria-label="Find a way to make an impact">
             <span class="initiative-flow-kicker">MAKE AN IMPACT</span>
             <strong>Turn interest into participation.</strong>
-            <small>Find a place where you can join, contribute and act.</small>
-          </button>
-          <button type="button" class="initiative-flow-step going-around" @click="navigate('around-zones')">
+            <small>Start with an issue, people, or a place.</small>
+            <div class="initiative-example-options" aria-label="Ways to make an impact">
+              <button type="button" @click="navigate('awareness')">Choose an issue</button>
+              <button type="button" @click="navigate('people')">Find your people</button>
+              <button type="button" @click="navigate('zones')">Join a Zone</button>
+            </div>
+            <button type="button" class="initiative-card-action" @click="navigate('zones')">Find your place <span aria-hidden="true">→</span></button>
+          </section>
+          <section class="initiative-flow-step going-around" aria-label="Discover what's happening around you">
             <span class="initiative-flow-kicker">WHAT'S GOING ON AROUND YOU?</span>
             <strong>See what is moving right now.</strong>
-            <small>Follow the flow and discover where people are engaging.</small>
-          </button>
+            <small>Choose a local signal or follow the Live Flow.</small>
+            <div class="initiative-example-options" aria-label="Nearby activity examples">
+              <button type="button" @click="navigate('live-people')">Community voices</button>
+              <button type="button" @click="navigate('around-zones')">Nearby activity</button>
+              <button type="button" @click="navigate('initiatives')">Actions forming</button>
+            </div>
+            <button type="button" class="initiative-card-action" @click="navigate('live-flow')">Open Live Flow <span aria-hidden="true">→</span></button>
+          </section>
 
           <div class="initiative-hover-story story-people-do" aria-label="Example of what people are doing">
             <div class="initiative-hover-story-heading">
@@ -15280,11 +15298,18 @@ textarea:focus-visible {
 @keyframes initiative-icon-pulse{50%{transform:scale(1.08);opacity:.78}}
 @keyframes initiative-icon-orbit{to{transform:rotate(360deg) translateX(6px) rotate(-360deg)}}
 .initiative-flow-path{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 18px}
-.initiative-flow-step{position:relative;text-align:left;padding:14px 15px;border:1px solid rgba(255,255,255,.06);border-radius:13px;background:linear-gradient(145deg,rgba(18,27,40,.82),rgba(8,13,21,.9));cursor:pointer;transition:border-color .25s ease,transform .25s ease,background .25s ease}
-.initiative-flow-step:hover{transform:translateY(-2px);border-color:rgba(115,185,201,.2);background:linear-gradient(145deg,rgba(23,34,49,.9),rgba(9,14,22,.94))}
+.initiative-flow-step{position:relative;min-width:0;text-align:left;padding:14px 15px;border:1px solid rgba(255,255,255,.06);border-radius:13px;background:linear-gradient(145deg,rgba(18,27,40,.82),rgba(8,13,21,.9));transition:border-color .25s ease,transform .25s ease,background .25s ease}
+.initiative-flow-step:hover,.initiative-flow-step:focus-within{border-color:rgba(115,185,201,.2);background:linear-gradient(145deg,rgba(23,34,49,.9),rgba(9,14,22,.94))}
 .initiative-flow-kicker{display:block;margin-bottom:6px;font-size:7px;letter-spacing:.16em;font-weight:900}
-.initiative-flow-step strong{display:block;color:#dce6f2;font-size:12px;line-height:1.35}
-.initiative-flow-step small{display:block;margin-top:6px;color:#718196;font-size:7px;line-height:1.45}
+.initiative-flow-step>strong{display:block;color:#dce6f2;font-size:12px;line-height:1.35}
+.initiative-flow-step>small{display:block;margin-top:6px;color:#9aa9bb;font-size:8px;line-height:1.45}
+.initiative-example-options{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+.initiative-example-options button{padding:6px 8px;border:1px solid rgba(130,164,190,.18);border-radius:7px;background:rgba(255,255,255,.025);color:#b7c7d8;font:inherit;font-size:8px;line-height:1.2;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease}
+.initiative-example-options button:hover,.initiative-example-options button:focus-visible{background:rgba(115,185,201,.12);border-color:rgba(115,185,201,.48);color:#fff;outline:none}
+.initiative-card-action{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;margin-top:11px;padding:8px 0 0;border:0;border-top:1px solid rgba(255,255,255,.07);background:transparent;color:#9cc9d6;font:inherit;font-size:9px;font-weight:800;text-align:left;cursor:pointer}
+.initiative-card-action:hover,.initiative-card-action:focus-visible{color:#fff;outline:none}
+.initiative-card-action span{font-size:14px;transition:transform .18s ease}
+.initiative-card-action:hover span{transform:translateX(3px)}
 .people-do .initiative-flow-kicker{color:#73b9c9}
 .make-impact .initiative-flow-kicker{color:#d6d46a}
 .going-around .initiative-flow-kicker{color:#9f8fff}
