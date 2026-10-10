@@ -8762,6 +8762,65 @@ textarea:focus-visible {
   color: #fbbf24;
 }
 
+/* IDEA FLOW — a quiet space for unfinished ideas */
+.idea-flow-nav-button{display:flex;align-items:center;gap:11px;width:100%;padding:11px 14px;margin:3px 0;border:1px solid rgba(255,173,87,.14);border-radius:11px;background:linear-gradient(100deg,rgba(255,105,76,.055),rgba(255,198,91,.025));color:#d7dbe7;text-align:left;font-size:12px;cursor:pointer;transition:border-color .2s,background .2s}
+.idea-flow-nav-button .icon{width:19px;color:#ffad64;font-size:17px;text-align:center}
+.idea-flow-nav-button:hover,.idea-flow-nav-button.active{border-color:rgba(255,173,87,.3);background:linear-gradient(100deg,rgba(255,105,76,.11),rgba(255,198,91,.055));color:#fff}
+.idea-flow-content{max-width:1120px;margin:0 auto;padding:32px 30px 56px;color:#e8edf7}
+.idea-flow-intro{position:relative;overflow:hidden;padding:30px 34px 27px;border:1px solid rgba(255,179,102,.14);border-radius:22px;background:radial-gradient(ellipse at 78% 12%,rgba(242,135,74,.11),transparent 34%),radial-gradient(ellipse at 15% 100%,rgba(127,91,208,.10),transparent 40%),linear-gradient(135deg,rgba(17,23,36,.98),rgba(12,17,28,.97))}
+.idea-flow-intro .eyebrow,.idea-flow-stream-heading .eyebrow{color:#e5ad7b;font-size:9px;letter-spacing:.17em;font-weight:800}
+.idea-flow-intro h1{position:relative;margin:13px 0 10px;font-size:clamp(32px,4vw,48px);line-height:1.05;letter-spacing:-.045em;font-weight:650;color:#f2f3f7}
+.idea-flow-intro h1 span{background:linear-gradient(100deg,#ff6862,#ff9a4e 48%,#f5cf69);-webkit-background-clip:text;background-clip:text;color:transparent}
+.idea-flow-intro>p{position:relative;max-width:650px;margin:0;color:#a6b0c2;font-size:13px;line-height:1.85}
+.idea-flow-orbit{position:absolute;right:8%;top:10px;width:160px;height:160px;border:1px solid rgba(255,176,108,.12);border-radius:50%;opacity:.8}
+.idea-flow-orbit:before,.idea-flow-orbit:after{content:"";position:absolute;inset:20px;border:1px solid rgba(255,176,108,.12);border-radius:50%;transform:rotate(-35deg) scaleX(.62)}
+.idea-flow-orbit:after{inset:0;transform:rotate(55deg) scaleX(.55)}
+.idea-flow-orbit span{position:absolute;left:17%;top:26%;width:8px;height:8px;border-radius:50%;background:#ff9a63;box-shadow:0 0 16px rgba(255,154,99,.45)}
+.idea-flow-orbit i,.idea-flow-orbit b{position:absolute;width:5px;height:5px;border-radius:50%;background:#e9c86e;right:17%;top:58%}
+.idea-flow-orbit b{right:49%;top:8%;background:#9d8be8}
+.idea-flow-signals{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:23px;color:#7e8ba0;font-size:8px;font-weight:800;letter-spacing:.12em}
+.idea-flow-signals i{width:3px;height:3px;border-radius:50%;background:#c18c70}
+.idea-flow-composer{margin-top:16px;padding:19px;border:1px solid rgba(151,133,200,.19);border-radius:17px;background:linear-gradient(145deg,rgba(24,27,42,.92),rgba(14,19,30,.96))}
+.idea-flow-composer-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.idea-flow-spark{display:grid;place-items:center;width:34px;height:34px;border-radius:12px;background:linear-gradient(135deg,rgba(255,105,90,.14),rgba(255,202,94,.12));color:#ffb36b;font-size:19px}
+.idea-flow-composer-top strong{display:block;color:#e9edf6;font-size:13px;font-weight:700}
+.idea-flow-composer-top small{display:block;margin-top:4px;color:#7f8ba0;font-size:10px;line-height:1.5}
+.idea-flow-composer textarea,.idea-flow-thought-form textarea{display:block;box-sizing:border-box;width:100%;resize:vertical;min-height:72px;padding:13px 14px;border:1px solid rgba(255,255,255,.08);border-radius:11px;outline:none;background:rgba(6,10,18,.58);color:#e5eaf4;font:inherit;font-size:12px;line-height:1.7}
+.idea-flow-composer textarea:focus,.idea-flow-thought-form textarea:focus{border-color:rgba(255,170,103,.4)}
+.idea-flow-composer textarea::placeholder,.idea-flow-thought-form textarea::placeholder{color:#5e6a7e}
+.idea-flow-composer-bottom{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:11px}
+.idea-flow-composer-bottom>span{color:#657288;font-size:9px}
+.idea-flow-composer-bottom button,.idea-flow-thought-form button{padding:10px 13px;border:1px solid rgba(255,172,99,.24);border-radius:9px;background:linear-gradient(100deg,rgba(255,105,90,.15),rgba(255,197,90,.12));color:#ffd2a0;font-size:10px;font-weight:800;cursor:pointer}
+.idea-flow-composer-bottom button:disabled,.idea-flow-thought-form button:disabled{opacity:.35;cursor:not-allowed}
+.idea-flow-stream-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:29px 1px 13px}
+.idea-flow-stream-heading h2{margin:6px 0 0;color:#e6ebf4;font-size:19px;font-weight:600;letter-spacing:-.025em}
+.idea-flow-stream-note{color:#69768a;font-size:9px}
+.idea-flow-stream{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:start}
+.idea-flow-card{position:relative;overflow:hidden;min-width:0;padding:17px;border:1px solid rgba(255,255,255,.075);border-radius:15px;background:linear-gradient(155deg,rgba(21,28,41,.96),rgba(13,18,29,.98))}
+.idea-flow-card:before{content:"";position:absolute;top:0;left:17px;right:17px;height:1px;background:linear-gradient(90deg,transparent,var(--idea-accent),transparent);opacity:.6}
+.idea-mood-green{--idea-accent:#82c6a0}.idea-mood-blue{--idea-accent:#7ab7e5}.idea-mood-gold{--idea-accent:#edc46d}.idea-mood-violet{--idea-accent:#b59be9}
+.idea-flow-card-orbit{position:absolute;right:-22px;top:23px;width:78px;height:78px;border:1px solid color-mix(in srgb,var(--idea-accent) 22%,transparent);border-radius:50%;pointer-events:none}
+.idea-flow-card-orbit:before{content:"";position:absolute;inset:11px;border:1px solid color-mix(in srgb,var(--idea-accent) 20%,transparent);border-radius:50%;transform:scaleX(.48) rotate(35deg)}
+.idea-flow-card-orbit span{position:absolute;top:12px;left:15px;width:5px;height:5px;border-radius:50%;background:var(--idea-accent);box-shadow:0 0 9px var(--idea-accent)}
+.idea-flow-card-meta{position:relative;display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.idea-flow-card-meta span{padding:5px 7px;border:1px solid rgba(255,255,255,.065);border-radius:5px;background:rgba(255,255,255,.025);color:var(--idea-accent);font-size:7px;font-weight:850;letter-spacing:.1em}
+.idea-flow-card h3{position:relative;margin:0 0 10px;max-width:95%;color:#e7edf6;font-size:15px;font-weight:650;line-height:1.45;letter-spacing:-.015em}
+.idea-flow-card-body{margin:0 0 17px;color:#929eb1;font-size:11px;line-height:1.8}
+.idea-flow-card-foot{display:flex;justify-content:space-between;gap:8px;align-items:center;padding-top:11px;border-top:1px solid rgba(255,255,255,.055);color:#69768a;font-size:8px}
+.idea-flow-author{color:#a5afc1}
+.idea-flow-thoughts{display:grid;gap:8px;margin-top:12px}
+.idea-flow-thought{display:flex;gap:8px;padding:9px;border-radius:8px;background:rgba(255,255,255,.025)}
+.idea-flow-thought>span{color:var(--idea-accent)}
+.idea-flow-thought p{margin:0;color:#aab5c6;font-size:10px;line-height:1.65}
+.idea-flow-add-thought{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;margin-top:13px;padding:10px 0 0;border:0;border-top:1px solid rgba(255,255,255,.07);background:transparent;color:#c2a9e9;text-align:left;font-size:10px;font-weight:750;cursor:pointer}
+.idea-flow-add-thought span{font-size:15px;color:var(--idea-accent)}
+.idea-flow-thought-form{display:grid;gap:8px;margin-top:10px}
+.idea-flow-thought-form textarea{min-height:54px;font-size:10px}
+.idea-flow-thought-form button{justify-self:end;padding:8px 10px}
+.idea-flow-local-note{margin:16px 2px 0;color:#566479;font-size:9px;line-height:1.7}
+@media(max-width:900px){.idea-flow-content{padding:22px 18px 40px}.idea-flow-stream{grid-template-columns:repeat(2,minmax(0,1fr))}.idea-flow-orbit{right:-35px;opacity:.55}}
+@media(max-width:600px){.idea-flow-content{padding:15px 12px 30px}.idea-flow-intro{padding:24px 20px}.idea-flow-intro h1{font-size:33px}.idea-flow-orbit{right:-75px;top:-25px}.idea-flow-signals{gap:7px;font-size:7px}.idea-flow-composer{padding:13px}.idea-flow-composer-bottom{align-items:flex-start;flex-direction:column}.idea-flow-composer-bottom button{align-self:flex-end}.idea-flow-stream{grid-template-columns:minmax(0,1fr)}.idea-flow-stream-heading{align-items:flex-start;flex-direction:column}.idea-flow-card{padding:16px}}
+
 /* Keep unselected navigation text softly brighter, while preserving the orange Home/Discover accent. */
 .main-nav button:not(.active) {
   color: #aeb7c6;
