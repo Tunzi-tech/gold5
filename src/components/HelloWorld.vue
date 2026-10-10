@@ -2869,9 +2869,8 @@ const filteredAwarenessItems = computed(() => {
       || (filter === 'HAPPENING' && !!item.happening)
       || (filter === 'CONSEQUENCES' && !!item.ifNothingChanges)
       || (filter === 'ACTION' && !!item.whatWeCanDo)
-      || (filter === 'LEARN' && !!item.evidence)
+      || filter === 'LEARN'
       || (filter === 'FUTURES' && !!item.possibleChange)
-      || filter === 'LEARN &amp; DISCOVER'
     return matchesCategory && matchesSection
   })
 })
