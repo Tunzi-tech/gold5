@@ -4826,26 +4826,24 @@ onBeforeUnmount(() => {
           </div>
         </form>
 
-        <div class="awareness-category-panel awareness-compact-explorer">
-          <div class="awareness-compact-selects">
-            <label class="awareness-compact-select">
-              <span>IMPACT</span>
-              <select v-model="awarenessImpactType" aria-label="Filter by impact lens">
-                <option value="ALL">All impact types</option>
-                <option v-for="type in awarenessImpactTypes" :key="type" :value="type">{{ type }}</option>
-              </select>
-            </label>
-            <label class="awareness-compact-select">
-              <span>EARTH TOPIC</span>
-              <select v-model="awarenessCategory" aria-label="Filter by Earth topic">
-                <option value="ALL">All Earth topics</option>
-                <option v-for="category in awarenessCategories" :key="category" :value="category">{{ category }}</option>
-              </select>
-            </label>
+        <div class="awareness-category-panel">
+          <div class="awareness-category-group">
+            <span class="awareness-kicker">01 · IMPACT LENS</span>
+            <div class="awareness-category-chips">
+              <button type="button" class="awareness-filter" :class="{ active: awarenessImpactType === 'ALL' }" @click="awarenessImpactType = 'ALL'">ALL IMPACTS</button>
+              <button v-for="type in awarenessImpactTypes" :key="type" type="button" class="awareness-filter awareness-impact-chip" :class="{ active: awarenessImpactType === type }" @click="awarenessImpactType = type">{{ type }}</button>
+            </div>
           </div>
-          <div class="awareness-quick-paths">
-            <span class="awareness-quick-label">EXPLORE</span>
-            <div class="awareness-category-chips awareness-quick-chips">
+          <div class="awareness-category-group">
+            <span class="awareness-kicker">02 · EARTH &amp; OUR SHARED WORLD</span>
+            <div class="awareness-category-chips">
+              <button type="button" class="awareness-filter" :class="{ active: awarenessCategory === 'ALL' }" @click="awarenessCategory = 'ALL'; awarenessImpactType = 'ALL'">ALL TOPICS</button>
+              <button v-for="category in awarenessCategories" :key="category" type="button" class="awareness-filter awareness-earth-chip" :class="{ active: awarenessCategory === category }" @click="awarenessCategory = category">{{ category }}</button>
+            </div>
+          </div>
+          <div class="awareness-category-group">
+            <span class="awareness-kicker">03 · QUICK PATHS</span>
+            <div class="awareness-category-chips">
               <button type="button" class="awareness-filter awareness-section-filter" :class="{ active: awarenessFilter === 'ALL' }" @click="setAwarenessFilter('ALL')">OVERVIEW</button>
               <button type="button" class="awareness-filter awareness-section-filter" :class="{ active: awarenessFilter === 'HAPPENING' }" @click="setAwarenessFilter('HAPPENING')">WHAT'S HAPPENING</button>
               <button type="button" class="awareness-filter awareness-section-filter" :class="{ active: awarenessFilter === 'CONSEQUENCES' }" @click="setAwarenessFilter('CONSEQUENCES')">IF NOTHING CHANGES</button>
@@ -15744,19 +15742,15 @@ textarea:focus-visible {
 .awareness-category-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 14px;padding:0 0 10px;border-bottom:1px solid rgba(255,255,255,.08)}
 .awareness-category-heading .eyebrow{color:#9ab4d3}
 .awareness-category-panel{margin:0 0 18px;background:rgba(9,15,24,.7)}
-.awareness-category-panel.awareness-compact-explorer{display:flex;flex-direction:column;gap:10px;margin:12px 0;padding:10px 12px}
-.awareness-compact-selects{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.awareness-compact-select{display:flex;align-items:center;gap:8px;min-width:0;color:#91a7bf;font-size:8px;font-weight:800;letter-spacing:.1em}
-.awareness-compact-select select{max-width:230px;min-width:150px;border:1px solid rgba(139,167,198,.2);border-radius:7px;padding:7px 28px 7px 9px;background:#111c29;color:#dce7f5;font:inherit;font-size:10px;letter-spacing:0;outline:none}
-.awareness-compact-select select:focus{border-color:rgba(121,174,240,.55)}
-.awareness-quick-paths{display:flex;align-items:center;gap:10px;min-width:0}
-.awareness-quick-label{flex:0 0 auto;color:#91a7bf;font-size:8px;font-weight:800;letter-spacing:.1em}
-.awareness-category-chips.awareness-quick-chips{display:flex;flex-wrap:nowrap;gap:5px;min-width:0;overflow-x:auto;scrollbar-width:thin;padding-bottom:2px}
-.awareness-quick-chips .awareness-filter{font-size:8px;padding:6px 8px}
-.awareness-category-chips .awareness-section-filter{border-style:solid;border-color:rgba(139,167,198,.2);background:rgba(121,174,240,.035)}
-.awareness-category-chips .awareness-section-filter.active{border-color:rgba(121,174,240,.6);background:rgba(74,120,194,.16)}
+.awareness-category-panel{display:flex;flex-direction:column;gap:18px}
+.awareness-category-group{display:flex;flex-direction:column;gap:10px}
+.awareness-category-group+.awareness-category-group{padding-top:15px;border-top:1px solid rgba(255,255,255,.08)}
+.awareness-category-group>.awareness-kicker{font-size:10px;letter-spacing:.14em;font-weight:800;color:#9ab4d3}
+.awareness-category-chips .awareness-section-filter{border-style:dashed;border-color:rgba(139,167,198,.25);background:rgba(121,174,240,.045)}
+.awareness-category-chips .awareness-section-filter.active{border-style:solid}
+.awareness-category-chips .awareness-impact-chip.active{border-color:rgba(91,166,235,.7);background:rgba(63,137,211,.16)}
+.awareness-category-chips .awareness-earth-chip.active{border-color:rgba(87,178,136,.72);background:rgba(65,155,111,.14)}
 .awareness-impact-label{font-weight:500;letter-spacing:0;color:#687b91}
-@media(max-width:760px){.awareness-compact-selects{align-items:stretch}.awareness-compact-select{flex:1 1 145px;justify-content:space-between}.awareness-compact-select select{flex:1;min-width:0;max-width:none}.awareness-quick-paths{align-items:flex-start;flex-direction:column;gap:6px}.awareness-category-chips.awareness-quick-chips{width:100%}}
 .awareness-content .awareness-shared-item,.awareness-content .awareness-empty-state{background:#fff!important;border:1px solid #e4e9ef!important;box-shadow:0 8px 24px rgba(0,0,0,.08)!important;color:#253247!important}
 .awareness-content .awareness-shared-item h2,.awareness-content .awareness-empty-state h2{color:#182638!important}
 .awareness-content .awareness-shared-item p,.awareness-content .awareness-empty-state p{color:#536276!important}
