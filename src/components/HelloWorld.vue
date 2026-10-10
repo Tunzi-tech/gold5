@@ -8991,7 +8991,8 @@ textarea:focus-visible {
 
 .hero-accent-impact {
   color: #c05b91;
-  background: linear-gradient(100deg, #e05b55 0%, #c85c87 48%, #9565cf 100%);
+  margin-left: .12em;
+  background: linear-gradient(100deg, #e05b55 0%, #c85c87 36%, #9565cf 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
