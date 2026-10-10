@@ -4010,7 +4010,7 @@ onBeforeUnmount(() => {
                 </span>
 
                 <h1>
-                  {{ heroes[activeHero].titleBefore }}
+                  <span :class="activeHero === 0 ? 'hero-heading-white-shadow' : ''">{{ heroes[activeHero].titleBefore }}</span>
                   <span
                     :class="activeHero === 0 ? 'hero-accent-blue' : 'hero-accent-impact'"
                   >
@@ -8964,7 +8964,12 @@ textarea:focus-visible {
 
 .hero-accent-green {
   color: #72c995;
-  text-shadow: 0 2px 10px rgba(70,190,130,.22), 0 0 20px rgba(114,201,149,.16);
+  text-shadow: 0 2px 10px rgba(255,153,72,.34), 0 0 20px rgba(255,170,80,.24);
+}
+
+.hero-heading-white-shadow {
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(255,255,255,.22), 0 0 18px rgba(255,255,255,.12);
 }
 
 .hero-accent-impact {
