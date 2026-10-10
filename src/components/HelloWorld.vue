@@ -4010,7 +4010,8 @@ onBeforeUnmount(() => {
                 </span>
 
                 <h1>
-                  <span :class="activeHero === 0 ? 'hero-heading-white-shadow hero-heading-white-home' : ''">{{ heroes[activeHero].titleBefore }}</span>
+                  <span v-if="activeHero === 0" class="hero-heading-white-home"><span class="hero-heading-white-shadow">Id</span><span class="hero-heading-blue">eas</span> <span class="hero-heading-white-shadow">become</span></span>
+                  <span v-else>{{ heroes[activeHero].titleBefore }}</span>
                   <br v-if="activeHero === 0" />
                   <span
                     :class="activeHero === 0 ? 'hero-accent-blue hero-accent-blue-home' : 'hero-accent-impact'"
@@ -8980,6 +8981,11 @@ textarea:focus-visible {
 .hero-heading-white-shadow {
   color: #ffffff;
   text-shadow: 0 2px 10px rgba(255,255,255,.22), 0 0 18px rgba(255,255,255,.12);
+}
+
+.hero-heading-blue {
+  color: #8bbcff;
+  text-shadow: 0 2px 10px rgba(110,167,255,.18);
 }
 
 .hero-heading-white-home {
