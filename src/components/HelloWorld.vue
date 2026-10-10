@@ -144,10 +144,12 @@ const liveEngagement = ref<'people' | 'action' | 'flow' | null>(null)
 const awarenessFilter = ref('ALL')
 const showImpactCategories = ref(false)
 const awarenessCategory = ref('ALL')
+const awarenessImpactType = ref('ALL')
 const showRaiseAwareness = ref(false)
 const awarenessDraft = ref({
   title: '',
-  category: 'Nature & green spaces',
+  category: 'Biodiversity & habitats',
+  impactType: 'Environmental',
   sourceType: 'Person',
   sourceName: '',
   zone: '',
@@ -161,7 +163,8 @@ const awarenessItems = ref([
   {
     id: 1,
     title: 'Are we losing usable green spaces in our neighborhood?',
-    category: 'Nature & green spaces',
+    category: 'Biodiversity & habitats',
+    impactType: 'Environmental',
     sourceType: 'Residents',
     sourceName: 'Residents and Zone participants',
     zone: 'Tunis North',
@@ -175,7 +178,8 @@ const awarenessItems = ref([
   {
     id: 2,
     title: 'How can we make local streets cleaner?',
-    category: 'Clean streets & waste',
+    category: 'Waste & circularity',
+    impactType: 'Environmental',
     sourceType: 'Community',
     sourceName: 'Community observation',
     zone: 'Tunis',
@@ -189,7 +193,8 @@ const awarenessItems = ref([
   {
     id: 3,
     title: 'What would make our neighborhood easier for everyone to move around?',
-    category: 'Better neighborhoods',
+    category: 'Cities & mobility',
+    impactType: 'Social & wellbeing',
     sourceType: 'Community',
     sourceName: 'Community question',
     zone: 'Tunis',
@@ -203,7 +208,8 @@ const awarenessItems = ref([
   {
     id: 4,
     title: 'How can we understand local heat, water and coastal changes?',
-    category: 'Climate & coast',
+    category: 'Climate & energy',
+    impactType: 'Environmental',
     sourceType: 'Community',
     sourceName: 'Community question',
     zone: 'Tunisia',
@@ -2851,19 +2857,34 @@ function setAwarenessFilter(filter: string) {
   awarenessFilter.value = filter
 }
 
+const awarenessImpactTypes = [
+  'Environmental',
+  'Social & wellbeing',
+  'Economic & livelihoods',
+  'Health & safety',
+  'Culture & education',
+  'Civic & governance'
+]
+
 const awarenessCategories = [
-  'Nature & green spaces',
-  'Clean streets & waste',
-  'Better neighborhoods',
-  'Climate & coast',
-  'Education & awareness',
-  'Community wellbeing',
-  'Ideas & innovation'
+  'Land & soil',
+  'Water & oceans',
+  'Air & atmosphere',
+  'Climate & energy',
+  'Biodiversity & habitats',
+  'Food & agriculture',
+  'Cities & mobility',
+  'Waste & circularity',
+  'People & wellbeing',
+  'Education & culture',
+  'Economy & livelihoods',
+  'Technology & innovation'
 ]
 
 const filteredAwarenessItems = computed(() => {
   return awarenessItems.value.filter(item => {
     const matchesCategory = awarenessCategory.value === 'ALL' || item.category === awarenessCategory.value
+    const matchesImpact = awarenessImpactType.value === 'ALL' || item.impactType === awarenessImpactType.value
     const filter = awarenessFilter.value
     const matchesSection = filter === 'ALL'
       || (filter === 'HAPPENING' && !!item.happening)
@@ -2871,7 +2892,7 @@ const filteredAwarenessItems = computed(() => {
       || (filter === 'ACTION' && !!item.whatWeCanDo)
       || filter === 'LEARN'
       || (filter === 'FUTURES' && !!item.possibleChange)
-    return matchesCategory && matchesSection
+    return matchesCategory && matchesImpact && matchesSection
   })
 })
 
@@ -2882,6 +2903,7 @@ function submitAwarenessItem() {
     id: Date.now(),
     title: draft.title.trim(),
     category: draft.category,
+    impactType: draft.impactType,
     sourceType: draft.sourceType,
     sourceName: draft.sourceName.trim() || draft.sourceType,
     zone: draft.zone.trim() || 'No Zone specified',
@@ -2893,11 +2915,13 @@ function submitAwarenessItem() {
     createdAt: 'Just now'
   })
   awarenessCategory.value = 'ALL'
+  awarenessImpactType.value = 'ALL'
   awarenessFilter.value = 'ALL'
   showRaiseAwareness.value = false
   awarenessDraft.value = {
     title: '',
-    category: 'Nature & green spaces',
+    category: 'Biodiversity & habitats',
+    impactType: 'Environmental',
     sourceType: 'Person',
     sourceName: '',
     zone: '',
@@ -4751,11 +4775,18 @@ onBeforeUnmount(() => {
             <input v-model="awarenessDraft.title" required maxlength="140" placeholder="What should people understand?" />
           </label>
           <div class="awareness-form-row">
-            <label class="awareness-form-label">Category
+            <label class="awareness-form-label">Earth / shared-world topic
               <select v-model="awarenessDraft.category">
                 <option v-for="category in awarenessCategories" :key="category" :value="category">{{ category }}</option>
               </select>
             </label>
+            <label class="awareness-form-label">Impact lens
+              <select v-model="awarenessDraft.impactType">
+                <option v-for="type in awarenessImpactTypes" :key="type" :value="type">{{ type }}</option>
+              </select>
+            </label>
+          </div>
+          <div class="awareness-form-row">
             <label class="awareness-form-label">Raised by
               <select v-model="awarenessDraft.sourceType">
                 <option>Person</option>
@@ -4796,25 +4827,37 @@ onBeforeUnmount(() => {
         </form>
 
         <div class="awareness-category-panel">
-          <div>
-            <span class="awareness-kicker">EXPLORE BY CATEGORY</span>
-            <p>Explore what is happening, what may be at stake, and what people can do — across people, pages, entities, initiatives and Zones.</p>
+          <div class="awareness-category-group">
+            <span class="awareness-kicker">01 · IMPACT LENS</span>
+            <div class="awareness-category-chips">
+              <button type="button" class="awareness-filter" :class="{ active: awarenessImpactType === 'ALL' }" @click="awarenessImpactType = 'ALL'">ALL IMPACTS</button>
+              <button v-for="type in awarenessImpactTypes" :key="type" type="button" class="awareness-filter awareness-impact-chip" :class="{ active: awarenessImpactType === type }" @click="awarenessImpactType = type">{{ type }}</button>
+            </div>
           </div>
-          <div class="awareness-category-chips">
-            <button type="button" class="awareness-filter" :class="{ active: awarenessCategory === 'ALL' && awarenessFilter === 'ALL' }" @click="awarenessCategory = 'ALL'; setAwarenessFilter('ALL')">ALL TOPICS</button>
-            <button v-for="category in awarenessCategories" :key="category" type="button" class="awareness-filter" :class="{ active: awarenessCategory === category }" @click="awarenessCategory = category">{{ category }}</button>
-            <button type="button" class="awareness-filter awareness-section-filter" :class="{ active: awarenessFilter === 'HAPPENING' }" @click="setAwarenessFilter('HAPPENING')">WHAT'S HAPPENING</button>
-            <button type="button" class="awareness-filter awareness-section-filter" :class="{ active: awarenessFilter === 'CONSEQUENCES' }" @click="setAwarenessFilter('CONSEQUENCES')">IF NOTHING CHANGES</button>
-            <button type="button" class="awareness-filter awareness-section-filter" :class="{ active: awarenessFilter === 'ACTION' }" @click="setAwarenessFilter('ACTION')">WHAT WE CAN DO</button>
-            <button type="button" class="awareness-filter awareness-section-filter" :class="{ active: awarenessFilter === 'LEARN' }" @click="setAwarenessFilter('LEARN')">LEARN &amp; DISCOVER</button>
-            <button type="button" class="awareness-filter awareness-section-filter" :class="{ active: awarenessFilter === 'FUTURES' }" @click="setAwarenessFilter('FUTURES')">POSSIBLE FUTURES</button>
+          <div class="awareness-category-group">
+            <span class="awareness-kicker">02 · EARTH &amp; OUR SHARED WORLD</span>
+            <div class="awareness-category-chips">
+              <button type="button" class="awareness-filter" :class="{ active: awarenessCategory === 'ALL' }" @click="awarenessCategory = 'ALL'; awarenessImpactType = 'ALL'">ALL TOPICS</button>
+              <button v-for="category in awarenessCategories" :key="category" type="button" class="awareness-filter awareness-earth-chip" :class="{ active: awarenessCategory === category }" @click="awarenessCategory = category">{{ category }}</button>
+            </div>
+          </div>
+          <div class="awareness-category-group">
+            <span class="awareness-kicker">03 · QUICK PATHS</span>
+            <div class="awareness-category-chips">
+              <button type="button" class="awareness-filter awareness-section-filter" :class="{ active: awarenessFilter === 'ALL' }" @click="setAwarenessFilter('ALL')">OVERVIEW</button>
+              <button type="button" class="awareness-filter awareness-section-filter" :class="{ active: awarenessFilter === 'HAPPENING' }" @click="setAwarenessFilter('HAPPENING')">WHAT'S HAPPENING</button>
+              <button type="button" class="awareness-filter awareness-section-filter" :class="{ active: awarenessFilter === 'CONSEQUENCES' }" @click="setAwarenessFilter('CONSEQUENCES')">IF NOTHING CHANGES</button>
+              <button type="button" class="awareness-filter awareness-section-filter" :class="{ active: awarenessFilter === 'ACTION' }" @click="setAwarenessFilter('ACTION')">WHAT WE CAN DO</button>
+              <button type="button" class="awareness-filter awareness-section-filter" :class="{ active: awarenessFilter === 'LEARN' }" @click="setAwarenessFilter('LEARN')">LEARN &amp; DISCOVER</button>
+              <button type="button" class="awareness-filter awareness-section-filter" :class="{ active: awarenessFilter === 'FUTURES' }" @click="setAwarenessFilter('FUTURES')">POSSIBLE FUTURES</button>
+            </div>
           </div>
         </div>
 
         <div class="awareness-grid">
           <article v-for="item in filteredAwarenessItems" :key="item.id" class="awareness-card awareness-signal-card awareness-shared-item">
             <div class="awareness-card-head">
-              <span class="awareness-kicker">{{ item.category }}</span>
+              <span class="awareness-kicker">{{ item.category }} <span class="awareness-impact-label">· {{ item.impactType || 'Impact not classified' }}</span></span>
               <span class="awareness-live-dot">{{ item.createdAt }}</span>
             </div>
             <h2>{{ item.title }}</h2>
@@ -15699,9 +15742,15 @@ textarea:focus-visible {
 .awareness-category-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 14px;padding:0 0 10px;border-bottom:1px solid rgba(255,255,255,.08)}
 .awareness-category-heading .eyebrow{color:#9ab4d3}
 .awareness-category-panel{margin:0 0 18px;background:rgba(9,15,24,.7)}
-.awareness-category-panel>div:first-child p{max-width:850px}
+.awareness-category-panel{display:flex;flex-direction:column;gap:18px}
+.awareness-category-group{display:flex;flex-direction:column;gap:10px}
+.awareness-category-group+.awareness-category-group{padding-top:15px;border-top:1px solid rgba(255,255,255,.08)}
+.awareness-category-group>.awareness-kicker{font-size:10px;letter-spacing:.14em;font-weight:800;color:#9ab4d3}
 .awareness-category-chips .awareness-section-filter{border-style:dashed;border-color:rgba(139,167,198,.25);background:rgba(121,174,240,.045)}
 .awareness-category-chips .awareness-section-filter.active{border-style:solid}
+.awareness-category-chips .awareness-impact-chip.active{border-color:rgba(91,166,235,.7);background:rgba(63,137,211,.16)}
+.awareness-category-chips .awareness-earth-chip.active{border-color:rgba(87,178,136,.72);background:rgba(65,155,111,.14)}
+.awareness-impact-label{font-weight:500;letter-spacing:0;color:#687b91}
 .awareness-content .awareness-shared-item,.awareness-content .awareness-empty-state{background:#fff!important;border:1px solid #e4e9ef!important;box-shadow:0 8px 24px rgba(0,0,0,.08)!important;color:#253247!important}
 .awareness-content .awareness-shared-item h2,.awareness-content .awareness-empty-state h2{color:#182638!important}
 .awareness-content .awareness-shared-item p,.awareness-content .awareness-empty-state p{color:#536276!important}
