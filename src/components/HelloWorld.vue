@@ -8973,8 +8973,8 @@ textarea:focus-visible {
 }
 
 .hero-accent-green {
-  color: #72c995;
-  text-shadow: 0 2px 10px rgba(255,153,72,.34), 0 0 20px rgba(255,170,80,.24);
+  color: #ff9948;
+  text-shadow: 0 2px 10px rgba(114,201,149,.34), 0 0 20px rgba(114,201,149,.24);
 }
 
 .hero-heading-white-shadow {
