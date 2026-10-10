@@ -4828,21 +4828,21 @@ onBeforeUnmount(() => {
 
         <div class="awareness-category-panel">
           <div class="awareness-category-group">
-            <span class="awareness-kicker">01 · IMPACT LENS</span>
+            <span class="awareness-kicker">AWARENESS LENS</span>
             <div class="awareness-category-chips">
               <button type="button" class="awareness-filter" :class="{ active: awarenessImpactType === 'ALL' }" @click="awarenessImpactType = 'ALL'">ALL IMPACTS</button>
               <button v-for="type in awarenessImpactTypes" :key="type" type="button" class="awareness-filter awareness-impact-chip" :class="{ active: awarenessImpactType === type }" @click="awarenessImpactType = type">{{ type }}</button>
             </div>
           </div>
           <div class="awareness-category-group">
-            <span class="awareness-kicker">02 · EARTH &amp; OUR SHARED WORLD</span>
+            <span class="awareness-kicker">EARTH &amp; OUR SHARED WORLD</span>
             <div class="awareness-category-chips">
               <button type="button" class="awareness-filter" :class="{ active: awarenessCategory === 'ALL' }" @click="awarenessCategory = 'ALL'; awarenessImpactType = 'ALL'">ALL TOPICS</button>
               <button v-for="category in awarenessCategories" :key="category" type="button" class="awareness-filter awareness-earth-chip" :class="{ active: awarenessCategory === category }" @click="awarenessCategory = category">{{ category }}</button>
             </div>
           </div>
           <div class="awareness-category-group">
-            <span class="awareness-kicker">03 · QUICK PATHS</span>
+            <span class="awareness-kicker">QUICK PATHS</span>
             <div class="awareness-category-chips">
               <button type="button" class="awareness-filter awareness-section-filter" :class="{ active: awarenessFilter === 'ALL' }" @click="setAwarenessFilter('ALL')">OVERVIEW</button>
               <button type="button" class="awareness-filter awareness-section-filter" :class="{ active: awarenessFilter === 'HAPPENING' }" @click="setAwarenessFilter('HAPPENING')">WHAT'S HAPPENING</button>
