@@ -5787,7 +5787,7 @@ onBeforeUnmount(() => {
         <div class="commons-hero compact-section-hero initiative-hero">
           <div class="commons-hero-copy">
             
-            <h1>Id<span class="ideas-letter-e">e</span><span class="ideas-letter-a">a</span><span class="ideas-letter-s">s</span> become <span>something people do.</span></h1>
+            <h1><span class="ideas-word">Ideas</span> become <span>something people do.</span></h1>
             <p>
               Discover initiatives already moving around your Zones — and find a place where
               your interest can become participation, action and experience.
@@ -13192,9 +13192,7 @@ textarea:focus-visible {
 .commons-hero-copy { position:relative; z-index:2; }
 .commons-hero-copy h1 { margin:11px 0 14px; font-size:clamp(32px,4vw,50px); line-height:1.04; letter-spacing:-.045em; font-weight:650; }
 .commons-hero-copy h1 span { color:#7caeff; }
- .commons-hero-copy h1 span.ideas-letter-e{color:#ff5a52}
- .commons-hero-copy h1 span.ideas-letter-a{color:#ffd34e}
- .commons-hero-copy h1 span.ideas-letter-s{color:#ff963f}
+ .commons-hero-copy h1 span.ideas-word{background:linear-gradient(100deg,#ff5a52 0%,#ff963f 48%,#ffd34e 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 .commons-hero-copy p { max-width:650px; margin:0; color:#8d99ac; font-size:14px; line-height:1.8; }
 .commons-hero-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:25px; }
 .commons-orbit-visual { width:300px; height:260px; position:relative; display:grid; place-items:center; justify-self:center; }
