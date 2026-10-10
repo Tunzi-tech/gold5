@@ -4084,36 +4084,41 @@ onBeforeUnmount(() => {
             <strong>See what is moving right now.</strong>
             <small>Follow the flow and discover where people are engaging.</small>
           </button>
-          <div class="initiative-hover-story" aria-label="Example: how an idea becomes impact">
+
+          <div class="initiative-hover-story story-people-do" aria-label="Example of what people are doing">
             <div class="initiative-hover-story-heading">
               <span class="initiative-flow-kicker">AN IDEA IN MOTION</span>
-              <strong>From a shared concern to a real change.</strong>
+              <strong>See how people turn a shared concern into action.</strong>
             </div>
-            <div class="initiative-hover-story-step story-idea">
-              <span>01 · AN IDEA</span>
-              <strong>More green spaces</strong>
-              <small>In the neighborhood.</small>
+            <div class="initiative-hover-story-step story-idea"><span>01 · AN IDEA</span><strong>More green spaces</strong><small>Someone imagines a greener neighborhood.</small></div>
+            <div class="initiative-hover-story-step story-people"><span>02 · PEOPLE</span><strong>Residents connect</strong><small>Neighbors who care about the same issue.</small></div>
+            <div class="initiative-hover-story-step story-place"><span>03 · A PLACE</span><strong>Tunis North</strong><small>A local starting point.</small></div>
+            <div class="initiative-hover-story-step story-action"><span>04 · AN ACTION</span><strong>Start a community garden</strong><small>People work on the idea together.</small></div>
+            <div class="initiative-hover-story-step story-impact"><span>05 · AN IMPACT</span><strong>A greener neighborhood</strong><small>A change the community can experience.</small></div>
+          </div>
+
+          <div class="initiative-hover-story story-make-impact" aria-label="Ways to make an impact">
+            <div class="initiative-hover-story-heading">
+              <span class="initiative-flow-kicker">YOUR NEXT STEP</span>
+              <strong>There are many ways to turn interest into participation.</strong>
             </div>
-            <div class="initiative-hover-story-step story-people">
-              <span>02 · PEOPLE</span>
-              <strong>Residents come together</strong>
-              <small>People who care about the same issue.</small>
+            <div class="initiative-hover-story-step story-idea"><span>01 · NOTICE</span><strong>Choose an issue</strong><small>What would you like to improve?</small></div>
+            <div class="initiative-hover-story-step story-people"><span>02 · CONNECT</span><strong>Find your people</strong><small>Meet others who care about it.</small></div>
+            <div class="initiative-hover-story-step story-place"><span>03 · JOIN</span><strong>Choose a place or group</strong><small>Start where you can contribute.</small></div>
+            <div class="initiative-hover-story-step story-action"><span>04 · PARTICIPATE</span><strong>Take one useful step</strong><small>Share a skill, help, or start an action.</small></div>
+            <div class="initiative-hover-story-step story-impact"><span>05 · MAKE A DIFFERENCE</span><strong>Build progress together</strong><small>Small contributions can create local change.</small></div>
+          </div>
+
+          <div class="initiative-hover-story story-going-around" aria-label="Example of activity happening nearby">
+            <div class="initiative-hover-story-heading">
+              <span class="initiative-flow-kicker">AROUND YOUR ZONE</span>
+              <strong>Discover what is happening and where you could join in.</strong>
             </div>
-            <div class="initiative-hover-story-step story-place">
-              <span>03 · A PLACE</span>
-              <strong>Tunis North</strong>
-              <small>A shared local starting point.</small>
-            </div>
-            <div class="initiative-hover-story-step story-action">
-              <span>04 · AN ACTION</span>
-              <strong>Start a community garden</strong>
-              <small>Turn interest into participation.</small>
-            </div>
-            <div class="initiative-hover-story-step story-impact">
-              <span>05 · AN IMPACT</span>
-              <strong>A greener neighborhood</strong>
-              <small>A visible change people create together.</small>
-            </div>
+            <div class="initiative-hover-story-step story-idea"><span>01 · A VOICE</span><strong>A neighbor raises a need</strong><small>Cleaner streets or more green space.</small></div>
+            <div class="initiative-hover-story-step story-people"><span>02 · PEOPLE RESPOND</span><strong>Others join the conversation</strong><small>Residents share ideas and experience.</small></div>
+            <div class="initiative-hover-story-step story-place"><span>03 · LOCAL SIGNAL</span><strong>Tunis North</strong><small>See which concerns are connected to your Zone.</small></div>
+            <div class="initiative-hover-story-step story-action"><span>04 · AN OPPORTUNITY</span><strong>An action starts forming</strong><small>Explore a call, initiative, or local activity.</small></div>
+            <div class="initiative-hover-story-step story-impact"><span>05 · JOIN THE FLOW</span><strong>Find your way to contribute</strong><small>Follow along or take part when you're ready.</small></div>
           </div>
         </div>
 
@@ -15284,7 +15289,12 @@ textarea:focus-visible {
 .make-impact .initiative-flow-kicker{color:#d6d46a}
 .going-around .initiative-flow-kicker{color:#9f8fff}
 .initiative-hover-story{grid-column:1/-1;display:none;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;padding:12px;border:1px solid rgba(115,185,201,.14);border-radius:13px;background:linear-gradient(120deg,rgba(17,29,42,.96),rgba(10,16,26,.97));animation:initiative-story-in .22s ease both}
-.initiative-flow-path:has(.people-do:hover, .initiative-hover-story:hover) .initiative-hover-story,.initiative-flow-path:has(.people-do:focus-visible, .initiative-hover-story:focus-within) .initiative-hover-story{display:grid}
+.initiative-flow-path:has(.people-do:hover, .story-people-do:hover) .story-people-do,
+.initiative-flow-path:has(.people-do:focus-visible, .story-people-do:focus-within) .story-people-do,
+.initiative-flow-path:has(.make-impact:hover, .story-make-impact:hover) .story-make-impact,
+.initiative-flow-path:has(.make-impact:focus-visible, .story-make-impact:focus-within) .story-make-impact,
+.initiative-flow-path:has(.going-around:hover, .story-going-around:hover) .story-going-around,
+.initiative-flow-path:has(.going-around:focus-visible, .story-going-around:focus-within) .story-going-around{display:grid}
 .initiative-hover-story-heading{grid-column:1/-1;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding:0 2px 3px}
 .initiative-hover-story-heading .initiative-flow-kicker{margin:0;color:#73b9c9}
 .initiative-hover-story-heading>strong{color:#dce6f2;font-size:10px}
