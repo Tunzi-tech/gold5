@@ -1145,14 +1145,14 @@ const activeHero = ref(0)
 
 const heroes = [
   {
-    label: 'YOUR PLACE · YOUR PEOPLE · YOUR ACTION',
+    label: 'YOUR PLACE · YOUR PEOPLE · YOUR VOICE',
     titleBefore: 'Ideas become',
     titleAccent: 'something people do.',
     description:
       'Discover initiatives already moving around your Zones — and find a place where your interest can become participation, action and experience.',
   },
   {
-    label: 'YOUR PLACE · YOUR PEOPLE · YOUR ACTION',
+    label: 'YOUR PLACE · YOUR PEOPLE · YOUR VOICE',
     titleBefore: 'Make it',
     titleAccent: 'impact.',
     titleAfter: 'Make it',
