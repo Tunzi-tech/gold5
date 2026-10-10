@@ -8996,13 +8996,11 @@ textarea:focus-visible {
 }
 
 .hero-accent-impact {
-  color: #c05b91;
+  color: #72c995;
   margin-left: .12em;
-  background: linear-gradient(100deg, #e05b55 0%, #c85c87 36%, #9565cf 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 2px 10px rgba(224,91,85,.2), 0 0 20px rgba(192,91,145,.18);
+  background: none;
+  -webkit-text-fill-color: #72c995;
+  text-shadow: 0 2px 10px rgba(114,201,149,.18);
 }
 
 .hero-progress {
