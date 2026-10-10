@@ -4735,11 +4735,9 @@ onBeforeUnmount(() => {
            ================================================= -->
       <section v-if="activeView === 'awareness'" class="content awareness-content">
 
-        <div class="page-title awareness-title">
+        <div class="awareness-category-heading">
           <span class="eyebrow">IMPACT &amp; AWARENESS</span>
-          <h1>See what matters. Understand the impact.</h1>
-          <p>One shared space for people, pages, entities and communities to raise awareness, understand what is happening, and find constructive ways forward.</p>
-          <button type="button" class="awareness-link" @click="showRaiseAwareness = !showRaiseAwareness">{{ showRaiseAwareness ? 'CLOSE FORM' : '+ RAISE AWARENESS' }}</button>
+          <button type="button" class="awareness-submit-button" @click="showRaiseAwareness = !showRaiseAwareness">{{ showRaiseAwareness ? 'CLOSE FORM' : '+ RAISE AWARENESS' }}</button>
         </div>
 
         <form v-if="showRaiseAwareness" class="awareness-card awareness-create-card" @submit.prevent="submitAwarenessItem">
@@ -4800,21 +4798,17 @@ onBeforeUnmount(() => {
         <div class="awareness-category-panel">
           <div>
             <span class="awareness-kicker">EXPLORE BY CATEGORY</span>
-            <p>Categories connect concerns across people, pages, entities, initiatives and Zones.</p>
+            <p>Explore what is happening, what may be at stake, and what people can do — across people, pages, entities, initiatives and Zones.</p>
           </div>
           <div class="awareness-category-chips">
-            <button type="button" class="awareness-filter" :class="{ active: awarenessCategory === 'ALL' }" @click="awarenessCategory = 'ALL'">ALL CATEGORIES</button>
+            <button type="button" class="awareness-filter" :class="{ active: awarenessCategory === 'ALL' && awarenessFilter === 'ALL' }" @click="awarenessCategory = 'ALL'; setAwarenessFilter('ALL')">ALL TOPICS</button>
             <button v-for="category in awarenessCategories" :key="category" type="button" class="awareness-filter" :class="{ active: awarenessCategory === category }" @click="awarenessCategory = category">{{ category }}</button>
+            <button type="button" class="awareness-filter awareness-section-filter" :class="{ active: awarenessFilter === 'HAPPENING' }" @click="setAwarenessFilter('HAPPENING')">WHAT'S HAPPENING</button>
+            <button type="button" class="awareness-filter awareness-section-filter" :class="{ active: awarenessFilter === 'CONSEQUENCES' }" @click="setAwarenessFilter('CONSEQUENCES')">IF NOTHING CHANGES</button>
+            <button type="button" class="awareness-filter awareness-section-filter" :class="{ active: awarenessFilter === 'ACTION' }" @click="setAwarenessFilter('ACTION')">WHAT WE CAN DO</button>
+            <button type="button" class="awareness-filter awareness-section-filter" :class="{ active: awarenessFilter === 'LEARN' }" @click="setAwarenessFilter('LEARN')">LEARN &amp; DISCOVER</button>
+            <button type="button" class="awareness-filter awareness-section-filter" :class="{ active: awarenessFilter === 'FUTURES' }" @click="setAwarenessFilter('FUTURES')">POSSIBLE FUTURES</button>
           </div>
-        </div>
-
-        <div class="awareness-filters">
-          <button type="button" class="awareness-filter" :class="{ active: awarenessFilter === 'ALL' }" @click="setAwarenessFilter('ALL')">ALL</button>
-          <button type="button" class="awareness-filter" :class="{ active: awarenessFilter === 'HAPPENING' }" @click="setAwarenessFilter('HAPPENING')">WHAT'S HAPPENING</button>
-          <button type="button" class="awareness-filter" :class="{ active: awarenessFilter === 'CONSEQUENCES' }" @click="setAwarenessFilter('CONSEQUENCES')">IF NOTHING CHANGES</button>
-          <button type="button" class="awareness-filter" :class="{ active: awarenessFilter === 'ACTION' }" @click="setAwarenessFilter('ACTION')">WHAT WE CAN DO</button>
-          <button type="button" class="awareness-filter" :class="{ active: awarenessFilter === 'LEARN' }" @click="setAwarenessFilter('LEARN')">LEARN &amp; DISCOVER</button>
-          <button type="button" class="awareness-filter" :class="{ active: awarenessFilter === 'FUTURES' }" @click="setAwarenessFilter('FUTURES')">POSSIBLE FUTURES</button>
         </div>
 
         <div class="awareness-grid">
@@ -15700,5 +15694,25 @@ textarea:focus-visible {
 .awareness-empty-state{grid-column:1/-1}
 .awareness-note{margin-top:12px!important;font-size:8px!important;color:#687b92!important}
 @media(max-width:760px){.awareness-form-row{flex-direction:column;gap:0}.awareness-grid{grid-template-columns:minmax(0,1fr)}.awareness-content{padding-top:96px}.awareness-content .awareness-filters{left:0;width:100%;box-sizing:border-box}.awareness-category-panel{margin-top:14px}}
+
+/* White, readable awareness examples; keep the surrounding platform dark. */
+.awareness-category-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 14px;padding:0 0 10px;border-bottom:1px solid rgba(255,255,255,.08)}
+.awareness-category-heading .eyebrow{color:#9ab4d3}
+.awareness-category-panel{margin:0 0 18px;background:rgba(9,15,24,.7)}
+.awareness-category-panel>div:first-child p{max-width:850px}
+.awareness-category-chips .awareness-section-filter{border-style:dashed;border-color:rgba(139,167,198,.25);background:rgba(121,174,240,.045)}
+.awareness-category-chips .awareness-section-filter.active{border-style:solid}
+.awareness-content .awareness-shared-item,.awareness-content .awareness-empty-state{background:#fff!important;border:1px solid #e4e9ef!important;box-shadow:0 8px 24px rgba(0,0,0,.08)!important;color:#253247!important}
+.awareness-content .awareness-shared-item h2,.awareness-content .awareness-empty-state h2{color:#182638!important}
+.awareness-content .awareness-shared-item p,.awareness-content .awareness-empty-state p{color:#536276!important}
+.awareness-content .awareness-shared-item .awareness-kicker{color:#526c89!important}
+.awareness-content .awareness-shared-item .awareness-live-dot{color:#367b5b!important}
+.awareness-content .awareness-shared-item .awareness-source-row span{background:#f5f7fa!important;border-color:#e2e7ed!important;color:#4d5d70!important}
+.awareness-content .awareness-shared-item .awareness-story-section{border-top-color:#e6ebf1!important}
+.awareness-content .awareness-shared-item .awareness-story-section p{color:#3e4d60!important}
+.awareness-content .awareness-shared-item .awareness-note{color:#68788b!important}
+.awareness-content .awareness-shared-item .awareness-link,.awareness-content .awareness-empty-state .awareness-link{color:#315f96!important}
+.awareness-content .awareness-shared-item .awareness-link:hover{color:#173f72!important}
+@media(max-width:760px){.awareness-category-heading{align-items:flex-start}}
 </style>
 
