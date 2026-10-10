@@ -2696,6 +2696,7 @@ const arabicDictionary: Record<string, string> = {
   'Create a community garden':'أنشئ حديقة مجتمعية',
   'ACTION':'فعل',
   'EXPLORE INITIATIVES':'استكشف المبادرات',
+  'SEE WHAT PEOPLE ARE DOING':'شاهد ما يفعله الناس',
   'FIND PEOPLE':'اعثر على أشخاص',
   'people interested':'أشخاص مهتمون',
   'ideas proposed':'أفكار مقترحة',
@@ -4230,13 +4231,13 @@ onBeforeUnmount(() => {
             <span class="initiative-flow-kicker">EXPLORE</span>
             <span class="initiative-explore-icon" aria-hidden="true"><i></i><b></b><em></em></span>
             <strong>See what people are already doing.</strong>
-            <small>Choose an example to explore, or open all initiatives.</small>
+            <small>Choose an example to explore, or see everything people are doing.</small>
             <div class="initiative-example-options" aria-label="Explore examples">
               <button type="button" @click="navigate('discover')">Green spaces</button>
               <button type="button" @click="navigate('initiatives')">Community gardens</button>
               <button type="button" @click="navigate('people')">People taking action</button>
             </div>
-            <button type="button" class="initiative-card-action" @click="navigate('initiatives')">Explore initiatives <span aria-hidden="true">→</span></button>
+            <button type="button" class="initiative-card-action" @click="navigate('initiatives')">See what people are doing <span aria-hidden="true">→</span></button>
           </section>
           <section class="initiative-flow-step make-impact" aria-label="Find a way to make an impact">
             <span class="initiative-flow-kicker">MAKE AN IMPACT</span>
