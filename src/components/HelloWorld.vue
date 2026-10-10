@@ -133,6 +133,14 @@ type Entity = {
 
 const activeView = ref('home')
 const showPeopleDoingList = ref(false)
+const ideaFlowDraft = ref('')
+const ideaFlowThoughtDrafts = ref<Record<number, string>>({})
+const ideaFlowOpenThought = ref<number | null>(null)
+const ideaFlowItems = ref([
+  { id: 1, title: 'What if every neighborhood had a little community garden?', body: 'A small shared space could become a place to grow food, learn from each other, and spend time together.', author: 'A spark to build on', category: 'PLACES & NATURE', zone: 'Tunis North', thoughts: ['Could we start with one unused corner and invite neighbors to shape it?'], mood: 'green' },
+  { id: 2, title: 'Could streets give more space to people?', body: 'Imagine safer walks, shade to rest under, and places where children and neighbors can meet without rushing.', author: 'An open possibility', category: 'CITIES & EVERYDAY LIFE', zone: 'La Marsa', thoughts: ['Maybe we could map the places where walking feels difficult first.'], mood: 'blue' },
+  { id: 3, title: 'What would make it easier for people to help locally?', body: 'Sometimes people care but do not know where to begin. What if small, clear invitations made participation feel natural?', author: 'A question in motion', category: 'COMMUNITY & CONNECTION', zone: 'Everywhere', thoughts: ['One-hour actions could be a welcoming first step.'], mood: 'gold' }
+])
 const showZonesSubnav = ref(true)
 const showCallsSubnav = ref(true)
 const showPagesMoreSubnav = ref(false)
@@ -2938,6 +2946,32 @@ function submitAwarenessItem() {
   }
 }
 
+function releaseIdea() {
+  const text = ideaFlowDraft.value.trim()
+  if (!text) return
+  ideaFlowItems.value.unshift({
+    id: Date.now(),
+    title: text.length > 100 ? text.slice(0, 97).trimEnd() + '…' : text,
+    body: text,
+    author: 'Your spark',
+    category: 'FRESH SPARK',
+    zone: 'Not specified',
+    thoughts: [],
+    mood: 'violet'
+  })
+  ideaFlowDraft.value = ''
+}
+
+function addIdeaThought(id: number) {
+  const thought = (ideaFlowThoughtDrafts.value[id] || '').trim()
+  if (!thought) return
+  const idea = ideaFlowItems.value.find(item => item.id === id)
+  if (!idea) return
+  idea.thoughts.push(thought)
+  ideaFlowThoughtDrafts.value[id] = ''
+  ideaFlowOpenThought.value = null
+}
+
 function navigate(view: string) {
   activeView.value = view
   selectedZone.value = null
@@ -3671,6 +3705,9 @@ onBeforeUnmount(() => {
           Live Flow
         </button>
 
+        <button class="idea-flow-nav-button" :class="{ active: activeView === 'idea-flow' }" type="button" @click="navigate('idea-flow')">
+          <span class="icon">✳</span><span>Idea Flow</span>
+        </button>
         <div class="live-flow-section-line"></div>
 
 <div class="learn-discover-nav-block">
@@ -4244,7 +4281,7 @@ onBeforeUnmount(() => {
                 <span class="people-doing-category-type">IDEAS</span>
                 <strong>Ideas & proposals</strong>
                 <p>Suggestions people want to bring to life.</p>
-                <button type="button" @click="navigate('awareness')">View category <span aria-hidden="true">→</span></button>
+                <button type="button" @click="navigate('idea-flow')">Enter Idea Flow <span aria-hidden="true">→</span></button>
               </article>
               <article class="people-doing-category">
                 <span class="people-doing-category-type">PROJECTS</span>
@@ -4552,6 +4589,40 @@ onBeforeUnmount(() => {
 
         </div>
 
+      </section>
+
+      <!-- IDEA FLOW: a space for ideas to wander and grow -->
+      <section v-if="activeView === 'idea-flow'" class="content idea-flow-content">
+        <div class="idea-flow-intro">
+          <div class="idea-flow-orbit" aria-hidden="true"><span></span><i></i><b></b></div>
+          <span class="eyebrow">A SPACE FOR WHAT COULD BE</span>
+          <h1>Let your <span>ideas flow.</span></h1>
+          <p>Not every idea needs a plan. Start with a thought, a question, a feeling, or a possibility. Let others meet it, add to it, and see where it might lead.</p>
+          <div class="idea-flow-signals"><span>UNFINISHED IS WELCOME</span><i></i><span>CURIOSITY OVER CERTAINTY</span><i></i><span>GROW TOGETHER</span></div>
+        </div>
+        <form class="idea-flow-composer" @submit.prevent="releaseIdea">
+          <div class="idea-flow-composer-top"><span class="idea-flow-spark">✳</span><div><strong>What’s moving through your mind?</strong><small>Drop a spark into the flow. It can be rough, small, or still becoming.</small></div></div>
+          <textarea v-model="ideaFlowDraft" rows="3" maxlength="500" placeholder="What if… / I wonder whether… / It could be interesting to…" aria-label="Write an idea"></textarea>
+          <div class="idea-flow-composer-bottom"><span>{{ ideaFlowDraft.length }}/500 · You can keep it unfinished.</span><button type="submit" :disabled="!ideaFlowDraft.trim()">Release your idea <span aria-hidden="true">↗</span></button></div>
+        </form>
+        <div class="idea-flow-stream-heading"><div><span class="eyebrow">IDEAS IN MOTION</span><h2>Something might begin here.</h2></div><span class="idea-flow-stream-note">A few sparks to explore</span></div>
+        <div class="idea-flow-stream">
+          <article v-for="idea in ideaFlowItems" :key="idea.id" class="idea-flow-card" :class="'idea-mood-' + idea.mood">
+            <div class="idea-flow-card-orbit" aria-hidden="true"><span></span></div>
+            <div class="idea-flow-card-meta"><span>{{ idea.category }}</span><span>{{ idea.zone }}</span></div>
+            <h3>{{ idea.title }}</h3><p class="idea-flow-card-body">{{ idea.body }}</p>
+            <div class="idea-flow-card-foot"><span class="idea-flow-author">{{ idea.author }}</span><span>{{ idea.thoughts.length }} {{ idea.thoughts.length === 1 ? 'thought' : 'thoughts' }} added</span></div>
+            <div v-if="idea.thoughts.length" class="idea-flow-thoughts">
+              <div v-for="(thought, thoughtIndex) in idea.thoughts" :key="idea.id + '-thought-' + thoughtIndex" class="idea-flow-thought"><span>↳</span><p>{{ thought }}</p></div>
+            </div>
+            <button type="button" class="idea-flow-add-thought" :aria-expanded="ideaFlowOpenThought === idea.id" @click="ideaFlowOpenThought = ideaFlowOpenThought === idea.id ? null : idea.id">{{ ideaFlowOpenThought === idea.id ? 'Close thought' : 'Add a thought' }} <span>{{ ideaFlowOpenThought === idea.id ? '−' : '+' }}</span></button>
+            <form v-if="ideaFlowOpenThought === idea.id" class="idea-flow-thought-form" @submit.prevent="addIdeaThought(idea.id)">
+              <textarea v-model="ideaFlowThoughtDrafts[idea.id]" rows="2" maxlength="280" placeholder="Add a perspective, question, or possibility…" :aria-label="'Add a thought to ' + idea.title"></textarea>
+              <button type="submit" :disabled="!(ideaFlowThoughtDrafts[idea.id] || '').trim()">Add to the flow ↗</button>
+            </form>
+          </article>
+        </div>
+        <p class="idea-flow-local-note">This is a first, local prototype: ideas and added thoughts stay in this page session and are not yet shared with other users or saved to an account.</p>
       </section>
 
       <!-- =================================================
