@@ -8964,7 +8964,7 @@ textarea:focus-visible {
 
 .hero-accent-green {
   color: #72c995;
-  text-shadow: 0 0 24px rgba(114,201,149,.12);
+  text-shadow: 0 2px 10px rgba(70,190,130,.22), 0 0 20px rgba(114,201,149,.16);
 }
 
 .hero-accent-impact {
@@ -8973,7 +8973,7 @@ textarea:focus-visible {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 26px rgba(192,91,145,.12);
+  text-shadow: 0 2px 10px rgba(224,91,85,.2), 0 0 20px rgba(192,91,145,.18);
 }
 
 .hero-progress {
