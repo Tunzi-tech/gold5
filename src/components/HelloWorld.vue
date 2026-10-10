@@ -8984,7 +8984,7 @@ textarea:focus-visible {
 
 .hero-heading-white-home {
   display: inline-block;
-  font-size: .95em;
+  font-size: .92em;
   letter-spacing: -.068em;
   line-height: .93;
 }
