@@ -4063,9 +4063,9 @@ onBeforeUnmount(() => {
         </div>
 
         <div class="initiative-home-intro">
-          <span class="initiative-flow-kicker">WHAT PEOPLE DO</span>
-          <h2>Ideas become <span>something people do.</span></h2>
-          <p>Discover initiatives already moving around your Zones — and find a place where your interest can become participation, action and experience.</p>
+          <span class="initiative-flow-kicker">FIND YOUR WAY TO MAKE AN IMPACT</span>
+          <h2>What would you like to change?</h2>
+          <p>Explore what people are doing, discover ways to take part, or choose an issue that matters to you. Start with an example below, then find your next step.</p>
         </div>
 
         <div class="initiative-flow-path" aria-label="From what people do to impact">
