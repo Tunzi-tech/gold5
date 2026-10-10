@@ -4012,14 +4012,14 @@ onBeforeUnmount(() => {
                 <h1>
                   {{ heroes[activeHero].titleBefore }}
                   <span
-                    :class="activeHero === 0 ? 'hero-accent-white' : 'hero-accent-impact'"
+                    :class="activeHero === 0 ? 'hero-accent-blue' : 'hero-accent-impact'"
                   >
                     {{ heroes[activeHero].titleAccent }}
                   </span>
                   <template v-if="heroes[activeHero].titleAfter">
                     <br />
                     {{ heroes[activeHero].titleAfter }}
-                    <span class="hero-accent-blue">
+                    <span class="hero-accent-green">
                       {{ heroes[activeHero].secondAccent }}
                     </span>
                   </template>
@@ -8960,6 +8960,11 @@ textarea:focus-visible {
 .hero-accent-white {
   color: #f5f7fb;
   text-shadow: none;
+}
+
+.hero-accent-green {
+  color: #72c995;
+  text-shadow: 0 0 24px rgba(114,201,149,.12);
 }
 
 .hero-accent-impact {
