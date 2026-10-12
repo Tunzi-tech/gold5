@@ -9442,7 +9442,7 @@ textarea:focus-visible {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  text-shadow: 0 2px 12px rgba(255,166,87,.13);
+  text-shadow: 0 2px 13px rgba(255,166,87,.143);
 }
 
 .hero-accent-impact {
@@ -9450,7 +9450,7 @@ textarea:focus-visible {
   margin-left: .12em;
   background: none;
   -webkit-text-fill-color: #76adff;
-  text-shadow: 0 2px 12px rgba(90,155,255,.25), 0 0 20px rgba(90,155,255,.12);
+  text-shadow: 0 2px 13px rgba(90,155,255,.275), 0 0 22px rgba(90,155,255,.132);
 }
 
 .hero-progress {
