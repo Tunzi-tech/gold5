@@ -4312,19 +4312,6 @@ onBeforeUnmount(() => {
               <button type="button" @click="navigate('zones')">Join a Zone</button>
             </div>
             <button type="button" class="initiative-card-action" @click="navigate('zones')">Find your place <span aria-hidden="true">→</span></button>
-          </section>
-          <section class="initiative-flow-step going-around" aria-label="Discover what's happening around you">
-            <span class="initiative-flow-kicker">WHAT'S GOING ON AROUND YOU?</span>
-            <strong>See what is moving right now.</strong>
-            <small>Choose a local signal or follow the Live Flow.</small>
-            <div class="initiative-example-options" aria-label="Nearby activity examples">
-              <button type="button" @click="navigate('live-people')">Community voices</button>
-              <button type="button" @click="navigate('around-zones')">Nearby activity</button>
-              <button type="button" @click="navigate('initiatives')">Actions forming</button>
-            </div>
-            <button type="button" class="initiative-card-action" @click="navigate('live-flow')">Open Live Flow <span aria-hidden="true">→</span></button>
-          </section>
-
           <div class="impact-category-picker">
             <button
               type="button"
@@ -4346,6 +4333,20 @@ onBeforeUnmount(() => {
               <button type="button" @click="navigate('awareness'); awarenessFilter = 'ALL'"><span>💡</span> Ideas & innovation</button>
             </div>
           </div>
+          </section>
+          <section class="initiative-flow-step going-around" aria-label="Discover what's happening around you">
+            <span class="initiative-flow-kicker">WHAT'S GOING ON AROUND YOU?</span>
+            <strong>See what is moving right now.</strong>
+            <small>Choose a local signal or follow the Live Flow.</small>
+            <div class="initiative-example-options" aria-label="Nearby activity examples">
+              <button type="button" @click="navigate('live-people')">Community voices</button>
+              <button type="button" @click="navigate('around-zones')">Nearby activity</button>
+              <button type="button" @click="navigate('initiatives')">Actions forming</button>
+            </div>
+            <button type="button" class="initiative-card-action" @click="navigate('live-flow')">Open Live Flow <span aria-hidden="true">→</span></button>
+          </section>
+
+
 
           <div class="initiative-hover-story story-people-do" aria-label="Example of what people are doing">
             <div class="initiative-hover-story-heading">
