@@ -4207,7 +4207,7 @@ onBeforeUnmount(() => {
                 </span>
 
                 <h1>
-                  <span v-if="activeHero === 0" class="hero-heading-white-home"><span class="hero-heading-white-shadow">Id</span><span class="hero-heading-blue">eas</span> <span class="hero-heading-white-shadow">become</span></span>
+                  <span v-if="activeHero === 0" class="hero-heading-white-home"><span class="hero-heading-ideas-gradient">Ideas</span> <span class="hero-heading-white-shadow">become</span></span>
                   <span v-else>{{ heroes[activeHero].titleBefore }}</span>
                   <br v-if="activeHero === 0" />
                   <span
@@ -9436,12 +9436,21 @@ textarea:focus-visible {
   line-height: .93;
 }
 
+.hero-heading-ideas-gradient {
+  background: linear-gradient(105deg, #ff914d 0%, #ffd166 43%, #78aaff 78%, #5792ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow: 0 2px 12px rgba(255,166,87,.13);
+}
+
 .hero-accent-impact {
-  color: #72c995;
+  color: #76adff;
   margin-left: .12em;
   background: none;
-  -webkit-text-fill-color: #72c995;
-  text-shadow: 0 2px 10px rgba(114,201,149,.18);
+  -webkit-text-fill-color: #76adff;
+  text-shadow: 0 2px 12px rgba(90,155,255,.25), 0 0 20px rgba(90,155,255,.12);
 }
 
 .hero-progress {
