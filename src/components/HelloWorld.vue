@@ -4260,8 +4260,7 @@ onBeforeUnmount(() => {
 
         <div class="initiative-home-intro">
           <span class="initiative-flow-kicker">FIND YOUR WAY TO MAKE AN IMPACT</span>
-          <h2>What would you like to change?</h2>
-          <p>Explore what people are doing, discover ways to take part, or choose an issue that matters to you. Start with an example below, then find your next step.</p>
+          <p>Explore what people are doing, discover ways to take part, or choose an issue that matters to you.</p>
         </div>
 
         <div class="initiative-flow-path" aria-label="From what people do to impact">
