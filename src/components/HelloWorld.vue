@@ -9328,21 +9328,21 @@ textarea:focus-visible {
 
 .hero-stage {
   position: relative;
-  min-height: 330px;
+  min-height: 264px;
   display: flex;
   align-items: center;
 }
 
 .hero {
   width: 100%;
-  min-height: 290px;
+  min-height: 232px;
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(220px, 0.65fr);
   align-items: center;
-  gap: 50px;
-  padding: 42px 46px;
+  gap: 40px;
+  padding: 34px 37px;
   border: 1px solid #1d2a3d;
-  border-radius: 24px;
+  border-radius: 19px;
   background:
     radial-gradient(circle at 15% 45%, rgba(86,129,188,.10), transparent 28%),
     linear-gradient(135deg, rgba(10,16,26,.98), rgba(8,13,22,.92));
@@ -9371,7 +9371,7 @@ textarea:focus-visible {
   color: #e6edf7;
   margin: 0;
   max-width: 760px;
-  font-size: clamp(44px, 5vw, 72px);
+  font-size: clamp(35px, 4vw, 58px);
   line-height: .98;
   letter-spacing: -.065em;
   font-weight: 700;
@@ -9379,9 +9379,9 @@ textarea:focus-visible {
 
 .hero p {
   max-width: 590px;
-  margin: 25px 0 0;
+  margin: 20px 0 0;
   color: #8795a9;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.8;
 }
 
@@ -9454,8 +9454,8 @@ textarea:focus-visible {
 
 .hero-progress {
   position: absolute;
-  left: 46px;
-  bottom: 20px;
+  left: 37px;
+  bottom: 16px;
   z-index: 5;
   display: flex;
   gap: 6px;
@@ -9480,8 +9480,8 @@ textarea:focus-visible {
 
 .hero-orbit {
   position: relative;
-  width: 230px;
-  height: 230px;
+  width: 184px;
+  height: 184px;
   justify-self: center;
   display: grid;
   place-items: center;
@@ -9580,9 +9580,9 @@ textarea:focus-visible {
 
 /* ORIGINAL ICON FOR THE "WHAT IS HAPPENING AROUND YOU?" HERO */
 .hero-orbit-original {
-  width: 250px;
-  height: 250px;
-  margin-right: 50px;
+  width: 200px;
+  height: 200px;
+  margin-right: 40px;
   display: block;
   animation: none;
 }
