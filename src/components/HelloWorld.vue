@@ -17190,4 +17190,63 @@ textarea:focus-visible {
   }
 }
 
+
+/* Tilt the three navigation points into a diagonal orbit: between a row and a stack. */
+.main-nav .primary-navigation-portal {
+  grid-template-columns: minmax(0, 1fr) 18px minmax(0, 1fr);
+  grid-template-rows: 31px 31px;
+  align-items: center;
+  column-gap: 0;
+  row-gap: 0;
+  padding: 5px 7px;
+  border-radius: 23px 15px 23px 15px;
+  background:
+    radial-gradient(ellipse at 24% 15%, rgba(91, 131, 202, .18), transparent 58%),
+    linear-gradient(135deg, rgba(27, 43, 68, .94), rgba(12, 21, 37, .96) 52%, rgba(24, 34, 59, .94));
+}
+.main-nav .primary-navigation-portal .primary-space-nav-button {
+  min-height: 29px;
+  padding: 5px 7px;
+  font-size: 10px;
+}
+.main-nav .primary-navigation-portal .primary-space-nav-button:first-child {
+  grid-column: 1 / 3;
+  grid-row: 1;
+  justify-self: start;
+  width: auto;
+  min-width: 76px;
+  padding-left: 10px;
+  padding-right: 12px;
+  justify-content: flex-start;
+}
+.main-nav .primary-navigation-portal .dimension-portal-trigger {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  justify-self: center;
+  align-self: center;
+  height: 36px;
+  min-height: 36px;
+  border-left: 1px solid rgba(142, 166, 210, .19) !important;
+  transform: translateX(1px);
+}
+.main-nav .primary-navigation-portal .primary-space-nav-button:last-child {
+  grid-column: 2 / 4;
+  grid-row: 2;
+  justify-self: end;
+  width: auto;
+  min-width: 84px;
+  padding-left: 12px;
+  padding-right: 10px;
+  justify-content: flex-end;
+}
+.main-nav .primary-navigation-portal .primary-space-nav-button.active {
+  border-color: rgba(131, 172, 244, .15) !important;
+  background: linear-gradient(180deg, rgba(107, 157, 235, .18), rgba(70, 112, 182, .08)) !important;
+}
+@media (max-width: 1100px) {
+  .main-nav .primary-navigation-portal .primary-space-nav-button {
+    font-size: 9px;
+  }
+}
+
 </style>
