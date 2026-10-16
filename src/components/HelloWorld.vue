@@ -142,6 +142,25 @@ const platformCircles = [
   { id: 'impact', name: 'Impact', mark: '↗', color: 'mint', view: 'awareness' },
 ]
 const homeDisplayMode = ref<'content' | 'feed'>('content')
+const homeConnectionPanel = ref<'local' | 'world' | 'channels' | 'calls' | 'initiatives' | 'chat' | null>(null)
+const homeJoinedChannels = ref<string[]>([])
+const homeConnectionItems = [
+  { id: 'local', label: 'Local', color: 'mint', detail: 'People and conversations around your Zones.', action: 'Explore nearby people', view: 'people' },
+  { id: 'world', label: 'World', color: 'blue', detail: 'Connect with people and ideas beyond your local area.', action: 'Explore the network', view: 'discover' },
+  { id: 'channels', label: 'Channels', color: 'violet', detail: 'Join topic-based conversations and find people who share your interests.', action: 'Browse channels', view: 'people' },
+  { id: 'calls', label: 'Calls', color: 'gold', detail: 'Find open invitations and choose how you can contribute.', action: 'Find open calls', view: 'calls' },
+  { id: 'initiatives', label: 'Initiatives', color: 'coral', detail: 'Discover projects taking shape and ways to take part.', action: 'Explore initiatives', view: 'initiatives' },
+  { id: 'chat', label: 'Chat', color: 'sky', detail: 'Meet people through conversations, shared interests and activity.', action: 'Open conversations', view: 'people' }
+] as const
+
+function toggleHomeConnectionPanel(id: typeof homeConnectionItems[number]['id']) {
+  homeConnectionPanel.value = homeConnectionPanel.value === id ? null : id
+}
+
+function joinHomeChannel(id: string) {
+  if (!homeJoinedChannels.value.includes(id)) homeJoinedChannels.value.push(id)
+}
+
 const liveFlowSpace = ref<'overview' | 'ideas'>('overview')
 const showPeopleDoingList = ref(false)
 const ideaFlowDraft = ref('')
@@ -4374,7 +4393,41 @@ onBeforeUnmount(() => {
       <!-- =================================================
            HOME
            ================================================= -->
-      <section v-if="activeView === 'home'" class="content">
+      <section v-if="activeView === 'home'" class="content home-commons-content">
+
+        <section class="home-connection-hub" aria-label="Connect with people and activities">
+          <div class="home-connection-heading">
+            <div>
+              <span class="home-connection-kicker">COMMONS · CONNECTIONS</span>
+              <h1>Find your people.</h1>
+              <p>Local to world — join conversations, discover calls and take part in initiatives.</p>
+            </div>
+            <span class="home-connection-orbit" aria-hidden="true"><i></i><b></b><em></em></span>
+          </div>
+          <div class="home-connection-links" aria-label="Connection spaces">
+            <button v-for="item in homeConnectionItems" :key="item.id" type="button"
+              class="home-connection-link" :class="['connection-' + item.color, { active: homeConnectionPanel === item.id }]"
+              :aria-expanded="homeConnectionPanel === item.id" @click="toggleHomeConnectionPanel(item.id)">
+              <span class="home-connection-dot" aria-hidden="true"></span>{{ item.label }}
+              <span class="home-connection-chevron" aria-hidden="true">{{ homeConnectionPanel === item.id ? '−' : '+' }}</span>
+            </button>
+          </div>
+          <div v-if="homeConnectionPanel" class="home-connection-panel">
+            <template v-for="item in homeConnectionItems.filter(entry => entry.id === homeConnectionPanel)" :key="item.id">
+              <div class="home-connection-panel-copy">
+                <span class="home-connection-kicker">{{ item.label }} · CONNECTION SPACE</span>
+                <p>{{ item.detail }}</p>
+              </div>
+              <div class="home-connection-panel-actions">
+                <button v-if="item.id === 'channels' || item.id === 'local' || item.id === 'world'" type="button" class="home-connection-join"
+                  @click="joinHomeChannel(item.id)">
+                  {{ homeJoinedChannels.includes(item.id) ? 'Joined ✓' : 'Join space' }}
+                </button>
+                <button type="button" class="home-connection-open" @click="navigate(item.view)">{{ item.action }} <span aria-hidden="true">→</span></button>
+              </div>
+            </template>
+          </div>
+        </section>
 
         <div class="home-view-switch" role="group" aria-label="Choose home view">
           <button
@@ -4396,76 +4449,6 @@ onBeforeUnmount(() => {
         </div>
 
         <div v-if="homeDisplayMode === 'content'" class="home-discovery-view">
-        <div class="hero-stage">
-          <transition name="hero-fade" mode="out-in">
-            <div :key="activeHero" class="hero hero-rotating">
-              <div class="hero-copy">
-                <span class="hero-label hero-initiatives-label">INITIATIVES · ACTION</span>
-                <span class="hero-label">
-                  {{ heroes[activeHero].label }}
-                </span>
-
-                <h1>
-                  <span v-if="activeHero === 0" class="hero-heading-white-home"><span class="hero-heading-ideas-gradient">Ideas</span> <span class="hero-heading-white-shadow">become</span></span>
-                  <span v-else>{{ heroes[activeHero].titleBefore }}</span>
-                  <br v-if="activeHero === 0" />
-                  <span
-                    :class="activeHero === 0 ? 'hero-accent-blue hero-accent-blue-home' : 'hero-accent-impact'"
-                  >
-                    {{ heroes[activeHero].titleAccent }}
-                  </span>
-                  <template v-if="heroes[activeHero].titleAfter">
-                    <br />
-                    {{ heroes[activeHero].titleAfter }}
-                    <span class="hero-accent-green">
-                      {{ heroes[activeHero].secondAccent }}
-                    </span>
-                  </template>
-                </h1>
-
-                <p>{{ heroes[activeHero].description }}</p>
-              </div>
-
-              <!-- Keep the original animated visual: only the hero copy changes. -->
-              <div
-                class="hero-orbit"
-                :class="{ 'hero-orbit-original': activeHero === 0 }"
-                aria-hidden="true"
-              >
-                <div class="orbit-ring ring-one"></div>
-                <div class="orbit-ring ring-two"></div>
-                <button
-                  v-if="activeHero === 0"
-                  type="button"
-                  class="orbit-core orbit-core-action"
-                  aria-label="Open Idea Flow"
-                  title="Explore ideas in Live Flow"
-                  @click="openIdeaFlowSpace"
-                >
-                  <span>AC</span>
-                </button>
-                <div v-else class="orbit-core">
-                  <span>ZONE</span>
-                </div>
-                <div class="orbit-node node-a"></div>
-                <div class="orbit-node node-b"></div>
-                <div class="orbit-node node-c"></div>
-              </div>
-            </div>
-          </transition>
-
-          <div class="hero-progress">
-            <button
-              v-for="(_, index) in heroes"
-              :key="index"
-              type="button"
-              :aria-label="`Show hero ${index + 1}`"
-              :class="{ active: index === activeHero }"
-              @click="activeHero = index"
-            ></button>
-          </div>
-        </div>
-
         <div class="initiative-home-intro">
           <span class="initiative-flow-kicker">FIND YOUR WAY TO MAKE AN IMPACT</span>
           <p>Explore what people are doing, discover ways to take part, or choose an issue that matters to you.</p>
@@ -17248,5 +17231,34 @@ textarea:focus-visible {
     font-size: 9px;
   }
 }
+
+
+/* Compact Commons connection hub: a small top-right header that leaves the page open for future modules. */
+.home-commons-content{position:relative}
+.home-connection-hub{position:relative;max-width:760px;margin:0 0 12px auto;padding:13px 15px 11px;border:1px solid rgba(111,145,193,.19);border-radius:15px;background:radial-gradient(ellipse at 100% 0%,rgba(79,126,184,.12),transparent 48%),linear-gradient(125deg,rgba(17,27,42,.92),rgba(9,15,25,.96));box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 8px 24px rgba(0,0,0,.09)}
+.home-connection-heading{display:flex;align-items:center;justify-content:space-between;gap:18px}
+.home-connection-heading h1{margin:3px 0 3px;color:#e5edf8;font-size:19px;line-height:1.2;letter-spacing:-.035em;font-weight:750}
+.home-connection-heading p{margin:0;max-width:520px;color:#8190a5;font-size:10px;line-height:1.5}
+.home-connection-kicker{display:block;color:#8da9cf;font-size:8px;font-weight:850;letter-spacing:.15em}
+.home-connection-orbit{position:relative;flex:0 0 40px;width:40px;height:40px;border:1px solid rgba(115,185,201,.26);border-radius:50%;background:radial-gradient(circle,rgba(115,185,201,.16),rgba(111,117,212,.05) 60%,transparent 70%)}
+.home-connection-orbit:before,.home-connection-orbit:after{content:'';position:absolute;inset:6px;border:1px solid rgba(159,143,255,.36);border-radius:50%;transform:rotate(38deg) scaleX(.58)}
+.home-connection-orbit:after{transform:rotate(-38deg) scaleX(.58);border-color:rgba(115,185,201,.35)}
+.home-connection-orbit i,.home-connection-orbit b,.home-connection-orbit em{position:absolute;z-index:1;width:5px;height:5px;border-radius:50%;font-style:normal}
+.home-connection-orbit i{top:5px;left:8px;background:#73b9c9}.home-connection-orbit b{right:5px;top:17px;background:#d6c96a}.home-connection-orbit em{bottom:5px;left:17px;background:#a99aff}
+.home-connection-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.home-connection-link{display:inline-flex;align-items:center;gap:7px;min-height:27px;padding:5px 9px;border:1px solid rgba(135,156,186,.15);border-radius:8px;background:rgba(14,22,35,.76);color:#bac8da;font:inherit;font-size:9px;font-weight:750;cursor:pointer;transition:background .18s ease,border-color .18s ease,transform .18s ease}
+.home-connection-link:hover{transform:translateY(-1px);color:#f0f5fb}
+.home-connection-dot{width:6px;height:6px;border-radius:50%;background:var(--connection-color);box-shadow:0 0 8px color-mix(in srgb,var(--connection-color) 45%,transparent)}
+.home-connection-chevron{margin-left:2px;color:var(--connection-color);font-size:12px;font-weight:500}
+.home-connection-link.connection-mint{--connection-color:#73c9ae}.home-connection-link.connection-blue{--connection-color:#78aef5}.home-connection-link.connection-violet{--connection-color:#a99aff}.home-connection-link.connection-gold{--connection-color:#e0c477}.home-connection-link.connection-coral{--connection-color:#e49b88}.home-connection-link.connection-sky{--connection-color:#73b9c9}
+.home-connection-link.active{border-color:color-mix(in srgb,var(--connection-color) 44%,transparent);background:color-mix(in srgb,var(--connection-color) 10%,rgba(12,19,31,.94));color:#eef5ff}
+.home-connection-panel{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:9px;padding:10px 11px;border:1px solid rgba(133,157,193,.14);border-radius:10px;background:rgba(6,12,21,.58)}
+.home-connection-panel-copy p{margin:4px 0 0;color:#a3b0c2;font-size:10px;line-height:1.5}
+.home-connection-panel-actions{display:flex;flex-wrap:wrap;gap:6px;flex-shrink:0}
+.home-connection-join,.home-connection-open{padding:6px 9px;border:1px solid rgba(115,185,201,.26);border-radius:7px;background:rgba(115,185,201,.1);color:#bfe9ed;font:inherit;font-size:9px;font-weight:800;cursor:pointer}
+.home-connection-open{border-color:rgba(159,143,255,.24);background:rgba(159,143,255,.08);color:#d5ceff}
+.home-view-switch{margin-bottom:10px}
+@media(max-width:760px){.home-connection-hub{max-width:none;margin:0 0 10px;padding:11px}.home-connection-heading h1{font-size:17px}.home-connection-orbit{flex-basis:32px;width:32px;height:32px}.home-connection-panel{align-items:flex-start;flex-direction:column}.home-connection-panel-actions{width:100%}}
+@media(prefers-reduced-motion:reduce){.home-connection-link{transition:none}}
 
 </style>
