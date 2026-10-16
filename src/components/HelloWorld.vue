@@ -132,6 +132,15 @@ type Entity = {
    ===================================================== */
 
 const activeView = ref('home')
+const showCircleHome = ref(false)
+const platformCircles = [
+  { id: 'main', name: 'COMMONS', mark: '◉', color: 'blue', view: 'home' },
+  { id: 'flow', name: 'Live Flow', mark: '✳', color: 'blue', view: 'live-flow' },
+  { id: 'ideas', name: 'Ideas Lab', mark: '✧', color: 'violet', view: 'learn' },
+  { id: 'studio', name: 'Creative Studio', mark: '✦', color: 'violet', view: 'initiatives' },
+  { id: 'connect', name: 'Connections', mark: '∞', color: 'gold', view: 'people' },
+  { id: 'impact', name: 'Impact', mark: '↗', color: 'mint', view: 'awareness' },
+]
 const homeDisplayMode = ref<'content' | 'feed'>('content')
 const liveFlowSpace = ref<'overview' | 'ideas'>('overview')
 const showPeopleDoingList = ref(false)
@@ -2668,6 +2677,7 @@ const arabicDictionary: Record<string, string> = {
   'You':'أنت',
   'My Zones':'مناطقي',
   'Home':'الرئيسية',
+  'Circles':'الدوائر',
   'Commons':'كومنز',
   'Zones':'المناطق',
   'Calls & Commons':'المكالمات وكومنز',
@@ -3109,6 +3119,11 @@ function addIdeaThought(id: number) {
 function openIdeaFlowSpace() {
   navigate('live-flow')
   liveFlowSpace.value = 'ideas'
+}
+
+function openPlatformCircle(circle: { id: string; view: string }) {
+  showCircleHome.value = false
+  navigate(circle.view)
 }
 
 function navigate(view: string) {
@@ -3791,6 +3806,25 @@ onBeforeUnmount(() => {
 <template>
   <div class="app-shell" :class="{ 'rtl-mode': language === 'ar' }">
 
+    <main v-if="showCircleHome" class="platform-circles-stage" aria-label="Choose a platform">
+      <div class="platform-circles-row">
+        <button
+          v-for="app in platformCircles"
+          :key="app.id"
+          type="button"
+          class="platform-circle-node"
+          :class="['platform-circle-' + app.id, 'platform-circle-tone-' + app.color]"
+          @click="openPlatformCircle(app)"
+          :aria-label="'Open ' + app.name"
+          :title="app.name"
+        >
+          <span class="platform-circle-mark" aria-hidden="true">{{ app.mark }}</span>
+          <span class="platform-circle-name">{{ app.name }}</span>
+        </button>
+      </div>
+    </main>
+
+    <template v-else>
     <div v-if="joinConfirmation" class="join-confirmation" role="status" aria-live="polite">
       <span class="join-confirmation-flow" aria-hidden="true">
         <span class="join-confirmation-source">
@@ -3835,6 +3869,17 @@ onBeforeUnmount(() => {
         >
           <span class="icon">⌂</span>
           Home
+        </button>
+
+        <button
+          class="circle-home-nav-button"
+          type="button"
+          @click="showCircleHome = true"
+          :aria-label="t('Circles')"
+          :title="t('Circles')"
+        >
+          <span class="icon" aria-hidden="true">◉</span>
+          {{ t('Circles') }}
         </button>
 
         <button
@@ -8997,6 +9042,7 @@ post => post.zone === selectedZone?.name                      ).length === 0
 
     </div>
 
+    </template>
   </div>
 </template>
 
