@@ -17054,3 +17054,48 @@ textarea:focus-visible {
   background: linear-gradient(100deg, rgba(85,143,224,.14), rgba(34,53,82,.1));
   border-color: rgba(111,168,255,.2);
 }
+
+
+/* Put Home and Live Flow on one shared row, with the portal as their fine separator. */
+.main-nav .primary-navigation-portal {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 16px minmax(0, 1fr);
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+}
+.main-nav .primary-navigation-portal .primary-space-nav-button {
+  min-width: 0;
+  min-height: 37px;
+  justify-content: flex-start;
+  gap: 7px;
+  padding: 9px 8px;
+  white-space: nowrap;
+  font-size: 11px;
+}
+.main-nav .primary-navigation-portal .primary-space-nav-button .icon {
+  flex: 0 0 auto;
+}
+.main-nav .primary-navigation-portal .dimension-portal-trigger {
+  width: 16px !important;
+  height: 32px;
+  min-height: 32px;
+  margin: 0;
+  border-left: 1px solid rgba(142, 166, 210, .16) !important;
+}
+.main-nav .primary-navigation-portal .dimension-portal-line {
+  height: 18px;
+  width: 2px;
+}
+.main-nav .primary-navigation-portal .dimension-portal-trigger:hover .dimension-portal-line,
+.main-nav .primary-navigation-portal .dimension-portal-trigger:focus-visible .dimension-portal-line {
+  height: 24px;
+}
+@media (max-width: 1100px) {
+  .main-nav .primary-navigation-portal .primary-space-nav-button {
+    gap: 5px;
+    padding-left: 6px;
+    padding-right: 6px;
+    font-size: 10px;
+  }
+}
