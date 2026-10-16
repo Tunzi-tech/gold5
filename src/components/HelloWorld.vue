@@ -150,6 +150,7 @@ const showAccountMenu = ref(false)
 const language = ref<'en' | 'ar'>('en')
 const showLanguageMenu = ref(false)
 const showWhatsGoingOn = ref(false)
+const showZonesAroundNetworkFlow = ref(false)
 const liveEngagement = ref<'people' | 'action' | 'flow' | null>(null)
 const awarenessFilter = ref('ALL')
 const showImpactCategories = ref(false)
@@ -6166,18 +6167,13 @@ onBeforeUnmount(() => {
               </span>
               <span class="eyebrow">ZONES AROUND</span>
               <span class="zones-around-live-dot">LIVE</span>
-              <button
-                type="button"
-                class="zones-around-whats-going-on"
-                :class="{ active: showWhatsGoingOn }"
-                @click="showWhatsGoingOn = !showWhatsGoingOn"
-              >
+              <span class="zones-around-whats-going-on zones-around-whats-going-on-label">
                 WHAT'S GOING ON?
-                <span>{{ showWhatsGoingOn ? '⌃' : '↗' }}</span>
-              </button>
+                <span aria-hidden="true">•</span>
+              </span>
             </div>
 
-            <div v-if="showWhatsGoingOn" class="zones-around-live-panel">
+            <div class="zones-around-live-panel">
               <div class="zones-around-live-panel-title">
                 <span>RIGHT NOW</span>
                 <small>things you can join</small>
@@ -6192,11 +6188,36 @@ onBeforeUnmount(() => {
                 <span><strong>A new action is forming</strong><small>People are looking for others to participate.</small></span>
                 <b>EXPLORE →</b>
               </button>
-              <button type="button" class="zones-around-live-item" @click="openLiveEngagement('flow')">
+              <button type="button" class="zones-around-live-item" @click="showZonesAroundNetworkFlow = !showZonesAroundNetworkFlow">
                 <span class="live-item-dot"></span>
-                <span><strong>The network is moving</strong><small>See what people are joining, creating and connecting.</small></span>
-                <b>SEE FLOW →</b>
+                <span><strong>The network is moving</strong><small>See how people, interests, ideas, Zones and actions connect.</small></span>
+                <b>{{ showZonesAroundNetworkFlow ? 'HIDE FLOW ↑' : 'SEE FLOW →' }}</b>
               </button>
+            </div>
+
+            <section v-if="showZonesAroundNetworkFlow" class="zones-around-network-flow">
+              <div class="zones-around-network-flow-heading">
+                <span class="eyebrow">NETWORK FLOW</span>
+                <h2>See how people, ideas and Zones connect.</h2>
+                <p>Follow the path from a person's interest to a shared idea, a Zone and an action people can take together.</p>
+              </div>
+              <div class="zones-around-flow-path" aria-label="People to interest to idea to Zone to action">
+                <div class="zones-around-flow-node"><span>01</span><strong>PEOPLE</strong><small>Notice something</small></div>
+                <i aria-hidden="true">→</i>
+                <div class="zones-around-flow-node"><span>02</span><strong>INTEREST</strong><small>Find what matters</small></div>
+                <i aria-hidden="true">→</i>
+                <div class="zones-around-flow-node"><span>03</span><strong>IDEA</strong><small>Imagine a possibility</small></div>
+                <i aria-hidden="true">→</i>
+                <div class="zones-around-flow-node"><span>04</span><strong>ZONE</strong><small>Connect locally</small></div>
+                <i aria-hidden="true">→</i>
+                <div class="zones-around-flow-node"><span>05</span><strong>ACTION</strong><small>Take part together</small></div>
+              </div>
+              <div class="zones-around-flow-example">
+                <span class="eyebrow">A LOCAL EXAMPLE · TUNIS NORTH</span>
+                <strong>More green spaces</strong>
+                <p>A resident raises a concern → people share experience → a community garden idea emerges → the Zone connects interested people → a small local action begins.</p>
+              </div>
+            </section>
             </div>
 
             <h1>Discover Zones<br /><span>around your network.</span></h1>
@@ -15550,6 +15571,24 @@ textarea:focus-visible {
   box-shadow:0 12px 28px rgba(0,0,0,.12);
   animation:zones-live-panel-in .2s ease-out;
 }
+
+.zones-around-whats-going-on-label{cursor:default!important}
+.zones-around-whats-going-on-label>span{color:#79c7a1;margin-left:5px}
+.zones-around-network-flow{margin-top:12px;padding:18px;border:1px solid rgba(103,164,255,.13);border-radius:12px;background:linear-gradient(145deg,rgba(19,31,48,.8),rgba(8,13,21,.88))}
+.zones-around-network-flow-heading h2{margin:8px 0;color:#dce8f7;font-size:16px}
+.zones-around-network-flow-heading p{max-width:680px;margin:0;color:#8396ad;font-size:9px;line-height:1.6}
+.zones-around-flow-path{display:flex;align-items:stretch;justify-content:space-between;gap:6px;margin-top:17px;overflow-x:auto;padding:3px 1px 8px}
+.zones-around-flow-node{display:flex;min-width:90px;flex:1;flex-direction:column;gap:7px;padding:11px 9px;border:1px solid rgba(103,164,255,.13);border-radius:9px;background:rgba(74,120,194,.045);animation:live-flow-node 3.2s ease-in-out infinite}
+.zones-around-flow-node:nth-of-type(3n){animation-delay:.45s}
+.zones-around-flow-node>span{color:#6f8eaf;font-size:7px;font-weight:800}
+.zones-around-flow-node strong{color:#a9c8ea;font-size:8px;letter-spacing:.08em}
+.zones-around-flow-node small{color:#72849b;font-size:7px;line-height:1.4}
+.zones-around-flow-path>i{align-self:center;color:#6784a4;font-style:normal;font-size:15px}
+.zones-around-flow-example{margin-top:10px;padding:12px 13px;border-left:2px solid rgba(121,199,161,.5);border-radius:0 8px 8px 0;background:rgba(121,199,161,.035)}
+.zones-around-flow-example strong{display:block;margin-top:6px;color:#c7ddcf;font-size:10px}
+.zones-around-flow-example p{margin:5px 0 0;color:#829a8c;font-size:8px;line-height:1.65}
+@media(max-width:700px){.zones-around-flow-path{justify-content:flex-start}.zones-around-flow-node{min-width:100px;flex:0 0 100px}}
+
 .zones-around-live-panel-title{
   display:flex;
   align-items:baseline;
