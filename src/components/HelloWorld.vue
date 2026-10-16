@@ -495,6 +495,7 @@ type AdminElement = {
 }
 
 const selectedAdminSystem = ref<string | null>(null)
+const selectedAdminSystemSection = ref<'workflow' | 'relationships' | 'build' | 'test'>('workflow')
 
 const systemDesignUnlocked = ref(false)
 const systemDesignPassword = ref('')
@@ -862,6 +863,12 @@ type AdminSystem = {
   connections: string[]
   functionalParts: string[]
   missing: string[]
+  inputs?: string[]
+  outputs?: string[]
+  workflow?: { title: string; action: string; result: string }[]
+  decisions?: { question: string; rule: string }[]
+  developmentPlan?: { stage: string; goal: string; tasks: string[]; doneWhen: string }[]
+  testScenario?: { title: string; setup: string; expected: string[] }
 }
 
 const adminSystems = ref<AdminSystem[]>([
@@ -926,7 +933,30 @@ const adminSystems = ref<AdminSystem[]>([
     contains: ['Activity candidates', 'User interests', 'Followed people and Pages', 'Participation history', 'Zone context', 'Ranking signals', 'Feed explanation'],
     connections: ['Posts', 'People', 'Pages', 'Zones', 'Calls', 'Participation', 'Notifications', 'Live Flow Connections'],
     functionalParts: ['Collect eligible activities', 'Apply visibility and safety rules', 'Score recency and meaningful relevance', 'Prioritize direct interactions and chosen interests', 'Diversify sources and topics', 'Explain why an item appears', 'Respect user controls and feedback'],
-    missing: ['Production event data pipeline', 'Configurable ranking weights', 'User feedback signals', 'Offline evaluation and bias checks', 'Server-side visibility and privacy enforcement']
+    missing: ['Production event data pipeline', 'Configurable ranking weights', 'User feedback signals', 'Offline evaluation and bias checks', 'Server-side visibility and privacy enforcement'],
+    inputs: ['Eligible activity records (posts, calls, ideas and participation)', 'Viewer's chosen interests and follows', 'Recent interactions and context', 'Visibility and safety rules'],
+    outputs: ['An ordered set of feed items', 'A reason each item was selected', 'Ranking diagnostics for admins'],
+    workflow: [
+      { title: 'Gather candidates', action: 'Collect recent activities the viewer is allowed to see.', result: 'A candidate pool; private or ineligible items are excluded before ranking.' },
+      { title: 'Build context', action: 'Compare each candidate with explicit follows, chosen interests, participation and relevant place context.', result: 'Signals describing direct relevance, freshness and context.' },
+      { title: 'Score and balance', action: 'Apply configurable weights, freshness limits and source/topic diversity rules.', result: 'Candidates receive a relevance score and diversity adjustments.' },
+      { title: 'Explain and deliver', action: 'Order the eligible candidates and attach a human-readable reason for each selection.', result: 'A feed the user can understand and tune.' }
+    ],
+    decisions: [
+      { question: 'Is this activity allowed for this viewer?', rule: 'If visibility or safety checks fail, exclude it. Ranking must never override access rules.' },
+      { question: 'Why might this matter to this viewer?', rule: 'Prefer explicit interests, direct interactions and chosen context over popularity alone.' },
+      { question: 'Is the feed becoming repetitive?', rule: 'Reduce repeated sources or topics and leave room for fresh, relevant perspectives.' }
+    ],
+    developmentPlan: [
+      { stage: '1 · Instrument', goal: 'Define a consistent activity shape and capture only signals needed for relevance.', tasks: ['Create an activity adapter for posts, ideas, calls and participation', 'Record timestamps, source, visibility, topics and place references', 'Document which viewer signals are permitted'], doneWhen: 'A sample set of activities can be normalized and filtered by visibility.' },
+      { stage: '2 · Baseline ranking', goal: 'Make the first ranking predictable and explainable.', tasks: ['Start with explicit follows, matching interests and recency', 'Keep weights in one configuration object', 'Return a reason string with every ranked item'], doneWhen: 'The same inputs produce stable, explainable ordering.' },
+      { stage: '3 · Evaluate', goal: 'Measure usefulness before adding complexity.', tasks: ['Create test cases for fresh, relevant, repeated and unrelated items', 'Check source/topic diversity', 'Add user feedback such as less like this'], doneWhen: 'Tests catch privacy leaks, stale ordering and repetitive feeds.' }
+    ],
+    testScenario: {
+      title: 'Two relevant posts and one popular but unrelated post',
+      setup: 'The viewer follows a local gardening Page and joined Tunis North. Candidate A is a fresh gardening post in Tunis North; B is a reply from a followed Page; C is a popular unrelated post.',
+      expected: ['All candidates pass visibility checks first.', 'A and B rank highly for clear relevance reasons.', 'C does not win only because it is popular.', 'Each item shows why it appeared.']
+    }
   },
   {
     id: 'live-flow-connection-detection-system',
@@ -935,7 +965,33 @@ const adminSystems = ref<AdminSystem[]>([
     contains: ['Activity events', 'Shared topics', 'Shared Zone or place', 'People and Page relationships', 'Calls and initiatives', 'Participation signals', 'Connection evidence', 'Personal relevance'],
     connections: ['Feed Relevance & Ranking System', 'Posts', 'Awareness items', 'Ideas', 'People', 'Pages', 'Zones', 'Calls', 'Participation', 'Live Flow'],
     functionalParts: ['Read eligible activity events', 'Normalize topics, entities and place references', 'Detect explicit links and shared context', 'Build a relationship between source activities', 'Estimate relevance to the current user', 'Show the evidence explaining the connection', 'Offer a direct next step into the related activity'],
-    missing: ['Unified activity event model', 'Persistent relationship graph', 'Topic/entity matching service', 'Connection confidence thresholds', 'Duplicate and stale-link handling', 'Privacy-aware personalization', 'Production analytics to validate useful connections']
+    missing: ['Unified activity event model', 'Persistent relationship graph', 'Topic/entity matching service', 'Connection confidence thresholds', 'Duplicate and stale-link handling', 'Privacy-aware personalization', 'Production analytics to validate useful connections'],
+    inputs: ['Existing posts, ideas, awareness items, calls and participation events', 'Explicit links such as replies, follows and shared initiatives', 'Topic, entity and place references', 'Viewer context and visibility permissions'],
+    outputs: ['A relationship between two or more existing activities', 'Evidence explaining why they are related', 'Confidence and freshness metadata', 'A relevant next step into the source activity'],
+    workflow: [
+      { title: 'Collect real activity', action: 'Read eligible activity records from the platform; do not create activity to manufacture a connection.', result: 'A set of source activities with IDs, authors, timestamps and visibility.' },
+      { title: 'Find shared signals', action: 'Compare explicit links first, then normalized topics, named entities and place context.', result: 'Candidate relationships with the exact signals they share.' },
+      { title: 'Validate the relationship', action: 'Check that the relationship is meaningful, current, not duplicated and allowed to be shown to this viewer.', result: 'A supported relationship or a rejected candidate with a reason.' },
+      { title: 'Personalize carefully', action: 'Prioritize connections related to the viewer’s chosen interests or participation without exposing another person’s private activity.', result: 'A relevance explanation such as “You joined this Zone” or “Both activities discuss safer walking.”' },
+      { title: 'Surface an opportunity', action: 'Show the connected activities together with evidence and a direct action to explore, respond or participate.', result: 'A discovery in Live Flow that helps the viewer connect to the ongoing activity.' }
+    ],
+    decisions: [
+      { question: 'What evidence links these activities?', rule: 'Show the actual shared signal: reply, explicit link, shared topic, named entity or place. Do not claim a relationship without evidence.' },
+      { question: 'How strong is the match?', rule: 'Explicit links are stronger than shared place alone. Topic similarity needs a confidence threshold and should be labelled as a possible relationship when uncertain.' },
+      { question: 'Should this cross this viewer’s path?', rule: 'Require visibility permission first, then consider viewer relevance, freshness and diversity. Do not infer sensitive traits.' },
+      { question: 'Is this connection still useful?', rule: 'Expire or refresh stale relationships, deduplicate repeated pairs and let people dismiss irrelevant suggestions.' }
+    ],
+    developmentPlan: [
+      { stage: '1 · Normalize activity', goal: 'Give different platform actions a shared, traceable shape.', tasks: ['Define activity ID, type, author, timestamp, visibility, topic/entity tags and place references', 'Connect current posts, ideas and awareness items to the adapter', 'Keep links back to original records'], doneWhen: 'Every candidate connection can point to real source activities.' },
+      { stage: '2 · Implement transparent rules', goal: 'Start with relationships that can be explained clearly.', tasks: ['Detect explicit replies and links', 'Detect exact shared place context', 'Add topic/entity matching as a separate signal', 'Store evidence and a confidence value for each match'], doneWhen: 'Each result states which rule matched and can be reproduced.' },
+      { stage: '3 · Personalize and protect', goal: 'Show useful relationships without leaking private context.', tasks: ['Apply access checks before generating display cards', 'Use only permitted viewer context', 'Add thresholds, deduplication and expiry', 'Let users dismiss or tune connection suggestions'], doneWhen: 'Private or weakly supported relationships never appear in Live Flow.' },
+      { stage: '4 · Measure usefulness', goal: 'Learn whether detected connections actually help people connect.', tasks: ['Track opens, meaningful replies and participation with privacy-conscious metrics', 'Measure dismissed or ignored suggestions', 'Review false positives and missing connections', 'Tune thresholds using test sets before broader rollout'], doneWhen: 'A reviewed evaluation set demonstrates useful matches and acceptable false-positive rates.' }
+    ],
+    testScenario: {
+      title: 'A concern, a conversation and an initiative share a context',
+      setup: 'An awareness item asks about safer walking in Tunis North, a post discusses walking routes in Tunis North, and an initiative proposes a walking audit. The viewer has joined Tunis North.',
+      expected: ['The system identifies the shared place and topic separately.', 'The card explains exactly which evidence connected the activities.', 'The viewer sees it only if all source activities are visible to them.', 'The next step opens the relevant conversation or initiative.', 'If only the Zone matches but topics differ, the system labels the match as weaker or does not show it.']
+    }
   }
 ])
 
@@ -5813,7 +5869,7 @@ onBeforeUnmount(() => {
           <div>
             <span class="eyebrow">SYSTEM ARCHITECTURE</span>
             <h1>Systems</h1>
-            <p>See what each functional system contains, how its parts connect, and what makes the system actually work.</p>
+            <p>Understand the system's behavior, trace its decisions, see how information moves, and turn gaps into a practical development plan.</p>
           </div>
           <button class="ghost-btn" type="button" @click="openAdministration">Elements</button>
         </div>
@@ -5861,40 +5917,79 @@ onBeforeUnmount(() => {
                     <span class="admin-status">DEFINED</span>
                   </div>
 
-                  <div class="admin-system-grid">
+                  <div v-if="system.inputs?.length || system.outputs?.length" class="admin-system-grid admin-io-grid">
                     <div class="admin-system-block">
-                      <span class="eyebrow">WHAT IT CONTAINS</span>
-                      <div class="admin-chip-list">
-                        <span v-for="item in system.contains" :key="item" class="admin-chip connected">{{ item }}</span>
-                      </div>
+                      <span class="eyebrow">WHAT ENTERS THE SYSTEM</span>
+                      <div class="admin-chip-list"><span v-for="item in system.inputs || []" :key="item" class="admin-chip connected">{{ item }}</span></div>
                     </div>
-
                     <div class="admin-system-block">
-                      <span class="eyebrow">CONNECTIONS</span>
-                      <div class="admin-chip-list">
-                        <span v-for="connection in system.connections" :key="connection" class="admin-chip connected">↔ {{ connection }}</span>
-                      </div>
+                      <span class="eyebrow">WHAT IT PRODUCES</span>
+                      <div class="admin-chip-list"><span v-for="item in system.outputs || []" :key="item" class="admin-chip connected">{{ item }}</span></div>
                     </div>
                   </div>
 
-                  <div class="admin-detail-section">
-                    <span class="eyebrow">WHAT MAKES IT FUNCTIONAL</span>
-                    <div class="admin-function-list">
-                      <div v-for="(part, index) in system.functionalParts" :key="part" class="admin-function-item">
-                        <span>{{ String(index + 1).padStart(2, '0') }}</span>
-                        <strong>{{ part }}</strong>
+                  <div class="admin-system-tabs" role="tablist" aria-label="System development workspace">
+                    <button type="button" role="tab" :aria-selected="selectedAdminSystemSection === 'workflow'" :class="{ active: selectedAdminSystemSection === 'workflow' }" @click="selectedAdminSystemSection = 'workflow'">How it works</button>
+                    <button type="button" role="tab" :aria-selected="selectedAdminSystemSection === 'relationships'" :class="{ active: selectedAdminSystemSection === 'relationships' }" @click="selectedAdminSystemSection = 'relationships'">Relationships</button>
+                    <button type="button" role="tab" :aria-selected="selectedAdminSystemSection === 'build'" :class="{ active: selectedAdminSystemSection === 'build' }" @click="selectedAdminSystemSection = 'build'">Build plan</button>
+                    <button type="button" role="tab" :aria-selected="selectedAdminSystemSection === 'test'" :class="{ active: selectedAdminSystemSection === 'test' }" @click="selectedAdminSystemSection = 'test'">Test scenario</button>
+                  </div>
+
+                  <div v-if="selectedAdminSystemSection === 'workflow'" class="admin-detail-section admin-learning-section">
+                    <span class="eyebrow">INPUT → PROCESS → RESULT</span>
+                    <h3>Follow the system's behavior</h3>
+                    <div v-if="system.workflow?.length" class="admin-workflow-list">
+                      <div v-for="(step, index) in system.workflow" :key="step.title" class="admin-workflow-step">
+                        <div class="admin-workflow-step-head"><span>{{ String(index + 1).padStart(2, '0') }}</span><strong>{{ step.title }}</strong></div>
+                        <p>{{ step.action }}</p>
+                        <div class="admin-workflow-result"><span>RESULT</span>{{ step.result }}</div>
                       </div>
+                    </div>
+                    <div v-else class="admin-guidance-empty"><strong>Workflow not documented yet.</strong><p>Map the trigger, processing rules, decisions and output before implementing this system.</p></div>
+                    <div v-if="system.decisions?.length" class="admin-decision-list">
+                      <h3>Decisions the system must make</h3>
+                      <div v-for="decision in system.decisions" :key="decision.question" class="admin-decision-card"><strong>{{ decision.question }}</strong><p>{{ decision.rule }}</p></div>
                     </div>
                   </div>
 
-                  <div class="admin-detail-section">
-                    <span class="eyebrow">MISSING / TO BUILD</span>
-                    <div class="admin-missing-list">
-                      <div v-for="item in system.missing" :key="item" class="admin-missing-item">
-                        <span>!</span>
-                        <strong>{{ item }}</strong>
-                      </div>
+                  <div v-else-if="selectedAdminSystemSection === 'relationships'" class="admin-detail-section admin-learning-section">
+                    <span class="eyebrow">INFORMATION FLOW</span>
+                    <h3>What this system exchanges with others</h3>
+                    <div class="admin-relationship-map">
+                      <div class="admin-relationship-node admin-relationship-upstream"><small>INPUTS FROM</small><strong>{{ system.id === 'feed-ranking-system' ? 'Content · People · Zones · Calls' : 'Posts · Ideas · Awareness · Participation' }}</strong><p>{{ system.id === 'feed-ranking-system' ? 'Supplies eligible activity and viewer context.' : 'Supplies existing activity and explicit links.' }}</p></div>
+                      <div class="admin-relationship-connector"><span>↓ sends eligible data</span></div>
+                      <div class="admin-relationship-node admin-relationship-current"><small>THIS SYSTEM</small><strong>{{ system.name }}</strong><p>{{ system.id === 'feed-ranking-system' ? 'Ranks candidates and explains their placement.' : 'Validates evidence and forms activity relationships.' }}</p></div>
+                      <div class="admin-relationship-connector"><span>↓ returns results to</span></div>
+                      <div class="admin-relationship-node admin-relationship-downstream"><small>OUTPUTS TO</small><strong>{{ system.id === 'feed-ranking-system' ? 'Home feed · Live Flow feed' : 'Feed relevance · Live Flow experience' }}</strong><p>{{ system.id === 'feed-ranking-system' ? 'Ordered eligible items with reasons.' : 'Connected activity cards with evidence and next steps.' }}</p></div>
                     </div>
+                    <h3>Related platform systems</h3>
+                    <div class="admin-chip-list admin-related-systems"><span v-for="connection in system.connections" :key="connection" class="admin-chip connected">↔ {{ connection }}</span></div>
+                    <p class="admin-relationship-note">A relationship is an information contract: define what is sent, what comes back, and which system owns each decision.</p>
+                  </div>
+
+                  <div v-else-if="selectedAdminSystemSection === 'build'" class="admin-detail-section admin-learning-section">
+                    <span class="eyebrow">FROM CONCEPT TO IMPLEMENTATION</span>
+                    <h3>Development opportunities</h3>
+                    <div v-if="system.developmentPlan?.length" class="admin-build-plan">
+                      <article v-for="phase in system.developmentPlan" :key="phase.stage" class="admin-build-phase">
+                        <span class="admin-build-phase-label">{{ phase.stage }}</span><h4>{{ phase.goal }}</h4>
+                        <ul><li v-for="task in phase.tasks" :key="task">{{ task }}</li></ul>
+                        <div class="admin-phase-done"><strong>Done when</strong><span>{{ phase.doneWhen }}</span></div>
+                      </article>
+                    </div>
+                    <div v-else class="admin-guidance-empty"><strong>Development plan not documented yet.</strong><p>Break the missing pieces into small stages with a clear outcome that can be tested.</p></div>
+                    <div class="admin-detail-section admin-build-gaps"><span class="eyebrow">KNOWN GAPS</span><div class="admin-missing-list"><div v-for="item in system.missing" :key="item" class="admin-missing-item"><span>!</span><strong>{{ item }}</strong></div></div></div>
+                  </div>
+
+                  <div v-else class="admin-detail-section admin-learning-section">
+                    <span class="eyebrow">EXPERIMENT BEFORE SHIPPING</span>
+                    <h3>{{ system.testScenario?.title || 'Define a test scenario' }}</h3>
+                    <template v-if="system.testScenario">
+                      <div class="admin-test-setup"><strong>SETUP</strong><p>{{ system.testScenario.setup }}</p></div>
+                      <div class="admin-test-expectations"><strong>EXPECTED BEHAVIOR</strong><div v-for="(expectation, index) in system.testScenario.expected" :key="expectation" class="admin-test-expectation"><span>{{ String(index + 1).padStart(2, '0') }}</span><p>{{ expectation }}</p></div></div>
+                    </template>
+                    <div v-else class="admin-guidance-empty"><strong>No test scenario defined.</strong><p>Describe the input, expected decision and expected output so implementation can be checked against the intended behavior.</p></div>
+                    <div class="admin-detail-section admin-reference-details"><span class="eyebrow">SYSTEM REFERENCE</span><div class="admin-system-grid"><div class="admin-system-block"><span class="eyebrow">WHAT IT CONTAINS</span><div class="admin-chip-list"><span v-for="item in system.contains" :key="item" class="admin-chip connected">{{ item }}</span></div></div><div class="admin-system-block"><span class="eyebrow">FUNCTIONAL PARTS</span><div class="admin-chip-list"><span v-for="part in system.functionalParts" :key="part" class="admin-chip connected">{{ part }}</span></div></div></div></div>
                   </div>
                 </div>
               </template>
@@ -14698,6 +14793,48 @@ textarea:focus-visible {
 .admin-system-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px}.admin-system-block{padding:13px;border:1px solid rgba(255,255,255,.05);border-radius:10px;background:rgba(255,255,255,.015)}.admin-system-block>.eyebrow{display:block;margin-bottom:2px}
 .admin-function-list{display:grid;gap:7px;margin-top:10px}.admin-function-item{display:flex;align-items:center;gap:11px;padding:10px 12px;border:1px solid rgba(103,164,255,.08);border-radius:9px;background:rgba(74,120,194,.025)}.admin-function-item span{color:#7198c8;font-size:8px;font-variant-numeric:tabular-nums}.admin-function-item strong{color:#b8c8dc;font-size:8px;font-weight:600}
 @media(max-width:900px){.admin-system-grid{grid-template-columns:1fr}}
+.admin-system-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:25px 0 14px;padding:5px;border:1px solid rgba(255,255,255,.06);border-radius:11px;background:rgba(3,8,16,.42)}
+.admin-system-tabs button{padding:9px 12px;border:1px solid transparent;border-radius:7px;background:transparent;color:#74859d;font-size:10px;font-weight:650;cursor:pointer;transition:.18s ease}
+.admin-system-tabs button:hover{color:#d8e7f8;background:rgba(255,255,255,.035)}
+.admin-system-tabs button.active{border-color:rgba(111,164,255,.19);background:linear-gradient(120deg,rgba(67,123,207,.19),rgba(112,87,190,.10));color:#c6ddff}
+.admin-io-grid{margin-top:18px}
+.admin-learning-section{margin-top:8px;padding:18px;border:1px solid rgba(255,255,255,.055);border-radius:13px;background:linear-gradient(145deg,rgba(12,21,36,.62),rgba(10,14,24,.35))}
+.admin-learning-section>h3{margin:7px 0 16px;color:#d7e4f4;font-size:17px;font-weight:650}
+.admin-workflow-list{display:grid;gap:10px}
+.admin-workflow-step{position:relative;padding:14px;border:1px solid rgba(103,164,255,.10);border-radius:10px;background:rgba(67,108,171,.045)}
+.admin-workflow-step-head{display:flex;align-items:center;gap:10px}.admin-workflow-step-head span{display:grid;place-items:center;flex:0 0 27px;height:27px;border-radius:8px;background:rgba(103,164,255,.11);color:#8dbbfa;font-size:10px}
+.admin-workflow-step-head strong{color:#d3e1f4;font-size:12px}
+.admin-workflow-step>p,.admin-decision-card p,.admin-relationship-node p,.admin-test-setup p{margin:9px 0;color:#8b9ab0;font-size:11px;line-height:1.65}
+.admin-workflow-result{display:grid;grid-template-columns:54px 1fr;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.055);color:#9db3c9;font-size:10px;line-height:1.6}
+.admin-workflow-result span{color:#75c7b1;font-size:8px;font-weight:800;letter-spacing:.1em}
+.admin-decision-list{display:grid;gap:9px;margin-top:22px}.admin-decision-list>h3,.admin-learning-section>h3:not(:first-of-type){margin:0 0 4px;color:#c4d2e5;font-size:13px}
+.admin-decision-card{padding:12px;border-left:2px solid rgba(145,126,240,.7);border-radius:0 8px 8px 0;background:rgba(113,91,179,.055)}
+.admin-decision-card strong{color:#c7d5e8;font-size:11px}.admin-decision-card p{margin-bottom:0}
+.admin-relationship-map{display:grid;justify-items:center;gap:0;max-width:560px;margin:10px auto 25px}
+.admin-relationship-node{width:100%;padding:14px;border:1px solid rgba(255,255,255,.07);border-radius:10px;background:rgba(255,255,255,.018)}
+.admin-relationship-node small{display:block;margin-bottom:7px;color:#7d93b0;font-size:8px;font-weight:800;letter-spacing:.12em}
+.admin-relationship-node strong{color:#d0dff1;font-size:12px}.admin-relationship-node p{margin-bottom:0}
+.admin-relationship-current{border-color:rgba(112,163,255,.26);background:linear-gradient(110deg,rgba(65,115,188,.12),rgba(108,83,174,.07))}
+.admin-relationship-connector{display:grid;justify-items:center;gap:3px;padding:8px;color:#6e8caf;font-size:9px}.admin-relationship-connector:before{content:"";height:18px;width:1px;background:linear-gradient(#5d85bb,#7e72bc)}
+.admin-related-systems{margin-top:10px}
+.admin-relationship-note{margin:16px 0 0;color:#73849b;font-size:10px;line-height:1.7}
+.admin-build-plan{display:grid;gap:12px}
+.admin-build-phase{padding:15px;border:1px solid rgba(255,255,255,.06);border-radius:11px;background:rgba(255,255,255,.015)}
+.admin-build-phase-label{color:#80b6fa;font-size:9px;font-weight:800;letter-spacing:.09em}
+.admin-build-phase h4{margin:7px 0 9px;color:#d3e2f5;font-size:13px}
+.admin-build-phase ul{display:grid;gap:7px;margin:0;padding-left:17px;color:#91a1b7;font-size:10px;line-height:1.6}
+.admin-phase-done{display:grid;gap:4px;margin-top:13px;padding-top:11px;border-top:1px solid rgba(255,255,255,.055)}
+.admin-phase-done strong{color:#78cbb5;font-size:8px;letter-spacing:.1em;text-transform:uppercase}.admin-phase-done span{color:#9bacc1;font-size:10px;line-height:1.6}
+.admin-build-gaps{margin-top:22px}
+.admin-test-setup{padding:13px;border:1px solid rgba(103,164,255,.11);border-radius:9px;background:rgba(67,108,171,.045)}
+.admin-test-setup>strong,.admin-test-expectations>strong{color:#81b6f8;font-size:8px;letter-spacing:.12em}
+.admin-test-setup p{margin-bottom:0}
+.admin-test-expectations{display:grid;gap:8px;margin-top:18px}
+.admin-test-expectation{display:grid;grid-template-columns:26px 1fr;gap:9px;align-items:start;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.admin-test-expectation>span{color:#75c7b1;font-size:9px}.admin-test-expectation p{margin:0;color:#9aabc0;font-size:10px;line-height:1.65}
+.admin-reference-details{margin-top:25px;padding-top:15px;border-top:1px solid rgba(255,255,255,.055)}
+.admin-guidance-empty{padding:16px;border:1px dashed rgba(255,255,255,.12);border-radius:9px}.admin-guidance-empty strong{color:#bdcce0;font-size:11px}.admin-guidance-empty p{color:#8090a7;font-size:10px;line-height:1.6}
+@media(max-width:650px){.admin-system-tabs{display:grid;grid-template-columns:1fr 1fr}.admin-system-tabs button{padding:10px 6px}.admin-learning-section{padding:12px}}
 
 /* SIDEBAR SPACE SWITCHER */
 
