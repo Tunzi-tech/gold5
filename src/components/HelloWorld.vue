@@ -5132,12 +5132,20 @@ onBeforeUnmount(() => {
           </button>
         </div>
 
-        <section class="home-connection-hub" aria-label="Connect with people and activities">
+        <section class="home-connection-hub" aria-label="Discover calls, people and opportunities">
           <div class="home-connection-heading">
-            <div>
-              <span class="home-connection-kicker">COMMONS · CONNECTIONS</span>
-              <h1>Find your people.</h1>
-              <p>Local to world — join conversations, discover calls and take part in initiatives.</p>
+            <button type="button" class="home-impact-discovery-link" @click="navigate('awareness')">
+              <span class="home-impact-discovery-icon" aria-hidden="true">✳</span>
+              <span class="home-impact-discovery-copy">
+                <span class="home-connection-kicker">IMPACT &amp; AWARENESS</span>
+                <strong>Find something to impact</strong>
+                <small>Explore what matters to you <span aria-hidden="true">↗</span></small>
+              </span>
+            </button>
+            <div class="home-connection-title">
+              <span class="home-connection-kicker">COMMONS · DISCOVER</span>
+              <h1>Find calls, people &amp; more.</h1>
+              <p>Local to world — discover conversations, open calls, initiatives and people to connect with.</p>
             </div>
             <span class="home-connection-orbit" aria-hidden="true"><i></i><b></b><em></em></span>
           </div>
@@ -18154,9 +18162,18 @@ textarea:focus-visible {
 .home-commons-content{position:relative}
 .home-connection-hub{position:relative;max-width:760px;margin:0 0 12px auto;padding:13px 15px 11px;border:1px solid rgba(111,145,193,.19);border-radius:15px;background:radial-gradient(ellipse at 100% 0%,rgba(79,126,184,.12),transparent 48%),linear-gradient(125deg,rgba(17,27,42,.92),rgba(9,15,25,.96));box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 8px 24px rgba(0,0,0,.09)}
 .home-connection-heading{display:flex;align-items:center;justify-content:space-between;gap:18px}
+.home-connection-title{flex:1;min-width:0}
 .home-connection-heading h1{margin:3px 0 3px;color:#e5edf8;font-size:19px;line-height:1.2;letter-spacing:-.035em;font-weight:750}
 .home-connection-heading p{margin:0;max-width:520px;color:#8190a5;font-size:10px;line-height:1.5}
 .home-connection-kicker{display:block;color:#8da9cf;font-size:8px;font-weight:850;letter-spacing:.15em}
+.home-impact-discovery-link{display:flex;align-items:center;gap:10px;flex:0 0 auto;max-width:245px;min-width:190px;padding:10px 12px;border:1px solid rgba(108,190,156,.28);border-radius:11px;background:linear-gradient(120deg,rgba(42,113,91,.18),rgba(33,71,100,.16));color:#e5f5ee;text-align:left;font:inherit;cursor:pointer;transition:border-color .18s ease,background .18s ease,transform .18s ease}
+.home-impact-discovery-link:hover{border-color:rgba(108,205,170,.58);background:linear-gradient(120deg,rgba(42,113,91,.28),rgba(33,71,100,.23));transform:translateY(-1px)}
+.home-impact-discovery-icon{display:grid;place-items:center;flex:0 0 31px;width:31px;height:31px;border-radius:9px;background:rgba(87,190,147,.13);color:#8fe0b8;font-size:19px}
+.home-impact-discovery-copy{display:flex;flex-direction:column;gap:3px;min-width:0}
+.home-impact-discovery-copy .home-connection-kicker{color:#83c7aa;font-size:7px}
+.home-impact-discovery-copy strong{font-size:11px;line-height:1.3;font-weight:800}
+.home-impact-discovery-copy small{color:#91b8aa;font-size:9px;line-height:1.3}
+.home-impact-discovery-copy small span{color:#b1f0d0}
 .home-connection-orbit{position:relative;flex:0 0 40px;width:40px;height:40px;border:1px solid rgba(115,185,201,.26);border-radius:50%;background:radial-gradient(circle,rgba(115,185,201,.16),rgba(111,117,212,.05) 60%,transparent 70%)}
 .home-connection-orbit:before,.home-connection-orbit:after{content:'';position:absolute;inset:6px;border:1px solid rgba(159,143,255,.36);border-radius:50%;transform:rotate(38deg) scaleX(.58)}
 .home-connection-orbit:after{transform:rotate(-38deg) scaleX(.58);border-color:rgba(115,185,201,.35)}
@@ -18175,7 +18192,7 @@ textarea:focus-visible {
 .home-connection-join,.home-connection-open{padding:6px 9px;border:1px solid rgba(115,185,201,.26);border-radius:7px;background:rgba(115,185,201,.1);color:#bfe9ed;font:inherit;font-size:9px;font-weight:800;cursor:pointer}
 .home-connection-open{border-color:rgba(159,143,255,.24);background:rgba(159,143,255,.08);color:#d5ceff}
 .home-view-switch{margin-bottom:10px}
-@media(max-width:760px){.home-connection-hub{max-width:none;margin:0 0 10px;padding:11px}.home-connection-heading h1{font-size:17px}.home-connection-orbit{flex-basis:32px;width:32px;height:32px}.home-connection-panel{align-items:flex-start;flex-direction:column}.home-connection-panel-actions{width:100%}}
+@media(max-width:760px){.home-connection-hub{max-width:none;margin:0 0 10px;padding:11px}.home-connection-heading{flex-wrap:wrap;gap:12px}.home-impact-discovery-link{flex:1 1 100%;max-width:none}.home-connection-title{flex:1 1 calc(100% - 45px)}.home-connection-heading h1{font-size:17px}.home-connection-orbit{flex-basis:32px;width:32px;height:32px}.home-connection-panel{align-items:flex-start;flex-direction:column}.home-connection-panel-actions{width:100%}}
 @media(prefers-reduced-motion:reduce){.home-connection-link{transition:none}}
 
 
