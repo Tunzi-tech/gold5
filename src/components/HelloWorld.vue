@@ -289,6 +289,431 @@ const liveFlowCommonsItems = [
 function toggleLiveFlowCommonsPanel(id: typeof liveFlowCommonsItems[number]['id']) {
   liveFlowCommonsPanel.value = liveFlowCommonsPanel.value === id ? null : id
 }
+const liveMovingLocationFilter = ref('GLOBAL')
+const liveMovingTypeFilter = ref('ALL')
+const liveMovingLocationFilters = [
+  { id: 'GLOBAL', label: 'GLOBAL' },
+  { id: 'LOCAL', label: 'LOCAL' },
+  { id: 'NORTH TUNISIA', label: 'NORTH TUNISIA' },
+  { id: 'CENTRAL TUNISIA', label: 'CENTRAL TUNISIA' },
+  { id: 'SOUTH TUNISIA', label: 'SOUTH TUNISIA' },
+  { id: 'TUNIS', label: 'TUNIS' },
+  { id: 'LA MARSA', label: 'LA MARSA' },
+  { id: 'TUNIS NORTH', label: 'TUNIS NORTH' }
+]
+const liveMovingTypeFilters = [
+  { id: 'ALL', label: 'All' },
+  { id: 'CLUBS', label: 'Clubs' },
+  { id: 'ASSOCIATIONS', label: 'Associations' },
+  { id: 'COLLECTIVES', label: 'Collectives' },
+  { id: 'INITIATIVES', label: 'Initiatives' },
+  { id: 'COMMUNITIES', label: 'Communities' }
+]
+const liveMovingItems = [
+  {
+    "id": 1,
+    "color": "#55A9FF",
+    "delay": "0s",
+    "icon": "↗",
+    "type": "SPORTS CLUB",
+    "name": "Carthage Runners Club",
+    "activity": "opened its next group run along the coast.",
+    "location": "La Marsa",
+    "detail": "18 runners interested · Example activity",
+    "category": "CLUBS",
+    "region": "north"
+  },
+  {
+    "id": 2,
+    "color": "#55D6A1",
+    "delay": "-0.42s",
+    "icon": "✳",
+    "type": "ASSOCIATION",
+    "name": "Green Tunisia Association",
+    "activity": "is gathering volunteers for a neighborhood clean-up.",
+    "location": "Tunis North",
+    "detail": "12 volunteers sought · Example activity",
+    "category": "ASSOCIATIONS",
+    "region": "north"
+  },
+  {
+    "id": 3,
+    "color": "#B99AFF",
+    "delay": "-0.84s",
+    "icon": "◉",
+    "type": "COLLECTIVE",
+    "name": "La Marsa Youth Collective",
+    "activity": "is planning a youth-led community event.",
+    "location": "La Marsa",
+    "detail": "3 ideas shared · Example activity",
+    "category": "COLLECTIVES",
+    "region": "north"
+  },
+  {
+    "id": 4,
+    "color": "#FFC66D",
+    "delay": "-1.26s",
+    "icon": "✿",
+    "type": "INITIATIVE",
+    "name": "Community Garden Project",
+    "activity": "is looking for people to help prepare a shared garden.",
+    "location": "Tunis North",
+    "detail": "7 people interested · Example activity",
+    "category": "INITIATIVES",
+    "region": "north"
+  },
+  {
+    "id": 5,
+    "color": "#47D6E8",
+    "delay": "-1.68s",
+    "icon": "≈",
+    "type": "SPORTS CLUB",
+    "name": "Blue Coast Divers Club",
+    "activity": "is coordinating a coastal observation and clean-up day.",
+    "location": "Gammarth Coast",
+    "detail": "9 divers connected · Example activity",
+    "category": "CLUBS",
+    "region": "north"
+  },
+  {
+    "id": 6,
+    "color": "#FF82BD",
+    "delay": "-2.1s",
+    "icon": "⌘",
+    "type": "COMMUNITY",
+    "name": "Women in Tech Tunisia",
+    "activity": "opened a peer-learning circle for people entering tech.",
+    "location": "Tunis",
+    "detail": "14 people connected · Example activity",
+    "category": "COMMUNITIES",
+    "region": "north"
+  },
+  {
+    "id": 7,
+    "color": "#A8E063",
+    "delay": "-2.52s",
+    "icon": "⚛",
+    "type": "LEARNING GROUP",
+    "name": "Open Science Circle",
+    "activity": "is hosting a public discussion about science and everyday life.",
+    "location": "Online + Tunis",
+    "detail": "6 questions collected · Example activity",
+    "category": "COMMUNITIES",
+    "region": "north"
+  },
+  {
+    "id": 8,
+    "color": "#FF9275",
+    "delay": "-2.94s",
+    "icon": "⇢",
+    "type": "CIVIC NETWORK",
+    "name": "Safe Streets Network",
+    "activity": "is collecting local ideas for safer walking routes.",
+    "location": "Tunis North",
+    "detail": "11 observations shared · Example activity",
+    "category": "COMMUNITIES",
+    "region": "north"
+  },
+  {
+    "id": 9,
+    "color": "#E5A1FF",
+    "delay": "0s",
+    "icon": "✦",
+    "type": "CREATIVE CLUB",
+    "name": "Medina Makers Club",
+    "activity": "is inviting makers to share repair and reuse skills.",
+    "location": "Tunis Medina",
+    "detail": "5 makers joining · Example activity",
+    "category": "CLUBS",
+    "region": "north"
+  },
+  {
+    "id": 10,
+    "color": "#8ED8FF",
+    "delay": "-0.42s",
+    "icon": "＋",
+    "type": "VOLUNTEER GROUP",
+    "name": "Tunis Student Volunteers",
+    "activity": "started a weekend support drive for a local community space.",
+    "location": "Tunis",
+    "detail": "16 volunteers connected · Example activity",
+    "category": "COMMUNITIES",
+    "region": "north"
+  },
+  {
+    "id": 11,
+    "color": "#B6C96B",
+    "delay": "-0.84s",
+    "icon": "❋",
+    "type": "ASSOCIATION",
+    "name": "Future Farmers Tunisia",
+    "activity": "is sharing practical ideas for water-conscious growing.",
+    "location": "Cap Bon",
+    "detail": "8 growers contributing · Example activity",
+    "category": "ASSOCIATIONS",
+    "region": "north"
+  },
+  {
+    "id": 12,
+    "color": "#FFB454",
+    "delay": "-1.26s",
+    "icon": "◎",
+    "type": "ADVOCACY GROUP",
+    "name": "Accessible City Collective",
+    "activity": "is documenting accessibility barriers around public places.",
+    "location": "Greater Tunis",
+    "detail": "10 reports gathered · Example activity",
+    "category": "COMMUNITIES",
+    "region": "north"
+  },
+  {
+    "id": 13,
+    "color": "#C7A4FF",
+    "delay": "-1.68s",
+    "icon": "♫",
+    "type": "MUSIC COMMUNITY",
+    "name": "Marsa Music Circle",
+    "activity": "shared a community playlist and invited local musicians.",
+    "location": "La Marsa",
+    "detail": "4 new tracks suggested · Example activity",
+    "category": "COMMUNITIES",
+    "region": "north"
+  },
+  {
+    "id": 14,
+    "color": "#65E6C2",
+    "delay": "-2.1s",
+    "icon": "⤴",
+    "type": "CYCLING CLUB",
+    "name": "Tunis Cycling Crew",
+    "activity": "is proposing a beginner-friendly group ride.",
+    "location": "Tunis",
+    "detail": "13 cyclists interested · Example activity",
+    "category": "CLUBS",
+    "region": "north"
+  },
+  {
+    "id": 15,
+    "color": "#F28DAD",
+    "delay": "-2.52s",
+    "icon": "⌂",
+    "type": "NEIGHBORHOOD GROUP",
+    "name": "Neighborhood Care Committee",
+    "activity": "is coordinating help for a shared public space.",
+    "location": "Tunis North",
+    "detail": "6 neighbors responding · Example activity",
+    "category": "COMMUNITIES",
+    "region": "north"
+  },
+  {
+    "id": 16,
+    "color": "#8FA7FF",
+    "delay": "-2.94s",
+    "icon": "⌕",
+    "type": "RESEARCH COMMUNITY",
+    "name": "Young Researchers Hub",
+    "activity": "opened a call for collaborators on local environment questions.",
+    "location": "Tunisia",
+    "detail": "5 collaborators sought · Example activity",
+    "category": "COMMUNITIES",
+    "region": "global"
+  },
+  {
+    "id": 17,
+    "color": "#D6B56D",
+    "delay": "0s",
+    "icon": "⚒",
+    "type": "COMMUNITY WORKSHOP",
+    "name": "Repair & Reuse Workshop",
+    "activity": "is organizing a repair session to extend the life of everyday items.",
+    "location": "Ariana",
+    "detail": "8 items proposed · Example activity",
+    "category": "COMMUNITIES",
+    "region": "central"
+  },
+  {
+    "id": 18,
+    "color": "#E6A3D9",
+    "delay": "-0.42s",
+    "icon": "◇",
+    "type": "CULTURAL ASSOCIATION",
+    "name": "Culture Bridge Association",
+    "activity": "is bringing residents together to exchange stories and traditions.",
+    "location": "Tunis",
+    "detail": "3 community partners · Example activity",
+    "category": "ASSOCIATIONS",
+    "region": "north"
+  },
+  {
+    "id": 19,
+    "color": "#9DDC83",
+    "delay": "-0.84s",
+    "icon": "❧",
+    "type": "NATURE CLUB",
+    "name": "Little Explorers Nature Club",
+    "activity": "is preparing a family-friendly nature discovery walk.",
+    "location": "Sidi Bou Said",
+    "detail": "10 explorers interested · Example activity",
+    "category": "CLUBS",
+    "region": "north"
+  },
+  {
+    "id": 20,
+    "color": "#7BC7FF",
+    "delay": "-1.26s",
+    "icon": "⌘",
+    "type": "TECH COMMUNITY",
+    "name": "Open Source Tunisia",
+    "activity": "is pairing developers to help with community-built tools.",
+    "location": "Online",
+    "detail": "6 contributors connected · Example activity",
+    "category": "COMMUNITIES",
+    "region": "global"
+  },
+  {
+    "id": 21,
+    "color": "#F0C36D",
+    "delay": "-1.68s",
+    "icon": "◌",
+    "type": "CIVIC INITIATIVE",
+    "name": "Public Space Watch",
+    "activity": "is mapping shade, seating and places to pause in the neighborhood.",
+    "location": "Tunis North",
+    "detail": "9 observations · Example activity",
+    "category": "INITIATIVES",
+    "region": "north"
+  },
+  {
+    "id": 22,
+    "color": "#4FD3B0",
+    "delay": "-2.1s",
+    "icon": "⌁",
+    "type": "ENVIRONMENT GROUP",
+    "name": "Coastal Guardians",
+    "activity": "is comparing community observations of the coastline.",
+    "location": "Gulf of Tunis",
+    "detail": "7 contributors · Example activity",
+    "category": "COMMUNITIES",
+    "region": "north"
+  },
+  {
+    "id": 23,
+    "color": "#F59A62",
+    "delay": "-2.52s",
+    "icon": "❖",
+    "type": "FOOD COMMUNITY",
+    "name": "Local Food Exchange",
+    "activity": "is connecting people who want to share seasonal local produce.",
+    "location": "Ariana",
+    "detail": "5 households interested · Example activity",
+    "category": "COMMUNITIES",
+    "region": "central"
+  },
+  {
+    "id": 24,
+    "color": "#AFA0FF",
+    "delay": "-2.94s",
+    "icon": "✧",
+    "type": "YOUTH INITIATIVE",
+    "name": "Makers of Tomorrow",
+    "activity": "is inviting ideas for a hands-on learning meetup.",
+    "location": "Tunis",
+    "detail": "12 young makers connected · Example activity",
+    "category": "INITIATIVES",
+    "region": "north"
+  },
+  {
+    "id": 25,
+    "color": "#7ED6C1",
+    "delay": "-0.4s",
+    "icon": "✦",
+    "type": "COMMUNITY",
+    "name": "Sousse Shared Spaces",
+    "activity": "is inviting residents to map welcoming public places and places that need care.",
+    "location": "Sousse",
+    "detail": "9 local observations · Example activity",
+    "category": "COMMUNITIES",
+    "region": "central"
+  },
+  {
+    "id": 26,
+    "color": "#F2A6D7",
+    "delay": "-0.8s",
+    "icon": "✿",
+    "type": "CULTURAL ASSOCIATION",
+    "name": "Kairouan Culture Circle",
+    "activity": "is gathering stories and ideas for a community heritage day.",
+    "location": "Kairouan",
+    "detail": "6 contributors connected · Example activity",
+    "category": "ASSOCIATIONS",
+    "region": "central"
+  },
+  {
+    "id": 27,
+    "color": "#88C7FF",
+    "delay": "-1.2s",
+    "icon": "⤴",
+    "type": "CYCLING CLUB",
+    "name": "Sfax Active Routes Club",
+    "activity": "is collecting ideas for safer everyday cycling routes.",
+    "location": "Sfax",
+    "detail": "13 riders interested · Example activity",
+    "category": "CLUBS",
+    "region": "south"
+  },
+  {
+    "id": 28,
+    "color": "#A6E58A",
+    "delay": "-1.6s",
+    "icon": "❋",
+    "type": "ENVIRONMENT INITIATIVE",
+    "name": "Gabès Green Coast Initiative",
+    "activity": "is inviting people to share local coastal observations and restoration ideas.",
+    "location": "Gabès",
+    "detail": "8 observations shared · Example activity",
+    "category": "INITIATIVES",
+    "region": "south"
+  },
+  {
+    "id": 29,
+    "color": "#D2A8FF",
+    "delay": "-2s",
+    "icon": "◉",
+    "type": "COMMUNITY",
+    "name": "Gafsa Learning Community",
+    "activity": "is organizing a peer-learning meetup to exchange practical skills.",
+    "location": "Gafsa",
+    "detail": "11 people connected · Example activity",
+    "category": "COMMUNITIES",
+    "region": "south"
+  },
+  {
+    "id": 30,
+    "color": "#FFB878",
+    "delay": "-2.4s",
+    "icon": "≈",
+    "type": "COASTAL COLLECTIVE",
+    "name": "Djerba Sea Watch Collective",
+    "activity": "is bringing together community observations about the island’s coastline.",
+    "location": "Djerba",
+    "detail": "7 contributors · Example activity",
+    "category": "COLLECTIVES",
+    "region": "south"
+  }
+]
+const filteredLiveMovingItems = computed(() => liveMovingItems.filter(item => {
+  const typeMatches = liveMovingTypeFilter.value === 'ALL' || item.category === liveMovingTypeFilter.value
+  const locationFilter = liveMovingLocationFilter.value
+  let locationMatches = true
+  if (locationFilter === 'LOCAL') locationMatches = item.region !== 'global' && item.location !== 'Online'
+  else if (locationFilter === 'NORTH TUNISIA') locationMatches = item.region === 'north'
+  else if (locationFilter === 'CENTRAL TUNISIA') locationMatches = item.region === 'central'
+  else if (locationFilter === 'SOUTH TUNISIA') locationMatches = item.region === 'south'
+  else if (locationFilter === 'TUNIS') locationMatches = /Tunis|Ariana/i.test(item.location)
+  else if (locationFilter === 'LA MARSA') locationMatches = /La Marsa/i.test(item.location)
+  else if (locationFilter === 'TUNIS NORTH') locationMatches = /Tunis North/i.test(item.location)
+  return typeMatches && locationMatches
+}))
 const showPeopleDoingList = ref(false)
 const ideaFlowDraft = ref('')
 const ideaFlowThoughtDrafts = ref<Record<number, string>>({})
@@ -5111,21 +5536,21 @@ onBeforeUnmount(() => {
           </div>
         </section>
 
-        <div class="live-network-filters">
-          <button type="button" class="live-network-filter active">GLOBAL</button>
-          <button type="button" class="live-network-filter">LOCAL</button>
-          <span class="live-network-filter-separator"></span>
-          <button type="button" class="live-network-filter">NORTH TUNISIA</button>
-          <button type="button" class="live-network-filter">CENTRAL TUNISIA</button>
-          <button type="button" class="live-network-filter">SOUTH TUNISIA</button>
-          <button type="button" class="live-network-filter">TUNIS</button>
-          <button type="button" class="live-network-filter">LA MARSA</button>
-          <button type="button" class="live-network-filter">TUNIS NORTH</button>
-        </div>
-
         <div class="live-network-layout">
           <div class="live-network-feed">
             <section class="live-moving-showcase" aria-label="Examples of community activity moving through Live Flow">
+              <div class="live-network-filters live-moving-location-filters" aria-label="Filter What's Moving by location">
+                <button v-for="filter in liveMovingLocationFilters" :key="filter.id" type="button"
+                  class="live-network-filter" :class="{ active: liveMovingLocationFilter === filter.id }"
+                  :aria-pressed="liveMovingLocationFilter === filter.id" @click="liveMovingLocationFilter = filter.id">{{ filter.label }}</button>
+              </div>
+              <div class="live-moving-type-filters" aria-label="Filter What's Moving by community type">
+                <span class="live-moving-filter-label">SHOW</span>
+                <button v-for="filter in liveMovingTypeFilters" :key="filter.id" type="button"
+                  class="live-moving-type-filter" :class="{ active: liveMovingTypeFilter === filter.id }"
+                  :aria-pressed="liveMovingTypeFilter === filter.id" @click="liveMovingTypeFilter = filter.id">{{ filter.label }}</button>
+                <span class="live-moving-result-count">{{ filteredLiveMovingItems.length }} shown</span>
+              </div>
               <div class="live-moving-showcase-head">
                 <div>
                   <span class="eyebrow">WHAT'S MOVING · COMMUNITY FLOW</span>
@@ -5143,199 +5568,20 @@ onBeforeUnmount(() => {
               </div>
               <p class="live-moving-sample-note">Illustrative examples · sample activity, not live reports from verified groups.</p>
             </section>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#55A9FF;--entity-delay:0s">
-              <div class="live-network-event-icon">↗</div>
+            <article v-for="item in filteredLiveMovingItems" :key="item.id" class="live-network-event live-network-identity-event"
+              :style="{ '--entity-color': item.color, '--entity-delay': item.delay }">
+              <div class="live-network-event-icon">{{ item.icon }}</div>
               <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">SPORTS CLUB</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Carthage Runners Club</strong> opened its next group run along the coast.</p>
-                <small>La Marsa · 18 runners interested · Example activity</small>
+                <div class="live-network-identity-heading"><span class="live-network-event-type">{{ item.type }}</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">{{ item.name }}</strong> {{ item.activity }}</p>
+                <small>{{ item.location }} · {{ item.detail }}</small>
               </div>
             </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#55D6A1;--entity-delay:-0.42s">
-              <div class="live-network-event-icon">✳</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">ASSOCIATION</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Green Tunisia Association</strong> is gathering volunteers for a neighborhood clean-up.</p>
-                <small>Tunis North · 12 volunteers sought · Example activity</small>
-              </div>
-            </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#B99AFF;--entity-delay:-0.84s">
-              <div class="live-network-event-icon">◉</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">COLLECTIVE</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">La Marsa Youth Collective</strong> is planning a youth-led community event.</p>
-                <small>La Marsa · 3 ideas shared · Example activity</small>
-              </div>
-            </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#FFC66D;--entity-delay:-1.26s">
-              <div class="live-network-event-icon">✿</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">INITIATIVE</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Community Garden Project</strong> is looking for people to help prepare a shared garden.</p>
-                <small>Tunis North · 7 people interested · Example activity</small>
-              </div>
-            </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#47D6E8;--entity-delay:-1.68s">
-              <div class="live-network-event-icon">≈</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">SPORTS CLUB</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Blue Coast Divers Club</strong> is coordinating a coastal observation and clean-up day.</p>
-                <small>Gammarth Coast · 9 divers connected · Example activity</small>
-              </div>
-            </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#FF82BD;--entity-delay:-2.1s">
-              <div class="live-network-event-icon">⌘</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">COMMUNITY</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Women in Tech Tunisia</strong> opened a peer-learning circle for people entering tech.</p>
-                <small>Tunis · 14 people connected · Example activity</small>
-              </div>
-            </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#A8E063;--entity-delay:-2.52s">
-              <div class="live-network-event-icon">⚛</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">LEARNING GROUP</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Open Science Circle</strong> is hosting a public discussion about science and everyday life.</p>
-                <small>Online + Tunis · 6 questions collected · Example activity</small>
-              </div>
-            </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#FF9275;--entity-delay:-2.94s">
-              <div class="live-network-event-icon">⇢</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">CIVIC NETWORK</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Safe Streets Network</strong> is collecting local ideas for safer walking routes.</p>
-                <small>Tunis North · 11 observations shared · Example activity</small>
-              </div>
-            </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#E5A1FF;--entity-delay:0s">
-              <div class="live-network-event-icon">✦</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">CREATIVE CLUB</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Medina Makers Club</strong> is inviting makers to share repair and reuse skills.</p>
-                <small>Tunis Medina · 5 makers joining · Example activity</small>
-              </div>
-            </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#8ED8FF;--entity-delay:-0.42s">
-              <div class="live-network-event-icon">＋</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">VOLUNTEER GROUP</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Tunis Student Volunteers</strong> started a weekend support drive for a local community space.</p>
-                <small>Tunis · 16 volunteers connected · Example activity</small>
-              </div>
-            </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#B6C96B;--entity-delay:-0.84s">
-              <div class="live-network-event-icon">❋</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">ASSOCIATION</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Future Farmers Tunisia</strong> is sharing practical ideas for water-conscious growing.</p>
-                <small>Cap Bon · 8 growers contributing · Example activity</small>
-              </div>
-            </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#FFB454;--entity-delay:-1.26s">
-              <div class="live-network-event-icon">◎</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">ADVOCACY GROUP</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Accessible City Collective</strong> is documenting accessibility barriers around public places.</p>
-                <small>Greater Tunis · 10 reports gathered · Example activity</small>
-              </div>
-            </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#C7A4FF;--entity-delay:-1.68s">
-              <div class="live-network-event-icon">♫</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">MUSIC COMMUNITY</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Marsa Music Circle</strong> shared a community playlist and invited local musicians.</p>
-                <small>La Marsa · 4 new tracks suggested · Example activity</small>
-              </div>
-            </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#65E6C2;--entity-delay:-2.1s">
-              <div class="live-network-event-icon">⤴</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">CYCLING CLUB</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Tunis Cycling Crew</strong> is proposing a beginner-friendly group ride.</p>
-                <small>Tunis · 13 cyclists interested · Example activity</small>
-              </div>
-            </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#F28DAD;--entity-delay:-2.52s">
-              <div class="live-network-event-icon">⌂</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">NEIGHBORHOOD GROUP</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Neighborhood Care Committee</strong> is coordinating help for a shared public space.</p>
-                <small>Tunis North · 6 neighbors responding · Example activity</small>
-              </div>
-            </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#8FA7FF;--entity-delay:-2.94s">
-              <div class="live-network-event-icon">⌕</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">RESEARCH COMMUNITY</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Young Researchers Hub</strong> opened a call for collaborators on local environment questions.</p>
-                <small>Tunisia · 5 collaborators sought · Example activity</small>
-              </div>
-            </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#D6B56D;--entity-delay:0s">
-              <div class="live-network-event-icon">⚒</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">COMMUNITY WORKSHOP</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Repair &amp; Reuse Workshop</strong> is organizing a repair session to extend the life of everyday items.</p>
-                <small>Ariana · 8 items proposed · Example activity</small>
-              </div>
-            </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#E6A3D9;--entity-delay:-0.42s">
-              <div class="live-network-event-icon">◇</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">CULTURAL ASSOCIATION</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Culture Bridge Association</strong> is bringing residents together to exchange stories and traditions.</p>
-                <small>Tunis · 3 community partners · Example activity</small>
-              </div>
-            </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#9DDC83;--entity-delay:-0.84s">
-              <div class="live-network-event-icon">❧</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">NATURE CLUB</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Little Explorers Nature Club</strong> is preparing a family-friendly nature discovery walk.</p>
-                <small>Sidi Bou Said · 10 explorers interested · Example activity</small>
-              </div>
-            </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#7BC7FF;--entity-delay:-1.26s">
-              <div class="live-network-event-icon">⌘</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">TECH COMMUNITY</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Open Source Tunisia</strong> is pairing developers to help with community-built tools.</p>
-                <small>Online · 6 contributors connected · Example activity</small>
-              </div>
-            </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#F0C36D;--entity-delay:-1.68s">
-              <div class="live-network-event-icon">◌</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">CIVIC INITIATIVE</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Public Space Watch</strong> is mapping shade, seating and places to pause in the neighborhood.</p>
-                <small>Tunis North · 9 observations · Example activity</small>
-              </div>
-            </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#4FD3B0;--entity-delay:-2.1s">
-              <div class="live-network-event-icon">⌁</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">ENVIRONMENT GROUP</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Coastal Guardians</strong> is comparing community observations of the coastline.</p>
-                <small>Gulf of Tunis · 7 contributors · Example activity</small>
-              </div>
-            </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#F59A62;--entity-delay:-2.52s">
-              <div class="live-network-event-icon">❖</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">FOOD COMMUNITY</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Local Food Exchange</strong> is connecting people who want to share seasonal local produce.</p>
-                <small>Ariana · 5 households interested · Example activity</small>
-              </div>
-            </article>
-            <article class="live-network-event live-network-identity-event" style="--entity-color:#AFA0FF;--entity-delay:-2.94s">
-              <div class="live-network-event-icon">✧</div>
-              <div class="live-network-event-body">
-                <div class="live-network-identity-heading"><span class="live-network-event-type">YOUTH INITIATIVE</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
-                <p><strong class="live-network-entity-name">Makers of Tomorrow</strong> is inviting ideas for a hands-on learning meetup.</p>
-                <small>Tunis · 12 young makers connected · Example activity</small>
-              </div>
-            </article>
-            
+            <div v-if="filteredLiveMovingItems.length === 0" class="live-moving-empty-state">
+              <strong>No matching activity in this view yet.</strong>
+              <span>Try All or choose another location to explore more of the flow.</span>
+            </div>
+          </section>
             <article class="live-network-event">
               <div class="live-network-event-icon">◉</div>
               <div class="live-network-event-body">
@@ -16502,6 +16748,15 @@ textarea:focus-visible {
 .live-moving-legend span{display:inline-flex;align-items:center;gap:5px;padding:5px 7px;border:1px solid rgba(255,255,255,.06);border-radius:20px;background:rgba(255,255,255,.025);color:#b7c5d8;font-size:8px}
 .live-moving-legend i{width:6px;height:6px;border-radius:50%;background:var(--legend-color);box-shadow:0 0 9px color-mix(in srgb,var(--legend-color) 35%,transparent)}
 .live-moving-sample-note{margin:11px 0 0;color:#71839a;font-size:8px;position:relative;z-index:1}
+.live-moving-location-filters{position:relative;z-index:1;margin:13px 0 0}
+.live-moving-type-filters{position:relative;z-index:1;display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:9px 0 12px}
+.live-moving-filter-label{margin-right:2px;color:#6f839d;font-size:7px;font-weight:800;letter-spacing:.12em}
+.live-moving-type-filter{padding:6px 9px;border:1px solid rgba(255,255,255,.08);border-radius:20px;background:rgba(255,255,255,.025);color:#a6b6ca;font-size:8px;font-weight:700;cursor:pointer;transition:background .18s,border-color .18s,color .18s}
+.live-moving-type-filter:hover,.live-moving-type-filter.active{border-color:rgba(105,174,231,.42);background:rgba(61,131,190,.18);color:#e5f2ff}
+.live-moving-result-count{margin-left:auto;color:#71839a;font-size:8px}
+.live-moving-empty-state{display:flex;flex-direction:column;gap:5px;padding:18px;border:1px dashed rgba(135,165,205,.22);border-radius:12px;color:#aabbd0;font-size:11px}
+.live-moving-empty-state span{color:#71839a;font-size:9px}
+
 .live-network-identity-event{position:relative;overflow:hidden;border-color:color-mix(in srgb,var(--entity-color) 25%,rgba(255,255,255,.05));background:linear-gradient(100deg,color-mix(in srgb,var(--entity-color) 7%,rgba(255,255,255,.018)),rgba(255,255,255,.018) 62%);animation:liveEntityDrift 8s ease-in-out var(--entity-delay,0s) infinite}
 .live-network-identity-event:before{content:"";position:absolute;left:0;top:13px;bottom:13px;width:2px;border-radius:0 3px 3px 0;background:var(--entity-color);opacity:.9;box-shadow:0 0 12px color-mix(in srgb,var(--entity-color) 35%,transparent)}
 .live-network-identity-event .live-network-event-icon{background:color-mix(in srgb,var(--entity-color) 15%,rgba(12,20,33,.9));color:var(--entity-color);border:1px solid color-mix(in srgb,var(--entity-color) 30%,transparent);box-shadow:inset 0 0 14px color-mix(in srgb,var(--entity-color) 7%,transparent)}
