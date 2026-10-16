@@ -4383,9 +4383,18 @@ onBeforeUnmount(() => {
               >
                 <div class="orbit-ring ring-one"></div>
                 <div class="orbit-ring ring-two"></div>
-                <div class="orbit-core">
-                  <span v-if="activeHero === 0">AC</span>
-                  <span v-else>ZONE</span>
+                <button
+                  v-if="activeHero === 0"
+                  type="button"
+                  class="orbit-core orbit-core-action"
+                  aria-label="Open Idea Flow"
+                  title="Explore ideas in Live Flow"
+                  @click="openIdeaFlowSpace"
+                >
+                  <span>AC</span>
+                </button>
+                <div v-else class="orbit-core">
+                  <span>ZONE</span>
                 </div>
                 <div class="orbit-node node-a"></div>
                 <div class="orbit-node node-b"></div>
@@ -16678,6 +16687,29 @@ textarea:focus-visible {
   .hero-orbit{width:102px;height:102px;right:5px;bottom:3px}
   .orbit-core{width:43px;height:43px;font-size:7px}
   .hero-progress{left:18px;bottom:12px}
+}
+
+
+/* The idea mark in the first home hero is an accessible entry into Idea Flow. */
+.orbit-core-action {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+.orbit-core-action:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 24px rgba(90, 174, 255, .28), inset 0 0 18px rgba(112, 130, 255, .16);
+}
+.orbit-core-action:focus-visible {
+  outline: 2px solid rgba(130, 199, 255, .95);
+  outline-offset: 5px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .orbit-core-action { transition: none; }
 }
 
 </style>
