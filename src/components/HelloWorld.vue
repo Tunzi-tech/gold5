@@ -16938,10 +16938,6 @@ textarea:focus-visible {
   .platform-circle-node { transition: none; }
 }
 
-</style>
-
-
-
 /* Home and Live Flow share one visual navigation language; the dimension seam remains distinct. */
 .main-nav .primary-space-nav-button,
 .main-nav .primary-space-nav-button .icon {
@@ -17099,3 +17095,5 @@ textarea:focus-visible {
     font-size: 10px;
   }
 }
+
+</style>
