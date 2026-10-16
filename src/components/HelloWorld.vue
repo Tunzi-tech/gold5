@@ -4878,12 +4878,12 @@ onBeforeUnmount(() => {
 
       <section v-if="activeView === 'live-flow'" class="content live-engagement-content">
         <div v-if="liveFlowSpace === 'overview' || liveFlowSpace === 'feed'" class="live-network-content">
-        <section class="live-flow-commons-hub" aria-label="Live Flow Commons">
+        <section id="live-flow-commons" class="live-flow-commons-hub" aria-label="Live Flow Commons">
           <div class="live-flow-commons-heading">
             <div>
               <span class="home-connection-kicker">LIVE FLOW · COMMONS</span>
               <h2>Follow what’s moving.</h2>
-              <p>People, ideas and places in motion — find a connection and take your next step.</p>
+              <p>See how people, ideas and places in motion connect — then follow the relationships behind the activity.</p>
             </div>
             <span class="live-flow-commons-orbit" aria-hidden="true"><i></i><b></b><em></em></span>
           </div>
@@ -4906,6 +4906,9 @@ onBeforeUnmount(() => {
               </button>
             </template>
           </div>
+          <a class="live-flow-commons-bridge" href="#live-flow-connections">
+            <span aria-hidden="true">⌁</span> See what is connecting <span aria-hidden="true">↓</span>
+          </a>
         </section>
 
         <div class="page-title live-network-title">
@@ -4917,9 +4920,9 @@ onBeforeUnmount(() => {
           </p>
         </div>
 
-        <section class="live-flow-personal-connections" aria-label="Detected connections between platform activities">
+        <section id="live-flow-connections" class="live-flow-personal-connections" aria-label="Detected connections between platform activities">
           <div class="live-flow-personal-heading">
-            <div><span class="eyebrow">CONNECTIONS CROSSING YOUR PATH</span><h2>See what is connecting.</h2><p>Relationships detected between existing ideas, conversations and concerns—not a directory of places or networks.</p></div>
+            <div><span class="eyebrow">FROM ACTIVITY TO RELATIONSHIPS</span><h2>See what is connecting.</h2><p>Follow the links between the people, ideas, conversations and concerns you just explored above.</p><a class="live-flow-connection-back" href="#live-flow-commons">↑ Back to what’s moving</a></div>
             <span class="live-flow-connection-count">{{ liveFlowDetectedConnections.length }} detected</span>
           </div>
           <div v-if="liveFlowDetectedConnections.length" class="live-flow-connection-grid">
@@ -17407,4 +17410,12 @@ textarea:focus-visible {
 @keyframes live-flow-orbit-breathe{0%,100%{transform:rotate(0deg);opacity:.82}50%{transform:rotate(12deg);opacity:1}}
 @media(max-width:760px){.live-flow-commons-hub{padding:12px}.live-flow-commons-heading h2{font-size:18px}.live-flow-commons-orbit{flex-basis:34px;width:34px;height:34px}.live-flow-commons-panel{align-items:flex-start;flex-direction:column}.live-flow-commons-panel .home-connection-open{align-self:flex-start}}
 @media(prefers-reduced-motion:reduce){.live-flow-commons-orbit{animation:none}.live-flow-commons-link{transition:none}}
+
+/* A visible bridge connects the Live Flow activity hub to its relationship-detection section. */
+.live-flow-commons-bridge{display:inline-flex;align-items:center;gap:7px;margin-top:12px;padding:6px 9px;border:1px solid rgba(120,174,245,.22);border-radius:7px;background:rgba(120,174,245,.07);color:#a9c9f7;text-decoration:none;font-size:10px;font-weight:800;transition:background .18s ease,border-color .18s ease}
+.live-flow-commons-bridge:hover{background:rgba(120,174,245,.13);border-color:rgba(120,174,245,.42)}
+.live-flow-connection-back{display:inline-flex;margin-top:6px;color:#8eb6ec;text-decoration:none;font-size:10px;font-weight:750}
+.live-flow-connection-back:hover{color:#d2e4ff;text-decoration:underline}
+#live-flow-connections{scroll-margin-top:24px}
+@media(prefers-reduced-motion:reduce){.live-flow-commons-bridge{transition:none}}
 </style>
