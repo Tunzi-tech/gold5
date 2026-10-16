@@ -4656,6 +4656,7 @@ onBeforeUnmount(() => {
           </article>
         </div>
         <p class="idea-flow-local-note">This is a first, local prototype: ideas and added thoughts stay in this page session and are not yet shared with other users or saved to an account.</p>
+        </div>
       </section>
 
       <!-- =================================================
