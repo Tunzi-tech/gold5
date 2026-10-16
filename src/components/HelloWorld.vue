@@ -3844,36 +3844,38 @@ onBeforeUnmount(() => {
         </button>
         <div class="live-flow-section-line"></div>
 
-<div class="learn-discover-nav-block">
-          <div class="learn-discover-label">LEARN &amp; DISCOVER</div>
+<div class="sidebar-orbit-actions" aria-label="Explore and impact">
           <button
-            class="awareness-nav-button learn-discover-button"
+            class="sidebar-orbit-button sidebar-orbit-learn"
             :class="{ active: activeView === 'learn' }"
             type="button"
             @click="navigate('learn')"
+            :title="t('learnDiscover')"
           >
-            <span class="icon">✦</span>
+            <span class="sidebar-orbit-icon" aria-hidden="true">✦</span>
             <span>{{ t('learnDiscover') }}</span>
           </button>
+          <button
+            class="sidebar-orbit-button sidebar-orbit-awareness"
+            :class="{ active: activeView === 'awareness' }"
+            type="button"
+            @click="navigate('awareness')"
+            :title="t('impactAwareness')"
+          >
+            <span class="sidebar-orbit-icon" aria-hidden="true">◌</span>
+            <span>{{ t('impactAwareness') }}</span>
+          </button>
+          <button
+            class="sidebar-orbit-button sidebar-orbit-impact"
+            :class="{ active: ['zones', 'around-zones', 'my-zones'].includes(activeView) }"
+            type="button"
+            @click="navigate('zones')"
+            title="Impacting"
+          >
+            <span class="sidebar-orbit-icon" aria-hidden="true">◉</span>
+            <span>Impacting</span>
+          </button>
         </div>
-
-        <div class="learn-discover-section-line"></div>
-
-        <button
-          class="awareness-nav-button"
-          :class="{ active: activeView === 'awareness' }"
-          type="button"
-          @click="navigate('awareness')"
-        >
-          <span class="icon">◌</span>
-          <span>{{ t('impactAwareness') }}</span>
-        </button>
-
-        <div class="awareness-section-line"></div>
-
-        <div class="sidebar-section-label">{{ t('impact') }}</div>
-
-<div class="impact-section-line"></div>
 
         <div class="sidebar-subnav zones-subnav">
           <div class="sidebar-zones-header">
@@ -16361,10 +16363,20 @@ textarea:focus-visible {
 .awareness-nav-button.active{color:#f4f7fc;background:linear-gradient(90deg,rgba(72,103,163,.2),rgba(72,103,163,.05))}
 .awareness-nav-button.active .icon{color:#70a8ff}
 .awareness-section-line{height:1px;margin:4px 13px 7px;background:rgba(255,255,255,.08)}
-.learn-discover-nav-block{margin-top:2px}
-.learn-discover-label{padding:7px 13px 3px;color:#e1b84d;font-size:7px;font-weight:900;letter-spacing:.12em}
-.learn-discover-button{margin:0!important}
-.learn-discover-section-line{height:1px;margin:4px 13px 7px;background:rgba(255,255,255,.08)}
+/* Compact circular navigation for learning, awareness and impact */
+.sidebar-orbit-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin:7px 7px 10px;padding:8px 5px;border:1px solid rgba(255,255,255,.055);border-radius:14px;background:linear-gradient(145deg,rgba(24,34,49,.52),rgba(9,14,22,.36))}
+.sidebar-orbit-button{display:flex;min-width:0;flex-direction:column;align-items:center;justify-content:flex-start;gap:6px;padding:5px 1px 7px;border:1px solid transparent;border-radius:11px;background:transparent;color:#8493a8;font-size:7px;font-weight:700;line-height:1.3;text-align:center;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease}
+.sidebar-orbit-button>span:last-child{max-width:100%;overflow-wrap:anywhere}
+.sidebar-orbit-icon{display:grid;place-items:center;width:35px;height:35px;flex:0 0 35px;border:1px solid rgba(142,166,197,.23);border-radius:50%;background:radial-gradient(circle at 35% 25%,rgba(255,255,255,.09),rgba(255,255,255,.015) 68%);font-size:17px;box-shadow:inset 0 0 12px rgba(255,255,255,.025)}
+.sidebar-orbit-button:hover{background:rgba(255,255,255,.035);color:#e5edf8}
+.sidebar-orbit-button.active{background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.07);color:#e9f0fb}
+.sidebar-orbit-learn .sidebar-orbit-icon{color:#c4b5fd;border-color:rgba(157,135,239,.43);background:radial-gradient(circle at 35% 25%,rgba(157,135,239,.2),rgba(76,59,122,.08) 72%)}
+.sidebar-orbit-awareness .sidebar-orbit-icon{color:#9bc9f5;border-color:rgba(105,166,224,.43);background:radial-gradient(circle at 35% 25%,rgba(105,166,224,.2),rgba(35,72,112,.08) 72%)}
+.sidebar-orbit-impact .sidebar-orbit-icon{color:#8ee0bf;border-color:rgba(99,185,155,.43);background:radial-gradient(circle at 35% 25%,rgba(99,185,155,.2),rgba(25,83,66,.08) 72%)}
+.sidebar-orbit-learn.active{border-color:rgba(157,135,239,.22);color:#d4c8ff}
+.sidebar-orbit-awareness.active{border-color:rgba(105,166,224,.22);color:#b9dcff}
+.sidebar-orbit-impact.active{border-color:rgba(99,185,155,.22);color:#b7f1d9}
+.rtl-mode .sidebar-orbit-button{text-align:center}
 
 .learn-discover-content{max-width:1120px}
 .learn-discover-title{margin-bottom:16px}
