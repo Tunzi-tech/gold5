@@ -15838,6 +15838,45 @@ textarea:focus-visible {
 .zone-space-button.active .zone-orbit-ring-one{display:none}
 .zone-space-button-around .zone-orbit-node-one{background:#6fa8ff;box-shadow:0 0 7px rgba(111,168,255,.5);animation-duration:3.64s}\n.zone-space-button-mine .zone-orbit-node-one{background:#6fa8ff;box-shadow:0 0 7px rgba(111,168,255,.5)}
 .zone-space-button-around .zone-orbit-node-two{display:none}
+
+/* Zones Around — richer, restrained purple space background */
+.zone-space-button-around{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  border-color:rgba(181,108,255,.13);
+  background:
+    radial-gradient(ellipse at 8% 50%,rgba(181,108,255,.16),transparent 54%),
+    linear-gradient(105deg,rgba(91,57,139,.15),rgba(26,31,54,.2) 58%,rgba(15,22,38,.12));
+}
+.zone-space-button-around::before{
+  content:'';
+  position:absolute;
+  inset:1px;
+  z-index:-1;
+  border-radius:6px;
+  background:linear-gradient(115deg,rgba(181,108,255,.035),transparent 48%,rgba(103,164,255,.035));
+  pointer-events:none;
+}
+.zone-space-button-around:hover{
+  border-color:rgba(181,108,255,.3);
+  background:
+    radial-gradient(ellipse at 8% 50%,rgba(181,108,255,.22),transparent 58%),
+    linear-gradient(105deg,rgba(91,57,139,.22),rgba(26,31,54,.27) 58%,rgba(15,22,38,.18));
+  color:#e4d1ff;
+}
+.zone-space-button-around.active{
+  border-color:rgba(181,108,255,.34);
+  background:
+    radial-gradient(ellipse at 10% 50%,rgba(181,108,255,.25),transparent 60%),
+    linear-gradient(105deg,rgba(92,54,143,.27),rgba(37,35,66,.34) 62%,rgba(17,24,42,.24));
+  color:#f0e4ff;
+  box-shadow:inset 2px 0 0 rgba(181,108,255,.8),0 0 14px rgba(133,79,196,.06);
+}
+.zone-space-button-around .zone-orbit-core{background:#c49aff;box-shadow:0 0 6px rgba(181,108,255,.35)}
+.zone-space-button-around .zone-orbit-ring-one{border-color:rgba(181,108,255,.32)}
+.zone-space-button-around.active .zone-orbit-ring-one{border-color:rgba(207,164,255,.85);box-shadow:0 0 8px rgba(181,108,255,.2)}
+
 .zone-space-button-around::after{content:'';position:absolute;width:3px;height:3px;left:19px;top:8px;border-radius:50%;background:#9b7bea;box-shadow:0 0 7px rgba(155,123,234,.5);animation:zone-orbit-node-three 4s linear infinite;transform-origin:-5px 2px}
 .zone-space-button.active .zone-orbit-node-one{animation:zone-orbit-node 2.8s linear infinite;transform-origin:6px 6px}
 .zone-space-button-mine.active .zone-orbit-ring-one{animation-duration:5s;transform:rotate(-18deg)}
