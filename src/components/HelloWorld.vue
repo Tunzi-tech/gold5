@@ -16653,5 +16653,32 @@ textarea:focus-visible {
 .awareness-content .awareness-shared-item .awareness-link,.awareness-content .awareness-empty-state .awareness-link{color:#315f96!important}
 .awareness-content .awareness-shared-item .awareness-link:hover{color:#173f72!important}
 @media(max-width:760px){.awareness-category-heading{align-items:flex-start}}
+
+/* Compact the home hero header to roughly 70% of its previous vertical footprint. */
+.hero-stage{min-height:196px}
+.hero{min-height:173px;gap:29px;padding:25px 27px;border-radius:15px}
+.hero-label{margin-bottom:15px}
+.hero h1{font-size:clamp(26px,3vw,43px)}
+.hero p{margin-top:15px;font-size:10px;line-height:1.65}
+.hero-orbit{width:196px;height:196px}
+.orbit-core{width:78px;height:78px}
+.ring-one,.ring-two{inset:14px}
+.hero-progress{bottom:12px}
+@media(max-width:900px){
+  .hero{grid-template-columns:minmax(0,1fr) 145px;gap:14px;padding:22px}
+  .hero h1{font-size:clamp(25px,4.9vw,41px)}
+  .hero-orbit{width:140px;height:140px}
+  .orbit-core{width:58px;height:58px}
+}
+@media(max-width:650px){
+  .hero-stage{min-height:301px}
+  .hero{grid-template-columns:1fr;min-height:273px;padding:21px 18px 39px}
+  .hero h1{font-size:clamp(27px,8vw,38px)}
+  .hero p{font-size:10px}
+  .hero-orbit{width:102px;height:102px;right:5px;bottom:3px}
+  .orbit-core{width:43px;height:43px;font-size:7px}
+  .hero-progress{left:18px;bottom:12px}
+}
+
 </style>
 
