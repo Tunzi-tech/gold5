@@ -163,6 +163,62 @@ function joinHomeChannel(id: string) {
 }
 
 const liveFlowSpace = ref<'overview' | 'ideas'>('overview')
+const liveSongUrl = ref('')
+const liveSongVideoId = ref('')
+const liveSongUpdatedAt = ref('')
+const liveSongError = ref('')
+
+function getYouTubeVideoId(value: string): string {
+  try {
+    const url = new URL(value.trim())
+    const host = url.hostname.toLowerCase().replace(/^www\./, '')
+    if (host === 'youtu.be') return url.pathname.split('/').filter(Boolean)[0] || ''
+    if (host === 'youtube.com' || host === 'm.youtube.com' || host === 'music.youtube.com') {
+      if (url.pathname === '/watch') return url.searchParams.get('v') || ''
+      const parts = url.pathname.split('/').filter(Boolean)
+      if (['embed', 'shorts', 'live'].includes(parts[0] || '')) return parts[1] || ''
+    }
+  } catch {
+    return ''
+  }
+  return ''
+}
+
+function loadLiveSong(value: string) {
+  try {
+    const saved = JSON.parse(value) as { url?: string; videoId?: string; updatedAt?: string }
+    if (!saved.url || !saved.videoId) return
+    liveSongUrl.value = saved.url
+    liveSongVideoId.value = saved.videoId
+    liveSongUpdatedAt.value = saved.updatedAt || ''
+    liveSongError.value = ''
+  } catch {
+    // Ignore invalid saved data and keep the player paused and empty.
+  }
+}
+
+function updateLiveSong() {
+  const url = liveSongUrl.value.trim()
+  const videoId = getYouTubeVideoId(url)
+  if (!videoId || !/^[a-zA-Z0-9_-]{11}$/.test(videoId)) {
+    liveSongError.value = 'Enter a valid YouTube video link.'
+    return
+  }
+  const updatedAt = new Date().toISOString()
+  const song = { url, videoId, updatedAt }
+  liveSongVideoId.value = videoId
+  liveSongUpdatedAt.value = updatedAt
+  liveSongError.value = ''
+  try {
+    localStorage.setItem('commons-live-flow-song', JSON.stringify(song))
+  } catch {
+    // Keep the player usable for this session if browser storage is unavailable.
+  }
+}
+
+function handleLiveSongStorage(event: StorageEvent) {
+  if (event.key === 'commons-live-flow-song' && event.newValue) loadLiveSong(event.newValue)
+}
 const liveFlowCommonsPanel = ref<'people' | 'ideas' | 'zones' | 'calls' | 'actions' | 'conversations' | null>(null)
 const liveFlowCommonsItems = [
   { id: 'people', label: 'People', color: 'mint', detail: 'Meet the people behind the activity and find others moving in the same direction.', action: 'Meet people', view: 'people' },
@@ -3810,6 +3866,9 @@ function voteRoleProposal(proposal: RoleProposal, choice: 'yes' | 'no') {
   proposal.voted = true
 }
 onMounted(() => {
+  const savedLiveSong = localStorage.getItem('commons-live-flow-song')
+  if (savedLiveSong) loadLiveSong(savedLiveSong)
+  window.addEventListener('storage', handleLiveSongStorage)
   const savedLanguage = localStorage.getItem('commons-language')
   if (savedLanguage === 'ar' || savedLanguage === 'en') language.value = savedLanguage
   document.documentElement.lang = language.value
@@ -3825,6 +3884,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+  window.removeEventListener('storage', handleLiveSongStorage)
   languageObserver?.disconnect()
   languageObserver = null
   if (heroTimer) {
@@ -4878,6 +4938,39 @@ onBeforeUnmount(() => {
 
       <section v-if="activeView === 'live-flow'" class="content live-engagement-content">
         <div v-if="liveFlowSpace === 'overview' || liveFlowSpace === 'feed'" class="live-network-content">
+        <section class="live-flow-music-player" aria-label="Live Flow shared song">
+          <div class="live-flow-music-copy">
+            <span class="home-connection-kicker">LIVE FLOW · LISTEN TOGETHER</span>
+            <h2>One song in the flow.</h2>
+            <p>Add a YouTube link for the community. The player starts paused, so everyone chooses when to listen.</p>
+          </div>
+          <form class="live-flow-music-update" @submit.prevent="updateLiveSong">
+            <label for="live-flow-song-url">YouTube song link</label>
+            <div class="live-flow-music-input-row">
+              <input id="live-flow-song-url" v-model="liveSongUrl" type="url" placeholder="https://www.youtube.com/watch?v=..." autocomplete="url" />
+              <button type="submit">Update song <span aria-hidden="true">↗</span></button>
+            </div>
+            <p v-if="liveSongError" class="live-flow-music-error" role="alert">{{ liveSongError }}</p>
+          </form>
+          <div v-if="liveSongVideoId" class="live-flow-music-current">
+            <div class="live-flow-music-status"><span class="live-flow-music-live-dot"></span><span>NOW IN THE FLOW</span><small>Playback is paused until you press play.</small></div>
+            <div class="live-flow-youtube-frame">
+              <iframe
+                :key="liveSongVideoId"
+                :src="'https://www.youtube-nocookie.com/embed/' + liveSongVideoId + '?autoplay=0&controls=1&playsinline=1&rel=0'"
+                title="Live Flow community song"
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="live-flow-music-footer">
+              <span>Community pick · YouTube</span>
+              <a :href="liveSongUrl" target="_blank" rel="noopener noreferrer">Open on YouTube ↗</a>
+            </div>
+          </div>
+          <div v-else class="live-flow-music-empty"><span aria-hidden="true">♫</span><div><strong>The community soundtrack starts here.</strong><small>Paste a YouTube video link above to add the first song.</small></div></div>
+        </section>
         <section id="live-flow-commons" class="live-flow-commons-hub" aria-label="Live Flow Commons">
           <div class="live-flow-commons-heading">
             <div>
@@ -17708,6 +17801,63 @@ a { text-underline-offset: 3px; }
   -webkit-text-fill-color: #78b5ff;
   text-shadow: 0 2px 14px rgba(91, 157, 255, .2);
 }
+
+/* Home hero: keep “something people do.” in a clear blue spectrum, not purple. */
+.hero .hero-accent-blue-home {
+  color: #83baff;
+  background: linear-gradient(100deg, #a5d8ff 0%, #72b7ff 48%, #568bff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 12px rgba(91, 157, 255, .18);
+}
+
+/* Live Flow community soundtrack */
+.live-flow-music-player {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(220px, .85fr) minmax(280px, 1.15fr);
+  gap: 20px 28px;
+  margin: 0 0 24px;
+  padding: 24px;
+  border: 1px solid rgba(106, 155, 222, .2);
+  border-radius: 22px;
+  background: radial-gradient(ellipse at 0% 0%, rgba(76, 139, 222, .14), transparent 48%), linear-gradient(135deg, rgba(17, 29, 47, .98), rgba(13, 22, 36, .98));
+  box-shadow: inset 0 1px 0 rgba(225, 238, 255, .035), 0 12px 34px rgba(0, 0, 0, .12);
+}
+.live-flow-music-copy h2 { margin: 9px 0 8px; color: #e9f2ff; font-size: clamp(20px, 2vw, 27px); letter-spacing: -.045em; }
+.live-flow-music-copy p { max-width: 440px; margin: 0; color: #94a6bf; font-size: 12px; line-height: 1.75; }
+.live-flow-music-update { align-self: center; min-width: 0; }
+.live-flow-music-update label { display: block; margin-bottom: 8px; color: #b9c9de; font-size: 11px; font-weight: 700; }
+.live-flow-music-input-row { display: flex; gap: 8px; }
+.live-flow-music-input-row input { width: 100%; min-width: 0; padding: 12px 13px; border: 1px solid rgba(130, 164, 208, .25); border-radius: 11px; outline: none; background: rgba(5, 12, 22, .52); color: #e9f2ff; font: inherit; font-size: 12px; }
+.live-flow-music-input-row input:focus { border-color: rgba(112, 174, 255, .65); box-shadow: 0 0 0 3px rgba(83, 145, 235, .1); }
+.live-flow-music-input-row button { flex: 0 0 auto; padding: 0 15px; border: 1px solid rgba(115, 169, 245, .4); border-radius: 11px; background: linear-gradient(135deg, #3169b2, #3d83d9); color: #f7fbff; font: inherit; font-size: 11px; font-weight: 750; cursor: pointer; transition: filter .2s ease, transform .2s ease; }
+.live-flow-music-input-row button:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.live-flow-music-error { margin: 7px 0 0; color: #ff9d9d; font-size: 11px; }
+.live-flow-music-current { grid-column: 1 / -1; min-width: 0; padding-top: 4px; }
+.live-flow-music-status { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 11px; color: #a8caff; font-size: 9px; font-weight: 800; letter-spacing: .14em; }
+.live-flow-music-status small { margin-left: auto; color: #7f91aa; font-size: 10px; font-weight: 500; letter-spacing: 0; }
+.live-flow-music-live-dot { width: 7px; height: 7px; border-radius: 50%; background: #69b5ff; box-shadow: 0 0 10px rgba(105, 181, 255, .42); }
+.live-flow-youtube-frame { overflow: hidden; width: 100%; max-width: 620px; aspect-ratio: 16 / 9; border: 1px solid rgba(132, 173, 229, .18); border-radius: 14px; background: #070d16; }
+.live-flow-youtube-frame iframe { display: block; width: 100%; height: 100%; border: 0; }
+.live-flow-music-footer { display: flex; justify-content: space-between; gap: 12px; margin-top: 10px; color: #778aa4; font-size: 10px; }
+.live-flow-music-footer a { color: #8fc1ff; text-decoration: none; }
+.live-flow-music-footer a:hover { color: #d1e6ff; }
+.live-flow-music-empty { grid-column: 1 / -1; display: flex; align-items: center; gap: 13px; padding: 16px; border: 1px dashed rgba(124, 163, 218, .2); border-radius: 14px; color: #a6caff; background: rgba(6, 15, 28, .35); }
+.live-flow-music-empty > span { display: grid; place-items: center; width: 38px; height: 38px; flex: 0 0 38px; border-radius: 12px; background: rgba(70, 132, 216, .13); font-size: 22px; }
+.live-flow-music-empty strong, .live-flow-music-empty small { display: block; }
+.live-flow-music-empty strong { margin-bottom: 4px; color: #dceaff; font-size: 12px; }
+.live-flow-music-empty small { color: #8193ac; font-size: 11px; }
+@media (max-width: 760px) {
+  .live-flow-music-player { grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 17px; }
+  .live-flow-music-current, .live-flow-music-empty { grid-column: auto; }
+  .live-flow-music-input-row { flex-direction: column; }
+  .live-flow-music-input-row button { min-height: 40px; }
+  .live-flow-music-status small { width: 100%; margin-left: 15px; }
+}
+
 </style>
 
 
