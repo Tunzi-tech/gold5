@@ -1281,10 +1281,10 @@ const heroes = [
   },
   {
     label: 'YOUR PLACE · YOUR PEOPLE · YOUR VOICE',
-    titleBefore: 'Make it',
-    titleAccent: 'impact.',
-    titleAfter: 'Make it',
-    secondAccent: 'your Zone.',
+    titleBefore: 'Make an',
+    titleAccent: 'impact where you are.',
+    titleAfter: 'Make your Zone',
+    secondAccent: 'a place for change.',
     description:
       'Your Zone is a real place. The streets, places and people around you become the starting point for local organization.',
   },
