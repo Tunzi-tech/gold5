@@ -701,7 +701,56 @@ const liveMovingItems = [
     "region": "south"
   }
 ]
-const filteredLiveMovingItems = computed(() => liveMovingItems.filter(item => {
+const liveMovingIncomingItems = ref<typeof liveMovingItems>([])
+const selectedLiveMovingMessage = ref<(typeof liveMovingItems)[number] | null>(null)
+const liveMovingReplies = ref<Record<number, { id: number; author: string; text: string; time: string }[]>>({})
+const liveMovingReplyDraft = ref('')
+const liveMovingStreamEnabled = ref(true)
+const liveMovingStreamNotice = ref('The sample stream is ready')
+const liveMovingMessageCount = ref(0)
+const liveMovingStreamActions = [
+  { activity: 'just shared a new idea and invited people to add their perspective.', detail: 'New conversation · Example activity' },
+  { activity: 'opened the floor for questions and local suggestions.', detail: 'Open discussion · Example activity' },
+  { activity: 'posted a small update and is inviting collaborators to respond.', detail: 'Collaboration · Example activity' },
+  { activity: 'is asking the community what should happen next.', detail: 'Community question · Example activity' },
+  { activity: 'shared a new call for people who want to take part.', detail: 'Participation call · Example activity' }
+]
+function openLiveMovingMessage(item: (typeof liveMovingItems)[number]) {
+  selectedLiveMovingMessage.value = item
+  liveMovingReplyDraft.value = ''
+}
+function closeLiveMovingMessage() {
+  selectedLiveMovingMessage.value = null
+  liveMovingReplyDraft.value = ''
+}
+function sendLiveMovingReply() {
+  const text = liveMovingReplyDraft.value.trim()
+  const item = selectedLiveMovingMessage.value
+  if (!text || !item) return
+  const current = liveMovingReplies.value[item.id] || []
+  liveMovingReplies.value = {
+    ...liveMovingReplies.value,
+    [item.id]: [...current, { id: Date.now(), author: 'You', text, time: 'Just now · Local demo' }]
+  }
+  liveMovingReplyDraft.value = ''
+}
+function pushLiveMovingSampleMessage() {
+  if (!liveMovingStreamEnabled.value || !liveMovingItems.length) return
+  const source = liveMovingItems[liveMovingMessageCount.value % liveMovingItems.length]
+  const action = liveMovingStreamActions[liveMovingMessageCount.value % liveMovingStreamActions.length]
+  liveMovingMessageCount.value += 1
+  liveMovingIncomingItems.value = [{
+    ...source,
+    id: 1000 + liveMovingMessageCount.value,
+    activity: action.activity,
+    detail: action.detail,
+    delay: '0s',
+    isNewMessage: true
+  }, ...liveMovingIncomingItems.value].slice(0, 12)
+  liveMovingStreamNotice.value = 'A new sample message just flowed in'
+}
+const liveMovingChatItems = computed(() => [...liveMovingIncomingItems.value, ...liveMovingItems])
+const filteredLiveMovingItems = computed(() => liveMovingChatItems.value.filter(item => {
   const typeMatches = liveMovingTypeFilter.value === 'ALL' || item.category === liveMovingTypeFilter.value
   const locationFilter = liveMovingLocationFilter.value
   let locationMatches = true
@@ -1830,6 +1879,7 @@ const heroes = [
 ]
 
 let heroTimer: ReturnType<typeof setInterval> | null = null
+let liveMovingChatTimer: ReturnType<typeof setInterval> | null = null
 let languageObserver: MutationObserver | null = null
 
 
@@ -4363,6 +4413,7 @@ onMounted(() => {
     if (language.value === 'ar') translatePage()
   })
   languageObserver.observe(document.body, { childList: true, subtree: true })
+  liveMovingChatTimer = setInterval(pushLiveMovingSampleMessage, 12000)
   heroTimer = setInterval(() => {
     activeHero.value = (activeHero.value + 1) % heroes.length
   }, 8000)
@@ -4372,6 +4423,10 @@ onBeforeUnmount(() => {
   window.removeEventListener('storage', handleLiveSongStorage)
   languageObserver?.disconnect()
   languageObserver = null
+  if (liveMovingChatTimer) {
+    clearInterval(liveMovingChatTimer)
+    liveMovingChatTimer = null
+  }
   if (heroTimer) {
     clearInterval(heroTimer)
     heroTimer = null
@@ -4547,7 +4602,35 @@ onBeforeUnmount(() => {
                 <span class="your-zones-label">Your Zones</span>
               </button>
             </div>
-          </template>
+            <div v-if="selectedLiveMovingMessage" class="live-moving-chat-overlay" @click.self="closeLiveMovingMessage">
+    <section class="live-moving-chat-dialog" role="dialog" aria-modal="true" :aria-label="'Conversation with ' + selectedLiveMovingMessage.name" :style="{ '--entity-color': selectedLiveMovingMessage.color }">
+      <header class="live-moving-chat-dialog-head">
+        <div class="live-moving-chat-dialog-identity">
+          <span class="live-moving-chat-avatar">{{ selectedLiveMovingMessage.icon }}</span>
+          <div><small>{{ selectedLiveMovingMessage.type }} · {{ selectedLiveMovingMessage.location }}</small><h2>{{ selectedLiveMovingMessage.name }}</h2></div>
+        </div>
+        <button type="button" class="live-moving-chat-close" aria-label="Close conversation" @click="closeLiveMovingMessage">×</button>
+      </header>
+      <div class="live-moving-chat-thread">
+        <div class="live-moving-chat-day">ACTIVITY THREAD · DEMO</div>
+        <div class="live-moving-chat-bubble">
+          <span class="live-moving-chat-bubble-author">{{ selectedLiveMovingMessage.name }}</span>
+          <p>{{ selectedLiveMovingMessage.activity }}</p>
+          <small>{{ selectedLiveMovingMessage.location }} · {{ selectedLiveMovingMessage.detail }}</small>
+        </div>
+        <div v-for="reply in (liveMovingReplies[selectedLiveMovingMessage.id] || [])" :key="reply.id" class="live-moving-chat-bubble live-moving-chat-bubble-own">
+          <span class="live-moving-chat-bubble-author">{{ reply.author }}</span><p>{{ reply.text }}</p><small>{{ reply.time }}</small>
+        </div>
+        <div v-if="!(liveMovingReplies[selectedLiveMovingMessage.id] || []).length" class="live-moving-chat-hint">Start the conversation with a question, an idea, or an offer to help.</div>
+      </div>
+      <form class="live-moving-chat-compose" @submit.prevent="sendLiveMovingReply">
+        <input v-model="liveMovingReplyDraft" aria-label="Write a reply" placeholder="Write a message or ask about this activity…" maxlength="500" />
+        <button type="submit" :disabled="!liveMovingReplyDraft.trim()" aria-label="Send message">➤</button>
+      </form>
+      <p class="live-moving-chat-demo-note">Replies stay in this local demo and are not shared with other users.</p>
+    </section>
+  </div>
+</template>
         </div>
 
         
@@ -5567,17 +5650,26 @@ onBeforeUnmount(() => {
                   :aria-pressed="liveMovingTypeFilter === filter.id" @click="liveMovingTypeFilter = filter.id">{{ filter.label }}</button>
                 <span class="live-moving-result-count">{{ filteredLiveMovingItems.length }} shown</span>
               </div>
-              <p class="live-moving-sample-note">Illustrative examples · sample activity, not live reports from verified groups.</p>
+              <div class="live-moving-chat-toolbar">
+                <span class="live-moving-chat-status"><i></i>{{ liveMovingStreamNotice }}</span>
+                <button type="button" class="live-moving-stream-toggle" @click="liveMovingStreamEnabled = !liveMovingStreamEnabled">{{ liveMovingStreamEnabled ? 'Pause stream' : 'Resume stream' }}</button>
+              </div>
+              <p class="live-moving-sample-note">Demo conversation stream · incoming messages are simulated examples, not live reports from verified groups.</p>
             <div class="live-moving-items">
-            <article v-for="item in filteredLiveMovingItems" :key="item.id" class="live-network-event live-network-identity-event"
-              :style="{ '--entity-color': item.color, '--entity-delay': item.delay }">
+            <button v-for="item in filteredLiveMovingItems" :key="item.id" type="button"
+              class="live-network-event live-network-identity-event live-moving-chat-message"
+              :class="{ 'live-moving-chat-message-new': item.isNewMessage }"
+              :style="{ '--entity-color': item.color, '--entity-delay': item.delay }"
+              @click="openLiveMovingMessage(item)" :aria-label="'Open conversation: ' + item.name + ', ' + item.activity">
+              <span class="live-moving-chat-avatar">{{ item.icon }}</span>
               <div class="live-network-event-icon">{{ item.icon }}</div>
               <div class="live-network-event-body">
                 <div class="live-network-identity-heading"><span class="live-network-event-type">{{ item.type }}</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
                 <p><strong class="live-network-entity-name">{{ item.name }}</strong> {{ item.activity }}</p>
                 <small>{{ item.location }} · {{ item.detail }}</small>
               </div>
-            </article>
+              <span class="live-moving-chat-open" aria-hidden="true">↗</span>
+            </button>
             <div v-if="filteredLiveMovingItems.length === 0" class="live-moving-empty-state">
               <strong>No matching activity in this view yet.</strong>
               <span>Try All or choose another location to explore more of the flow.</span>
@@ -16769,6 +16861,43 @@ textarea:focus-visible {
 .live-network-entity-mark i{width:4px;height:4px;border-radius:50%;background:var(--entity-color);opacity:.9}
 .live-network-identity-event .live-network-entity-name{color:var(--entity-color);font-weight:800;letter-spacing:-.01em}
 .live-network-identity-event .live-network-event-body small{color:#8293a9}
+.live-moving-chat-toolbar{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+.live-moving-chat-status{display:inline-flex;align-items:center;gap:7px;color:#8ba0b9;font-size:8px}
+.live-moving-chat-status i{width:6px;height:6px;border-radius:50%;background:#68dcb3;box-shadow:0 0 0 3px rgba(104,220,179,.1)}
+.live-moving-stream-toggle{border:1px solid rgba(255,255,255,.1);border-radius:18px;background:rgba(255,255,255,.035);color:#a9bad0;padding:6px 9px;font-size:8px;cursor:pointer}
+.live-moving-chat-message{width:100%;text-align:left;align-items:flex-start;position:relative;cursor:pointer;transition:border-color .18s,background .18s,transform .18s}
+.live-moving-chat-message:hover{border-color:color-mix(in srgb,var(--entity-color) 55%,rgba(255,255,255,.12));transform:translateY(-1px);background:linear-gradient(100deg,color-mix(in srgb,var(--entity-color) 12%,rgba(255,255,255,.025)),rgba(255,255,255,.025) 70%)}
+.live-moving-chat-message-new{animation:liveMovingMessageIn .45s ease-out both}
+.live-moving-chat-avatar{width:31px;height:31px;flex:0 0 31px;display:grid;place-items:center;border-radius:10px;color:var(--entity-color);background:color-mix(in srgb,var(--entity-color) 13%,rgba(10,18,30,.95));border:1px solid color-mix(in srgb,var(--entity-color) 35%,transparent);font-size:14px}
+.live-moving-chat-message .live-network-event-body{flex:1}
+.live-moving-chat-open{align-self:center;color:var(--entity-color);font-size:15px;opacity:.65}
+.live-moving-chat-message:hover .live-moving-chat-open{opacity:1}
+.live-moving-chat-overlay{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(3,8,16,.76);backdrop-filter:blur(12px)}
+.live-moving-chat-dialog{width:min(560px,100%);max-height:min(760px,90vh);display:flex;flex-direction:column;overflow:hidden;border:1px solid color-mix(in srgb,var(--entity-color) 30%,rgba(255,255,255,.12));border-radius:18px;background:linear-gradient(150deg,rgba(17,28,44,.99),rgba(8,14,24,.99));box-shadow:0 28px 100px rgba(0,0,0,.45)}
+.live-moving-chat-dialog-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px;border-bottom:1px solid rgba(255,255,255,.07)}
+.live-moving-chat-dialog-identity{display:flex;align-items:center;gap:11px;min-width:0}
+.live-moving-chat-dialog-identity small{color:var(--entity-color);font-size:8px;font-weight:800;letter-spacing:.07em;text-transform:uppercase}
+.live-moving-chat-dialog-identity h2{margin:4px 0 0;color:#edf4ff;font-size:16px;overflow-wrap:anywhere}
+.live-moving-chat-close{width:32px;height:32px;border:1px solid rgba(255,255,255,.1);border-radius:50%;background:rgba(255,255,255,.04);color:#dce7f5;font-size:21px;cursor:pointer}
+.live-moving-chat-thread{display:flex;flex-direction:column;gap:12px;overflow:auto;padding:18px;min-height:190px}
+.live-moving-chat-day{align-self:center;color:#71839a;font-size:8px;font-weight:800;letter-spacing:.14em}
+.live-moving-chat-bubble{align-self:flex-start;max-width:90%;padding:12px 14px;border:1px solid color-mix(in srgb,var(--entity-color) 22%,rgba(255,255,255,.06));border-radius:4px 14px 14px 14px;background:color-mix(in srgb,var(--entity-color) 7%,rgba(255,255,255,.025))}
+.live-moving-chat-bubble-author{color:var(--entity-color);font-size:9px;font-weight:800}
+.live-moving-chat-bubble p{margin:7px 0;color:#e1eaf7;font-size:12px;line-height:1.6;overflow-wrap:anywhere}
+.live-moving-chat-bubble small{color:#8293a9;font-size:8px;line-height:1.5}
+.live-moving-chat-bubble-own{align-self:flex-end;border-color:rgba(106,163,226,.24);border-radius:14px 4px 14px 14px;background:rgba(64,112,164,.13)}
+.live-moving-chat-bubble-own .live-moving-chat-bubble-author{color:#9ccaff}
+.live-moving-chat-hint{padding:10px 12px;border:1px dashed rgba(255,255,255,.09);border-radius:10px;color:#8192a8;font-size:10px;line-height:1.6}
+.live-moving-chat-compose{display:flex;gap:8px;padding:12px 14px;border-top:1px solid rgba(255,255,255,.07)}
+.live-moving-chat-compose input{min-width:0;flex:1;border:1px solid rgba(255,255,255,.1);border-radius:22px;outline:none;background:rgba(255,255,255,.04);padding:11px 14px;color:#eaf2ff;font-size:11px}
+.live-moving-chat-compose input:focus{border-color:color-mix(in srgb,var(--entity-color) 55%,rgba(255,255,255,.1))}
+.live-moving-chat-compose button{width:38px;height:38px;border:0;border-radius:50%;background:var(--entity-color);color:#091321;font-size:16px;cursor:pointer}
+.live-moving-chat-compose button:disabled{opacity:.35;cursor:not-allowed}
+.live-moving-chat-demo-note{margin:0;padding:0 16px 13px;color:#6f829a;font-size:8px;text-align:center}
+@keyframes liveMovingMessageIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:640px){.live-moving-chat-overlay{padding:10px}.live-moving-chat-dialog{max-height:94vh}.live-moving-chat-dialog-head{padding:14px}.live-moving-chat-thread{padding:14px}.live-moving-chat-toolbar{align-items:flex-start;flex-direction:column}}
+@media(prefers-reduced-motion:reduce){.live-moving-chat-message-new{animation:none}.live-moving-chat-message{transition:none}}
+
 @keyframes liveMovingPulse{0%,100%{opacity:.65;transform:scale(.88)}50%{opacity:1;transform:scale(1.12)}}
 @keyframes liveEntityDrift{0%,100%{transform:translateX(0)}50%{transform:translateX(2px)}}
 @media(prefers-reduced-motion:reduce){.live-moving-pulse i,.live-network-identity-event{animation:none}}
