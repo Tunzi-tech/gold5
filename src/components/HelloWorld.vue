@@ -4406,7 +4406,7 @@ onBeforeUnmount(() => {
       <!-- =================================================
            HOME
            ================================================= -->
-      <section v-if="activeView === 'home'" class="content home-commons-content">
+      <section v-if="activeView === 'home'" class="content home-commons-content" :class="{ 'home-hero-collapsed': homeHeroHidden }">
 
         <div class="home-hero-control">
           <button type="button" class="home-hero-toggle" :aria-expanded="!homeHeroHidden" @click="homeHeroHidden = !homeHeroHidden">
@@ -17642,6 +17642,62 @@ a { text-underline-offset: 3px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .topbar { backdrop-filter: none; }
+}
+
+
+
+/* Vertical hero control: collapse the large header upward and reclaim its space. */
+.home-commons-content { position: relative; }
+.home-hero-control {
+  position: absolute;
+  z-index: 8;
+  top: 48px;
+  right: 10px;
+  margin: 0;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+.home-hero-toggle {
+  pointer-events: auto;
+  min-height: 76px;
+  width: 28px;
+  padding: 9px 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 9px;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  background: rgba(10,17,28,.92);
+  border-color: rgba(125,151,190,.3);
+  box-shadow: 0 5px 18px rgba(0,0,0,.18);
+}
+.home-hero-toggle span { writing-mode: horizontal-tb; }
+.home-commons-content:not(.home-hero-collapsed) .hero-stage {
+  padding-right: 30px;
+}
+.home-commons-content.home-hero-collapsed .home-hero-control {
+  top: 25px;
+  right: 10px;
+}
+.home-commons-content.home-hero-collapsed .home-hero-toggle {
+  min-height: 90px;
+  background: linear-gradient(180deg, rgba(20,31,48,.98), rgba(10,17,28,.98));
+}
+.home-commons-content.home-hero-collapsed .home-view-switch {
+  margin-top: 0;
+  padding-right: 40px;
+}
+.home-commons-content.home-hero-collapsed .home-connection-hub {
+  margin-top: 8px;
+}
+@media (max-width: 760px) {
+  .home-hero-control { top: 30px; right: 5px; }
+  .home-hero-toggle { min-height: 64px; width: 25px; font-size: 8px; }
+  .home-commons-content:not(.home-hero-collapsed) .hero-stage { padding-right: 25px; }
+  .home-commons-content.home-hero-collapsed .home-hero-control { top: 20px; right: 4px; }
+  .home-commons-content.home-hero-collapsed .home-view-switch { padding-right: 34px; }
 }
 
 </style>
