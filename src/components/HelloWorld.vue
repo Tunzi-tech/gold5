@@ -935,7 +935,7 @@ const adminSystems = ref([
     connections: ['Posts', 'People', 'Pages', 'Zones', 'Calls', 'Participation', 'Notifications', 'Live Flow Connections'],
     functionalParts: ['Collect eligible activities', 'Apply visibility and safety rules', 'Score recency and meaningful relevance', 'Prioritize direct interactions and chosen interests', 'Diversify sources and topics', 'Explain why an item appears', 'Respect user controls and feedback'],
     missing: ['Production event data pipeline', 'Configurable ranking weights', 'User feedback signals', 'Offline evaluation and bias checks', 'Server-side visibility and privacy enforcement'],
-    inputs: ['Eligible activity records (posts, calls, ideas and participation)', 'Viewer's chosen interests and follows', 'Recent interactions and context', 'Visibility and safety rules'],
+    inputs: ['Eligible activity records (posts, calls, ideas and participation)', "Viewer's chosen interests and follows", 'Recent interactions and context', 'Visibility and safety rules'],
     outputs: ['An ordered set of feed items', 'A reason each item was selected', 'Ranking diagnostics for admins'],
     workflow: [
       { title: 'Gather candidates', action: 'Collect recent activities the viewer is allowed to see.', result: 'A candidate pool; private or ineligible items are excluded before ranking.' },
