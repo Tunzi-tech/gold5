@@ -4595,29 +4595,233 @@ onBeforeUnmount(() => {
       </section>
 
       <section v-if="activeView === 'live-flow'" class="content live-engagement-content">
-        <div v-if="liveFlowSpace === 'overview'">
-        <div class="live-engagement-back"><button type="button" class="ghost-btn" @click="navigate('around-zones')">← Back to Zones Around</button></div>
-        <div class="live-engagement-hero">
-          <div>
-            <span class="eyebrow">THE NETWORK IS MOVING</span>
-            <h1>See how people, ideas<br /><span>and Zones connect.</span></h1>
-            <p>Follow movement across the Commons: a question becomes an idea, an idea attracts people, and participation changes a Zone.</p>
+        <div v-if="liveFlowSpace === 'overview'" class="live-network-content">
+
+        <div class="page-title live-network-title">
+          <span class="eyebrow">LIVE FLOW</span>
+          <h1>See how people, ideas and Zones connect.</h1>
+          <p>
+            A live view of people joining, creating, participating, connecting and moving ideas
+            into action across places and communities.
+          </p>
+        </div>
+
+        <div class="live-network-filters">
+          <button type="button" class="live-network-filter active">GLOBAL</button>
+          <button type="button" class="live-network-filter">LOCAL</button>
+          <span class="live-network-filter-separator"></span>
+          <button type="button" class="live-network-filter">NORTH TUNISIA</button>
+          <button type="button" class="live-network-filter">CENTRAL TUNISIA</button>
+          <button type="button" class="live-network-filter">SOUTH TUNISIA</button>
+          <button type="button" class="live-network-filter">TUNIS</button>
+          <button type="button" class="live-network-filter">LA MARSA</button>
+          <button type="button" class="live-network-filter">TUNIS NORTH</button>
+        </div>
+
+        <div class="live-network-layout">
+          <div class="live-network-feed">
+
+            <article class="live-network-event">
+              <div class="live-network-event-icon">◉</div>
+              <div class="live-network-event-body">
+                <span class="live-network-event-type">ZONE</span>
+                <p><strong>Amine Ben Salem</strong> joined <strong>Tunis North</strong>.</p>
+                <small>2 min ago · 3 people joined this Zone today</small>
+              </div>
+            </article>
+
+            <article class="live-network-event">
+              <div class="live-network-event-icon">✦</div>
+              <div class="live-network-event-body">
+                <span class="live-network-event-type">INITIATIVE</span>
+                <p><strong>Green Horizon</strong> started a new initiative for more green public spaces.</p>
+                <small>5 min ago · Tunis North</small>
+              </div>
+            </article>
+
+            <article class="live-network-event">
+              <div class="live-network-event-icon">↗</div>
+              <div class="live-network-event-body">
+                <span class="live-network-event-type">PARTICIPATION</span>
+                <p><strong>Sarra Mansour</strong> participated in the <strong>Cleaner Streets</strong> goal.</p>
+                <small>8 min ago · 12 participants</small>
+              </div>
+            </article>
+
+            <article class="live-network-event">
+              <div class="live-network-event-icon">◎</div>
+              <div class="live-network-event-body">
+                <span class="live-network-event-type">CONNECTION</span>
+                <p><strong>Youssef Trabelsi</strong> connected with people working on mobility.</p>
+                <small>11 min ago · Sidi Bou Said</small>
+              </div>
+            </article>
+
+            <article class="live-network-event">
+              <div class="live-network-event-icon">＋</div>
+              <div class="live-network-event-body">
+                <span class="live-network-event-type">NEW ZONE</span>
+                <p><strong>La Marsa Coast</strong> was created as a new local Zone.</p>
+                <small>18 min ago · 14 people are exploring it</small>
+              </div>
+            </article>
+
+            <article class="live-network-event">
+              <div class="live-network-event-icon">♥</div>
+              <div class="live-network-event-body">
+                <span class="live-network-event-type">SUPPORT</span>
+                <p><strong>Meriem Khalfallah</strong> supported an idea about community gardens.</p>
+                <small>21 min ago · 7 supports</small>
+              </div>
+            </article>
+
+            <article class="live-network-event">
+              <div class="live-network-event-icon">☷</div>
+              <div class="live-network-event-body">
+                <span class="live-network-event-type">IDEA</span>
+                <p><strong>Community Garden</strong> received a new suggestion from a Zone member.</p>
+                <small>24 min ago · 4 people responded</small>
+              </div>
+            </article>
+
+            <article class="live-network-event">
+              <div class="live-network-event-icon">↔</div>
+              <div class="live-network-event-body">
+                <span class="live-network-event-type">FOLLOW</span>
+                <p><strong>Tunis Community</strong> gained a new follower.</p>
+                <small>27 min ago · 5 new connections today</small>
+              </div>
+            </article>
+
+            <article class="live-network-event">
+              <div class="live-network-event-icon">●</div>
+              <div class="live-network-event-body">
+                <span class="live-network-event-type">ENTITY</span>
+                <p><strong>Central Park</strong> was identified by a member as a place connected to Tunis North.</p>
+                <small>31 min ago · 2 related initiatives</small>
+              </div>
+            </article>
+
+            <article class="live-network-event">
+              <div class="live-network-event-icon">▣</div>
+              <div class="live-network-event-body">
+                <span class="live-network-event-type">PAGE</span>
+                <p><strong>Future Makers</strong> published a new update for its community.</p>
+                <small>36 min ago · 18 people viewed it</small>
+              </div>
+            </article>
+
+            <article class="live-network-event">
+              <div class="live-network-event-icon">✓</div>
+              <div class="live-network-event-body">
+                <span class="live-network-event-type">GOAL</span>
+                <p><strong>More green public spaces</strong> moved from 60% to 62% participation.</p>
+                <small>42 min ago · 6 new participants</small>
+              </div>
+            </article>
+
+            <article class="live-network-event">
+              <div class="live-network-event-icon">◌</div>
+              <div class="live-network-event-body">
+                <span class="live-network-event-type">DISCOVERY</span>
+                <p><strong>Amine</strong> discovered a connection between a local business and a community initiative.</p>
+                <small>48 min ago · Tunis North</small>
+              </div>
+            </article>
+
+            <article class="live-network-event">
+              <div class="live-network-event-icon">✎</div>
+              <div class="live-network-event-body">
+                <span class="live-network-event-type">POST</span>
+                <p><strong>Sarra</strong> shared a new perspective about safer streets.</p>
+                <small>54 min ago · 9 reactions</small>
+              </div>
+            </article>
+
+            <article class="live-network-event">
+              <div class="live-network-event-icon">⚑</div>
+              <div class="live-network-event-body">
+                <span class="live-network-event-type">CALL</span>
+                <p><strong>Urban Mobility</strong> opened a Call for people interested in walking and cycling.</p>
+                <small>1 hr ago · 8 people joined</small>
+              </div>
+            </article>
+
+            <article class="live-network-event">
+              <div class="live-network-event-icon">↳</div>
+              <div class="live-network-event-body">
+                <span class="live-network-event-type">JOIN</span>
+                <p><strong>Youssef</strong> joined the Urban Mobility Call and became a participant.</p>
+                <small>1 hr ago · La Marsa</small>
+              </div>
+            </article>
+
+            <article class="live-network-event">
+              <div class="live-network-event-icon">★</div>
+              <div class="live-network-event-body">
+                <span class="live-network-event-type">ACHIEVEMENT</span>
+                <p><strong>Green Horizon</strong> documented an act that helped improve a shared public space.</p>
+                <small>1 hr ago · 3 people recognized the act</small>
+              </div>
+            </article>
+
+            <article class="live-network-event">
+              <div class="live-network-event-icon">⌁</div>
+              <div class="live-network-event-body">
+                <span class="live-network-event-type">NETWORK</span>
+                <p><strong>12 people</strong> are now connected through a shared interest in community gardens.</p>
+                <small>1 hr ago · 3 Zones connected</small>
+              </div>
+            </article>
+
+            <article class="live-network-event">
+              <div class="live-network-event-icon">?</div>
+              <div class="live-network-event-body">
+                <span class="live-network-event-type">QUESTION</span>
+                <p><strong>Meriem</strong> asked a question about how to make local participation easier.</p>
+                <small>2 hrs ago · 6 responses</small>
+              </div>
+            </article>
+
           </div>
-          <div class="live-engagement-signal flow-signal"><strong>4 new connections</strong><small>2 ideas · 1 action gaining participants</small></div>
+
+          <aside class="live-network-side">
+            <div class="live-network-summary">
+              <span class="eyebrow">RIGHT NOW</span>
+              <strong>Everything is connected.</strong>
+              <p>People, Zones, Pages, Initiatives, Goals, Ideas, Entities and Calls are moving through the network.</p>
+              <div class="live-network-stats">
+                <div>
+                  <strong>28</strong>
+                  <span>active explorers</span>
+                  <span class="live-network-stat-detail stat-voices">28 voices</span>
+                </div>
+                <div>
+                  <strong>16</strong>
+                  <span>connected orbits</span>
+                  <span class="live-network-stat-detail stat-explore">16 new things to be explored</span>
+                </div>
+                <div>
+                  <strong>12</strong>
+                  <span>new connections</span>
+                  <span class="live-network-stat-detail stat-opportunities">12 opportunities for someone</span>
+                </div>
+                <div>
+                  <strong>5</strong>
+                  <span>active Calls</span>
+                  <span class="live-network-stat-detail stat-needs">Someone right there needs us</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="live-network-summary">
+              <span class="eyebrow">FOLLOW THE FLOW</span>
+              <p>Join a Zone, follow a Page, support an idea, answer a question, identify a place, participate in a goal or start something new.</p>
+            </div>
+          </aside>
         </div>
-        <div class="network-flow-stage">
-          <div class="flow-column"><span class="flow-label">PEOPLE</span><div class="flow-node">Amine</div><div class="flow-node">Leila</div><div class="flow-node">Nour</div></div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-column"><span class="flow-label">INTEREST</span><div class="flow-node">Urban nature</div><div class="flow-node">Clean streets</div></div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-column"><span class="flow-label">IDEA</span><div class="flow-node highlighted">Community garden</div><div class="flow-node">Local clean-up</div></div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-column"><span class="flow-label">ZONE</span><div class="flow-node highlighted">Tunis North</div></div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-column"><span class="flow-label">ACTION</span><div class="flow-node highlighted">Garden forming</div><div class="flow-node">People joining</div></div>
-        </div>
-        <div class="flow-footer"><div><span>PARTICIPATION</span><strong>12 people connected to these actions</strong></div><div><span>WHAT HAPPENS NEXT</span><strong>Experience → Inspiration → new possibility</strong></div></div>
-        </div>
+
+              </div>
         <div v-if="liveFlowSpace === 'overview'" class="live-flow-idea-entry">
           <span class="eyebrow">A SPACE WITHIN LIVE FLOW</span>
           <div><h2>Idea Flow</h2><p>Explore unfinished thoughts, release a new idea, and let possibilities grow through shared perspectives.</p></div>
