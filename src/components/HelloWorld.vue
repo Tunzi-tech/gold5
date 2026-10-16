@@ -4595,25 +4595,10 @@ onBeforeUnmount(() => {
       </section>
 
       <section v-if="activeView === 'live-flow'" class="content live-engagement-content">
-        <div v-if="liveFlowSpace === 'overview'" class="live-flow-landing">
-          <div class="live-engagement-hero">
-            <div>
-              <span class="eyebrow">THE NETWORK IS MOVING</span>
-              <h1>See how people, ideas<br /><span>and Zones connect.</span></h1>
-              <p>Follow movement across the Commons: a question becomes an idea, an idea attracts people, and participation changes a Zone.</p>
-            </div>
-            <div class="live-engagement-signal flow-signal"><strong>4 new connections</strong><small>2 ideas · 1 action gaining participants</small></div>
-          </div>
-          <div class="live-flow-space-actions">
-            <button type="button" class="follow-btn" @click="liveFlowSpace = 'feed'">Open Live Flow Feed <span aria-hidden="true">→</span></button>
-          </div>
-        </div>
-        <div v-if="liveFlowSpace === 'feed'" class="live-network-content">
-          <div class="live-engagement-back"><button type="button" class="ghost-btn" @click="liveFlowSpace = 'overview'">← Back to Live Flow</button></div>
-
+        <div v-if="liveFlowSpace === 'overview' || liveFlowSpace === 'feed'" class="live-network-content">
         <div class="page-title live-network-title">
           <span class="eyebrow">LIVE FLOW</span>
-          <h1>What's happening across the network.</h1>
+          <h1>See how people, ideas and Zones connect.</h1>
           <p>
             A live view of people joining, creating, participating, connecting and moving ideas
             into action across places and communities.
