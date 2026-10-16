@@ -3941,32 +3941,35 @@ onBeforeUnmount(() => {
           </div>
 
           <template v-if="showZonesSubnav">
-            <div class="impact-subnav-line"><button
-              class="zone-space-button zone-space-button-around"
-              :class="{ active: activeView === 'around-zones' }"
-              @click="navigate('around-zones')"
-            >
-              <span class="zone-orbit zone-orbit-large" aria-hidden="true">
-                <span class="zone-orbit-core"></span>
-                <span class="zone-orbit-ring zone-orbit-ring-one"></span>
-                <span class="zone-orbit-ring zone-orbit-ring-two"></span>
-                <span class="zone-orbit-node zone-orbit-node-one"></span>
-                <span class="zone-orbit-node zone-orbit-node-two"></span>
-              </span>
-              <span class="zone-around-label">Zones Around</span>
-            </button></div>
-            <div class="impact-subnav-line"><button
-              class="zone-space-button zone-space-button-mine"
-              :class="{ active: activeView === 'my-zones' }"
-              @click="navigate('my-zones')"
-            >
-              <span class="zone-orbit zone-orbit-small" aria-hidden="true">
-                <span class="zone-orbit-core"></span>
-                <span class="zone-orbit-ring zone-orbit-ring-one"></span>
-                <span class="zone-orbit-node zone-orbit-node-one"></span>
-              </span>
-              <span class="your-zones-label">Your Zones</span>
-            </button></div>
+            <div class="zones-connected-pair" aria-label="Explore zones and your joined zones">
+              <button
+                class="zone-space-button zone-space-button-around"
+                :class="{ active: activeView === 'around-zones' }"
+                @click="navigate('around-zones')"
+              >
+                <span class="zone-orbit zone-orbit-large" aria-hidden="true">
+                  <span class="zone-orbit-core"></span>
+                  <span class="zone-orbit-ring zone-orbit-ring-one"></span>
+                  <span class="zone-orbit-ring zone-orbit-ring-two"></span>
+                  <span class="zone-orbit-node zone-orbit-node-one"></span>
+                  <span class="zone-orbit-node zone-orbit-node-two"></span>
+                </span>
+                <span class="zone-around-label">Zones Around</span>
+              </button>
+              <span class="zones-pair-connection" aria-hidden="true"><span></span></span>
+              <button
+                class="zone-space-button zone-space-button-mine"
+                :class="{ active: activeView === 'my-zones' }"
+                @click="navigate('my-zones')"
+              >
+                <span class="zone-orbit zone-orbit-small" aria-hidden="true">
+                  <span class="zone-orbit-core"></span>
+                  <span class="zone-orbit-ring zone-orbit-ring-one"></span>
+                  <span class="zone-orbit-node zone-orbit-node-one"></span>
+                </span>
+                <span class="your-zones-label">Your Zones</span>
+              </button>
+            </div>
           </template>
         </div>
 
@@ -16998,4 +17001,56 @@ textarea:focus-visible {
 .main-nav .primary-navigation-portal .dimension-portal-trigger:hover .dimension-portal-line,
 .main-nav .primary-navigation-portal .dimension-portal-trigger:focus-visible .dimension-portal-line {
   height: 17px;
+}
+
+
+/* Zones Around and Your Zones are two sides of one connected space. */
+.zones-subnav .zones-connected-pair {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 2px 0 5px 7px;
+  padding: 5px 4px 5px 5px;
+  border: 1px solid rgba(105, 145, 199, .14);
+  border-radius: 10px;
+  background: linear-gradient(155deg, rgba(25, 39, 59, .44), rgba(13, 20, 33, .38));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.025);
+}
+.zones-subnav .zones-connected-pair .zone-space-button {
+  position: relative;
+  z-index: 1;
+  min-height: 31px;
+  border-radius: 7px;
+}
+.zones-subnav .zones-connected-pair .zone-space-button-around {
+  border-color: transparent;
+}
+.zones-pair-connection {
+  position: relative;
+  display: block;
+  height: 9px;
+  margin-left: 16px;
+  width: 1px;
+  background: linear-gradient(180deg, rgba(115,185,201,.62), rgba(166,116,255,.72));
+  box-shadow: 0 0 7px rgba(116,151,255,.25);
+}
+.zones-pair-connection span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #8dafff;
+  box-shadow: 0 0 7px rgba(141,175,255,.72);
+  transform: translate(-50%, -50%);
+}
+.zones-subnav .zones-connected-pair .zone-space-button-around.active {
+  background: linear-gradient(100deg, rgba(135,104,220,.15), rgba(34,53,82,.12));
+  border-color: rgba(181,108,255,.2);
+}
+.zones-subnav .zones-connected-pair .zone-space-button-mine.active {
+  background: linear-gradient(100deg, rgba(85,143,224,.14), rgba(34,53,82,.1));
+  border-color: rgba(111,168,255,.2);
 }
