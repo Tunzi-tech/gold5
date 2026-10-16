@@ -2384,6 +2384,30 @@ const myConnections = computed<SidebarConnection[]>(() => {
   return connections
 })
 
+const liveFlowUserConnections = computed(() => {
+  const zoneConnections = joinedZones.value.map(zone => ({
+    id: 'zone-' + zone.id,
+    label: zone.name,
+    type: zone.isGovernorate ? 'GOVERNORATE' : 'ZONE',
+    detail: zone.isGovernorate
+      ? joinedZoneConnectionLabel(zone)
+      : 'You are part of this Zone',
+    icon: '◉',
+    action: () => zone.isGovernorate ? openMyGovernorate(zone.name) : openMyZone(zone)
+  }))
+
+  const otherConnections = myConnections.value.map(connection => ({
+    id: connection.id,
+    label: connection.label,
+    type: connection.type,
+    detail: connection.description,
+    icon: connection.type === 'PERSON' ? '◎' : connection.type === 'CALL' ? '↗' : connection.type === 'ENTITY' ? '◇' : '⌁',
+    action: connection.action
+  }))
+
+  return [...zoneConnections, ...otherConnections].slice(0, 8)
+})
+
 const officialZoneRoles = computed(() => {
   return myOfficialZoneRoles.value.filter(item =>
     zones.value.some(zone => zone.name === item.zoneName)
@@ -4604,6 +4628,25 @@ onBeforeUnmount(() => {
             into action across places and communities.
           </p>
         </div>
+
+        <section class="live-flow-personal-connections" aria-label="Your connections in Live Flow">
+          <div class="live-flow-personal-heading">
+            <div><span class="eyebrow">YOUR CONNECTIONS</span><h2>Your part of the flow.</h2><p>See the Zones, people, Pages, Calls and places already connected to you.</p></div>
+            <span class="live-flow-connection-count">{{ liveFlowUserConnections.length }} connected</span>
+          </div>
+          <div v-if="liveFlowUserConnections.length" class="live-flow-connection-grid">
+            <button v-for="connection in liveFlowUserConnections" :key="connection.id" type="button" class="live-flow-connection-card" @click="connection.action()">
+              <span class="live-flow-connection-icon">{{ connection.icon }}</span>
+              <span class="live-flow-connection-copy"><small>{{ connection.type }}</small><strong>{{ connection.label }}</strong><span>{{ connection.detail }}</span></span>
+              <span class="live-flow-connection-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
+          <div v-else class="live-flow-connections-empty">
+            <span class="live-flow-connection-icon">◎</span>
+            <div><strong>Your flow starts with a connection.</strong><p>Join a Zone, follow a person or Page, or follow a Call. Your connections will appear here.</p></div>
+            <button type="button" class="ghost-btn" @click="navigate('around-zones')">Explore Zones →</button>
+          </div>
+        </section>
 
         <div class="live-network-filters">
           <button type="button" class="live-network-filter active">GLOBAL</button>
@@ -15101,6 +15144,127 @@ textarea:focus-visible {
 /* MY ZONES */
 .my-zones-content{max-width:1180px}.my-zones-header{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:22px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.055)}.my-zones-header h1{margin:6px 0 5px;font-size:30px}.my-zones-header p{margin:0;color:#758297;font-size:10px;line-height:1.6}.my-zones-discover-btn{display:flex;align-items:center;gap:10px;white-space:nowrap}.my-zones-overview{display:grid;grid-template-columns:220px minmax(0,1fr);gap:12px;margin-bottom:16px}.my-zones-overview-main,.my-zones-overview-note{border:1px solid rgba(255,255,255,.065);border-radius:14px;background:linear-gradient(145deg,rgba(24,32,45,.82),rgba(10,15,23,.9))}.my-zones-overview-main{display:flex;flex-direction:column;justify-content:center;padding:18px}.my-zones-overview-main strong{margin:3px 0 0;color:#edf3fb;font-size:34px}.my-zones-overview-main>span:last-child{margin-top:6px;color:#718096;font-size:8px}.my-zones-overview-note{display:flex;align-items:center;gap:15px;padding:18px}.my-zones-orbit{width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;border:1px solid rgba(125,164,214,.28);border-radius:50%;color:#91b9e9;background:radial-gradient(circle,rgba(86,130,190,.16),rgba(8,13,21,.25) 68%)}.my-zones-overview-note strong{color:#c7d5e7;font-size:10px}.my-zones-overview-note p{margin:5px 0 0;color:#6f7d91;font-size:8px;line-height:1.55}.my-zones-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.my-zone-card{overflow:hidden;border:1px solid rgba(255,255,255,.065);border-radius:15px;background:#0b1018;box-shadow:0 16px 35px rgba(0,0,0,.18);transition:.18s ease}.my-zone-card:hover{transform:translateY(-2px);border-color:rgba(103,164,255,.16);box-shadow:0 20px 42px rgba(0,0,0,.25)}.my-zone-card-visual{position:relative;height:155px;background-size:cover;background-position:center}.my-zone-card-visual-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,10,16,.05) 15%,rgba(6,10,16,.72) 100%)}.my-zone-card-location{position:absolute;left:15px;bottom:13px;color:#d5e0ee;font-size:8px}.my-zone-card-status{position:absolute;top:12px;right:12px;padding:5px 7px;border:1px solid rgba(145,180,220,.22);border-radius:6px;background:rgba(7,12,19,.68);color:#a9c9ec;font-size:6px;font-weight:800;letter-spacing:.13em}.my-zone-card-body{padding:16px}.my-zone-card-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:15px}.my-zone-card-title-row h2{margin:5px 0 0;color:#edf3fb;font-size:19px}.my-zone-open-btn{display:flex;align-items:center;gap:7px;padding:7px 9px;border:1px solid rgba(103,164,255,.12);border-radius:8px;background:rgba(74,120,194,.055);color:#9fc4f8;font-size:7px;font-weight:800;cursor:pointer}.my-zone-description{min-height:34px;margin:10px 0 15px;color:#78869a;font-size:9px;line-height:1.55}.my-zone-signals{display:grid;grid-template-columns:repeat(4,1fr);padding:11px 0;border-top:1px solid rgba(255,255,255,.045);border-bottom:1px solid rgba(255,255,255,.045)}.my-zone-signals div{padding:0 9px;border-right:1px solid rgba(255,255,255,.045)}.my-zone-signals div:first-child{padding-left:0}.my-zone-signals div:last-child{border-right:0}.my-zone-signals strong,.my-zone-signals span{display:block}.my-zone-signals strong{color:#cbd8e8;font-size:13px}.my-zone-signals span{margin-top:3px;color:#5f6e82;font-size:6px;text-transform:uppercase}.my-zone-card-footer{display:flex;justify-content:space-between;margin-top:12px;color:#58677b;font-size:7px}.my-zone-arrow{color:#789ecb;font-size:13px}.my-zones-empty{min-height:380px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;border:1px dashed rgba(103,164,255,.12);border-radius:16px;background:rgba(255,255,255,.01);text-align:center}.my-zones-empty-orbit{width:62px;height:62px;display:grid;place-items:center;margin-bottom:18px;border:1px solid rgba(126,169,218,.28);border-radius:50%;color:#8db6e8;font-size:18px}.my-zones-empty h2{margin:7px 0 6px;color:#dbe5f2;font-size:19px}.my-zones-empty p{max-width:430px;margin:0 0 18px;color:#6e7c90;font-size:9px;line-height:1.65}@media(max-width:800px){.my-zones-overview,.my-zones-list{grid-template-columns:1fr}}@media(max-width:560px){.my-zones-header{align-items:flex-start;flex-direction:column}.my-zone-signals{grid-template-columns:repeat(2,1fr);gap:10px 0}}
 
+
+/* PERSONAL CONNECTIONS INSIDE LIVE FLOW */
+.live-flow-personal-connections {
+  margin: 22px 0 28px;
+  padding: 20px;
+  border: 1px solid rgba(112, 154, 211, 0.2);
+  border-radius: 18px;
+  background: linear-gradient(125deg, rgba(20, 35, 61, 0.72), rgba(14, 22, 39, 0.86));
+}
+.live-flow-personal-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 17px;
+}
+.live-flow-personal-heading h2 {
+  margin: 6px 0;
+  color: #f3f7ff;
+  font-size: 1.2rem;
+  letter-spacing: -0.025em;
+}
+.live-flow-personal-heading p {
+  margin: 0;
+  color: #a8b8d1;
+  font-size: 0.88rem;
+}
+.live-flow-connection-count,
+.live-flow-live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+  padding: 7px 10px;
+  border: 1px solid rgba(94, 164, 223, 0.24);
+  border-radius: 999px;
+  color: #a9d8ff;
+  background: rgba(55, 123, 181, 0.1);
+  font-size: 0.68rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.live-flow-connection-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.live-flow-connection-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 13px;
+  border: 1px solid rgba(143, 170, 209, 0.14);
+  border-radius: 14px;
+  color: inherit;
+  text-align: left;
+  background: rgba(9, 17, 31, 0.48);
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+.live-flow-connection-card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(107, 183, 233, 0.45);
+  background: rgba(38, 65, 99, 0.35);
+}
+.live-flow-connection-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(105, 173, 231, 0.25);
+  border-radius: 12px;
+  color: #8ed8e6;
+  background: radial-gradient(circle at 30% 25%, rgba(95, 178, 221, 0.2), rgba(82, 92, 176, 0.08));
+  font-size: 1.2rem;
+}
+.live-flow-connection-copy {
+  display: grid;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+.live-flow-connection-copy small {
+  color: #8eb9e4;
+  font-size: 0.62rem;
+  letter-spacing: 0.09em;
+}
+.live-flow-connection-copy strong {
+  overflow: hidden;
+  color: #f0f5ff;
+  font-size: 0.9rem;
+  text-overflow: ellipsis;
+}
+.live-flow-connection-copy > span {
+  overflow: hidden;
+  color: #9aaec9;
+  font-size: 0.76rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.live-flow-connection-arrow { color: #8eb9e4; font-size: 1rem; }
+.live-flow-connections-empty {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  border: 1px dashed rgba(143, 170, 209, 0.2);
+  border-radius: 14px;
+  color: #a8b8d1;
+}
+.live-flow-connections-empty > div { flex: 1; }
+.live-flow-connections-empty strong { color: #f0f5ff; }
+.live-flow-connections-empty p { margin: 5px 0 0; font-size: 0.82rem; }
+@media (max-width: 720px) {
+  .live-flow-personal-connections { padding: 15px; }
+  .live-flow-personal-heading { flex-direction: column; }
+  .live-flow-connection-grid { grid-template-columns: minmax(0, 1fr); }
+  .live-flow-connections-empty { align-items: flex-start; flex-wrap: wrap; }
+}
 
 /* ZONES AROUND LIVE FLOW ICON */
 .zones-around-live-header{
