@@ -3872,14 +3872,13 @@ onBeforeUnmount(() => {
         </button>
 
         <button
-          class="circle-home-nav-button"
+          class="dimension-portal-trigger"
           type="button"
           @click="showCircleHome = true"
           :aria-label="t('Circles')"
           :title="t('Circles')"
         >
-          <span class="icon" aria-hidden="true">◉</span>
-          {{ t('Circles') }}
+          <span class="dimension-portal-line" aria-hidden="true"></span>
         </button>
 
         <button
@@ -16760,15 +16759,85 @@ textarea:focus-visible {
 
 
 
-/* Full-screen, centered circle launcher that can be opened from the main platform. */
-.circle-home-nav-button {
-  color: #b7caff !important;
-  border: 1px solid rgba(143, 174, 239, .15) !important;
-  background: rgba(70, 96, 151, .07) !important;
+/* A slim luminous seam between the main platform and the Circles dimension. */
+.dimension-portal-trigger {
+  position: relative;
+  align-self: center;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 34px;
+  min-height: 34px;
+  margin: 5px 0 7px;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #b7caff;
+  cursor: pointer;
+  overflow: visible;
 }
-.circle-home-nav-button:hover {
-  border-color: rgba(143, 174, 239, .38) !important;
-  background: rgba(70, 96, 151, .16) !important;
+.dimension-portal-line {
+  position: relative;
+  display: block;
+  width: 2px;
+  height: 27px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, transparent, #709cff 18%, #d7e5ff 50%, #8e7dff 82%, transparent);
+  box-shadow: 0 0 5px rgba(107, 157, 255, .85), 0 0 13px rgba(102, 125, 255, .62), 0 0 24px rgba(117, 105, 255, .28);
+  transition: height .25s ease, width .25s ease, filter .25s ease;
+  animation: dimension-seam-pulse 3.2s ease-in-out infinite;
+}
+.dimension-portal-line::before,
+.dimension-portal-line::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 13px;
+  height: 13px;
+  border: 1px solid rgba(151, 179, 255, .45);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(.65);
+  opacity: 0;
+  pointer-events: none;
+}
+.dimension-portal-line::after {
+  width: 23px;
+  height: 23px;
+  border-color: rgba(143, 123, 255, .3);
+}
+.dimension-portal-trigger:hover .dimension-portal-line,
+.dimension-portal-trigger:focus-visible .dimension-portal-line {
+  height: 32px;
+  width: 3px;
+  filter: brightness(1.4);
+}
+.dimension-portal-trigger:hover .dimension-portal-line::before,
+.dimension-portal-trigger:focus-visible .dimension-portal-line::before {
+  animation: dimension-ripple 1.15s ease-out infinite;
+}
+.dimension-portal-trigger:hover .dimension-portal-line::after,
+.dimension-portal-trigger:focus-visible .dimension-portal-line::after {
+  animation: dimension-ripple 1.15s ease-out .22s infinite;
+}
+.dimension-portal-trigger:focus-visible {
+  outline: 1px solid rgba(157, 190, 255, .75);
+  outline-offset: 2px;
+}
+@keyframes dimension-seam-pulse {
+  0%, 100% { opacity: .62; filter: brightness(.85); }
+  50% { opacity: 1; filter: brightness(1.3); }
+}
+@keyframes dimension-ripple {
+  0% { opacity: .8; transform: translate(-50%, -50%) scale(.55); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.9); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dimension-portal-line { animation: none; }
+  .dimension-portal-line::before,
+  .dimension-portal-line::after { animation: none !important; }
 }
 .platform-circles-stage {
   position: fixed;
