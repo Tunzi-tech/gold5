@@ -142,6 +142,7 @@ const platformCircles = [
   { id: 'impact', name: 'Impact', mark: '↗', color: 'mint', view: 'awareness' },
 ]
 const homeDisplayMode = ref<'content' | 'feed'>('content')
+const homeHeroHidden = ref(false)
 const homeConnectionPanel = ref<'local' | 'world' | 'channels' | 'calls' | 'initiatives' | 'chat' | null>(null)
 const homeJoinedChannels = ref<string[]>([])
 const homeConnectionItems = [
@@ -4395,7 +4396,13 @@ onBeforeUnmount(() => {
            ================================================= -->
       <section v-if="activeView === 'home'" class="content home-commons-content">
 
-        <div class="hero-stage">
+        <div class="home-hero-control">
+          <button type="button" class="home-hero-toggle" :aria-expanded="!homeHeroHidden" @click="homeHeroHidden = !homeHeroHidden">
+            <span aria-hidden="true">{{ homeHeroHidden ? '⌄' : '⌃' }}</span>
+            {{ homeHeroHidden ? 'Show header' : 'Hide header' }}
+          </button>
+        </div>
+        <div v-if="!homeHeroHidden" class="hero-stage">
           <transition name="hero-fade" mode="out-in">
             <div :key="activeHero" class="hero hero-rotating">
               <div class="hero-copy">
@@ -17332,4 +17339,10 @@ textarea:focus-visible {
 @media(max-width:760px){.home-connection-hub{max-width:none;margin:0 0 10px;padding:11px}.home-connection-heading h1{font-size:17px}.home-connection-orbit{flex-basis:32px;width:32px;height:32px}.home-connection-panel{align-items:flex-start;flex-direction:column}.home-connection-panel-actions{width:100%}}
 @media(prefers-reduced-motion:reduce){.home-connection-link{transition:none}}
 
+
+/* Keep the original rotating Home header optional without hiding the Explore/Feed controls. */
+.home-hero-control{display:flex;justify-content:flex-end;margin:0 0 5px}
+.home-hero-toggle{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border:1px solid rgba(125,151,190,.2);border-radius:7px;background:rgba(13,22,36,.72);color:#93a5bd;font:inherit;font-size:9px;font-weight:750;cursor:pointer;transition:color .18s ease,border-color .18s ease,background .18s ease}
+.home-hero-toggle:hover{color:#dce8f8;border-color:rgba(115,185,201,.42);background:rgba(22,37,55,.9)}
+@media(prefers-reduced-motion:reduce){.home-hero-toggle{transition:none}}
 </style>
