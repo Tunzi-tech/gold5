@@ -167,6 +167,9 @@ const liveSongUrl = ref('')
 const liveSongVideoId = ref('')
 const liveSongUpdatedAt = ref('')
 const liveSongError = ref('')
+const liveSongOpen = ref(false)
+type LiveQueueItem = { id: string; url: string; videoId: string; title: string; votes: number; voted: boolean }
+const liveVideoQueue = ref<LiveQueueItem[]>([])
 
 function getYouTubeVideoId(value: string): string {
   try {
@@ -197,27 +200,82 @@ function loadLiveSong(value: string) {
   }
 }
 
-function updateLiveSong() {
+function persistLiveQueue() {
+  try {
+    localStorage.setItem('commons-live-flow-video-queue', JSON.stringify(liveVideoQueue.value))
+  } catch {
+    // Keep queue voting usable for this browser session if storage is unavailable.
+  }
+}
+
+function queueLiveVideo() {
   const url = liveSongUrl.value.trim()
   const videoId = getYouTubeVideoId(url)
   if (!videoId || !/^[a-zA-Z0-9_-]{11}$/.test(videoId)) {
-    liveSongError.value = 'Enter a valid YouTube video link.'
+    liveSongError.value = 'Paste a valid YouTube video link.'
     return
   }
-  const updatedAt = new Date().toISOString()
-  const song = { url, videoId, updatedAt }
-  liveSongVideoId.value = videoId
-  liveSongUpdatedAt.value = updatedAt
+  if (liveVideoQueue.value.some(item => item.videoId === videoId) || liveSongVideoId.value === videoId) {
+    liveSongError.value = 'That video is already playing or in the queue.'
+    return
+  }
+  liveVideoQueue.value.push({
+    id: `${videoId}-${Date.now()}`,
+    url,
+    videoId,
+    title: 'Community video',
+    votes: 0,
+    voted: false
+  })
+  liveSongError.value = ''
+  persistLiveQueue()
+}
+
+function voteForLiveVideo(item: LiveQueueItem) {
+  item.voted = !item.voted
+  item.votes += item.voted ? 1 : -1
+  persistLiveQueue()
+}
+
+function playNextLiveVideo() {
+  if (!liveVideoQueue.value.length) return
+  const highestVotes = Math.max(...liveVideoQueue.value.map(item => item.votes))
+  const leaders = liveVideoQueue.value.filter(item => item.votes === highestVotes && highestVotes > 0)
+  // A tie means no priority: keep the normal first-in, first-out queue.
+  const selected = leaders.length === 1 ? leaders[0] : liveVideoQueue.value[0]
+  const index = liveVideoQueue.value.findIndex(item => item.id === selected.id)
+  liveVideoQueue.value.splice(index, 1)
+  liveSongUrl.value = selected.url
+  liveSongVideoId.value = selected.videoId
+  liveSongUpdatedAt.value = new Date().toISOString()
   liveSongError.value = ''
   try {
-    localStorage.setItem('commons-live-flow-song', JSON.stringify(song))
+    localStorage.setItem('commons-live-flow-song', JSON.stringify({
+      url: selected.url,
+      videoId: selected.videoId,
+      updatedAt: liveSongUpdatedAt.value
+    }))
   } catch {
-    // Keep the player usable for this session if browser storage is unavailable.
+    // The selected video still loads in this session.
+  }
+  persistLiveQueue()
+}
+
+function loadLiveQueue(value: string) {
+  try {
+    const saved = JSON.parse(value)
+    if (Array.isArray(saved)) liveVideoQueue.value = saved.filter(item =>
+      item && typeof item.url === 'string' && typeof item.videoId === 'string' &&
+      /^[a-zA-Z0-9_-]{11}$/.test(item.videoId)
+    )
+  } catch {
+    // Ignore malformed queue data.
   }
 }
 
 function handleLiveSongStorage(event: StorageEvent) {
   if (event.key === 'commons-live-flow-song' && event.newValue) loadLiveSong(event.newValue)
+  if (event.key === 'commons-live-flow-video-queue' && event.newValue) loadLiveQueue(event.newValue)
 }
 const liveFlowCommonsPanel = ref<'people' | 'ideas' | 'zones' | 'calls' | 'actions' | 'conversations' | null>(null)
 const liveFlowCommonsItems = [
@@ -3868,6 +3926,8 @@ function voteRoleProposal(proposal: RoleProposal, choice: 'yes' | 'no') {
 onMounted(() => {
   const savedLiveSong = localStorage.getItem('commons-live-flow-song')
   if (savedLiveSong) loadLiveSong(savedLiveSong)
+  const savedLiveQueue = localStorage.getItem('commons-live-flow-video-queue')
+  if (savedLiveQueue) loadLiveQueue(savedLiveQueue)
   window.addEventListener('storage', handleLiveSongStorage)
   const savedLanguage = localStorage.getItem('commons-language')
   if (savedLanguage === 'ar' || savedLanguage === 'en') language.value = savedLanguage
@@ -4938,38 +4998,58 @@ onBeforeUnmount(() => {
 
       <section v-if="activeView === 'live-flow'" class="content live-engagement-content">
         <div v-if="liveFlowSpace === 'overview' || liveFlowSpace === 'feed'" class="live-network-content">
-        <section class="live-flow-music-player" aria-label="Live Flow shared song">
+        <button class="live-flow-space-toggle" type="button" :aria-expanded="liveSongOpen" @click="liveSongOpen = !liveSongOpen">
+          <span class="live-flow-space-toggle-icon" aria-hidden="true">▷</span>
+          <span><strong>Community Video Flow</strong><small>Music, stories and videos about issues that matter</small></span>
+          <span class="live-flow-space-toggle-action">{{ liveSongOpen ? 'Close space ↑' : 'Open space ↓' }}</span>
+        </button>
+        <section v-if="liveSongOpen" class="live-flow-music-player" aria-label="Live Flow community video queue">
           <div class="live-flow-music-copy">
-            <span class="home-connection-kicker">LIVE FLOW · LISTEN TOGETHER</span>
-            <h2>One song in the flow.</h2>
-            <p>Add a YouTube link for the community. The player starts paused, so everyone chooses when to listen.</p>
+            <span class="home-connection-kicker">LIVE FLOW · COMMUNITY VIDEO</span>
+            <h2>What should we watch together?</h2>
+            <p>Share a YouTube video — a song, a story, or a video about an issue. The player stays paused until someone presses play.</p>
           </div>
-          <form class="live-flow-music-update" @submit.prevent="updateLiveSong">
-            <label for="live-flow-song-url">YouTube song link</label>
+          <form class="live-flow-music-update" @submit.prevent="queueLiveVideo">
+            <label for="live-flow-song-url">Add a video to the community queue</label>
             <div class="live-flow-music-input-row">
-              <input id="live-flow-song-url" v-model="liveSongUrl" type="url" placeholder="https://www.youtube.com/watch?v=..." autocomplete="url" />
-              <button type="submit">Update song <span aria-hidden="true">↗</span></button>
+              <input id="live-flow-song-url" v-model="liveSongUrl" type="url" placeholder="Paste a YouTube video link…" autocomplete="url" />
+              <button type="submit">Add to queue <span aria-hidden="true">＋</span></button>
             </div>
             <p v-if="liveSongError" class="live-flow-music-error" role="alert">{{ liveSongError }}</p>
           </form>
           <div v-if="liveSongVideoId" class="live-flow-music-current">
-            <div class="live-flow-music-status"><span class="live-flow-music-live-dot"></span><span>NOW IN THE FLOW</span><small>Playback is paused until you press play.</small></div>
+            <div class="live-flow-music-status"><span class="live-flow-music-live-dot"></span><span>NOW IN THE FLOW</span><small>Playback starts only when you press play.</small></div>
             <div class="live-flow-youtube-frame">
               <iframe
                 :key="liveSongVideoId"
                 :src="'https://www.youtube-nocookie.com/embed/' + liveSongVideoId + '?autoplay=0&controls=1&playsinline=1&rel=0'"
-                title="Live Flow community song"
+                title="Live Flow community video"
                 allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin"
                 allowfullscreen
               ></iframe>
             </div>
             <div class="live-flow-music-footer">
-              <span>Community pick · YouTube</span>
+              <span>Community video · YouTube</span>
               <a :href="liveSongUrl" target="_blank" rel="noopener noreferrer">Open on YouTube ↗</a>
             </div>
           </div>
-          <div v-else class="live-flow-music-empty"><span aria-hidden="true">♫</span><div><strong>The community soundtrack starts here.</strong><small>Paste a YouTube video link above to add the first song.</small></div></div>
+          <div v-else class="live-flow-music-empty"><span aria-hidden="true">▷</span><div><strong>The community queue is ready.</strong><small>Add a video above, then let the community choose what comes next.</small></div></div>
+          <section class="live-flow-video-queue" aria-label="Community video queue">
+            <div class="live-flow-video-queue-heading">
+              <div><span class="home-connection-kicker">UP NEXT</span><h3>Community queue <span>{{ liveVideoQueue.length }}</span></h3></div>
+              <button type="button" :disabled="!liveVideoQueue.length" @click="playNextLiveVideo">Play next video ↗</button>
+            </div>
+            <p class="live-flow-queue-note">Vote for a video to bring it forward. The highest unique vote count plays next; if votes are tied, the queue keeps its normal order.</p>
+            <div v-if="liveVideoQueue.length" class="live-flow-video-queue-list">
+              <article v-for="(item, index) in liveVideoQueue" :key="item.id" class="live-flow-video-queue-item">
+                <span class="live-flow-video-queue-number">{{ index + 1 }}</span>
+                <div class="live-flow-video-queue-info"><strong>{{ item.title }}</strong><small>Shared video · {{ item.votes }} {{ item.votes === 1 ? 'vote' : 'votes' }}</small><a :href="item.url" target="_blank" rel="noopener noreferrer">Preview on YouTube ↗</a></div>
+                <button type="button" :class="{ voted: item.voted }" @click="voteForLiveVideo(item)">{{ item.voted ? 'Voted ✓' : 'Vote ↑' }}</button>
+              </article>
+            </div>
+            <div v-else class="live-flow-video-queue-empty">No videos waiting yet. Add one above to start the conversation.</div>
+          </section>
         </section>
         <section id="live-flow-commons" class="live-flow-commons-hub" aria-label="Live Flow Commons">
           <div class="live-flow-commons-heading">
@@ -17811,6 +17891,34 @@ a { text-underline-offset: 3px; }
   -webkit-text-fill-color: transparent;
   text-shadow: 0 2px 12px rgba(91, 157, 255, .18);
 }
+
+/* Live Flow community video queue — collapsed until explicitly opened. */
+.live-flow-space-toggle{width:100%;display:flex;align-items:center;gap:13px;margin:0 0 18px;padding:14px 17px;text-align:left;border:1px solid rgba(106,155,222,.23);border-radius:15px;background:linear-gradient(110deg,rgba(20,37,59,.95),rgba(12,22,36,.96));color:#e9f2ff;cursor:pointer;box-shadow:inset 0 1px rgba(225,238,255,.035);transition:border-color .18s ease,background .18s ease}
+.live-flow-space-toggle:hover{border-color:rgba(122,177,255,.48);background:linear-gradient(110deg,rgba(25,46,73,.98),rgba(14,27,44,.98))}
+.live-flow-space-toggle-icon{display:grid;place-items:center;width:37px;height:37px;flex:0 0 37px;border:1px solid rgba(115,169,245,.28);border-radius:11px;background:rgba(70,132,216,.14);color:#a9d0ff;font-size:18px}
+.live-flow-space-toggle strong,.live-flow-space-toggle small{display:block}
+.live-flow-space-toggle strong{font-size:12px;letter-spacing:.01em}
+.live-flow-space-toggle small{margin-top:4px;color:#8ea3bf;font-size:10px}
+.live-flow-space-toggle-action{margin-left:auto;color:#9bc7ff;font-size:10px;font-weight:800;white-space:nowrap}
+.live-flow-video-queue{grid-column:1/-1;min-width:0;margin-top:2px;padding-top:18px;border-top:1px solid rgba(130,164,208,.13)}
+.live-flow-video-queue-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.live-flow-video-queue-heading h3{margin:5px 0 0;color:#e5efff;font-size:16px;letter-spacing:-.025em}
+.live-flow-video-queue-heading h3 span{display:inline-grid;place-items:center;min-width:22px;height:22px;margin-left:5px;padding:0 5px;border-radius:7px;background:rgba(100,155,230,.13);color:#a9ceff;font-size:10px}
+.live-flow-video-queue-heading>button{padding:9px 12px;border:1px solid rgba(115,169,245,.3);border-radius:9px;background:rgba(49,105,178,.22);color:#c8e0ff;font-size:10px;font-weight:750;cursor:pointer}
+.live-flow-video-queue-heading>button:disabled{opacity:.4;cursor:not-allowed}
+.live-flow-queue-note{margin:10px 0 13px;color:#8599b4;font-size:10px;line-height:1.6}
+.live-flow-video-queue-list{display:grid;gap:8px}
+.live-flow-video-queue-item{display:flex;align-items:center;gap:11px;min-width:0;padding:11px;border:1px solid rgba(130,164,208,.13);border-radius:11px;background:rgba(5,12,22,.28)}
+.live-flow-video-queue-number{display:grid;place-items:center;width:28px;height:28px;flex:0 0 28px;border-radius:8px;background:rgba(106,155,222,.1);color:#9fc6ff;font-size:11px;font-weight:800}
+.live-flow-video-queue-info{display:flex;flex:1;flex-direction:column;gap:4px;min-width:0}
+.live-flow-video-queue-info strong{overflow:hidden;color:#dce9fb;font-size:11px;text-overflow:ellipsis;white-space:nowrap}
+.live-flow-video-queue-info small{color:#8195b0;font-size:9px}
+.live-flow-video-queue-info a{color:#8dbfff;font-size:9px;text-decoration:none}
+.live-flow-video-queue-item>button{flex:0 0 auto;padding:8px 10px;border:1px solid rgba(115,169,245,.25);border-radius:8px;background:rgba(54,103,167,.15);color:#b8d8ff;font-size:10px;font-weight:750;cursor:pointer}
+.live-flow-video-queue-item>button.voted{border-color:rgba(96,201,169,.35);background:rgba(54,151,124,.15);color:#9ce4ca}
+.live-flow-video-queue-empty{padding:16px;border:1px dashed rgba(124,163,218,.18);border-radius:11px;color:#8195b0;font-size:11px}
+@media(max-width:760px){.live-flow-space-toggle{align-items:flex-start;padding:12px;gap:9px}.live-flow-space-toggle small{max-width:210px;line-height:1.5}.live-flow-space-toggle-action{font-size:9px}.live-flow-video-queue-heading{align-items:flex-start}.live-flow-video-queue-item{gap:8px;padding:9px}.live-flow-video-queue-item>button{padding:8px}}
+@media(prefers-reduced-motion:reduce){.live-flow-space-toggle{transition:none}}
 
 /* Live Flow community soundtrack */
 .live-flow-music-player {
