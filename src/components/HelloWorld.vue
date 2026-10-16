@@ -17555,4 +17555,93 @@ a { text-underline-offset: 3px; }
   }
 }
 
+
+
+/* =========================================================
+   LAYOUT REFINEMENT — align the workspace, navigation and page canvas
+   ========================================================= */
+:root {
+  --commons-sidebar-width: 244px;
+  --commons-page-gutter: clamp(20px, 3vw, 44px);
+}
+.app-shell { min-height: 100vh; }
+.main {
+  margin-left: var(--commons-sidebar-width);
+  width: calc(100% - var(--commons-sidebar-width));
+  min-width: 0;
+  padding-left: 0;
+}
+.topbar {
+  width: 100%;
+  height: 64px;
+  margin-left: 0;
+  padding: 0 var(--commons-page-gutter);
+  gap: 22px;
+  border-bottom-color: rgba(145,169,204,.13);
+  background: rgba(8,13,22,.88);
+  box-shadow: 0 8px 24px rgba(0,0,0,.08);
+}
+.search-box {
+  width: min(460px, 46vw);
+  min-width: 180px;
+  height: 36px;
+  border-color: rgba(145,169,204,.15);
+  background: rgba(255,255,255,.028);
+  border-radius: 10px;
+}
+.top-actions { gap: 8px; }
+.content {
+  width: 100%;
+  max-width: 1580px;
+  margin: 0 auto;
+  padding: 30px var(--commons-page-gutter) 72px;
+}
+.sidebar {
+  width: var(--commons-sidebar-width);
+  padding: 22px 14px 18px;
+}
+.brand { padding-bottom: 22px; }
+.main-nav { gap: 3px; }
+.main-nav button { min-height: 36px; }
+.section-heading, .page-title { margin-bottom: 20px; }
+.section-heading h1, .page-title h1 { margin-top: 0; }
+.home-commons-content { min-width: 0; }
+.home-connection-hub { width: min(100%, 920px); }
+.live-flow-commons-hub { width: 100%; }
+@media (min-width: 1500px) {
+  .content { padding-top: 36px; }
+}
+@media (max-width: 1100px) {
+  .topbar { gap: 14px; }
+  .search-box { width: min(360px, 38vw); }
+  .content { padding-top: 26px; }
+}
+@media (max-width: 900px) {
+  :root { --commons-sidebar-width: 218px; --commons-page-gutter: 22px; }
+  .sidebar { width: var(--commons-sidebar-width); }
+  .main { margin-left: var(--commons-sidebar-width); width: calc(100% - var(--commons-sidebar-width)); }
+  .topbar { padding-left: var(--commons-page-gutter); padding-right: var(--commons-page-gutter); }
+}
+@media (max-width: 760px) {
+  .sidebar { display: none; }
+  .main { margin-left: 0; width: 100%; padding-left: 0; padding-bottom: 90px; }
+  .topbar {
+    height: 58px;
+    margin-left: 0;
+    padding: 0 15px;
+    gap: 10px;
+  }
+  .search-box { width: auto; min-width: 0; flex: 1; height: 35px; }
+  .content {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 22px 15px 48px;
+  }
+  .home-connection-hub { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .topbar { backdrop-filter: none; }
+}
+
 </style>
