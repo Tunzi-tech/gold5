@@ -17418,4 +17418,141 @@ textarea:focus-visible {
 .live-flow-connection-back:hover{color:#d2e4ff;text-decoration:underline}
 #live-flow-connections{scroll-margin-top:24px}
 @media(prefers-reduced-motion:reduce){.live-flow-commons-bridge{transition:none}}
+
+
+/* =========================================================
+   COMMONS INTERFACE SYSTEM — consistent, calm, professional
+   A restrained visual layer shared across the existing views.
+   Keeps existing markup, routes, and interactions intact.
+   ========================================================= */
+:root {
+  color-scheme: dark;
+  --ui-bg: #080d16;
+  --ui-panel: rgba(15, 23, 36, .82);
+  --ui-panel-raised: rgba(19, 29, 45, .88);
+  --ui-border: rgba(145, 169, 204, .16);
+  --ui-border-strong: rgba(145, 169, 204, .27);
+  --ui-text: #e8eef8;
+  --ui-muted: #8c9bb0;
+  --ui-subtle: #65758c;
+  --ui-blue: #8ebaff;
+  --ui-radius: 14px;
+  --ui-shadow: 0 14px 34px rgba(0, 0, 0, .14);
+}
+html { scroll-behavior: smooth; }
+body {
+  color: var(--ui-text);
+  background-color: var(--ui-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+button, input, select, textarea { font: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid rgba(142, 186, 255, .88);
+  outline-offset: 3px;
+}
+.app-shell {
+  background:
+    radial-gradient(ellipse at 82% 0%, rgba(48, 79, 125, .075), transparent 34%),
+    linear-gradient(90deg, rgba(255,255,255,.012), transparent 22%);
+}
+.sidebar {
+  width: 244px;
+  padding: 23px 15px 20px;
+  border-right-color: rgba(145, 169, 204, .13);
+  background: linear-gradient(180deg, rgba(9, 14, 23, .99), rgba(7, 11, 18, .99));
+  box-shadow: 10px 0 34px rgba(0,0,0,.07);
+  backdrop-filter: blur(18px);
+}
+.brand { padding: 3px 9px 25px; }
+.brand strong { letter-spacing: .13em; }
+.main-nav { gap: 3px; }
+.main-nav button {
+  min-height: 37px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-size: 11px;
+  transition: color .18s ease, background .18s ease, border-color .18s ease, transform .18s ease;
+}
+.main-nav button:hover { border-color: rgba(145,169,204,.09); }
+.main-nav button.active {
+  border-color: rgba(112,168,255,.14);
+  box-shadow: inset 2px 0 0 rgba(112,168,255,.72);
+}
+.content {
+  padding: 34px clamp(22px, 3.2vw, 46px) 76px;
+}
+.section-heading, .page-title { margin-bottom: 20px; }
+.section-heading h1, .page-title h1 {
+  letter-spacing: -.035em;
+  line-height: 1.12;
+}
+.section-heading p, .page-title p { max-width: 720px; line-height: 1.7; }
+.hero {
+  border-color: var(--ui-border);
+  border-radius: 18px;
+  box-shadow: var(--ui-shadow), inset 0 1px rgba(255,255,255,.035);
+}
+.home-connection-hub, .live-flow-commons-hub {
+  border-color: var(--ui-border);
+  box-shadow: 0 12px 30px rgba(0,0,0,.12), inset 0 1px rgba(255,255,255,.035);
+}
+.home-connection-link, .live-flow-commons-link {
+  border-radius: 9px;
+}
+.home-connection-link:hover, .live-flow-commons-link:hover {
+  transform: translateY(-1px);
+}
+.goal-card, .suggestion-card, .post-card, .discover-card, .page-card,
+.person-card, .event-card, .call-card, .initiative-card, .zone-card,
+.proposal-card, .official-card, .network-card, .action-card {
+  border-color: var(--ui-border);
+  border-radius: var(--ui-radius);
+  box-shadow: 0 8px 22px rgba(0,0,0,.08), inset 0 1px rgba(255,255,255,.018);
+}
+.goal-card, .suggestion-card {
+  background: linear-gradient(145deg, rgba(18,27,41,.76), rgba(10,16,26,.76));
+}
+.primary-btn, .publish-btn, .home-connection-open, .primary-action,
+button.primary, button[class*="primary"] {
+  border-radius: 9px;
+  transition: transform .18s ease, filter .18s ease, border-color .18s ease, background .18s ease;
+}
+.primary-btn:hover, .publish-btn:hover, .home-connection-open:hover, .primary-action:hover {
+  filter: brightness(1.08);
+}
+input, select, textarea {
+  border-color: var(--ui-border-strong);
+  border-radius: 9px;
+}
+input::placeholder, textarea::placeholder { color: #6e7e94; }
+.home-hero-toggle {
+  border-color: var(--ui-border);
+  border-radius: 8px;
+}
+.live-flow-commons-bridge { border-radius: 8px; }
+a { text-underline-offset: 3px; }
+@media (min-width: 1500px) {
+  .content { padding-left: 52px; padding-right: 52px; }
+}
+@media (max-width: 900px) {
+  .sidebar { width: 218px; padding-left: 12px; padding-right: 12px; }
+  .content { padding-left: 24px; padding-right: 24px; }
+}
+@media (max-width: 760px) {
+  .sidebar { backdrop-filter: none; }
+  .content { padding: 24px 15px 48px; }
+  .section-heading, .page-title { margin-bottom: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
+
 </style>
