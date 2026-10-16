@@ -132,6 +132,7 @@ type Entity = {
    ===================================================== */
 
 const activeView = ref('home')
+const liveFlowSpace = ref<'overview' | 'ideas'>('overview')
 const showPeopleDoingList = ref(false)
 const ideaFlowDraft = ref('')
 const ideaFlowThoughtDrafts = ref<Record<number, string>>({})
@@ -2972,8 +2973,14 @@ function addIdeaThought(id: number) {
   ideaFlowOpenThought.value = null
 }
 
+function openIdeaFlowSpace() {
+  navigate('live-flow')
+  liveFlowSpace.value = 'ideas'
+}
+
 function navigate(view: string) {
   activeView.value = view
+  if (view !== 'live-flow') liveFlowSpace.value = 'overview'
   selectedZone.value = null
   selectedCall.value = null
   selectedPage.value = null
@@ -3698,15 +3705,11 @@ onBeforeUnmount(() => {
         </button>
 
         <button
-          :class="{ active: activeView === 'discover' }"
-          @click="navigate('discover')"
+          :class="{ active: activeView === 'live-flow' }"
+          @click="navigate('live-flow')"
         >
           <span class="icon">◎</span>
           Live Flow
-        </button>
-
-        <button class="idea-flow-nav-button" :class="{ active: activeView === 'idea-flow' }" type="button" @click="navigate('idea-flow')">
-          <span class="icon">✳</span><span>Idea Flow</span>
         </button>
         <div class="live-flow-section-line"></div>
 
@@ -4280,7 +4283,7 @@ onBeforeUnmount(() => {
                 <span class="people-doing-category-type">IDEAS</span>
                 <strong>Ideas & proposals</strong>
                 <p>Suggestions people want to bring to life.</p>
-                <button type="button" @click="navigate('idea-flow')">Enter Idea Flow <span aria-hidden="true">→</span></button>
+                <button type="button" @click="openIdeaFlowSpace">Enter Idea Flow <span aria-hidden="true">→</span></button>
               </article>
               <article class="people-doing-category">
                 <span class="people-doing-category-type">PROJECTS</span>
@@ -4591,8 +4594,38 @@ onBeforeUnmount(() => {
 
       </section>
 
-      <!-- IDEA FLOW: a space for ideas to wander and grow -->
-      <section v-if="activeView === 'idea-flow'" class="content idea-flow-content">
+      <section v-if="activeView === 'live-flow'" class="content live-engagement-content">
+        <div v-if="liveFlowSpace === 'overview'">
+        <div class="live-engagement-back"><button type="button" class="ghost-btn" @click="navigate('around-zones')">← Back to Zones Around</button></div>
+        <div class="live-engagement-hero">
+          <div>
+            <span class="eyebrow">THE NETWORK IS MOVING</span>
+            <h1>See how people, ideas<br /><span>and Zones connect.</span></h1>
+            <p>Follow movement across the Commons: a question becomes an idea, an idea attracts people, and participation changes a Zone.</p>
+          </div>
+          <div class="live-engagement-signal flow-signal"><strong>4 new connections</strong><small>2 ideas · 1 action gaining participants</small></div>
+        </div>
+        <div class="network-flow-stage">
+          <div class="flow-column"><span class="flow-label">PEOPLE</span><div class="flow-node">Amine</div><div class="flow-node">Leila</div><div class="flow-node">Nour</div></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-column"><span class="flow-label">INTEREST</span><div class="flow-node">Urban nature</div><div class="flow-node">Clean streets</div></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-column"><span class="flow-label">IDEA</span><div class="flow-node highlighted">Community garden</div><div class="flow-node">Local clean-up</div></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-column"><span class="flow-label">ZONE</span><div class="flow-node highlighted">Tunis North</div></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-column"><span class="flow-label">ACTION</span><div class="flow-node highlighted">Garden forming</div><div class="flow-node">People joining</div></div>
+        </div>
+        <div class="flow-footer"><div><span>PARTICIPATION</span><strong>12 people connected to these actions</strong></div><div><span>WHAT HAPPENS NEXT</span><strong>Experience → Inspiration → new possibility</strong></div></div>
+        </div>
+        <div v-if="liveFlowSpace === 'overview'" class="live-flow-idea-entry">
+          <span class="eyebrow">A SPACE WITHIN LIVE FLOW</span>
+          <div><h2>Idea Flow</h2><p>Explore unfinished thoughts, release a new idea, and let possibilities grow through shared perspectives.</p></div>
+          <button type="button" class="follow-btn" @click="liveFlowSpace = 'ideas'">Enter Idea Flow <span aria-hidden="true">→</span></button>
+        </div>
+      <!-- IDEA FLOW: a dedicated space inside Live Flow -->
+        <div v-if="liveFlowSpace === 'ideas'" class="idea-flow-space">
+          <div class="live-engagement-back"><button type="button" class="ghost-btn" @click="liveFlowSpace = 'overview'">← Back to Live Flow</button></div>
         <div class="idea-flow-intro">
           <div class="idea-flow-orbit" aria-hidden="true"><span></span><i></i><b></b></div>
           <span class="eyebrow">A SPACE FOR WHAT COULD BE</span>
@@ -5219,6 +5252,7 @@ onBeforeUnmount(() => {
           <div class="flow-column"><span class="flow-label">ACTION</span><div class="flow-node highlighted">Garden forming</div><div class="flow-node">People joining</div></div>
         </div>
         <div class="flow-footer"><div><span>PARTICIPATION</span><strong>12 people connected to these actions</strong></div><div><span>WHAT HAPPENS NEXT</span><strong>Experience → Inspiration → new possibility</strong></div></div>
+        </div>
       </section>
 
       <section v-if="activeView === 'people'" class="content">
@@ -15191,6 +15225,13 @@ textarea:focus-visible {
   margin: 4px 13px 7px;
   background: rgba(255,255,255,.08);
 }
+
+.live-flow-idea-entry{display:flex;align-items:center;justify-content:space-between;gap:22px;margin:28px 0 8px;padding:22px 24px;border:1px solid rgba(111,164,255,.2);border-radius:18px;background:radial-gradient(ellipse at 0% 0%,rgba(73,125,219,.12),transparent 60%),rgba(11,19,36,.68)}
+.live-flow-idea-entry h2{margin:5px 0 7px;font-size:22px;color:#edf4ff}
+.live-flow-idea-entry p{margin:0;max-width:560px;color:rgba(220,231,249,.72);font-size:13px;line-height:1.65}
+.idea-flow-space{width:100%}
+@media(max-width:650px){.live-flow-idea-entry{align-items:flex-start;flex-direction:column;padding:18px}}
+
 
 .impact-section-line {
   height: 1px;
