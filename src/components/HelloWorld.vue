@@ -872,7 +872,7 @@ type AdminSystem = {
 }
 
 // Administration systems and their development workspaces.
-const adminSystems = ref<AdminSystem[]>([
+const adminSystems = ref([
   {
     id: 'calls-system',
     name: 'Calls System',
