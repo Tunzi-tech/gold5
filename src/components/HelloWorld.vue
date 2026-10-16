@@ -918,6 +918,24 @@ const adminSystems = ref<AdminSystem[]>([
     connections: ['Calls', 'Zones', 'People', 'Pages', 'Posts', 'Goals', 'Suggestions', 'Events'],
     functionalParts: ['Detect trigger', 'Resolve recipient', 'Create notification', 'Deliver', 'Read / unread', 'Preference control'],
     missing: ['Backend delivery', 'Persistent read state', 'Notification preference engine']
+  },
+  {
+    id: 'feed-ranking-system',
+    name: 'Feed Relevance & Ranking System',
+    purpose: 'Decides which activity to show in a feed, in what order, and why it may matter to a person—without confusing relevance with popularity.',
+    contains: ['Activity candidates', 'User interests', 'Followed people and Pages', 'Participation history', 'Zone context', 'Ranking signals', 'Feed explanation'],
+    connections: ['Posts', 'People', 'Pages', 'Zones', 'Calls', 'Participation', 'Notifications', 'Live Flow Connections'],
+    functionalParts: ['Collect eligible activities', 'Apply visibility and safety rules', 'Score recency and meaningful relevance', 'Prioritize direct interactions and chosen interests', 'Diversify sources and topics', 'Explain why an item appears', 'Respect user controls and feedback'],
+    missing: ['Production event data pipeline', 'Configurable ranking weights', 'User feedback signals', 'Offline evaluation and bias checks', 'Server-side visibility and privacy enforcement']
+  },
+  {
+    id: 'live-flow-connection-detection-system',
+    name: 'Live Flow Connection Detection System',
+    purpose: 'Finds relationships that have already emerged between real platform activities, then surfaces the links that cross a person’s path so it becomes easier to discover where to connect or contribute.',
+    contains: ['Activity events', 'Shared topics', 'Shared Zone or place', 'People and Page relationships', 'Calls and initiatives', 'Participation signals', 'Connection evidence', 'Personal relevance'],
+    connections: ['Feed Relevance & Ranking System', 'Posts', 'Awareness items', 'Ideas', 'People', 'Pages', 'Zones', 'Calls', 'Participation', 'Live Flow'],
+    functionalParts: ['Read eligible activity events', 'Normalize topics, entities and place references', 'Detect explicit links and shared context', 'Build a relationship between source activities', 'Estimate relevance to the current user', 'Show the evidence explaining the connection', 'Offer a direct next step into the related activity'],
+    missing: ['Unified activity event model', 'Persistent relationship graph', 'Topic/entity matching service', 'Connection confidence thresholds', 'Duplicate and stale-link handling', 'Privacy-aware personalization', 'Production analytics to validate useful connections']
   }
 ])
 
@@ -2384,28 +2402,60 @@ const myConnections = computed<SidebarConnection[]>(() => {
   return connections
 })
 
-const liveFlowUserConnections = computed(() => {
-  const zoneConnections = joinedZones.value.map(zone => ({
-    id: 'zone-' + zone.id,
-    label: zone.name,
-    type: zone.isGovernorate ? 'GOVERNORATE' : 'ZONE',
-    detail: zone.isGovernorate
-      ? joinedZoneConnectionLabel(zone)
-      : 'You are part of this Zone',
-    icon: '◉',
-    action: () => zone.isGovernorate ? openMyGovernorate(zone.name) : openMyZone(zone)
-  }))
+const liveFlowDetectedConnections = computed(() => {
+  const normalize = (value: string | undefined) => (value || '').trim().toLowerCase()
+  const userZones = new Set(joinedZones.value.map(zone => normalize(zone.name)))
+  const detected: Array<{
+    id: string
+    type: string
+    title: string
+    detail: string
+    evidence: string
+    relevant: boolean
+    icon: string
+    action: () => void
+  }> = []
 
-  const otherConnections = myConnections.value.map(connection => ({
-    id: connection.id,
-    label: connection.label,
-    type: connection.type,
-    detail: connection.description,
-    icon: connection.type === 'PERSON' ? '◎' : connection.type === 'CALL' ? '↗' : connection.type === 'ENTITY' ? '◇' : '⌁',
-    action: connection.action
-  }))
+  // An idea and a post are connected only when they share an explicit place context.
+  ideaFlowItems.value.forEach(idea => {
+    posts.value.forEach(post => {
+      if (!idea.zone || !post.zone || normalize(idea.zone) !== normalize(post.zone)) return
+      detected.push({
+        id: 'idea-post-' + idea.id + '-' + post.id,
+        type: 'IDEA ↔ CONVERSATION',
+        title: 'An idea and a conversation share a place',
+        detail: '“' + idea.title + '” · ' + post.author + ' is also active around ' + idea.zone + '.',
+        evidence: 'Shared place context: ' + idea.zone,
+        relevant: userZones.has(normalize(idea.zone)),
+        icon: '↔',
+        action: () => navigate('home')
+      })
+    })
+  })
 
-  return [...zoneConnections, ...otherConnections].slice(0, 8)
+  // Awareness entries can connect with posts when both refer to the same Zone.
+  awarenessItems.value.forEach(item => {
+    posts.value.forEach(post => {
+      if (!item.zone || !post.zone || normalize(item.zone) !== normalize(post.zone)) return
+      detected.push({
+        id: 'awareness-post-' + item.id + '-' + post.id,
+        type: 'CONCERN ↔ CONVERSATION',
+        title: 'A concern meets an ongoing conversation',
+        detail: '“' + item.title + '” · activity from ' + post.author + ' shares this place context.',
+        evidence: 'Shared place context: ' + item.zone,
+        relevant: userZones.has(normalize(item.zone)),
+        icon: '⌁',
+        action: () => navigate('awareness')
+      })
+    })
+  })
+
+  const unique = detected.filter((item, index, all) =>
+    all.findIndex(candidate => candidate.id === item.id) === index
+  )
+  return unique
+    .sort((a, b) => Number(b.relevant) - Number(a.relevant))
+    .slice(0, 6)
 })
 
 const officialZoneRoles = computed(() => {
@@ -4629,22 +4679,21 @@ onBeforeUnmount(() => {
           </p>
         </div>
 
-        <section class="live-flow-personal-connections" aria-label="Your connections in Live Flow">
+        <section class="live-flow-personal-connections" aria-label="Detected connections between platform activities">
           <div class="live-flow-personal-heading">
-            <div><span class="eyebrow">YOUR CONNECTIONS</span><h2>Your part of the flow.</h2><p>See the Zones, people, Pages, Calls and places already connected to you.</p></div>
-            <span class="live-flow-connection-count">{{ liveFlowUserConnections.length }} connected</span>
+            <div><span class="eyebrow">CONNECTIONS CROSSING YOUR PATH</span><h2>See what is connecting.</h2><p>Relationships detected between existing ideas, conversations and concerns—not a directory of places or networks.</p></div>
+            <span class="live-flow-connection-count">{{ liveFlowDetectedConnections.length }} detected</span>
           </div>
-          <div v-if="liveFlowUserConnections.length" class="live-flow-connection-grid">
-            <button v-for="connection in liveFlowUserConnections" :key="connection.id" type="button" class="live-flow-connection-card" @click="connection.action()">
+          <div v-if="liveFlowDetectedConnections.length" class="live-flow-connection-grid">
+            <button v-for="connection in liveFlowDetectedConnections" :key="connection.id" type="button" class="live-flow-connection-card" @click="connection.action()">
               <span class="live-flow-connection-icon">{{ connection.icon }}</span>
-              <span class="live-flow-connection-copy"><small>{{ connection.type }}</small><strong>{{ connection.label }}</strong><span>{{ connection.detail }}</span></span>
+              <span class="live-flow-connection-copy"><small>{{ connection.type }}<template v-if="connection.relevant"> · ON YOUR PATH</template></small><strong>{{ connection.title }}</strong><span>{{ connection.detail }}</span><span class="live-flow-connection-evidence">{{ connection.evidence }}</span></span>
               <span class="live-flow-connection-arrow" aria-hidden="true">↗</span>
             </button>
           </div>
           <div v-else class="live-flow-connections-empty">
-            <span class="live-flow-connection-icon">◎</span>
-            <div><strong>Your flow starts with a connection.</strong><p>Join a Zone, follow a person or Page, or follow a Call. Your connections will appear here.</p></div>
-            <button type="button" class="ghost-btn" @click="navigate('around-zones')">Explore Zones →</button>
+            <span class="live-flow-connection-icon">⌁</span>
+            <div><strong>No activity relationship detected yet.</strong><p>As ideas, posts and awareness entries share a topic or place, Live Flow can surface the relationship and show why it was detected.</p></div>
           </div>
         </section>
 
