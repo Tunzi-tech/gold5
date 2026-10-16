@@ -871,6 +871,7 @@ type AdminSystem = {
   testScenario?: { title: string; setup: string; expected: string[] }
 }
 
+// Administration systems and their development workspaces.
 const adminSystems = ref<AdminSystem[]>([
   {
     id: 'calls-system',
