@@ -132,6 +132,7 @@ type Entity = {
    ===================================================== */
 
 const activeView = ref('home')
+const homeDisplayMode = ref<'content' | 'feed'>('content')
 const liveFlowSpace = ref<'overview' | 'ideas'>('overview')
 const showPeopleDoingList = ref(false)
 const ideaFlowDraft = ref('')
@@ -4324,6 +4325,26 @@ onBeforeUnmount(() => {
            ================================================= -->
       <section v-if="activeView === 'home'" class="content">
 
+        <div class="home-view-switch" role="group" aria-label="Choose home view">
+          <button
+            type="button"
+            :class="{ active: homeDisplayMode === 'content' }"
+            :aria-pressed="homeDisplayMode === 'content'"
+            @click="homeDisplayMode = 'content'"
+          >
+            <span aria-hidden="true">◈</span> Explore
+          </button>
+          <button
+            type="button"
+            :class="{ active: homeDisplayMode === 'feed' }"
+            :aria-pressed="homeDisplayMode === 'feed'"
+            @click="homeDisplayMode = 'feed'"
+          >
+            <span aria-hidden="true">≋</span> Feed
+          </button>
+        </div>
+
+        <div v-if="homeDisplayMode === 'content'" class="home-discovery-view">
         <div class="hero-stage">
           <transition name="hero-fade" mode="out-in">
             <div :key="activeHero" class="hero hero-rotating">
@@ -4512,6 +4533,9 @@ onBeforeUnmount(() => {
           </div>
         </div>
 
+        </div>
+
+        <div v-else class="home-feed-view">
         <div class="section-heading">
 
           <div>
@@ -4714,6 +4738,7 @@ onBeforeUnmount(() => {
 
           </aside>
 
+        </div>
         </div>
 
       </section>
@@ -16315,6 +16340,12 @@ textarea:focus-visible {
 .initiative-hero-orbit i{width:7px;height:7px;left:8px;top:45px;background:#9f8fff;box-shadow:0 0 12px rgba(159,143,255,.42)}
 .initiative-hero-orbit b{width:6px;height:6px;right:12px;top:24px;background:#73b9c9}
 .initiative-hero-orbit em{width:5px;height:5px;left:28px;bottom:12px;background:#d6d46a}
+.home-view-switch{display:flex;justify-content:flex-end;gap:3px;width:max-content;margin:0 0 12px auto;padding:3px;border:1px solid rgba(137,160,190,.14);border-radius:9px;background:rgba(8,14,23,.72)}
+.home-view-switch button{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid transparent;border-radius:6px;background:transparent;color:#788ba2;font:inherit;font-size:9px;font-weight:800;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease}
+.home-view-switch button span{font-size:12px;line-height:1}
+.home-view-switch button:hover{color:#dce8f5}
+.home-view-switch button.active{border-color:rgba(115,185,201,.22);background:linear-gradient(110deg,rgba(115,185,201,.13),rgba(159,143,255,.1));color:#d7edf2;box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
+.home-discovery-view,.home-feed-view{min-width:0}
 .initiative-home-intro{margin:0 0 10px;padding:14px 16px 4px}
 .initiative-home-intro h2{margin:4px 0 6px;color:#e6edf7;font-size:20px;letter-spacing:-.025em}
 .initiative-home-intro h2 span{color:#73b9c9}
