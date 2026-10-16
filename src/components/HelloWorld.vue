@@ -5658,7 +5658,7 @@ onBeforeUnmount(() => {
             <div class="live-moving-items">
             <button v-for="item in filteredLiveMovingItems" :key="item.id" type="button"
               class="live-network-event live-network-identity-event live-moving-chat-message"
-              :class="{ 'live-moving-chat-message-new': item.isNewMessage }"
+              :class="{ 'live-moving-chat-message-new': item.id >= 1000 }"
               :style="{ '--entity-color': item.color, '--entity-delay': item.delay }"
               @click="openLiveMovingMessage(item)" :aria-label="'Open conversation: ' + item.name + ', ' + item.activity">
               <span class="live-moving-chat-avatar">{{ item.icon }}</span>
