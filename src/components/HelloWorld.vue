@@ -17701,3 +17701,16 @@ a { text-underline-offset: 3px; }
 }
 
 </style>
+
+
+/* Give the shared Home–Portal–Live Flow orbit a slightly clearer mid-blue tone. */
+.main-nav .primary-navigation-portal {
+  background:
+    radial-gradient(ellipse at 24% 15%, rgba(104, 151, 224, .23), transparent 60%),
+    linear-gradient(135deg, rgba(38, 59, 91, .97), rgba(24, 42, 66, .98) 52%, rgba(37, 53, 80, .97));
+  border-color: rgba(130, 169, 229, .27);
+  box-shadow: inset 0 1px 0 rgba(224, 236, 255, .08), inset 0 -7px 18px rgba(2, 8, 18, .2), 0 5px 17px rgba(0, 0, 0, .16);
+}
+.main-nav .primary-navigation-portal::before {
+  border-color: rgba(155, 187, 235, .12);
+}
