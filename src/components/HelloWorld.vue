@@ -4395,6 +4395,96 @@ onBeforeUnmount(() => {
            ================================================= -->
       <section v-if="activeView === 'home'" class="content home-commons-content">
 
+        <div class="hero-stage">
+          <transition name="hero-fade" mode="out-in">
+            <div :key="activeHero" class="hero hero-rotating">
+              <div class="hero-copy">
+                <span class="hero-label hero-initiatives-label">INITIATIVES · ACTION</span>
+                <span class="hero-label">
+                  {{ heroes[activeHero].label }}
+                </span>
+
+                <h1>
+                  <span v-if="activeHero === 0" class="hero-heading-white-home"><span class="hero-heading-ideas-gradient">Ideas</span> <span class="hero-heading-white-shadow">become</span></span>
+                  <span v-else>{{ heroes[activeHero].titleBefore }}</span>
+                  <br v-if="activeHero === 0" />
+                  <span
+                    :class="activeHero === 0 ? 'hero-accent-blue hero-accent-blue-home' : 'hero-accent-impact'"
+                  >
+                    {{ heroes[activeHero].titleAccent }}
+                  </span>
+                  <template v-if="heroes[activeHero].titleAfter">
+                    <br />
+                    {{ heroes[activeHero].titleAfter }}
+                    <span class="hero-accent-green">
+                      {{ heroes[activeHero].secondAccent }}
+                    </span>
+                  </template>
+                </h1>
+
+                <p>{{ heroes[activeHero].description }}</p>
+              </div>
+
+              <!-- Keep the original animated visual: only the hero copy changes. -->
+              <div
+                class="hero-orbit"
+                :class="{ 'hero-orbit-original': activeHero === 0 }"
+                aria-hidden="true"
+              >
+                <div class="orbit-ring ring-one"></div>
+                <div class="orbit-ring ring-two"></div>
+                <button
+                  v-if="activeHero === 0"
+                  type="button"
+                  class="orbit-core orbit-core-action"
+                  aria-label="Open Idea Flow"
+                  title="Explore ideas in Live Flow"
+                  @click="openIdeaFlowSpace"
+                >
+                  <span>AC</span>
+                </button>
+                <div v-else class="orbit-core">
+                  <span>ZONE</span>
+                </div>
+                <div class="orbit-node node-a"></div>
+                <div class="orbit-node node-b"></div>
+                <div class="orbit-node node-c"></div>
+              </div>
+            </div>
+          </transition>
+
+          <div class="hero-progress">
+            <button
+              v-for="(_, index) in heroes"
+              :key="index"
+              type="button"
+              :aria-label="`Show hero ${index + 1}`"
+              :class="{ active: index === activeHero }"
+              @click="activeHero = index"
+            ></button>
+          </div>
+        </div>
+
+
+        <div class="home-view-switch" role="group" aria-label="Choose home view">
+          <button
+            type="button"
+            :class="{ active: homeDisplayMode === 'content' }"
+            :aria-pressed="homeDisplayMode === 'content'"
+            @click="homeDisplayMode = 'content'"
+          >
+            <span aria-hidden="true">◈</span> Explore
+          </button>
+          <button
+            type="button"
+            :class="{ active: homeDisplayMode === 'feed' }"
+            :aria-pressed="homeDisplayMode === 'feed'"
+            @click="homeDisplayMode = 'feed'"
+          >
+            <span aria-hidden="true">≋</span> Feed
+          </button>
+        </div>
+
         <section class="home-connection-hub" aria-label="Connect with people and activities">
           <div class="home-connection-heading">
             <div>
@@ -4428,25 +4518,6 @@ onBeforeUnmount(() => {
             </template>
           </div>
         </section>
-
-        <div class="home-view-switch" role="group" aria-label="Choose home view">
-          <button
-            type="button"
-            :class="{ active: homeDisplayMode === 'content' }"
-            :aria-pressed="homeDisplayMode === 'content'"
-            @click="homeDisplayMode = 'content'"
-          >
-            <span aria-hidden="true">◈</span> Explore
-          </button>
-          <button
-            type="button"
-            :class="{ active: homeDisplayMode === 'feed' }"
-            :aria-pressed="homeDisplayMode === 'feed'"
-            @click="homeDisplayMode = 'feed'"
-          >
-            <span aria-hidden="true">≋</span> Feed
-          </button>
-        </div>
 
         <div v-if="homeDisplayMode === 'content'" class="home-discovery-view">
         <div class="initiative-home-intro">
