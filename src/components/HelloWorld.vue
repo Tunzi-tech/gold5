@@ -2980,7 +2980,7 @@ function openIdeaFlowSpace() {
 
 function navigate(view: string) {
   activeView.value = view
-  if (view !== 'live-flow') liveFlowSpace.value = 'overview'
+  liveFlowSpace.value = 'overview'
   selectedZone.value = null
   selectedCall.value = null
   selectedPage.value = null
