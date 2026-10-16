@@ -17700,6 +17700,14 @@ a { text-underline-offset: 3px; }
   .home-commons-content.home-hero-collapsed .home-view-switch { padding-right: 34px; }
 }
 
+
+
+/* Keep the “something people do” headline accent blue instead of purple. */
+.initiative-hero .commons-hero-copy h1 span:not(.ideas-word) {
+  color: #78b5ff;
+  -webkit-text-fill-color: #78b5ff;
+  text-shadow: 0 2px 14px rgba(91, 157, 255, .2);
+}
 </style>
 
 
