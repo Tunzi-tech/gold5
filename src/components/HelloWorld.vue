@@ -5539,18 +5539,7 @@ onBeforeUnmount(() => {
         <div class="live-network-layout">
           <div class="live-network-feed">
             <section class="live-moving-showcase" aria-label="Examples of community activity moving through Live Flow">
-              <div class="live-network-filters live-moving-location-filters" aria-label="Filter What's Moving by location">
-                <button v-for="filter in liveMovingLocationFilters" :key="filter.id" type="button"
-                  class="live-network-filter" :class="{ active: liveMovingLocationFilter === filter.id }"
-                  :aria-pressed="liveMovingLocationFilter === filter.id" @click="liveMovingLocationFilter = filter.id">{{ filter.label }}</button>
-              </div>
-              <div class="live-moving-type-filters" aria-label="Filter What's Moving by community type">
-                <span class="live-moving-filter-label">SHOW</span>
-                <button v-for="filter in liveMovingTypeFilters" :key="filter.id" type="button"
-                  class="live-moving-type-filter" :class="{ active: liveMovingTypeFilter === filter.id }"
-                  :aria-pressed="liveMovingTypeFilter === filter.id" @click="liveMovingTypeFilter = filter.id">{{ filter.label }}</button>
-                <span class="live-moving-result-count">{{ filteredLiveMovingItems.length }} shown</span>
-              </div>
+
               <div class="live-moving-showcase-head">
                 <div>
                   <span class="eyebrow">WHAT'S MOVING · COMMUNITY FLOW</span>
@@ -5566,8 +5555,20 @@ onBeforeUnmount(() => {
                 <span><i style="--legend-color:#FFC66D"></i>Initiatives</span>
                 <span><i style="--legend-color:#47D6E8"></i>Communities</span>
               </div>
+              <div class="live-network-filters live-moving-location-filters" aria-label="Filter What's Moving by location">
+                <button v-for="filter in liveMovingLocationFilters" :key="filter.id" type="button"
+                  class="live-network-filter" :class="{ active: liveMovingLocationFilter === filter.id }"
+                  :aria-pressed="liveMovingLocationFilter === filter.id" @click="liveMovingLocationFilter = filter.id">{{ filter.label }}</button>
+              </div>
+              <div class="live-moving-type-filters" aria-label="Filter What's Moving by community type">
+                <span class="live-moving-filter-label">SHOW</span>
+                <button v-for="filter in liveMovingTypeFilters" :key="filter.id" type="button"
+                  class="live-moving-type-filter" :class="{ active: liveMovingTypeFilter === filter.id }"
+                  :aria-pressed="liveMovingTypeFilter === filter.id" @click="liveMovingTypeFilter = filter.id">{{ filter.label }}</button>
+                <span class="live-moving-result-count">{{ filteredLiveMovingItems.length }} shown</span>
+              </div>
               <p class="live-moving-sample-note">Illustrative examples · sample activity, not live reports from verified groups.</p>
-            </section>
+            <div class="live-moving-items">
             <article v-for="item in filteredLiveMovingItems" :key="item.id" class="live-network-event live-network-identity-event"
               :style="{ '--entity-color': item.color, '--entity-delay': item.delay }">
               <div class="live-network-event-icon">{{ item.icon }}</div>
@@ -5580,6 +5581,7 @@ onBeforeUnmount(() => {
             <div v-if="filteredLiveMovingItems.length === 0" class="live-moving-empty-state">
               <strong>No matching activity in this view yet.</strong>
               <span>Try All or choose another location to explore more of the flow.</span>
+            </div>
             </div>
           </section>
             <article class="live-network-event">
@@ -16748,6 +16750,7 @@ textarea:focus-visible {
 .live-moving-legend span{display:inline-flex;align-items:center;gap:5px;padding:5px 7px;border:1px solid rgba(255,255,255,.06);border-radius:20px;background:rgba(255,255,255,.025);color:#b7c5d8;font-size:8px}
 .live-moving-legend i{width:6px;height:6px;border-radius:50%;background:var(--legend-color);box-shadow:0 0 9px color-mix(in srgb,var(--legend-color) 35%,transparent)}
 .live-moving-sample-note{margin:11px 0 0;color:#71839a;font-size:8px;position:relative;z-index:1}
+.live-moving-items{position:relative;z-index:1;display:flex;flex-direction:column;gap:8px;margin-top:12px}
 .live-moving-location-filters{position:relative;z-index:1;margin:13px 0 0}
 .live-moving-type-filters{position:relative;z-index:1;display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:9px 0 12px}
 .live-moving-filter-label{margin-right:2px;color:#6f839d;font-size:7px;font-weight:800;letter-spacing:.12em}
