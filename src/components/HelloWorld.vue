@@ -5125,7 +5125,217 @@ onBeforeUnmount(() => {
 
         <div class="live-network-layout">
           <div class="live-network-feed">
-
+            <section class="live-moving-showcase" aria-label="Examples of community activity moving through Live Flow">
+              <div class="live-moving-showcase-head">
+                <div>
+                  <span class="eyebrow">WHAT'S MOVING · COMMUNITY FLOW</span>
+                  <h2>See who's moving. Follow their color.</h2>
+                  <p>Every club, association, collective and initiative keeps a recognizable identity color wherever it appears.</p>
+                </div>
+                <span class="live-moving-pulse"><i></i> FLOW IN MOTION</span>
+              </div>
+              <div class="live-moving-legend" aria-label="Entity type examples">
+                <span><i style="--legend-color:#55A9FF"></i>Clubs</span>
+                <span><i style="--legend-color:#55D6A1"></i>Associations</span>
+                <span><i style="--legend-color:#B99AFF"></i>Collectives</span>
+                <span><i style="--legend-color:#FFC66D"></i>Initiatives</span>
+                <span><i style="--legend-color:#47D6E8"></i>Communities</span>
+              </div>
+              <p class="live-moving-sample-note">Illustrative examples · sample activity, not live reports from verified groups.</p>
+            </section>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#55A9FF;--entity-delay:0s">
+              <div class="live-network-event-icon">↗</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">SPORTS CLUB</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Carthage Runners Club</strong> opened its next group run along the coast.</p>
+                <small>La Marsa · 18 runners interested · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#55D6A1;--entity-delay:-0.42s">
+              <div class="live-network-event-icon">✳</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">ASSOCIATION</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Green Tunisia Association</strong> is gathering volunteers for a neighborhood clean-up.</p>
+                <small>Tunis North · 12 volunteers sought · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#B99AFF;--entity-delay:-0.84s">
+              <div class="live-network-event-icon">◉</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">COLLECTIVE</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">La Marsa Youth Collective</strong> is planning a youth-led community event.</p>
+                <small>La Marsa · 3 ideas shared · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#FFC66D;--entity-delay:-1.26s">
+              <div class="live-network-event-icon">✿</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">INITIATIVE</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Community Garden Project</strong> is looking for people to help prepare a shared garden.</p>
+                <small>Tunis North · 7 people interested · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#47D6E8;--entity-delay:-1.68s">
+              <div class="live-network-event-icon">≈</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">SPORTS CLUB</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Blue Coast Divers Club</strong> is coordinating a coastal observation and clean-up day.</p>
+                <small>Gammarth Coast · 9 divers connected · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#FF82BD;--entity-delay:-2.1s">
+              <div class="live-network-event-icon">⌘</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">COMMUNITY</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Women in Tech Tunisia</strong> opened a peer-learning circle for people entering tech.</p>
+                <small>Tunis · 14 people connected · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#A8E063;--entity-delay:-2.52s">
+              <div class="live-network-event-icon">⚛</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">LEARNING GROUP</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Open Science Circle</strong> is hosting a public discussion about science and everyday life.</p>
+                <small>Online + Tunis · 6 questions collected · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#FF9275;--entity-delay:-2.94s">
+              <div class="live-network-event-icon">⇢</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">CIVIC NETWORK</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Safe Streets Network</strong> is collecting local ideas for safer walking routes.</p>
+                <small>Tunis North · 11 observations shared · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#E5A1FF;--entity-delay:0s">
+              <div class="live-network-event-icon">✦</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">CREATIVE CLUB</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Medina Makers Club</strong> is inviting makers to share repair and reuse skills.</p>
+                <small>Tunis Medina · 5 makers joining · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#8ED8FF;--entity-delay:-0.42s">
+              <div class="live-network-event-icon">＋</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">VOLUNTEER GROUP</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Tunis Student Volunteers</strong> started a weekend support drive for a local community space.</p>
+                <small>Tunis · 16 volunteers connected · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#B6C96B;--entity-delay:-0.84s">
+              <div class="live-network-event-icon">❋</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">ASSOCIATION</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Future Farmers Tunisia</strong> is sharing practical ideas for water-conscious growing.</p>
+                <small>Cap Bon · 8 growers contributing · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#FFB454;--entity-delay:-1.26s">
+              <div class="live-network-event-icon">◎</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">ADVOCACY GROUP</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Accessible City Collective</strong> is documenting accessibility barriers around public places.</p>
+                <small>Greater Tunis · 10 reports gathered · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#C7A4FF;--entity-delay:-1.68s">
+              <div class="live-network-event-icon">♫</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">MUSIC COMMUNITY</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Marsa Music Circle</strong> shared a community playlist and invited local musicians.</p>
+                <small>La Marsa · 4 new tracks suggested · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#65E6C2;--entity-delay:-2.1s">
+              <div class="live-network-event-icon">⤴</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">CYCLING CLUB</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Tunis Cycling Crew</strong> is proposing a beginner-friendly group ride.</p>
+                <small>Tunis · 13 cyclists interested · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#F28DAD;--entity-delay:-2.52s">
+              <div class="live-network-event-icon">⌂</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">NEIGHBORHOOD GROUP</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Neighborhood Care Committee</strong> is coordinating help for a shared public space.</p>
+                <small>Tunis North · 6 neighbors responding · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#8FA7FF;--entity-delay:-2.94s">
+              <div class="live-network-event-icon">⌕</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">RESEARCH COMMUNITY</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Young Researchers Hub</strong> opened a call for collaborators on local environment questions.</p>
+                <small>Tunisia · 5 collaborators sought · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#D6B56D;--entity-delay:0s">
+              <div class="live-network-event-icon">⚒</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">COMMUNITY WORKSHOP</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Repair &amp; Reuse Workshop</strong> is organizing a repair session to extend the life of everyday items.</p>
+                <small>Ariana · 8 items proposed · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#E6A3D9;--entity-delay:-0.42s">
+              <div class="live-network-event-icon">◇</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">CULTURAL ASSOCIATION</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Culture Bridge Association</strong> is bringing residents together to exchange stories and traditions.</p>
+                <small>Tunis · 3 community partners · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#9DDC83;--entity-delay:-0.84s">
+              <div class="live-network-event-icon">❧</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">NATURE CLUB</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Little Explorers Nature Club</strong> is preparing a family-friendly nature discovery walk.</p>
+                <small>Sidi Bou Said · 10 explorers interested · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#7BC7FF;--entity-delay:-1.26s">
+              <div class="live-network-event-icon">⌘</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">TECH COMMUNITY</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Open Source Tunisia</strong> is pairing developers to help with community-built tools.</p>
+                <small>Online · 6 contributors connected · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#F0C36D;--entity-delay:-1.68s">
+              <div class="live-network-event-icon">◌</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">CIVIC INITIATIVE</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Public Space Watch</strong> is mapping shade, seating and places to pause in the neighborhood.</p>
+                <small>Tunis North · 9 observations · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#4FD3B0;--entity-delay:-2.1s">
+              <div class="live-network-event-icon">⌁</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">ENVIRONMENT GROUP</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Coastal Guardians</strong> is comparing community observations of the coastline.</p>
+                <small>Gulf of Tunis · 7 contributors · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#F59A62;--entity-delay:-2.52s">
+              <div class="live-network-event-icon">❖</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">FOOD COMMUNITY</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Local Food Exchange</strong> is connecting people who want to share seasonal local produce.</p>
+                <small>Ariana · 5 households interested · Example activity</small>
+              </div>
+            </article>
+            <article class="live-network-event live-network-identity-event" style="--entity-color:#AFA0FF;--entity-delay:-2.94s">
+              <div class="live-network-event-icon">✧</div>
+              <div class="live-network-event-body">
+                <div class="live-network-identity-heading"><span class="live-network-event-type">YOUTH INITIATIVE</span><span class="live-network-entity-mark"><i></i> COMMUNITY SIGNAL</span></div>
+                <p><strong class="live-network-entity-name">Makers of Tomorrow</strong> is inviting ideas for a hands-on learning meetup.</p>
+                <small>Tunis · 12 young makers connected · Example activity</small>
+              </div>
+            </article>
+            
             <article class="live-network-event">
               <div class="live-network-event-icon">◉</div>
               <div class="live-network-event-body">
@@ -16281,6 +16491,30 @@ textarea:focus-visible {
 .live-network-event-type{font-size:7px;letter-spacing:.12em;color:#8fa3bd}
 .live-network-event-body p{margin:4px 0 5px;color:#dce5f1;font-size:12px;line-height:1.5}
 .live-network-event-body small{color:#718096;font-size:8px}
+.live-moving-showcase{position:relative;overflow:hidden;margin-bottom:5px;padding:19px;border:1px solid rgba(108,151,203,.19);border-radius:15px;background:radial-gradient(ellipse at 4% 0%,rgba(49,118,178,.13),transparent 48%),linear-gradient(135deg,rgba(16,29,47,.96),rgba(11,17,29,.92))}
+.live-moving-showcase:after{content:"";position:absolute;inset:auto -35px -75px auto;width:180px;height:180px;border:1px solid rgba(96,171,224,.11);border-radius:50%;box-shadow:0 0 0 18px rgba(96,171,224,.025),0 0 0 38px rgba(96,171,224,.018);pointer-events:none}
+.live-moving-showcase-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;position:relative;z-index:1}
+.live-moving-showcase-head h2{margin:7px 0 5px;color:#eef5ff;font-size:17px;letter-spacing:-.035em}
+.live-moving-showcase-head p{max-width:430px;margin:0;color:#94a5bb;font-size:10px;line-height:1.65}
+.live-moving-pulse{display:inline-flex;align-items:center;gap:6px;flex-shrink:0;padding:6px 8px;border:1px solid rgba(91,211,173,.2);border-radius:20px;color:#85d8bc;font-size:7px;font-weight:800;letter-spacing:.1em;white-space:nowrap}
+.live-moving-pulse i{width:6px;height:6px;border-radius:50%;background:#5bd3ad;box-shadow:0 0 0 3px rgba(91,211,173,.1);animation:liveMovingPulse 2.4s ease-in-out infinite}
+.live-moving-legend{display:flex;flex-wrap:wrap;gap:7px;margin-top:15px;position:relative;z-index:1}
+.live-moving-legend span{display:inline-flex;align-items:center;gap:5px;padding:5px 7px;border:1px solid rgba(255,255,255,.06);border-radius:20px;background:rgba(255,255,255,.025);color:#b7c5d8;font-size:8px}
+.live-moving-legend i{width:6px;height:6px;border-radius:50%;background:var(--legend-color);box-shadow:0 0 9px color-mix(in srgb,var(--legend-color) 35%,transparent)}
+.live-moving-sample-note{margin:11px 0 0;color:#71839a;font-size:8px;position:relative;z-index:1}
+.live-network-identity-event{position:relative;overflow:hidden;border-color:color-mix(in srgb,var(--entity-color) 25%,rgba(255,255,255,.05));background:linear-gradient(100deg,color-mix(in srgb,var(--entity-color) 7%,rgba(255,255,255,.018)),rgba(255,255,255,.018) 62%);animation:liveEntityDrift 8s ease-in-out var(--entity-delay,0s) infinite}
+.live-network-identity-event:before{content:"";position:absolute;left:0;top:13px;bottom:13px;width:2px;border-radius:0 3px 3px 0;background:var(--entity-color);opacity:.9;box-shadow:0 0 12px color-mix(in srgb,var(--entity-color) 35%,transparent)}
+.live-network-identity-event .live-network-event-icon{background:color-mix(in srgb,var(--entity-color) 15%,rgba(12,20,33,.9));color:var(--entity-color);border:1px solid color-mix(in srgb,var(--entity-color) 30%,transparent);box-shadow:inset 0 0 14px color-mix(in srgb,var(--entity-color) 7%,transparent)}
+.live-network-identity-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.live-network-identity-event .live-network-event-type{color:var(--entity-color);font-size:7px;font-weight:800}
+.live-network-entity-mark{display:inline-flex;align-items:center;gap:4px;color:#71839a;font-size:6px;letter-spacing:.1em}
+.live-network-entity-mark i{width:4px;height:4px;border-radius:50%;background:var(--entity-color);opacity:.9}
+.live-network-identity-event .live-network-entity-name{color:var(--entity-color);font-weight:800;letter-spacing:-.01em}
+.live-network-identity-event .live-network-event-body small{color:#8293a9}
+@keyframes liveMovingPulse{0%,100%{opacity:.65;transform:scale(.88)}50%{opacity:1;transform:scale(1.12)}}
+@keyframes liveEntityDrift{0%,100%{transform:translateX(0)}50%{transform:translateX(2px)}}
+@media(prefers-reduced-motion:reduce){.live-moving-pulse i,.live-network-identity-event{animation:none}}
+
 .live-network-side{display:flex;flex-direction:column;gap:10px;position:sticky;top:16px}
 .live-network-summary{padding:17px;border:1px solid rgba(255,255,255,.07);border-radius:13px;background:rgba(255,255,255,.025)}
 .live-network-summary strong{display:block;margin:7px 0;color:#edf2f8;font-size:15px}
