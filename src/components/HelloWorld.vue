@@ -5230,32 +5230,6 @@ onBeforeUnmount(() => {
         </article>
       </section>
 
-      <!-- LIVE ENGAGEMENT: THE NETWORK IS MOVING -->
-      <section v-if="activeView === 'live-flow'" class="content live-engagement-content">
-        <div class="live-engagement-back"><button type="button" class="ghost-btn" @click="navigate('around-zones')">← Back to Zones Around</button></div>
-        <div class="live-engagement-hero">
-          <div>
-            <span class="eyebrow">THE NETWORK IS MOVING</span>
-            <h1>See how people, ideas<br /><span>and Zones connect.</span></h1>
-            <p>Follow movement across the Commons: a question becomes an idea, an idea attracts people, and participation changes a Zone.</p>
-          </div>
-          <div class="live-engagement-signal flow-signal"><strong>4 new connections</strong><small>2 ideas · 1 action gaining participants</small></div>
-        </div>
-        <div class="network-flow-stage">
-          <div class="flow-column"><span class="flow-label">PEOPLE</span><div class="flow-node">Amine</div><div class="flow-node">Leila</div><div class="flow-node">Nour</div></div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-column"><span class="flow-label">INTEREST</span><div class="flow-node">Urban nature</div><div class="flow-node">Clean streets</div></div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-column"><span class="flow-label">IDEA</span><div class="flow-node highlighted">Community garden</div><div class="flow-node">Local clean-up</div></div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-column"><span class="flow-label">ZONE</span><div class="flow-node highlighted">Tunis North</div></div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-column"><span class="flow-label">ACTION</span><div class="flow-node highlighted">Garden forming</div><div class="flow-node">People joining</div></div>
-        </div>
-        <div class="flow-footer"><div><span>PARTICIPATION</span><strong>12 people connected to these actions</strong></div><div><span>WHAT HAPPENS NEXT</span><strong>Experience → Inspiration → new possibility</strong></div></div>
-        </div>
-      </section>
-
       <section v-if="activeView === 'people'" class="content">
 
         <div class="page-title">
