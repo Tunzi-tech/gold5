@@ -3864,6 +3864,7 @@ onBeforeUnmount(() => {
       <nav class="main-nav">
 
         <button
+          class="primary-space-nav-button"
           :class="{ active: activeView === 'home' }"
           @click="navigate('home')"
         >
@@ -3882,6 +3883,7 @@ onBeforeUnmount(() => {
         </button>
 
         <button
+          class="primary-space-nav-button"
           :class="{ active: activeView === 'live-flow' }"
           @click="navigate('live-flow')"
         >
@@ -16933,3 +16935,25 @@ textarea:focus-visible {
 
 </style>
 
+
+
+/* Home and Live Flow share one visual navigation language; the dimension seam remains distinct. */
+.main-nav .primary-space-nav-button,
+.main-nav .primary-space-nav-button .icon {
+  color: #aebbd0;
+}
+.main-nav .primary-space-nav-button:hover {
+  color: #eaf2ff;
+  background: rgba(104, 151, 226, .09);
+}
+.main-nav .primary-space-nav-button.active {
+  color: #f1f6ff;
+  background: linear-gradient(90deg, rgba(83, 132, 213, .22), rgba(83, 132, 213, .055));
+  box-shadow: inset 2px 0 0 rgba(112, 168, 255, .82);
+}
+.main-nav .primary-space-nav-button.active .icon {
+  color: #8ebaff;
+}
+.main-nav .primary-space-nav-button:not(.active) .icon {
+  color: #8b9fbd;
+}
