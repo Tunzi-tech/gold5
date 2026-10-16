@@ -3865,16 +3865,6 @@ onBeforeUnmount(() => {
             <span class="sidebar-orbit-icon" aria-hidden="true">◌</span>
             <span>{{ t('impactAwareness') }}</span>
           </button>
-          <button
-            class="sidebar-orbit-button sidebar-orbit-impact"
-            :class="{ active: ['zones', 'around-zones', 'my-zones'].includes(activeView) }"
-            type="button"
-            @click="navigate('zones')"
-            title="Impacting"
-          >
-            <span class="sidebar-orbit-icon" aria-hidden="true">◉</span>
-            <span>Impacting</span>
-          </button>
         </div>
 
         <div class="sidebar-subnav zones-subnav">
@@ -16364,7 +16354,7 @@ textarea:focus-visible {
 .awareness-nav-button.active .icon{color:#70a8ff}
 .awareness-section-line{height:1px;margin:4px 13px 7px;background:rgba(255,255,255,.08)}
 /* Compact circular navigation for learning, awareness and impact */
-.sidebar-orbit-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin:7px 7px 10px;padding:8px 5px;border:1px solid rgba(255,255,255,.055);border-radius:14px;background:linear-gradient(145deg,rgba(24,34,49,.52),rgba(9,14,22,.36))}
+.sidebar-orbit-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;margin:7px 7px 10px;padding:8px 5px;border:1px solid rgba(255,255,255,.055);border-radius:14px;background:linear-gradient(145deg,rgba(24,34,49,.52),rgba(9,14,22,.36))}
 .sidebar-orbit-button{display:flex;min-width:0;flex-direction:column;align-items:center;justify-content:flex-start;gap:6px;padding:5px 1px 7px;border:1px solid transparent;border-radius:11px;background:transparent;color:#8493a8;font-size:7px;font-weight:700;line-height:1.3;text-align:center;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease}
 .sidebar-orbit-button>span:last-child{max-width:100%;overflow-wrap:anywhere}
 .sidebar-orbit-icon{display:grid;place-items:center;width:35px;height:35px;flex:0 0 35px;border:1px solid rgba(142,166,197,.23);border-radius:50%;background:radial-gradient(circle at 35% 25%,rgba(255,255,255,.09),rgba(255,255,255,.015) 68%);font-size:17px;box-shadow:inset 0 0 12px rgba(255,255,255,.025)}
