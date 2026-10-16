@@ -4609,6 +4609,7 @@ onBeforeUnmount(() => {
           </div>
         </div>
         <div v-if="liveFlowSpace === 'feed'" class="live-network-content">
+          <div class="live-engagement-back"><button type="button" class="ghost-btn" @click="liveFlowSpace = 'overview'">← Back to Live Flow</button></div>
 
         <div class="page-title live-network-title">
           <span class="eyebrow">LIVE FLOW</span>
