@@ -3863,33 +3863,35 @@ onBeforeUnmount(() => {
 
       <nav class="main-nav">
 
-        <button
-          class="primary-space-nav-button"
-          :class="{ active: activeView === 'home' }"
-          @click="navigate('home')"
-        >
-          <span class="icon">⌂</span>
-          Home
-        </button>
+        <div class="primary-navigation-portal" aria-label="Main spaces">
+          <button
+            class="primary-space-nav-button"
+            :class="{ active: activeView === 'home' }"
+            @click="navigate('home')"
+          >
+            <span class="icon">⌂</span>
+            Home
+          </button>
 
-        <button
-          class="dimension-portal-trigger"
-          type="button"
-          @click="showCircleHome = true"
-          :aria-label="t('Circles')"
-          :title="t('Circles')"
-        >
-          <span class="dimension-portal-line" aria-hidden="true"></span>
-        </button>
+          <button
+            class="dimension-portal-trigger"
+            type="button"
+            @click="showCircleHome = true"
+            :aria-label="t('Circles')"
+            :title="t('Circles')"
+          >
+            <span class="dimension-portal-line" aria-hidden="true"></span>
+          </button>
 
-        <button
-          class="primary-space-nav-button"
-          :class="{ active: activeView === 'live-flow' }"
-          @click="navigate('live-flow')"
-        >
-          <span class="icon">◎</span>
-          Live Flow
-        </button>
+          <button
+            class="primary-space-nav-button"
+            :class="{ active: activeView === 'live-flow' }"
+            @click="navigate('live-flow')"
+          >
+            <span class="icon">◎</span>
+            Live Flow
+          </button>
+        </div>
         <div class="live-flow-section-line"></div>
 
 <div class="sidebar-orbit-actions" aria-label="Explore and impact">
@@ -16956,4 +16958,44 @@ textarea:focus-visible {
 }
 .main-nav .primary-space-nav-button:not(.active) .icon {
   color: #8b9fbd;
+}
+
+
+/* Home, the dimension seam and Live Flow form one connected navigation object. */
+.main-nav .primary-navigation-portal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 1px 0 7px;
+  padding: 4px;
+  border: 1px solid rgba(115, 151, 211, .16);
+  border-radius: 13px;
+  background: linear-gradient(155deg, rgba(28, 42, 65, .62), rgba(10, 16, 28, .72));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.035), 0 5px 18px rgba(0,0,0,.12);
+  overflow: visible;
+}
+.main-nav .primary-navigation-portal .primary-space-nav-button {
+  width: 100%;
+  min-height: 39px;
+  border-radius: 8px;
+  background: transparent;
+}
+.main-nav .primary-navigation-portal .primary-space-nav-button.active {
+  background: linear-gradient(90deg, rgba(83, 132, 213, .22), rgba(83, 132, 213, .045));
+  box-shadow: inset 2px 0 0 rgba(112, 168, 255, .82);
+}
+.main-nav .primary-navigation-portal .dimension-portal-trigger {
+  height: 19px;
+  min-height: 19px;
+  margin: 0;
+  border-radius: 0 !important;
+}
+.main-nav .primary-navigation-portal .dimension-portal-line {
+  height: 13px;
+  box-shadow: 0 0 5px rgba(107,157,255,.8), 0 0 12px rgba(102,125,255,.5);
+}
+.main-nav .primary-navigation-portal .dimension-portal-trigger:hover .dimension-portal-line,
+.main-nav .primary-navigation-portal .dimension-portal-trigger:focus-visible .dimension-portal-line {
+  height: 17px;
 }
