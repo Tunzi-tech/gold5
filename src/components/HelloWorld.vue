@@ -6218,7 +6218,6 @@ onBeforeUnmount(() => {
                 <p>A resident raises a concern → people share experience → a community garden idea emerges → the Zone connects interested people → a small local action begins.</p>
               </div>
             </section>
-            </div>
 
             <h1>Discover Zones<br /><span>around your network.</span></h1>
             <p>
