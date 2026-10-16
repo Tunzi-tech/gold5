@@ -163,6 +163,18 @@ function joinHomeChannel(id: string) {
 }
 
 const liveFlowSpace = ref<'overview' | 'ideas'>('overview')
+const liveFlowCommonsPanel = ref<'people' | 'ideas' | 'zones' | 'calls' | 'actions' | 'conversations' | null>(null)
+const liveFlowCommonsItems = [
+  { id: 'people', label: 'People', color: 'mint', detail: 'Meet the people behind the activity and find others moving in the same direction.', action: 'Meet people', view: 'people' },
+  { id: 'ideas', label: 'Ideas', color: 'violet', detail: 'Follow sparks of curiosity as they become questions, proposals and shared possibilities.', action: 'Explore ideas', view: 'ideas' },
+  { id: 'zones', label: 'Zones', color: 'blue', detail: 'See where activity is happening and connect it to places and local communities.', action: 'Explore Zones', view: 'zones' },
+  { id: 'calls', label: 'Calls', color: 'gold', detail: 'Find open invitations to contribute, collaborate or join something already moving.', action: 'Find calls', view: 'calls' },
+  { id: 'actions', label: 'Actions', color: 'coral', detail: 'Discover initiatives and practical next steps people can take together.', action: 'Explore initiatives', view: 'initiatives' },
+  { id: 'conversations', label: 'Conversations', color: 'sky', detail: 'Follow what people are discussing and add your perspective to the flow.', action: 'Join the conversation', view: 'people' }
+] as const
+function toggleLiveFlowCommonsPanel(id: typeof liveFlowCommonsItems[number]['id']) {
+  liveFlowCommonsPanel.value = liveFlowCommonsPanel.value === id ? null : id
+}
 const showPeopleDoingList = ref(false)
 const ideaFlowDraft = ref('')
 const ideaFlowThoughtDrafts = ref<Record<number, string>>({})
@@ -4866,6 +4878,36 @@ onBeforeUnmount(() => {
 
       <section v-if="activeView === 'live-flow'" class="content live-engagement-content">
         <div v-if="liveFlowSpace === 'overview' || liveFlowSpace === 'feed'" class="live-network-content">
+        <section class="live-flow-commons-hub" aria-label="Live Flow Commons">
+          <div class="live-flow-commons-heading">
+            <div>
+              <span class="home-connection-kicker">LIVE FLOW · COMMONS</span>
+              <h2>Follow what’s moving.</h2>
+              <p>People, ideas and places in motion — find a connection and take your next step.</p>
+            </div>
+            <span class="live-flow-commons-orbit" aria-hidden="true"><i></i><b></b><em></em></span>
+          </div>
+          <div class="live-flow-commons-links" aria-label="Live Flow spaces">
+            <button v-for="item in liveFlowCommonsItems" :key="item.id" type="button"
+              class="live-flow-commons-link" :class="['flow-' + item.color, { active: liveFlowCommonsPanel === item.id }]"
+              :aria-expanded="liveFlowCommonsPanel === item.id" @click="toggleLiveFlowCommonsPanel(item.id)">
+              <span class="home-connection-dot" aria-hidden="true"></span>{{ item.label }}
+              <span class="home-connection-chevron" aria-hidden="true">{{ liveFlowCommonsPanel === item.id ? '−' : '+' }}</span>
+            </button>
+          </div>
+          <div v-if="liveFlowCommonsPanel" class="live-flow-commons-panel">
+            <template v-for="item in liveFlowCommonsItems.filter(entry => entry.id === liveFlowCommonsPanel)" :key="item.id">
+              <div class="home-connection-panel-copy">
+                <span class="home-connection-kicker">{{ item.label }} · IN THE FLOW</span>
+                <p>{{ item.detail }}</p>
+              </div>
+              <button type="button" class="home-connection-open" @click="item.view === 'ideas' ? openIdeaFlowSpace() : navigate(item.view)">
+                {{ item.action }} <span aria-hidden="true">→</span>
+              </button>
+            </template>
+          </div>
+        </section>
+
         <div class="page-title live-network-title">
           <span class="eyebrow">LIVE FLOW</span>
           <h1>See how people, ideas and Zones connect.</h1>
@@ -17345,4 +17387,24 @@ textarea:focus-visible {
 .home-hero-toggle{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border:1px solid rgba(125,151,190,.2);border-radius:7px;background:rgba(13,22,36,.72);color:#93a5bd;font:inherit;font-size:9px;font-weight:750;cursor:pointer;transition:color .18s ease,border-color .18s ease,background .18s ease}
 .home-hero-toggle:hover{color:#dce8f8;border-color:rgba(115,185,201,.42);background:rgba(22,37,55,.9)}
 @media(prefers-reduced-motion:reduce){.home-hero-toggle{transition:none}}
+
+/* Live Flow gets its own Commons hub, visually related to Home but focused on activity in motion. */
+.live-flow-commons-hub{position:relative;margin:0 0 16px;padding:14px 16px 12px;border:1px solid rgba(111,145,193,.2);border-radius:15px;background:radial-gradient(ellipse at 100% 0%,rgba(93,133,205,.13),transparent 46%),linear-gradient(125deg,rgba(17,27,43,.94),rgba(8,15,26,.97));box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 8px 24px rgba(0,0,0,.08)}
+.live-flow-commons-heading{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.live-flow-commons-heading h2{margin:4px 0;color:#e6edf8;font-size:20px;line-height:1.2;letter-spacing:-.035em;font-weight:760}
+.live-flow-commons-heading p{margin:0;max-width:560px;color:#8e9eb4;font-size:11px;line-height:1.5}
+.live-flow-commons-orbit{position:relative;flex:0 0 44px;width:44px;height:44px;border:1px solid rgba(120,174,245,.3);border-radius:50%;background:radial-gradient(circle,rgba(120,174,245,.16),rgba(169,154,255,.05) 60%,transparent 70%);animation:live-flow-orbit-breathe 5s ease-in-out infinite}
+.live-flow-commons-orbit:before,.live-flow-commons-orbit:after{content:'';position:absolute;inset:6px;border:1px solid rgba(169,154,255,.4);border-radius:50%;transform:rotate(38deg) scaleX(.58)}
+.live-flow-commons-orbit:after{transform:rotate(-38deg) scaleX(.58);border-color:rgba(115,185,201,.4)}
+.live-flow-commons-orbit i,.live-flow-commons-orbit b,.live-flow-commons-orbit em{position:absolute;z-index:1;width:5px;height:5px;border-radius:50%;font-style:normal}
+.live-flow-commons-orbit i{top:5px;left:9px;background:#73c9ae}.live-flow-commons-orbit b{right:5px;top:19px;background:#e0c477}.live-flow-commons-orbit em{bottom:5px;left:19px;background:#a99aff}
+.live-flow-commons-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.live-flow-commons-link{display:inline-flex;align-items:center;gap:7px;min-height:29px;padding:5px 10px;border:1px solid rgba(135,156,186,.15);border-radius:8px;background:rgba(14,22,35,.76);color:#bac8da;font:inherit;font-size:10px;font-weight:750;cursor:pointer;transition:background .18s ease,border-color .18s ease,transform .18s ease}
+.live-flow-commons-link:hover{transform:translateY(-1px);color:#f0f5fb}
+.live-flow-commons-link.flow-mint{--connection-color:#73c9ae}.live-flow-commons-link.flow-violet{--connection-color:#a99aff}.live-flow-commons-link.flow-blue{--connection-color:#78aef5}.live-flow-commons-link.flow-gold{--connection-color:#e0c477}.live-flow-commons-link.flow-coral{--connection-color:#e49b88}.live-flow-commons-link.flow-sky{--connection-color:#73b9c9}
+.live-flow-commons-link.active{border-color:color-mix(in srgb,var(--connection-color) 44%,transparent);background:color-mix(in srgb,var(--connection-color) 10%,rgba(12,19,31,.94));color:#eef5ff}
+.live-flow-commons-panel{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:10px;padding:11px 12px;border:1px solid rgba(133,157,193,.14);border-radius:10px;background:rgba(6,12,21,.58)}
+@keyframes live-flow-orbit-breathe{0%,100%{transform:rotate(0deg);opacity:.82}50%{transform:rotate(12deg);opacity:1}}
+@media(max-width:760px){.live-flow-commons-hub{padding:12px}.live-flow-commons-heading h2{font-size:18px}.live-flow-commons-orbit{flex-basis:34px;width:34px;height:34px}.live-flow-commons-panel{align-items:flex-start;flex-direction:column}.live-flow-commons-panel .home-connection-open{align-self:flex-start}}
+@media(prefers-reduced-motion:reduce){.live-flow-commons-orbit{animation:none}.live-flow-commons-link{transition:none}}
 </style>
