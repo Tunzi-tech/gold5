@@ -248,6 +248,45 @@ function joinHomeChannel(id: string) {
 
 const liveFlowSpace = ref<'overview' | 'ideas'>('overview')
 const liveFlowPrimarySpace = ref<'moving' | 'connecting'>('moving')
+const liveFlowSelectedObject = ref<string | null>(null)
+const liveFlowStreamPeriod = ref('today')
+const liveFlowObjectConnections = computed(() => {
+  const links: Record<string, string[]> = {
+    People: ['Conversations', 'Actions', 'Calls'],
+    Ideas: ['Conversations', 'Actions', 'Zones'],
+    Zones: ['People', 'Actions', 'Initiatives'],
+    Calls: ['People', 'Actions', 'Conversations'],
+    Actions: ['People', 'Ideas', 'Zones'],
+    Conversations: ['People', 'Ideas', 'Calls']
+  }
+  return links[liveFlowSelectedObject.value || ''] || ['People', 'Ideas', 'Zones', 'Calls', 'Actions', 'Conversations']
+})
+const liveFlowObjectStream = computed(() => {
+  const object = liveFlowSelectedObject.value
+  if (!object) return []
+  const terms: Record<string, RegExp> = {
+    People: /people|volunteer|participant|runner|contributor|community|members|collaborator/i,
+    Ideas: /idea|question|suggest|discuss|conversation|observation/i,
+    Zones: /tunis|marsa|djerba|gammarth|coast|online|location/i,
+    Calls: /call|invite|seeking|sought|join|volunteer|take part/i,
+    Actions: /action|clean|garden|run|event|help|coordinat|initiative/i,
+    Conversations: /idea|question|discuss|conversation|share|asking|perspective|observation/i
+  }
+  return liveMovingChatItems.value.filter(item => {
+    const periodMatches = liveFlowStreamPeriod.value === 'today'
+      ? item.id >= 1000
+      : liveFlowStreamPeriod.value === 'yesterday'
+        ? false
+        : item.id < 1000
+    const searchable = [item.type, item.name, item.activity, item.location, item.category].join(' ')
+    return periodMatches && (terms[object]?.test(searchable) ?? true)
+  })
+})
+function selectLiveFlowObject(object: string) {
+  liveFlowSelectedObject.value = object
+  liveFlowStreamPeriod.value = 'today'
+}
+
 const liveSongUrl = ref('')
 const liveSongVideoId = ref('')
 const liveSongUpdatedAt = ref('')
@@ -5800,7 +5839,7 @@ onBeforeUnmount(() => {
             </div>
             <span class="live-flow-commons-orbit" aria-hidden="true"><i></i><b></b><em></em></span>
           </div>
-          <div class="live-flow-live-map" role="img" aria-label="Animated network showing people, ideas, Zones, calls, actions and conversations exchanging activity">
+          <div class="live-flow-live-map" role="group" aria-label="Select a Live Flow object to open its stream">
             <svg class="live-flow-live-lines" viewBox="0 0 720 116" preserveAspectRatio="none" aria-hidden="true">
               <path class="flow-link flow-link-a" d="M44 63 C110 63 110 25 180 25 S260 90 328 60 S430 22 496 47 S615 86 676 48" />
               <path class="flow-link flow-link-b" d="M44 63 C120 100 130 92 208 78 S300 26 360 50 S460 92 548 76 S626 32 676 48" />
@@ -5808,14 +5847,28 @@ onBeforeUnmount(() => {
               <path class="flow-particle flow-particle-a" d="M44 63 C110 63 110 25 180 25 S260 90 328 60 S430 22 496 47 S615 86 676 48" />
               <path class="flow-particle flow-particle-b" d="M44 63 C120 100 130 92 208 78 S300 26 360 50 S460 92 548 76 S626 32 676 48" />
             </svg>
-            <span class="live-flow-map-node node-people"><i></i><b>People</b></span>
-            <span class="live-flow-map-node node-ideas"><i></i><b>Ideas</b></span>
-            <span class="live-flow-map-node node-zones"><i></i><b>Zones</b></span>
-            <span class="live-flow-map-node node-calls"><i></i><b>Calls</b></span>
-            <span class="live-flow-map-node node-actions"><i></i><b>Actions</b></span>
-            <span class="live-flow-map-node node-conversations"><i></i><b>Conversations</b></span>
-            <span class="live-flow-map-status"><i></i> CONNECTIONS IN MOTION</span>
+            <button type="button" class="live-flow-map-node node-people" :class="{ selected: liveFlowSelectedObject === 'People' }" @click="selectLiveFlowObject('People')" aria-label="Open People stream"><i></i><b>People</b></button>
+            <button type="button" class="live-flow-map-node node-ideas" :class="{ selected: liveFlowSelectedObject === 'Ideas' }" @click="selectLiveFlowObject('Ideas')" aria-label="Open Ideas stream"><i></i><b>Ideas</b></button>
+            <button type="button" class="live-flow-map-node node-zones" :class="{ selected: liveFlowSelectedObject === 'Zones' }" @click="selectLiveFlowObject('Zones')" aria-label="Open Zones stream"><i></i><b>Zones</b></button>
+            <button type="button" class="live-flow-map-node node-calls" :class="{ selected: liveFlowSelectedObject === 'Calls' }" @click="selectLiveFlowObject('Calls')" aria-label="Open Calls stream"><i></i><b>Calls</b></button>
+            <button type="button" class="live-flow-map-node node-actions" :class="{ selected: liveFlowSelectedObject === 'Actions' }" @click="selectLiveFlowObject('Actions')" aria-label="Open Actions stream"><i></i><b>Actions</b></button>
+            <button type="button" class="live-flow-map-node node-conversations" :class="{ selected: liveFlowSelectedObject === 'Conversations' }" @click="selectLiveFlowObject('Conversations')" aria-label="Open Conversations stream"><i></i><b>Conversations</b></button>
+            <span class="live-flow-map-status"><i></i> SELECT AN OBJECT TO OPEN ITS STREAM</span>
           </div>
+          <section v-if="liveFlowSelectedObject" class="live-flow-object-stream" aria-live="polite">
+            <div class="live-flow-object-stream-head">
+              <div><span class="home-connection-kicker">LIVE FLOW · {{ liveFlowSelectedObject.toUpperCase() }}</span><h3>{{ liveFlowSelectedObject }} stream</h3><p>Follow activity around this object, then switch to What’s Connecting to explore its relationships.</p></div>
+              <button type="button" class="live-flow-object-close" @click="liveFlowSelectedObject = null" aria-label="Close selected stream">×</button>
+            </div>
+            <div class="live-flow-period-filters" aria-label="Filter stream by time period">
+              <button v-for="period in [{id:'today',label:'Today'},{id:'yesterday',label:'Yesterday'},{id:'last-week',label:'Last week'}]" :key="period.id" type="button" :class="{active:liveFlowStreamPeriod===period.id}" :aria-pressed="liveFlowStreamPeriod===period.id" @click="liveFlowStreamPeriod=period.id">{{ period.label }}</button>
+            </div>
+            <p class="live-flow-stream-demo-note">Sample activity preview. Time filters will reflect real timestamps when live platform activity is connected.</p>
+            <div v-if="liveFlowObjectStream.length" class="live-flow-object-stream-items">
+              <article v-for="item in liveFlowObjectStream" :key="item.id" class="live-flow-object-stream-item" :style="{ '--entity-color': item.color }"><i>{{ item.icon }}</i><div><small>{{ item.type }} · {{ item.location }}</small><p><strong>{{ item.name }}</strong> {{ item.activity }}</p><span>{{ item.detail }}</span></div></article>
+            </div>
+            <div v-else class="live-flow-object-stream-empty"><strong>No sample activity in this period.</strong><span>Try another time range. Yesterday has no sample entries yet.</span></div>
+          </section>
           <div class="live-flow-commons-links" aria-label="Live Flow spaces">
             <button v-for="item in liveFlowCommonsItems" :key="item.id" type="button"
               class="live-flow-commons-link" :class="['flow-' + item.color, { active: liveFlowCommonsPanel === item.id }]"
@@ -5861,8 +5914,12 @@ onBeforeUnmount(() => {
               <div class="live-flow-space-pair-content">
                         <section v-if="liveFlowPrimarySpace === 'connecting'" id="live-flow-connections" class="live-flow-personal-connections" aria-label="Detected connections between platform activities">
           <div class="live-flow-personal-heading">
-            <div><span class="eyebrow">FROM ACTIVITY TO RELATIONSHIPS</span><h2>See what is connecting.</h2><p>Follow the links between the people, ideas, conversations and concerns you just explored above.</p><a class="live-flow-connection-back" href="#live-flow-commons">↑ Back to what’s moving</a></div>
+            <div><span class="eyebrow">WHAT’S CONNECTING · OBJECT RELATIONSHIPS</span><h2>{{ liveFlowSelectedObject ? liveFlowSelectedObject + ' connects to…' : 'See what is connecting.' }}</h2><p>{{ liveFlowSelectedObject ? 'Explore the people, ideas and activity linked to this object. Select a node below to focus on another stream.' : 'Select an object in What’s Moving first, or explore the relationships across people, ideas, conversations and concerns.' }}</p><a class="live-flow-connection-back" href="#live-flow-commons">↑ Back to what’s moving</a></div>
             <span class="live-flow-connection-count">{{ liveFlowDetectedConnections.length }} detected</span>
+          </div>
+          <div v-if="liveFlowSelectedObject" class="live-flow-related-object-row" aria-label="Objects connected to the selected object">
+            <span class="live-flow-related-label">CONNECTED WITH</span>
+            <button v-for="related in liveFlowObjectConnections" :key="related" type="button" @click="selectLiveFlowObject(related)"><i></i>{{ related }} <span aria-hidden="true">↗</span></button>
           </div>
           <div v-if="liveFlowDetectedConnections.length" class="live-flow-connection-grid">
             <button v-for="connection in liveFlowDetectedConnections" :key="connection.id" type="button" class="live-flow-connection-card" @click="connection.action()">
@@ -19309,6 +19366,16 @@ a { text-underline-offset: 3px; }
 .live-flow-space-pair.is-connecting .live-flow-personal-connections{min-width:0;margin:0}
 @media(max-width:700px){.live-flow-space-pair{grid-template-columns:56px minmax(0,1fr);gap:8px}.live-flow-connecting-tab{min-height:130px;padding:9px 4px}.live-flow-connecting-tab strong{font-size:8px}}
 
+/* Clickable Live Flow objects, per-object streams and relationship links. */
+.live-flow-map-node{font:inherit;cursor:pointer;appearance:none;transition:transform .18s ease,border-color .18s ease,background .18s ease}
+.live-flow-map-node:hover,.live-flow-map-node.selected{transform:translateY(-2px);border-color:color-mix(in srgb,var(--node-color) 72%,white);background:rgba(24,37,57,.98);box-shadow:0 0 0 2px color-mix(in srgb,var(--node-color) 18%,transparent),0 0 18px color-mix(in srgb,var(--node-color) 12%,transparent)}
+.live-flow-object-stream{margin:10px 0 14px;padding:14px;border:1px solid rgba(113,151,204,.2);border-radius:12px;background:linear-gradient(135deg,rgba(20,31,49,.9),rgba(10,17,29,.88))}
+.live-flow-object-stream-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.live-flow-object-stream-head h3{margin:5px 0;color:#e4edfb;font-size:16px}.live-flow-object-stream-head p{margin:0;color:#94a8c2;font-size:11px;line-height:1.5}
+.live-flow-object-close{width:27px;height:27px;border:1px solid rgba(147,169,204,.2);border-radius:8px;background:rgba(255,255,255,.04);color:#dce7f8;cursor:pointer;font-size:18px}
+.live-flow-period-filters{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 7px}.live-flow-period-filters button,.live-flow-related-object-row button{border:1px solid rgba(130,157,198,.2);border-radius:8px;background:rgba(255,255,255,.025);color:#aebed4;padding:7px 10px;font-size:10px;cursor:pointer}.live-flow-period-filters button.active{border-color:rgba(125,164,255,.52);background:rgba(85,127,210,.16);color:#e5edff}
+.live-flow-stream-demo-note{margin:0 0 10px;color:#70839d;font-size:9px}.live-flow-object-stream-items{display:grid;gap:7px}.live-flow-object-stream-item{display:flex;gap:10px;padding:10px;border:1px solid rgba(255,255,255,.065);border-radius:9px;background:rgba(255,255,255,.025)}.live-flow-object-stream-item>i{display:grid;place-items:center;flex:0 0 28px;height:28px;border-radius:8px;background:color-mix(in srgb,var(--entity-color) 15%,transparent);color:var(--entity-color);font-style:normal}.live-flow-object-stream-item small{color:#8fa6c3;font-size:8px;letter-spacing:.06em}.live-flow-object-stream-item p{margin:4px 0;color:#d9e4f4;font-size:11px;line-height:1.45}.live-flow-object-stream-item span{color:#8194ad;font-size:9px}.live-flow-object-stream-empty{display:grid;gap:4px;padding:14px;border:1px dashed rgba(130,157,198,.2);border-radius:9px;color:#9eb0c7;font-size:10px}.live-flow-object-stream-empty strong{color:#d6e1f2;font-size:11px}
+.live-flow-related-object-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:0 0 12px;padding:12px;border:1px solid rgba(120,153,201,.14);border-radius:10px;background:rgba(255,255,255,.018)}.live-flow-related-label{margin-right:4px;color:#8197b5;font-size:8px;letter-spacing:.12em}.live-flow-related-object-row button{display:inline-flex;align-items:center;gap:6px}.live-flow-related-object-row button i{width:5px;height:5px;border-radius:50%;background:#81aaff}.live-flow-related-object-row button span{color:#7b9ac8}
+@media(max-width:520px){.live-flow-object-stream{padding:10px}.live-flow-object-stream-head h3{font-size:14px}.live-flow-related-object-row{gap:5px}.live-flow-related-object-row button{padding:6px 8px}}
 /* Animated Live Flow map: subtle moving signals between platform spaces. */
 .live-flow-live-map{position:relative;height:112px;margin:12px 0 2px;overflow:hidden;border:1px solid rgba(105,145,193,.14);border-radius:11px;background:radial-gradient(ellipse at 48% 55%,rgba(71,117,177,.12),transparent 58%),linear-gradient(100deg,rgba(7,15,26,.66),rgba(15,24,39,.55));isolation:isolate}
 .live-flow-live-lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
