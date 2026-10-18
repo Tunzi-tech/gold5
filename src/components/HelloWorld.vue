@@ -19343,7 +19343,7 @@ a { text-underline-offset: 3px; }
 .home-chat-rooms-heading small { color:#70859d; font-size:9px; font-weight:500; letter-spacing:0; }
 .home-chat-rooms { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-bottom:12px; }
 .home-chat-room { display:flex; align-items:center; gap:10px; min-width:0; padding:10px; text-align:left; border:1px solid rgba(123,156,193,.17); border-radius:10px; color:#d9e6f5; background:rgba(19,32,49,.72);
-
+}
 
 /* A subtle moving violet orbit marks the user's current main space. */
 .primary-navigation-portal .primary-space-nav-button.active {
