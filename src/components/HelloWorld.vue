@@ -18187,14 +18187,15 @@ textarea:focus-visible {
 .home-connection-dot{width:6px;height:6px;border-radius:50%;background:var(--connection-color);box-shadow:0 0 8px color-mix(in srgb,var(--connection-color) 45%,transparent)}
 .home-connection-chevron{margin-left:2px;color:var(--connection-color);font-size:12px;font-weight:500}
 .home-connection-link.connection-mint{--connection-color:#73c9ae}.home-connection-link.connection-blue{--connection-color:#78aef5}.home-connection-link.connection-violet{--connection-color:#a99aff}.home-connection-link.connection-gold{--connection-color:#e0c477}.home-connection-link.connection-coral{--connection-color:#e49b88}.home-connection-link.connection-sky{--connection-color:#73b9c9}
-/* Give each discovery space a distinct but coordinated tinted background. */
-.home-connection-link.connection-mint{background:linear-gradient(145deg,rgba(38,91,78,.48),rgba(17,35,39,.88));border-color:rgba(115,201,174,.24)}
-.home-connection-link.connection-blue{background:linear-gradient(145deg,rgba(39,76,125,.5),rgba(17,30,49,.9));border-color:rgba(120,174,245,.25)}
-.home-connection-link.connection-violet{background:linear-gradient(145deg,rgba(75,62,124,.43),rgba(27,25,48,.9));border-color:rgba(169,154,255,.24)}
-.home-connection-link.connection-gold{background:linear-gradient(145deg,rgba(104,82,39,.4),rgba(36,31,25,.9));border-color:rgba(224,196,119,.24)}
-.home-connection-link.connection-coral{background:linear-gradient(145deg,rgba(112,61,57,.4),rgba(39,26,31,.9));border-color:rgba(228,155,136,.24)}
-.home-connection-link.connection-sky{background:linear-gradient(145deg,rgba(36,87,105,.46),rgba(17,32,44,.9));border-color:rgba(115,185,201,.24)}
-.home-connection-link.connection-mint:hover,.home-connection-link.connection-blue:hover,.home-connection-link.connection-violet:hover,.home-connection-link.connection-gold:hover,.home-connection-link.connection-coral:hover,.home-connection-link.connection-sky:hover{border-color:color-mix(in srgb,var(--connection-color) 52%,rgba(145,169,204,.2));background:linear-gradient(145deg,color-mix(in srgb,var(--connection-color) 25%,rgba(28,43,63,.95)),rgba(17,28,43,.96))}
+/* Softened tinted backgrounds with a gentle lift of light. */
+.home-connection-link.connection-mint{background:linear-gradient(145deg,rgba(66,126,109,.43),rgba(25,48,49,.9));border-color:rgba(143,218,193,.3)}
+.home-connection-link.connection-blue{background:linear-gradient(145deg,rgba(70,112,163,.45),rgba(27,45,68,.91));border-color:rgba(151,192,248,.31)}
+.home-connection-link.connection-violet{background:linear-gradient(145deg,rgba(112,99,157,.39),rgba(42,38,66,.91));border-color:rgba(190,180,255,.29)}
+.home-connection-link.connection-gold{background:linear-gradient(145deg,rgba(139,117,69,.36),rgba(49,43,34,.91));border-color:rgba(235,213,151,.3)}
+.home-connection-link.connection-coral{background:linear-gradient(145deg,rgba(145,91,85,.35),rgba(53,37,41,.91));border-color:rgba(240,180,162,.29)}
+.home-connection-link.connection-sky{background:linear-gradient(145deg,rgba(68,120,137,.42),rgba(25,46,57,.91));border-color:rgba(146,210,222,.3)}
+.home-connection-link.connection-mint,.home-connection-link.connection-blue,.home-connection-link.connection-violet,.home-connection-link.connection-gold,.home-connection-link.connection-coral,.home-connection-link.connection-sky{box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 0 16px color-mix(in srgb,var(--connection-color) 7%,transparent)}
+.home-connection-link.connection-mint:hover,.home-connection-link.connection-blue:hover,.home-connection-link.connection-violet:hover,.home-connection-link.connection-gold:hover,.home-connection-link.connection-coral:hover,.home-connection-link.connection-sky:hover{border-color:color-mix(in srgb,var(--connection-color) 62%,rgba(185,202,224,.3));background:linear-gradient(145deg,color-mix(in srgb,var(--connection-color) 30%,rgba(35,49,68,.95)),rgba(22,35,51,.97));box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 0 20px color-mix(in srgb,var(--connection-color) 13%,transparent)}
 
 .home-connection-link.active{border-color:color-mix(in srgb,var(--connection-color) 44%,transparent);background:color-mix(in srgb,var(--connection-color) 10%,rgba(12,19,31,.94));color:#eef5ff}
 .home-connection-panel{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:9px;padding:10px 11px;border:1px solid rgba(133,157,193,.14);border-radius:10px;background:rgba(6,12,21,.58)}
