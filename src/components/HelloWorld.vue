@@ -5261,53 +5261,50 @@ onBeforeUnmount(() => {
             <span aria-hidden="true">{{ homeHeroHidden ? '⌄' : '⌃' }}</span>
             {{ homeHeroHidden ? 'Show header' : 'Hide header' }}
           </button>
-          <button type="button" class="home-header-chat-toggle" :class="{ active: homeHeaderChatOpen }"
-            :aria-pressed="homeHeaderChatOpen" @click="homeHeaderChatOpen = !homeHeaderChatOpen; homeHeaderChatOpen && (homeLocalWorldOpen = false)">
-            <span aria-hidden="true">✉</span>{{ homeHeaderChatOpen ? 'Close chat' : 'Chat' }}
-          </button>
-          <button type="button" class="home-header-chat-toggle home-local-world-toggle" :class="{ active: homeLocalWorldOpen }"
-            :aria-pressed="homeLocalWorldOpen" @click="homeLocalWorldOpen = !homeLocalWorldOpen; homeLocalWorldOpen && (homeHeaderChatOpen = false)">
-            <span aria-hidden="true">◎</span>{{ homeLocalWorldOpen ? 'Close Local / World' : 'Local / World' }}
+          <button type="button" class="home-header-chat-toggle home-network-toggle" :class="{ active: homeHeaderChatOpen }"
+            :aria-pressed="homeHeaderChatOpen" @click="homeHeaderChatOpen = !homeHeaderChatOpen; homeLocalWorldOpen = homeHeaderChatOpen">
+            <span aria-hidden="true">◎</span>{{ homeHeaderChatOpen ? 'Close network' : 'Network' }}
+            <span class="home-network-toggle-caption">Chat · Local · World</span>
           </button>
         </div>
-        <section v-if="homeLocalWorldOpen" class="home-header-chat home-local-world-panel" aria-label="Local and world updates">
-          <div class="home-local-world-heading">
-            <div>
-              <span class="home-connection-kicker">YOUR NETWORK · UPDATES</span>
-              <h2>{{ homeLocalWorldScope === 'local' ? 'Around your Zones' : 'Around the world' }}</h2>
-              <p>{{ homeLocalWorldScope === 'local' ? 'Updates, questions and opportunities close to your Zones.' : 'Ideas, conversations and opportunities from across the network.' }}</p>
-            </div>
-            <span class="home-local-world-status">Joined ✓</span>
-          </div>
-          <div class="home-local-world-tabs" role="group" aria-label="Choose Local or World">
-            <button type="button" :class="{ active: homeLocalWorldScope === 'local' }" @click="homeLocalWorldScope = 'local'; joinHomeChannel('local')">◎ Local <span>Joined ✓</span></button>
-            <button type="button" :class="{ active: homeLocalWorldScope === 'world' }" @click="homeLocalWorldScope = 'world'; joinHomeChannel('world')">◌ World <span>Joined ✓</span></button>
-          </div>
-          <div class="home-local-world-feed" aria-live="polite">
-            <article v-if="homeLocalWorldScope === 'local'" class="home-local-world-item">
-              <span class="home-local-world-item-mark">↗</span><div><strong>Greener Tunis</strong><p>People are exploring greener streets, gardens and local spaces.</p><small>Local initiative · Explore opportunities</small></div>
-            </article>
-            <article v-if="homeLocalWorldScope === 'local'" class="home-local-world-item">
-              <span class="home-local-world-item-mark">?</span><div><strong>Local question</strong><p>What is one nearby place that could be improved by a small shared action?</p><small>Conversation · Add your voice in Chat</small></div>
-            </article>
-            <article v-if="homeLocalWorldScope === 'world'" class="home-local-world-item">
-              <span class="home-local-world-item-mark">✧</span><div><strong>Ideas crossing borders</strong><p>Discover ideas and approaches people are sharing across different places.</p><small>Network signal · Discover</small></div>
-            </article>
-            <article v-if="homeLocalWorldScope === 'world'" class="home-local-world-item">
-              <span class="home-local-world-item-mark">◎</span><div><strong>Open invitation</strong><p>Find people interested in learning, collaborating and turning ideas into action.</p><small>Opportunity · Explore the network</small></div>
-            </article>
-          </div>
-          <p class="home-local-world-note">Preview updates for this page — live alerts will need a connected activity source.</p>
-        </section>
         <section v-if="homeHeaderChatOpen" class="home-header-chat" aria-label="Home chat">
-          <div class="home-header-chat-heading">
+          <div class="home-header-chat-heading home-network-heading">
             <div>
-              <span class="home-connection-kicker">COMMONS · CONVERSATION</span>
-              <h2>Make room for a conversation.</h2>
-              <p>Share a thought, ask a question, or start a connection.</p>
+              <span class="home-connection-kicker">YOUR NETWORK · LIVE SPACE</span>
+              <h2>Conversations and updates, connected.</h2>
+              <p>Follow what’s happening nearby or across the network, then join the conversation.</p>
             </div>
             <span class="home-header-chat-orbit" aria-hidden="true">✳</span>
           </div>
+          <section class="home-network-activity" aria-label="Local and world updates">
+            <div class="home-network-activity-top">
+              <div>
+                <span class="home-network-section-label">ACTIVITY STREAM</span>
+                <strong>{{ homeLocalWorldScope === 'local' ? 'Around your Zones' : 'Around the world' }}</strong>
+                <p>{{ homeLocalWorldScope === 'local' ? 'Questions, initiatives and opportunities near your Zones.' : 'Ideas, conversations and opportunities across the network.' }}</p>
+              </div>
+              <span class="home-local-world-status">Joined ✓</span>
+            </div>
+            <div class="home-local-world-tabs" role="group" aria-label="Choose Local or World">
+              <button type="button" :class="{ active: homeLocalWorldScope === 'local' }" @click="homeLocalWorldScope = 'local'; joinHomeChannel('local')">◎ Local <span>Joined ✓</span></button>
+              <button type="button" :class="{ active: homeLocalWorldScope === 'world' }" @click="homeLocalWorldScope = 'world'; joinHomeChannel('world')">◌ World <span>Joined ✓</span></button>
+            </div>
+            <div class="home-local-world-feed" aria-live="polite">
+              <article v-if="homeLocalWorldScope === 'local'" class="home-local-world-item">
+                <span class="home-local-world-item-mark">↗</span><div><strong>Greener Tunis</strong><p>People are exploring greener streets, gardens and local spaces.</p><small>Local initiative · Explore opportunities</small></div>
+              </article>
+              <article v-if="homeLocalWorldScope === 'local'" class="home-local-world-item">
+                <span class="home-local-world-item-mark">?</span><div><strong>Local question</strong><p>What nearby place could improve through one small shared action?</p><small>Conversation · Add your voice below</small></div>
+              </article>
+              <article v-if="homeLocalWorldScope === 'world'" class="home-local-world-item">
+                <span class="home-local-world-item-mark">✧</span><div><strong>Ideas crossing borders</strong><p>Discover approaches people are sharing across different places.</p><small>Network signal · Discover</small></div>
+              </article>
+              <article v-if="homeLocalWorldScope === 'world'" class="home-local-world-item">
+                <span class="home-local-world-item-mark">◎</span><div><strong>Open invitation</strong><p>Meet people interested in learning, collaborating and acting together.</p><small>Opportunity · Explore the network</small></div>
+              </article>
+            </div>
+            <p class="home-local-world-note">Activity examples are previews; live alerts need a connected activity source.</p>
+          </section>
           <div class="home-chat-rooms-heading">
             <span>CONVERSATIONS TO JOIN</span><small>Choose a space to explore</small>
           </div>
@@ -19516,4 +19513,36 @@ a { text-underline-offset: 3px; }
 @media(max-width:760px) {
   .home-chat-rooms { grid-template-columns:minmax(0,1fr); }
   .home-chat-room-copy small { white-space:normal; }
+}
+
+
+/* Unified Network workspace: chat and Local / World activity in one polished panel. */
+.home-network-toggle { display:inline-flex; align-items:center; gap:8px; }
+.home-network-toggle-caption { margin-left:2px; padding-left:8px; border-left:1px solid rgba(160,185,219,.2); color:#8fa8c7; font-size:9px; letter-spacing:.02em; }
+.home-network-heading { margin-bottom:13px; }
+.home-network-heading h2 { letter-spacing:-.035em; }
+.home-network-activity { margin:0 0 15px; padding:13px; border:1px solid rgba(115,155,207,.19); border-radius:13px; background:linear-gradient(135deg,rgba(20,35,54,.76),rgba(10,20,34,.72)); }
+.home-network-activity-top { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+.home-network-activity-top strong { display:block; margin:4px 0 3px; color:#e4eefc; font-size:13px; letter-spacing:-.015em; }
+.home-network-activity-top p { margin:0; color:#8fa5bf; font-size:10px; line-height:1.45; }
+.home-network-section-label { color:#80a8db; font-size:8px; font-weight:800; letter-spacing:.14em; }
+.home-network-activity .home-local-world-tabs { margin:10px 0 8px; }
+.home-network-activity .home-local-world-feed { gap:8px; }
+.home-network-activity .home-local-world-item { padding:9px 10px; transition:border-color .18s ease,background .18s ease; }
+.home-network-activity .home-local-world-item:hover { border-color:rgba(112,165,225,.32); background:rgba(35,57,83,.42); }
+.home-network-activity .home-local-world-item strong { font-size:10px; }
+.home-network-activity .home-local-world-item p { font-size:10px; line-height:1.45; }
+.home-network-activity .home-local-world-note { margin-top:8px; }
+.home-header-chat .home-chat-rooms-heading { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.home-header-chat .home-chat-rooms-heading span { color:#a8bdd8; font-size:8px; font-weight:800; letter-spacing:.13em; }
+.home-header-chat .home-chat-rooms-heading small { color:#758ca8; font-size:9px; }
+.home-header-chat .home-chat-room { transition:transform .18s ease,border-color .18s ease,background .18s ease; }
+.home-header-chat .home-chat-room:hover { transform:translateY(-1px); }
+.home-header-chat .home-header-chat-active-room { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.home-header-chat .home-header-chat-messages { max-height:150px; overflow:auto; scrollbar-width:thin; }
+@media(max-width:760px) {
+  .home-network-toggle { flex-wrap:wrap; justify-content:center; }
+  .home-network-toggle-caption { font-size:8px; }
+  .home-network-activity { padding:10px; }
+  .home-network-activity-top strong { font-size:12px; }
 }
