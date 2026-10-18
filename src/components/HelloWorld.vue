@@ -19286,6 +19286,16 @@ a { text-underline-offset: 3px; }
 }
 
 
+
+/* Keep the Hide/Show header control on the left, in the same spot when collapsed. */
+.home-commons-content .home-hero-control {
+  justify-content: flex-start;
+  width: 100%;
+}
+.home-commons-content.home-hero-collapsed .home-hero-control {
+  justify-content: flex-start;
+}
+
 /* Keep Home controls in the document flow so they never cover Explore / Feed. */
 .home-commons-content .home-hero-control {
   position:relative; inset:auto; z-index:8; display:flex; align-items:center; justify-content:flex-end;
