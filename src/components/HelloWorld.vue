@@ -132,6 +132,27 @@ type Entity = {
    ===================================================== */
 
 const activeView = ref('home')
+const learnFeedFilter = ref('ALL')
+const learnSelectedTopic = ref('water')
+const learnTopics = [
+  { id: 'water', name: 'Water', domain: 'EARTH SYSTEMS', description: 'Water links climate, public health, food, biodiversity and everyday life.', connects: ['Climate', 'Nature', 'Public life'], view: 'awareness' },
+  { id: 'climate', name: 'Climate', domain: 'SCIENCE & SYSTEMS', description: 'Climate is shaped by energy, ecosystems, cities and choices made across many scales.', connects: ['Water', 'Energy', 'Cities'], view: 'awareness' },
+  { id: 'cities', name: 'Cities', domain: 'PLACES & PEOPLE', description: 'A city connects streets, shade, mobility, culture, services and the people who use them.', connects: ['Nature', 'Mobility', 'Public life'], view: 'zones' },
+  { id: 'nature', name: 'Nature', domain: 'LIFE & ECOLOGY', description: 'Living systems depend on relationships between organisms, resources, habitats and change.', connects: ['Water', 'Climate', 'Food'], view: 'awareness' },
+  { id: 'energy', name: 'Energy', domain: 'SCIENCE & FUTURES', description: 'Energy connects how we build, move, grow food and imagine more sustainable futures.', connects: ['Climate', 'Cities', 'Technology'], view: 'awareness' },
+  { id: 'community', name: 'Community', domain: 'PEOPLE & ACTION', description: 'People turn shared knowledge into conversations, initiatives and changes in their own Zones.', connects: ['Public life', 'Cities', 'Initiatives'], view: 'around-zones' }
+]
+const learnSelectedTopicData = computed(() => learnTopics.find(topic => topic.id === learnSelectedTopic.value) || learnTopics[0])
+const learnDiscoveries = [
+  { id: 'trees', kind: 'KNOWLEDGE', category: 'FACTS', title: 'Why do cities need trees beyond aesthetics?', description: 'Explore how shade, water, biodiversity and street design affect everyday urban life.', topic: 'nature', time: '6 MIN', action: 'Explore the connection', view: 'awareness' },
+  { id: 'ecosystems', kind: 'SCIENCE', category: 'IDEAS', title: 'How does an ecosystem stay in balance?', description: 'Look at relationships between organisms, energy, resources and change.', topic: 'nature', time: '8 MIN', action: 'Explore nature', view: 'awareness' },
+  { id: 'city-life', kind: 'PLACES', category: 'QUESTIONS', title: 'What makes a place feel alive?', description: 'Ask how shade, meeting places, movement and culture shape a shared place.', topic: 'cities', time: '6 MIN', action: 'Explore places', view: 'zones' },
+  { id: 'future', kind: 'POSSIBLE FUTURES', category: 'POSSIBILITIES', title: 'What could this place become?', description: 'Imagine alternatives before choices become reality, then connect them to local action.', topic: 'community', time: '7 MIN', action: 'Explore possibilities', view: 'awareness' }
+]
+const filteredLearnDiscoveries = computed(() => learnFeedFilter.value === 'ALL' ? learnDiscoveries : learnDiscoveries.filter(item => item.category === learnFeedFilter.value))
+function selectLearnTopic(topicId: string) {
+  learnSelectedTopic.value = topicId
+}
 const showCircleHome = ref(false)
 const platformCircles = [
   { id: 'main', name: 'COMMONS', mark: '◉', color: 'blue', view: 'home' },
@@ -6324,97 +6345,35 @@ onBeforeUnmount(() => {
            LEARN & DISCOVER
            ================================================= -->
       <section v-if="activeView === 'learn'" class="content learn-discover-content">
-
         <div class="page-title learn-discover-title">
-          <span class="eyebrow">LEARN &amp; DISCOVER</span>
-          <h1>Open a door. Follow your curiosity.</h1>
-          <p>
-            Learn something new, connect ideas that seem separate, explore what is already known,
-            and discover questions that can lead somewhere unexpected.
-          </p>
+          <span class="eyebrow">LEARN &amp; DISCOVER · A KNOWLEDGE UNIVERSE</span>
+          <h1>Follow a question. Discover how things connect.</h1>
+          <p>Explore ideas, questions, science and possible futures — then follow the connections between knowledge, people and the places we share.</p>
         </div>
-
-        <div class="learn-discover-path">
-          <div class="learn-path-step active"><span>01</span><strong>NOTICE</strong><small>Start with what catches your attention.</small></div>
-          <i>→</i>
-          <div class="learn-path-step"><span>02</span><strong>EXPLORE</strong><small>Look beyond the first explanation.</small></div>
-          <i>→</i>
-          <div class="learn-path-step"><span>03</span><strong>CONNECT</strong><small>Find relationships between ideas.</small></div>
-          <i>→</i>
-          <div class="learn-path-step"><span>04</span><strong>DISCOVER</strong><small>Leave with a new possibility.</small></div>
-        </div>
-
-        <div class="learn-discover-grid">
-
-          <article class="learn-feature-card">
-            <div class="learn-card-orbit">◈</div>
-            <span class="learn-kicker">START HERE</span>
-            <h2>Why does a local issue become a bigger system?</h2>
-            <p>
-              A street, a tree, a public space or a local decision can be connected to health,
-              climate, economy, culture and the way people live. Learn to look for the connections.
-            </p>
-            <div class="learn-tags"><span>SYSTEMS</span><span>LOCAL</span><span>CONNECTIONS</span></div>
-            <button type="button" class="learn-discover-link" @click="navigate('awareness')">EXPLORE THE CONNECTIONS →</button>
-          </article>
-
-          <article class="learn-topic-card">
-            <div class="learn-topic-head"><span class="learn-topic-icon">◎</span><span class="learn-kicker">SCIENCE</span></div>
-            <h3>How does an ecosystem stay in balance?</h3>
-            <p>Explore relationships between organisms, energy, resources and change rather than looking at each part alone.</p>
-            <span class="learn-reading">FOUNDATIONS · 8 MIN</span>
-            <button type="button" class="learn-mini-link">OPEN DISCOVERY →</button>
-          </article>
-
-          <article class="learn-topic-card">
-            <div class="learn-topic-head"><span class="learn-topic-icon">✦</span><span class="learn-kicker">CITIES</span></div>
-            <h3>What makes a place feel alive?</h3>
-            <p>People, movement, shade, meeting places, culture and everyday activity all shape how a place is experienced.</p>
-            <span class="learn-reading">PLACE · 6 MIN</span>
-            <button type="button" class="learn-mini-link" @click="navigate('zones')">EXPLORE PLACES →</button>
-          </article>
-
-          <article class="learn-topic-card">
-            <div class="learn-topic-head"><span class="learn-topic-icon">◇</span><span class="learn-kicker">FUTURES</span></div>
-            <h3>How do we imagine a future before building it?</h3>
-            <p>Possible futures are not predictions. They are ways to make choices visible before those choices become reality.</p>
-            <span class="learn-reading">POSSIBILITIES · 7 MIN</span>
-            <button type="button" class="learn-mini-link" @click="navigate('awareness')">SEE POSSIBLE FUTURES →</button>
-          </article>
-
-          <article class="learn-question-card">
-            <div>
-              <span class="learn-kicker">A QUESTION TO FOLLOW</span>
-              <h2>What feels wrong enough to make you curious?</h2>
-              <p>
-                You do not need the answer first. Start with the observation. Ask why. Look for what
-                you may be missing. Then follow the thread until another part of the Commons becomes visible.
-              </p>
+        <section class="learn-universe-panel" aria-label="Explore connected topics">
+          <div class="learn-universe-heading"><div><span class="learn-kicker">THE KNOWLEDGE UNIVERSE</span><h2>One topic opens another.</h2><p>Choose a node to explore its connections and see where curiosity can lead.</p></div><span class="learn-universe-mark" aria-hidden="true">✳</span></div>
+          <div class="learn-universe-layout">
+            <div class="learn-topic-orbit" role="group" aria-label="Connected topics">
+              <button v-for="topic in learnTopics" :key="topic.id" type="button" class="learn-topic-node" :class="['learn-topic-' + topic.id, { active: learnSelectedTopic === topic.id }]" :aria-pressed="learnSelectedTopic === topic.id" @click="selectLearnTopic(topic.id)"><span class="learn-node-dot"></span>{{ topic.name }}</button>
+              <span class="learn-orbit-line learn-orbit-line-one" aria-hidden="true"></span><span class="learn-orbit-line learn-orbit-line-two" aria-hidden="true"></span><span class="learn-orbit-line learn-orbit-line-three" aria-hidden="true"></span>
             </div>
-            <div class="learn-question-flow"><span>OBSERVE</span><i>→</i><span>ASK</span><i>→</i><span>LEARN</span><i>→</i><span>DISCOVER</span></div>
-          </article>
-
-          <article class="learn-zone-card">
-            <div class="learn-zone-copy">
-              <span class="learn-kicker">LEARN FROM A ZONE</span>
-              <h2>Knowledge is also where people live it.</h2>
-              <p>
-                Explore a Zone to discover the people, places, goals, activity and local knowledge
-                already shaping it. Sometimes the best way to learn is to enter the context itself.
-              </p>
-              <button type="button" class="learn-discover-link" @click="navigate('around-zones')">DISCOVER ZONES AROUND →</button>
-            </div>
-            <div class="learn-zone-visual" aria-hidden="true"><span></span><i></i><b></b><em></em></div>
-          </article>
-
-        </div>
-
-        <div class="learn-closing-card">
-          <span class="eyebrow">KEEP EXPLORING</span>
-          <strong>One discovery can reconnect scattered parts.</strong>
-          <span>Learn from what works, learn from what fails, and let new questions open the next door.</span>
-        </div>
-
+            <article class="learn-selected-topic"><span class="learn-kicker">{{ learnSelectedTopicData.domain }}</span><h3>{{ learnSelectedTopicData.name }}</h3><p>{{ learnSelectedTopicData.description }}</p>
+              <div class="learn-connected-tags"><span>CONNECTED TO</span><button v-for="connection in learnSelectedTopicData.connects" :key="connection" type="button" @click="selectLearnTopic(connection === 'Climate' ? 'climate' : connection === 'Nature' ? 'nature' : connection === 'Cities' ? 'cities' : connection === 'Energy' ? 'energy' : connection === 'Public life' || connection === 'Initiatives' ? 'community' : 'water')">{{ connection }} <span aria-hidden="true">↗</span></button></div>
+              <button type="button" class="learn-discover-link" @click="navigate(learnSelectedTopicData.view)">EXPLORE THIS CONNECTION →</button>
+            </article>
+          </div>
+        </section>
+        <section class="learn-feed-section">
+          <div class="learn-feed-heading"><div><span class="learn-kicker">CURIOSITY IN MOTION</span><h2>What would you like to discover?</h2><p>Start with a fact, an idea, a question or a possibility.</p></div></div>
+          <div class="learn-feed-filters" role="group" aria-label="Filter discoveries"><button v-for="filter in ['ALL', 'FACTS', 'IDEAS', 'QUESTIONS', 'POSSIBILITIES']" :key="filter" type="button" :class="{ active: learnFeedFilter === filter }" :aria-pressed="learnFeedFilter === filter" @click="learnFeedFilter = filter">{{ filter }}</button></div>
+          <div class="learn-discoveries-grid">
+            <article v-for="item in filteredLearnDiscoveries" :key="item.id" class="learn-discovery-card">
+              <div class="learn-discovery-card-top"><span class="learn-discovery-symbol" aria-hidden="true">{{ item.category === 'FACTS' ? '◉' : item.category === 'QUESTIONS' ? '?' : item.category === 'POSSIBILITIES' ? '✧' : '✳' }}</span><span class="learn-kicker">{{ item.kind }}</span><span class="learn-reading">{{ item.time }}</span></div>
+              <h3>{{ item.title }}</h3><p>{{ item.description }}</p><button type="button" class="learn-mini-link" @click="selectLearnTopic(item.topic); navigate(item.view)">{{ item.action.toUpperCase() }} →</button>
+            </article>
+          </div>
+        </section>
+        <section class="learn-zone-bridge"><div class="learn-zone-bridge-icon" aria-hidden="true">◎</div><div><span class="learn-kicker">FROM KNOWLEDGE TO THE WORLD AROUND YOU</span><h2>Ideas become richer when they meet real places.</h2><p>Explore people, places, initiatives and local knowledge connected to your Zones — and discover where you could take part.</p></div><button type="button" class="learn-discover-link" @click="navigate('around-zones')">DISCOVER ZONES AROUND →</button></section>
       </section>
 
       <!-- =================================================
@@ -18706,3 +18665,39 @@ a { text-underline-offset: 3px; }
 .main-nav .primary-navigation-portal::before {
   border-color: rgba(155, 187, 235, .12);
 }
+
+
+/* LEARN & DISCOVER — connected knowledge universe */
+.learn-universe-panel,.learn-discovery-card,.learn-zone-bridge{border:1px solid rgba(113,160,219,.15);border-radius:16px;background:linear-gradient(145deg,rgba(18,30,47,.88),rgba(9,15,24,.96));box-shadow:0 14px 32px rgba(0,0,0,.14)}
+.learn-universe-panel{padding:20px;margin-bottom:24px;overflow:hidden;position:relative}
+.learn-universe-panel:before{content:"";position:absolute;right:-90px;top:-150px;width:310px;height:310px;border-radius:50%;border:1px solid rgba(110,166,232,.08);box-shadow:0 0 0 28px rgba(110,166,232,.018),0 0 0 58px rgba(110,166,232,.014);pointer-events:none}
+.learn-universe-heading,.learn-feed-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}
+.learn-universe-heading h2,.learn-feed-heading h2,.learn-zone-bridge h2{margin:7px 0 5px;color:#e4edf9;font-size:18px;letter-spacing:-.025em}
+.learn-universe-heading p,.learn-feed-heading p,.learn-zone-bridge p{margin:0;color:#7e91a9;font-size:10px;line-height:1.7;max-width:640px}
+.learn-universe-mark{display:grid;place-items:center;width:38px;height:38px;flex:0 0 38px;border:1px solid rgba(125,177,236,.27);border-radius:50%;color:#9cc9fa;background:radial-gradient(circle at 35% 25%,rgba(120,178,241,.18),rgba(22,42,66,.2));font-size:17px}
+.learn-universe-layout{display:grid;grid-template-columns:minmax(250px,.95fr) minmax(0,1.05fr);gap:20px;align-items:stretch;margin-top:18px}
+.learn-topic-orbit{min-height:260px;position:relative;overflow:hidden;border:1px solid rgba(113,160,219,.1);border-radius:13px;background:radial-gradient(ellipse at 50% 48%,rgba(56,103,159,.16),rgba(8,15,25,.25) 64%)}
+.learn-topic-orbit:before,.learn-topic-orbit:after{content:"";position:absolute;left:50%;top:50%;border:1px solid rgba(115,169,231,.11);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none}
+.learn-topic-orbit:before{width:210px;height:150px}.learn-topic-orbit:after{width:145px;height:225px;transform:translate(-50%,-50%) rotate(43deg)}
+.learn-topic-node{position:absolute;z-index:2;display:flex;align-items:center;gap:7px;padding:8px 10px;border:1px solid rgba(111,161,219,.2);border-radius:999px;background:rgba(12,23,38,.94);color:#aebfd5;font-size:10px;cursor:pointer;transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease}
+.learn-topic-node:hover{transform:translateY(-2px);border-color:rgba(137,191,248,.55)}.learn-topic-node.active{border-color:rgba(135,191,249,.68);background:linear-gradient(120deg,rgba(43,83,128,.85),rgba(29,48,75,.92));color:#f0f7ff;box-shadow:0 0 18px rgba(88,151,219,.13)}
+.learn-node-dot{width:6px;height:6px;flex:0 0 6px;border-radius:50%;background:#84bdf3;box-shadow:0 0 9px rgba(132,189,243,.5)}
+.learn-topic-climate{top:15%;left:10%}.learn-topic-water{top:43%;left:37%}.learn-topic-cities{top:20%;right:8%}.learn-topic-nature{bottom:17%;left:12%}.learn-topic-energy{bottom:16%;right:8%}.learn-topic-community{top:70%;left:39%}
+.learn-orbit-line{position:absolute;height:1px;background:linear-gradient(90deg,transparent,rgba(107,164,227,.28),transparent);pointer-events:none}
+.learn-orbit-line-one{width:70%;left:15%;top:40%;transform:rotate(24deg)}.learn-orbit-line-two{width:68%;left:17%;top:54%;transform:rotate(-28deg)}.learn-orbit-line-three{width:55%;left:23%;top:49%;transform:rotate(77deg)}
+.learn-selected-topic{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:18px;border:1px solid rgba(255,255,255,.055);border-radius:13px;background:rgba(5,11,19,.35)}
+.learn-selected-topic h3{margin:8px 0;color:#e7f0fb;font-size:23px;letter-spacing:-.035em}.learn-selected-topic>p{margin:0;color:#8b9db3;font-size:11px;line-height:1.8}
+.learn-connected-tags{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-top:17px}.learn-connected-tags>span{width:100%;margin-bottom:2px;color:#657991;font-size:7px;font-weight:900;letter-spacing:.12em}
+.learn-connected-tags button{padding:6px 8px;border:1px solid rgba(121,170,227,.15);border-radius:7px;background:rgba(72,120,177,.08);color:#9dbfe5;font-size:9px;cursor:pointer}.learn-connected-tags button:hover{border-color:rgba(121,177,239,.42);color:#d8eaff}
+.learn-feed-section{margin-bottom:22px}.learn-feed-filters{display:flex;flex-wrap:wrap;gap:7px;margin:15px 0 12px}
+.learn-feed-filters button{padding:7px 10px;border:1px solid rgba(255,255,255,.075);border-radius:999px;background:rgba(12,18,28,.75);color:#71849c;font-size:8px;font-weight:800;letter-spacing:.08em;cursor:pointer}
+.learn-feed-filters button.active{border-color:rgba(123,177,238,.42);background:rgba(67,116,174,.17);color:#d8eaff}
+.learn-discoveries-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.learn-discovery-card{padding:16px;display:flex;flex-direction:column;min-height:190px;transition:border-color .18s ease,transform .18s ease}.learn-discovery-card:hover{transform:translateY(-2px);border-color:rgba(120,174,235,.3)}
+.learn-discovery-card-top{display:flex;align-items:center;gap:8px}.learn-discovery-symbol{display:grid;place-items:center;width:27px;height:27px;border:1px solid rgba(125,177,236,.2);border-radius:9px;background:rgba(76,128,190,.1);color:#9dc9fa;font-size:13px}
+.learn-discovery-card .learn-reading{margin-left:auto}.learn-discovery-card h3{margin:15px 0 7px;color:#dce8f6;font-size:14px;line-height:1.4}.learn-discovery-card p{margin:0;color:#7f91a7;font-size:10px;line-height:1.7}.learn-discovery-card .learn-mini-link{margin-top:auto;padding-top:14px}
+.learn-zone-bridge{display:flex;align-items:center;gap:15px;padding:17px}.learn-zone-bridge-icon{display:grid;place-items:center;flex:0 0 40px;height:40px;border:1px solid rgba(120,194,173,.25);border-radius:50%;background:rgba(67,150,128,.09);color:#90d7c1;font-size:20px}
+.learn-zone-bridge>div:nth-child(2){flex:1;min-width:0}.learn-zone-bridge h2{font-size:15px}.learn-zone-bridge p{font-size:9px}.learn-zone-bridge>.learn-discover-link{flex:0 0 auto;margin:0}
+@media(max-width:800px){.learn-universe-layout{grid-template-columns:1fr}.learn-topic-orbit{min-height:250px}.learn-discoveries-grid{grid-template-columns:1fr}.learn-zone-bridge{align-items:flex-start;flex-wrap:wrap}.learn-zone-bridge>.learn-discover-link{margin-left:55px}}
+@media(max-width:480px){.learn-universe-panel{padding:13px}.learn-topic-orbit{min-height:230px}.learn-topic-node{font-size:9px;padding:7px 8px}.learn-topic-water{left:35%}.learn-topic-community{left:35%}.learn-selected-topic{padding:13px}}
+@media(prefers-reduced-motion:reduce){.learn-topic-node,.learn-discovery-card{transition:none}}
