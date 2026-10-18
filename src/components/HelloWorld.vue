@@ -18166,8 +18166,10 @@ textarea:focus-visible {
 .home-connection-heading h1{margin:3px 0 3px;color:#e5edf8;font-size:19px;line-height:1.2;letter-spacing:-.035em;font-weight:750}
 .home-connection-heading p{margin:0;max-width:520px;color:#8190a5;font-size:10px;line-height:1.5}
 .home-connection-kicker{display:block;color:#8da9cf;font-size:8px;font-weight:850;letter-spacing:.15em}
-.home-impact-discovery-link{display:flex;align-items:center;gap:10px;flex:0 0 auto;max-width:245px;min-width:190px;padding:10px 12px;border:1px solid rgba(108,190,156,.28);border-radius:11px;background:linear-gradient(120deg,rgba(42,113,91,.18),rgba(33,71,100,.16));color:#e5f5ee;text-align:left;font:inherit;cursor:pointer;transition:border-color .18s ease,background .18s ease,transform .18s ease}
-.home-impact-discovery-link:hover{border-color:rgba(108,205,170,.58);background:linear-gradient(120deg,rgba(42,113,91,.28),rgba(33,71,100,.23));transform:translateY(-1px)}
+.home-impact-discovery-link{display:flex;align-items:center;gap:10px;flex:0 0 auto;max-width:245px;min-width:190px;padding:10px 12px;border:1px solid rgba(83,220,157,.48);border-radius:11px;background:linear-gradient(120deg,rgba(20,126,82,.32) 0%,rgba(24,104,105,.24) 58%,rgba(33,71,100,.2) 100%);box-shadow:inset 0 1px 0 rgba(205,255,225,.07),0 0 18px rgba(45,204,132,.08);color:#edfff5;text-align:left;font:inherit;cursor:pointer;transition:border-color .2s ease,background .2s ease,transform .2s ease,box-shadow .2s ease}
+.home-impact-discovery-link:hover{border-color:rgba(104,255,177,.78);background:linear-gradient(120deg,rgba(20,145,88,.42) 0%,rgba(24,122,117,.31) 58%,rgba(33,71,100,.24) 100%);box-shadow:inset 0 1px 0 rgba(220,255,233,.12),0 0 24px rgba(45,204,132,.17);transform:translateY(-2px)}
+.home-impact-discovery-link:focus-visible{outline:2px solid rgba(104,255,177,.9);outline-offset:3px}
+.home-impact-discovery-icon{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border:1px solid rgba(104,255,177,.35);border-radius:10px;background:linear-gradient(145deg,rgba(48,208,129,.25),rgba(25,115,112,.18));color:#7dffb5;text-shadow:0 0 12px rgba(82,255,164,.32);box-shadow:inset 0 0 12px rgba(82,255,164,.08)}
 .home-impact-discovery-icon{display:grid;place-items:center;flex:0 0 31px;width:31px;height:31px;border-radius:9px;background:rgba(87,190,147,.13);color:#8fe0b8;font-size:19px}
 .home-impact-discovery-copy{display:flex;flex-direction:column;gap:3px;min-width:0}
 .home-impact-discovery-copy .home-connection-kicker{color:#83c7aa;font-size:7px}
