@@ -18172,7 +18172,7 @@ textarea:focus-visible {
 .home-impact-discovery-icon{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border:1px solid rgba(255,220,132,.52);border-radius:10px;background:linear-gradient(145deg,rgba(232,190,88,.3),rgba(127,91,31,.22));color:#ffe4a0;text-shadow:0 0 12px rgba(255,213,111,.28);box-shadow:inset 0 0 12px rgba(255,221,135,.1)}
 .home-impact-discovery-icon{display:grid;place-items:center;flex:0 0 31px;width:31px;height:31px;border:1px solid rgba(255,220,132,.45);border-radius:9px;background:rgba(232,190,88,.18);color:#ffe4a0;font-size:19px}
 .home-impact-discovery-copy{display:flex;flex-direction:column;gap:3px;min-width:0}
-.home-impact-discovery-copy .home-connection-kicker{color:#83c7aa;font-size:7px}
+.home-impact-discovery-copy .home-connection-kicker{color:#e8c56e;font-size:7px}
 .home-impact-discovery-copy strong{font-size:11px;line-height:1.3;font-weight:800}
 .home-impact-discovery-copy small{color:#91b8aa;font-size:9px;line-height:1.3}
 .home-impact-discovery-copy small span{color:#b1f0d0}
