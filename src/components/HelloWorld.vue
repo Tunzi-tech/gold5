@@ -133,6 +133,7 @@ type Entity = {
 
 const activeView = ref('home')
 const learnFeedFilter = ref('ALL')
+const learnSearchQuery = ref('')
 const learnSelectedTopic = ref('water')
 const learnTopics = [
   { id: 'water', name: 'Water', domain: 'EARTH SYSTEMS', description: 'Water links climate, public health, food, biodiversity and everyday life.', connects: ['Climate', 'Nature', 'Public life'], view: 'awareness' },
@@ -143,15 +144,28 @@ const learnTopics = [
   { id: 'community', name: 'Community', domain: 'PEOPLE & ACTION', description: 'People turn shared knowledge into conversations, initiatives and changes in their own Zones.', connects: ['Public life', 'Cities', 'Initiatives'], view: 'around-zones' }
 ]
 const learnSelectedTopicData = computed(() => learnTopics.find(topic => topic.id === learnSelectedTopic.value) || learnTopics[0])
-const learnDiscoveries = [
-  { id: 'trees', kind: 'KNOWLEDGE', category: 'FACTS', title: 'Why do cities need trees beyond aesthetics?', description: 'Explore how shade, water, biodiversity and street design affect everyday urban life.', topic: 'nature', time: '6 MIN', action: 'Explore the connection', view: 'awareness' },
-  { id: 'ecosystems', kind: 'SCIENCE', category: 'IDEAS', title: 'How does an ecosystem stay in balance?', description: 'Look at relationships between organisms, energy, resources and change.', topic: 'nature', time: '8 MIN', action: 'Explore nature', view: 'awareness' },
-  { id: 'city-life', kind: 'PLACES', category: 'QUESTIONS', title: 'What makes a place feel alive?', description: 'Ask how shade, meeting places, movement and culture shape a shared place.', topic: 'cities', time: '6 MIN', action: 'Explore places', view: 'zones' },
-  { id: 'future', kind: 'POSSIBLE FUTURES', category: 'POSSIBILITIES', title: 'What could this place become?', description: 'Imagine alternatives before choices become reality, then connect them to local action.', topic: 'community', time: '7 MIN', action: 'Explore possibilities', view: 'awareness' }
+const learnArticles = [
+  { id: 'nature-health', category: 'NATURE & HEALTH', source: 'WORLD HEALTH ORGANIZATION', sourceShort: 'WHO', date: '22 MAY 2025', format: 'REPORT', title: 'Nature-based solutions and health', description: 'How restoring ecosystems and bringing nature into cities can support cleaner air and water, mental well-being, physical activity and stronger social connections.', takeaway: 'Nature can support both environmental sustainability and human health — when solutions are designed and managed well.', topic: 'nature', url: 'https://www.who.int/europe/publications/i/item/WHO-EURO-2025-12214-51986-79744', featured: true },
+  { id: 'urban-health', category: 'CITIES & HEALTH', source: 'WORLD HEALTH ORGANIZATION', sourceShort: 'WHO', date: '19 MAR 2025', format: 'FACT SHEET', title: 'Urban health', description: 'A clear overview of how housing, transport, sanitation, air quality, heat and access to green space shape health in cities.', takeaway: 'Healthier cities depend on the systems around people, not only on individual choices.', topic: 'cities', url: 'https://www.who.int/news-room/fact-sheets/detail/urban-health' },
+  { id: 'green-air', category: 'NATURE & HEALTH', source: 'WORLD HEALTH ORGANIZATION', sourceShort: 'WHO', date: '4 SEP 2025', format: 'SCIENCE BRIEF', title: 'Green spaces: sectoral solutions for air pollution and health', description: 'A science and policy brief on how urban greenery may support health, air quality and well-being, alongside the barriers and conditions that shape implementation.', takeaway: 'Green space is part of a wider public-health response and works best when access and local needs are considered.', topic: 'nature', url: 'https://www.who.int/publications/i/item/B09366' },
+  { id: 'green-blue', category: 'PLACES & WELL-BEING', source: 'WHO REGIONAL OFFICE FOR EUROPE', sourceShort: 'WHO EUROPE', date: '22 MAY 2023', format: 'TECHNICAL REPORT', title: 'Assessing the value of urban green and blue spaces', description: 'A practical look at ways to assess the health, well-being, social and economic value of parks, trees, waterways and other urban natural spaces.', takeaway: 'Planning can consider several benefits of a place together instead of treating green and blue space as decoration.', topic: 'water', url: 'https://www.who.int/europe/publications/i/item/WHO-EURO-2023-7508-47275-69347' },
+  { id: 'climate-cities', category: 'CLIMATE & CITIES', source: 'INTERGOVERNMENTAL PANEL ON CLIMATE CHANGE', sourceShort: 'IPCC', date: '2022', format: 'ASSESSMENT CHAPTER', title: 'Cities, settlements and key infrastructure', description: 'Evidence on how climate hazards affect urban areas, why vulnerability differs between communities, and how planning and local knowledge can support adaptation.', takeaway: 'Climate resilience depends on local context, infrastructure, governance and the ability to act together.', topic: 'climate', url: 'https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-6/' }
 ]
-const filteredLearnDiscoveries = computed(() => learnFeedFilter.value === 'ALL' ? learnDiscoveries : learnDiscoveries.filter(item => item.category === learnFeedFilter.value))
+const learnArticleFilters = ['ALL', 'NATURE & HEALTH', 'CITIES & HEALTH', 'PLACES & WELL-BEING', 'CLIMATE & CITIES']
+const filteredLearnArticles = computed(() => {
+  const query = learnSearchQuery.value.trim().toLowerCase()
+  return learnArticles.filter(article => {
+    const matchesCategory = learnFeedFilter.value === 'ALL' || article.category === learnFeedFilter.value
+    const searchable = [article.title, article.description, article.source, article.category, article.topic, article.takeaway].join(' ').toLowerCase()
+    return matchesCategory && (!query || searchable.includes(query))
+  })
+})
+const featuredLearnArticle = computed(() => filteredLearnArticles.value[0] || null)
+const supportingLearnArticles = computed(() => filteredLearnArticles.value.slice(1))
 function selectLearnTopic(topicId: string) {
   learnSelectedTopic.value = topicId
+  learnSearchQuery.value = topicId === 'water' ? 'water' : topicId === 'climate' ? 'climate' : topicId === 'cities' ? 'cities' : topicId === 'nature' ? 'nature' : topicId === 'energy' ? 'energy' : 'health'
+  learnFeedFilter.value = 'ALL'
 }
 const showCircleHome = ref(false)
 const platformCircles = [
@@ -6363,15 +6377,40 @@ onBeforeUnmount(() => {
             </article>
           </div>
         </section>
-        <section class="learn-feed-section">
-          <div class="learn-feed-heading"><div><span class="learn-kicker">CURIOSITY IN MOTION</span><h2>What would you like to discover?</h2><p>Start with a fact, an idea, a question or a possibility.</p></div></div>
-          <div class="learn-feed-filters" role="group" aria-label="Filter discoveries"><button v-for="filter in ['ALL', 'FACTS', 'IDEAS', 'QUESTIONS', 'POSSIBILITIES']" :key="filter" type="button" :class="{ active: learnFeedFilter === filter }" :aria-pressed="learnFeedFilter === filter" @click="learnFeedFilter = filter">{{ filter }}</button></div>
-          <div class="learn-discoveries-grid">
-            <article v-for="item in filteredLearnDiscoveries" :key="item.id" class="learn-discovery-card">
-              <div class="learn-discovery-card-top"><span class="learn-discovery-symbol" aria-hidden="true">{{ item.category === 'FACTS' ? '◉' : item.category === 'QUESTIONS' ? '?' : item.category === 'POSSIBILITIES' ? '✧' : '✳' }}</span><span class="learn-kicker">{{ item.kind }}</span><span class="learn-reading">{{ item.time }}</span></div>
-              <h3>{{ item.title }}</h3><p>{{ item.description }}</p><button type="button" class="learn-mini-link" @click="selectLearnTopic(item.topic); navigate(item.view)">{{ item.action.toUpperCase() }} →</button>
+                <section class="learn-feed-section">
+          <div class="learn-feed-heading">
+            <div><span class="learn-kicker">CURATED KNOWLEDGE · TRUSTED SOURCES</span><h2>Explore ideas grounded in research.</h2><p>Start with a clear summary, see the key takeaway, then open the original publication for the full context.</p></div>
+            <span class="learn-results-count">{{ filteredLearnArticles.length }} SOURCES</span>
+          </div>
+          <div class="learn-article-tools">
+            <label class="learn-search-field"><span aria-hidden="true">⌕</span><input v-model="learnSearchQuery" type="search" placeholder="Search topics, questions or sources…" aria-label="Search articles" /><button v-if="learnSearchQuery" type="button" aria-label="Clear search" @click="learnSearchQuery = ''">×</button></label>
+            <div class="learn-feed-filters" role="group" aria-label="Filter articles">
+              <button v-for="filter in learnArticleFilters" :key="filter" type="button" :class="{ active: learnFeedFilter === filter }" :aria-pressed="learnFeedFilter === filter" @click="learnFeedFilter = filter">{{ filter }}</button>
+            </div>
+          </div>
+          <article v-if="featuredLearnArticle" class="learn-featured-article">
+            <div class="learn-featured-visual" aria-hidden="true"><div class="learn-featured-orbit orbit-a"></div><div class="learn-featured-orbit orbit-b"></div><div class="learn-featured-orbit orbit-c"></div><span class="learn-featured-core">LEARN<br />/ CONNECT</span><span class="learn-featured-star star-a">✳</span><span class="learn-featured-star star-b">✦</span></div>
+            <div class="learn-featured-copy">
+              <div class="learn-article-meta"><span class="learn-source-pill">{{ featuredLearnArticle.format }}</span><span>{{ featuredLearnArticle.sourceShort }}</span><span>{{ featuredLearnArticle.date }}</span></div>
+              <span class="learn-kicker">{{ featuredLearnArticle.category }}</span>
+              <h3>{{ featuredLearnArticle.title }}</h3><p>{{ featuredLearnArticle.description }}</p>
+              <div class="learn-key-takeaway"><span>THE KEY TAKEAWAY</span><p>{{ featuredLearnArticle.takeaway }}</p></div>
+              <a class="learn-source-link" :href="featuredLearnArticle.url" target="_blank" rel="noopener noreferrer">READ ORIGINAL SOURCE <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+          <div v-if="supportingLearnArticles.length" class="learn-articles-grid">
+            <article v-for="article in supportingLearnArticles" :key="article.id" class="learn-article-card">
+              <div class="learn-article-card-art" :class="'art-' + article.topic" aria-hidden="true"><span class="learn-art-orbit"></span><span class="learn-art-core">{{ article.topic === 'nature' ? '✳' : article.topic === 'climate' ? '◌' : article.topic === 'water' ? '≈' : '⌂' }}</span><span class="learn-art-label">{{ article.topic.toUpperCase() }}</span></div>
+              <div class="learn-article-card-body">
+                <div class="learn-article-meta"><span class="learn-source-pill">{{ article.format }}</span><span>{{ article.date }}</span></div>
+                <h3>{{ article.title }}</h3><p>{{ article.description }}</p>
+                <div class="learn-article-source">{{ article.source }}</div>
+                <a class="learn-source-link" :href="article.url" target="_blank" rel="noopener noreferrer">READ SOURCE <span aria-hidden="true">↗</span></a>
+              </div>
             </article>
           </div>
+          <div v-if="!filteredLearnArticles.length" class="learn-no-results"><span aria-hidden="true">⌕</span><h3>No matching sources yet</h3><p>Try another search term or choose a different topic.</p><button type="button" @click="learnSearchQuery = ''; learnFeedFilter = 'ALL'">CLEAR SEARCH &amp; FILTERS</button></div>
+          <p class="learn-editorial-note">Editorial note: summaries are written for discovery. Open the linked publication for the original evidence, methods and full context.</p>
         </section>
         <section class="learn-zone-bridge"><div class="learn-zone-bridge-icon" aria-hidden="true">◎</div><div><span class="learn-kicker">FROM KNOWLEDGE TO THE WORLD AROUND YOU</span><h2>Ideas become richer when they meet real places.</h2><p>Explore people, places, initiatives and local knowledge connected to your Zones — and discover where you could take part.</p></div><button type="button" class="learn-discover-link" @click="navigate('around-zones')">DISCOVER ZONES AROUND →</button></section>
       </section>
@@ -18701,3 +18740,61 @@ a { text-underline-offset: 3px; }
 @media(max-width:800px){.learn-universe-layout{grid-template-columns:1fr}.learn-topic-orbit{min-height:250px}.learn-discoveries-grid{grid-template-columns:1fr}.learn-zone-bridge{align-items:flex-start;flex-wrap:wrap}.learn-zone-bridge>.learn-discover-link{margin-left:55px}}
 @media(max-width:480px){.learn-universe-panel{padding:13px}.learn-topic-orbit{min-height:230px}.learn-topic-node{font-size:9px;padding:7px 8px}.learn-topic-water{left:35%}.learn-topic-community{left:35%}.learn-selected-topic{padding:13px}}
 @media(prefers-reduced-motion:reduce){.learn-topic-node,.learn-discovery-card{transition:none}}
+
+
+/* LEARN & DISCOVER — editorial-grade discovery and source cards */
+.learn-feed-section{margin:0 0 24px}
+.learn-feed-heading{align-items:flex-end;margin-bottom:16px}
+.learn-results-count{flex:0 0 auto;padding:7px 10px;border:1px solid rgba(126,172,226,.18);border-radius:8px;background:rgba(64,111,169,.08);color:#9cb7d9;font-size:8px;font-weight:800;letter-spacing:.12em}
+.learn-article-tools{display:grid;gap:12px;margin-bottom:15px}
+.learn-search-field{display:flex;align-items:center;gap:10px;min-height:42px;padding:0 13px;border:1px solid rgba(133,163,204,.15);border-radius:10px;background:rgba(7,13,22,.88);color:#82a9d9}
+.learn-search-field:focus-within{border-color:rgba(119,172,236,.48);box-shadow:0 0 0 3px rgba(90,146,212,.08)}
+.learn-search-field>span{font-size:20px;line-height:1}
+.learn-search-field input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:#e3edf9;font-size:11px}
+.learn-search-field input::placeholder{color:#64748a}
+.learn-search-field button{border:0;background:transparent;color:#8fa4bf;font-size:19px;cursor:pointer}
+.learn-feed-filters{display:flex;gap:7px;overflow-x:auto;padding:1px 0 4px;scrollbar-width:thin}
+.learn-feed-filters button{flex:0 0 auto;padding:8px 11px;border:1px solid rgba(255,255,255,.075);border-radius:8px;background:rgba(12,18,28,.75);color:#8494aa;font-size:8px;font-weight:800;letter-spacing:.07em;white-space:nowrap;cursor:pointer;transition:background .18s,border-color .18s,color .18s}
+.learn-feed-filters button.active{border-color:rgba(123,177,238,.42);background:rgba(67,116,174,.17);color:#d8eaff}
+.learn-featured-article{display:grid;grid-template-columns:minmax(210px,.72fr) minmax(0,1.28fr);overflow:hidden;margin-bottom:14px;border:1px solid rgba(121,163,218,.2);border-radius:16px;background:linear-gradient(120deg,rgba(19,32,50,.98),rgba(9,15,24,.98) 72%);box-shadow:0 18px 40px rgba(0,0,0,.16)}
+.learn-featured-visual{min-height:310px;position:relative;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 50% 48%,rgba(61,113,180,.23),transparent 48%),linear-gradient(150deg,#101f33,#080e18)}
+.learn-featured-visual:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(119,163,217,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(119,163,217,.035) 1px,transparent 1px);background-size:30px 30px;mask-image:linear-gradient(to bottom,black,transparent)}
+.learn-featured-orbit{position:absolute;left:50%;top:50%;border:1px solid rgba(132,180,239,.24);border-radius:50%;transform:translate(-50%,-50%) rotate(-25deg)}
+.learn-featured-orbit.orbit-a{width:245px;height:104px}.learn-featured-orbit.orbit-b{width:175px;height:265px;transform:translate(-50%,-50%) rotate(42deg);border-color:rgba(162,136,234,.23)}.learn-featured-orbit.orbit-c{width:215px;height:215px;border-color:rgba(111,192,201,.13)}
+.learn-featured-core{position:relative;z-index:1;display:grid;place-items:center;width:94px;height:94px;border:1px solid rgba(139,187,244,.42);border-radius:50%;background:radial-gradient(circle at 35% 25%,rgba(109,168,238,.28),rgba(9,18,31,.96) 72%);box-shadow:0 0 45px rgba(86,144,218,.13);color:#e1edff;text-align:center;font-size:9px;font-weight:800;line-height:1.7;letter-spacing:.16em}
+.learn-featured-star{position:absolute;color:#9cc7f8;font-size:15px}.learn-featured-star.star-a{top:23%;right:22%}.learn-featured-star.star-b{bottom:24%;left:19%;color:#b9a1ed}
+.learn-featured-copy{padding:25px 27px;display:flex;flex-direction:column;align-items:flex-start}
+.learn-article-meta{display:flex;flex-wrap:wrap;align-items:center;gap:9px;color:#72839b;font-size:8px;font-weight:750;letter-spacing:.08em}
+.learn-source-pill{padding:5px 7px;border:1px solid rgba(128,176,233,.2);border-radius:5px;background:rgba(76,128,192,.1);color:#a9c9f2;font-size:7px;letter-spacing:.09em}
+.learn-featured-copy>.learn-kicker{margin-top:20px}
+.learn-featured-copy h3{max-width:560px;margin:8px 0 10px;color:#edf4ff;font-size:clamp(21px,2.4vw,29px);line-height:1.16;letter-spacing:-.04em}
+.learn-featured-copy>p{margin:0;color:#9aa9bd;font-size:11px;line-height:1.85}
+.learn-key-takeaway{width:100%;margin-top:18px;padding:12px 14px;border-left:2px solid #78aeea;border-radius:0 8px 8px 0;background:rgba(76,125,186,.08)}
+.learn-key-takeaway>span{color:#7eaee5;font-size:7px;font-weight:900;letter-spacing:.14em}
+.learn-key-takeaway p{margin:6px 0 0;color:#c0ccdc;font-size:10px;line-height:1.7}
+.learn-source-link{display:inline-flex;align-items:center;gap:8px;margin-top:18px;color:#9bc7fa;font-size:8px;font-weight:900;letter-spacing:.1em;text-decoration:none}
+.learn-source-link span{font-size:13px;transition:transform .18s}
+.learn-source-link:hover{color:#e0efff}.learn-source-link:hover span{transform:translate(2px,-2px)}
+.learn-articles-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.learn-article-card{min-width:0;overflow:hidden;border:1px solid rgba(117,151,196,.14);border-radius:13px;background:linear-gradient(150deg,rgba(17,27,42,.94),rgba(8,13,21,.98));transition:transform .18s,border-color .18s,box-shadow .18s}
+.learn-article-card:hover{transform:translateY(-2px);border-color:rgba(125,176,236,.3);box-shadow:0 13px 30px rgba(0,0,0,.15)}
+.learn-article-card-art{height:105px;position:relative;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 50% 50%,rgba(90,149,206,.17),transparent 45%),linear-gradient(130deg,#14243a,#09111d)}
+.learn-article-card-art:before,.learn-article-card-art:after{content:"";position:absolute;width:150px;height:70px;border:1px solid rgba(129,174,230,.19);border-radius:50%;transform:rotate(-25deg)}
+.learn-article-card-art:after{width:75px;height:130px;transform:rotate(38deg);border-color:rgba(163,137,231,.19)}
+.learn-article-card-art.art-nature{background:radial-gradient(circle at 50% 50%,rgba(84,174,139,.19),transparent 50%),linear-gradient(130deg,#102b2b,#09141b)}
+.learn-article-card-art.art-climate{background:radial-gradient(circle at 50% 50%,rgba(150,126,221,.2),transparent 50%),linear-gradient(130deg,#20203b,#0a111e)}
+.learn-article-card-art.art-water{background:radial-gradient(circle at 50% 50%,rgba(83,171,204,.2),transparent 50%),linear-gradient(130deg,#10283b,#08121d)}
+.learn-art-orbit{position:absolute;width:185px;height:68px;border:1px solid rgba(150,192,240,.24);border-radius:50%;transform:rotate(22deg)}
+.learn-art-core{position:relative;z-index:1;display:grid;place-items:center;width:42px;height:42px;border:1px solid rgba(153,194,243,.35);border-radius:50%;background:rgba(8,17,29,.78);color:#b5d6fc;font-size:20px}
+.learn-art-label{position:absolute;bottom:10px;left:13px;color:rgba(197,217,243,.65);font-size:7px;font-weight:900;letter-spacing:.2em}
+.learn-article-card-body{padding:15px;display:flex;flex-direction:column;align-items:flex-start}
+.learn-article-card-body h3{margin:12px 0 8px;color:#e2ecf9;font-size:15px;line-height:1.4;letter-spacing:-.02em}
+.learn-article-card-body>p{margin:0;color:#8999ae;font-size:10px;line-height:1.8}
+.learn-article-source{margin-top:13px;color:#61748d;font-size:7px;font-weight:800;line-height:1.6;letter-spacing:.09em}
+.learn-article-card-body .learn-source-link{margin-top:13px;padding-top:11px;border-top:1px solid rgba(255,255,255,.055);width:100%}
+.learn-no-results{padding:42px 20px;border:1px dashed rgba(126,165,211,.2);border-radius:13px;text-align:center;background:rgba(9,15,24,.5)}
+.learn-no-results>span{font-size:26px;color:#8bb8ee}.learn-no-results h3{margin:10px 0 6px;color:#dbe8f7;font-size:16px}.learn-no-results p{margin:0;color:#7c8da3;font-size:10px}
+.learn-no-results button{margin-top:15px;padding:9px 12px;border:1px solid rgba(123,177,238,.25);border-radius:7px;background:rgba(67,116,174,.1);color:#a8c9ef;font-size:8px;font-weight:800;letter-spacing:.08em;cursor:pointer}
+.learn-editorial-note{margin:12px 0 0;color:#596b81;font-size:8px;line-height:1.7}
+@media(max-width:760px){.learn-featured-article{grid-template-columns:1fr}.learn-featured-visual{min-height:180px}.learn-featured-copy{padding:21px}.learn-articles-grid{grid-template-columns:1fr}}
+@media(max-width:480px){.learn-feed-heading{align-items:flex-start;flex-direction:column}.learn-featured-copy h3{font-size:23px}.learn-article-card-art{height:90px}.learn-article-tools{gap:8px}}
