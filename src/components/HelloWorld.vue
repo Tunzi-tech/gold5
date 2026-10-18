@@ -5053,17 +5053,19 @@ onBeforeUnmount(() => {
 
                 <h1>
                   <span v-if="activeHero === 0" class="hero-heading-white-home"><span class="hero-heading-ideas-gradient">Ideas</span> <span class="hero-heading-white-shadow">become</span></span>
-                  <span v-else>{{ heroes[activeHero].titleBefore }}</span>
+                  <span v-else class="hero-zone-title">{{ heroes[activeHero].titleBefore }}</span>
                   <br v-if="activeHero === 0" />
                   <span
-                    :class="activeHero === 0 ? 'hero-accent-blue hero-accent-blue-home' : 'hero-zone-title'"
+                    v-if="activeHero === 0"
+                    class="hero-accent-blue hero-accent-blue-home"
                   >
                     {{ heroes[activeHero].titleAccent }}
                   </span>
+                  <span v-else class="hero-place-change"> a place for change.</span>
                   <br v-if="activeHero !== 0" />
                   <template v-if="heroes[activeHero].titleAfter">
                     <span class="hero-accent-impact">{{ heroes[activeHero].titleAfter }}</span>
-                    <span class="hero-accent-white">
+                    <span class="hero-accent-white hero-where-you-are">
                       {{ heroes[activeHero].secondAccent }}
                     </span>
                   </template>
@@ -18546,6 +18548,41 @@ a { text-underline-offset: 3px; }
 .hero .hero-zone-title {
   color: #f0edf8;
   text-shadow: 0 0 8px rgba(255, 255, 255, .07);
+}
+
+/* Add subtle motion only to “a place for change.” */
+.hero-place-change {
+  display: inline-block;
+  background: linear-gradient(105deg, #d8e6ff 0%, #b8caff 35%, #e4d0ff 58%, #d8e6ff 78%, #b8caff 100%);
+  background-size: 220% 100%;
+  background-position: 0% 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: hero-place-change-shimmer 7s ease-in-out infinite;
+}
+
+/* Keep “Impacting” untouched; give only “where you are” a gentle pulse. */
+.hero .hero-where-you-are {
+  display: inline-block;
+  animation: hero-where-you-are-life 4.8s ease-in-out infinite;
+}
+
+@keyframes hero-place-change-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes hero-where-you-are-life {
+  0%, 100% { text-shadow: 0 0 0 rgba(245, 247, 251, 0); }
+  50% { text-shadow: 0 0 9px rgba(245, 247, 251, .2); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-place-change,
+  .hero .hero-where-you-are {
+    animation: none;
+  }
 }
 
 /* Live Flow community video queue — collapsed until explicitly opened. */
