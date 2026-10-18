@@ -5215,7 +5215,7 @@ onBeforeUnmount(() => {
       <section v-if="activeView === 'home'" class="content home-commons-content" :class="{ 'home-hero-collapsed': homeHeroHidden }">
 
         <div class="home-hero-control">
-          <button type="button" class="home-hero-toggle" :aria-expanded="!homeHeroHidden" @click="homeHeroHidden = !homeHeroHidden">
+          <button type="button" class="home-hero-toggle" :aria-expanded="!homeHeroHidden" @click="homeHeroHidden = !homeHeroHidden; homeHeroHidden || (homeHeaderChatOpen = false)">
             <span aria-hidden="true">{{ homeHeroHidden ? '⌄' : '⌃' }}</span>
             {{ homeHeroHidden ? 'Show header' : 'Hide header' }}
           </button>
