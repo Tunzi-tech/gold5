@@ -164,7 +164,15 @@ const featuredLearnArticle = computed(() => filteredLearnArticles.value[0] || nu
 const supportingLearnArticles = computed(() => filteredLearnArticles.value.slice(1))
 function selectLearnTopic(topicId: string) {
   learnSelectedTopic.value = topicId
-  learnSearchQuery.value = topicId === 'water' ? 'water' : topicId === 'climate' ? 'climate' : topicId === 'cities' ? 'cities' : topicId === 'nature' ? 'nature' : topicId === 'energy' ? 'energy' : 'health'
+  const topicSearchTerms: Record<string, string> = {
+    water: 'water',
+    climate: 'climate',
+    cities: 'cities',
+    nature: 'nature',
+    energy: 'climate',
+    community: 'cities'
+  }
+  learnSearchQuery.value = topicSearchTerms[topicId] || ''
   learnFeedFilter.value = 'ALL'
 }
 const showCircleHome = ref(false)
