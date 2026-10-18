@@ -18639,6 +18639,47 @@ a { text-underline-offset: 3px; }
   .home-connection-link { flex: 1 1 calc(33.333% - 5px); }
 }
 
+
+/* Extend the shared Commons surface behind the heading and all six discovery spaces. */
+.home-connection-hub {
+  padding: 13px 15px 11px;
+  border-color: rgba(111, 145, 193, .22);
+  background:
+    radial-gradient(ellipse at 7% 5%, rgba(71, 139, 125, .10), transparent 34%),
+    radial-gradient(ellipse at 100% 0%, rgba(79, 126, 184, .14), transparent 48%),
+    linear-gradient(125deg, rgba(17, 29, 43, .97), rgba(9, 17, 28, .98) 56%, rgba(13, 24, 38, .97));
+}
+.home-connection-links {
+  margin-top: 11px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+/* Keep the Impact & Awareness action green, but blend it into the shared blue surface. */
+.home-impact-discovery-link {
+  border-color: rgba(105, 204, 157, .34);
+  background: linear-gradient(120deg, rgba(31, 105, 78, .27), rgba(29, 91, 91, .19) 58%, rgba(34, 67, 94, .22));
+  box-shadow: inset 0 1px 0 rgba(205, 255, 225, .055), 0 3px 12px rgba(0, 0, 0, .10);
+}
+.home-impact-discovery-link:hover {
+  border-color: rgba(123, 226, 171, .58);
+  background: linear-gradient(120deg, rgba(35, 125, 86, .36), rgba(34, 108, 103, .25) 58%, rgba(40, 78, 108, .28));
+  box-shadow: inset 0 1px 0 rgba(220, 255, 233, .09), 0 4px 15px rgba(0, 0, 0, .14);
+}
+.home-impact-discovery-icon {
+  border-color: rgba(116, 220, 169, .30);
+  background: linear-gradient(145deg, rgba(48, 176, 119, .20), rgba(37, 112, 112, .16));
+  color: #9be6bd;
+  text-shadow: none;
+  box-shadow: inset 0 0 10px rgba(82, 220, 157, .055);
+}
+.home-impact-discovery-copy .home-connection-kicker { color: #9bd4b8; }
+.home-impact-discovery-copy small { color: #a0c8b7; }
+@media (max-width: 760px) {
+  .home-connection-hub { padding: 11px; }
+}
+
 </style>
 
 
