@@ -19466,7 +19466,7 @@ a { text-underline-offset: 3px; }
 @keyframes live-flow-node-pulse{0%,100%{opacity:.65;transform:scale(.85)}50%{opacity:1;transform:scale(1.2)}}
 @media(max-width:520px){.live-flow-live-map{height:126px}.live-flow-map-node{font-size:8px;padding:4px 5px;gap:4px}.node-people{left:2%;top:43%}.node-ideas{left:20%;top:8%}.node-zones{left:24%;top:66%}.node-calls{left:44%;top:35%}.node-actions{left:62%;top:61%}.node-conversations{right:1%;top:19%}.live-flow-map-status{font-size:6px;right:6px;bottom:5px}}
 @media(prefers-reduced-motion:reduce){.live-flow-live-lines .flow-particle,.live-flow-map-node,.live-flow-map-node i,.live-flow-map-status i{animation:none}}
-</style>
+
 
 
 /* Local / World activity space, opened beside Chat in the Home controls. */
@@ -19546,3 +19546,5 @@ a { text-underline-offset: 3px; }
   .home-network-activity { padding:10px; }
   .home-network-activity-top strong { font-size:12px; }
 }
+
+</style>
