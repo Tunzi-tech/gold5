@@ -197,7 +197,7 @@ const homeChatRooms = [
   { id: 'local-possibilities', name: 'Local Possibilities', topic: 'Small actions people can take nearby', members: '21 looking for collaborators', mark: '⌖', color: 'gold', welcome: 'Local Possibilities: what is one small action we could take together this week?' },
   { id: 'music-flow', name: 'Music & Live Flow', topic: 'Songs, culture and things moving now', members: '42 listening and sharing', mark: '♫', color: 'blue', welcome: 'Music & Live Flow: share a song or a sound that fits the moment.' }
 ]
-const homeActiveChatRoom = ref('commons')
+const homeActiveChatRoom = ref<string | null>(null)
 const homeJoinedChatRooms = ref<string[]>(['commons'])
 const homeHeaderChatMessages = ref([
   { id: 1, author: 'COMMONS', text: 'Welcome to the Commons Lounge. What are you curious about today?', time: 'Now', room: 'commons' }
@@ -5320,23 +5320,26 @@ onBeforeUnmount(() => {
               <span class="home-chat-room-join">{{ homeJoinedChatRooms.includes(room.id) ? (homeActiveChatRoom === room.id ? 'Open ✓' : 'Joined') : 'Join +' }}</span>
             </button>
           </div>
-          <div class="home-header-chat-active-room">
-            <span class="home-connection-kicker">CURRENT CONVERSATION</span>
-            <strong>{{ homeChatRooms.find(room => room.id === homeActiveChatRoom)?.name || 'Commons Lounge' }}</strong>
-          </div>
-          <div class="home-header-chat-messages" aria-live="polite">
-            <article v-for="message in homeHeaderChatMessages.filter(item => item.room === homeActiveChatRoom)" :key="message.id"
-              class="home-header-chat-message" :class="{ 'is-you': message.author === 'YOU' }">
-              <div class="home-header-chat-message-meta"><strong>{{ message.author }}</strong><span>{{ message.time }}</span></div>
-              <p>{{ message.text }}</p>
-            </article>
-          </div>
-          <form class="home-header-chat-composer" @submit.prevent="sendHomeHeaderChatMessage">
-            <input v-model="homeHeaderChatDraft" type="text" maxlength="500"
-              placeholder="Write a message or question…" aria-label="Write a chat message" />
-            <button type="submit" :disabled="!homeHeaderChatDraft.trim()">Send <span aria-hidden="true">↗</span></button>
-          </form>
-          <p class="home-header-chat-note">This preview is stored in this page session; it is not yet a shared live chat.</p>
+          <p v-if="!homeActiveChatRoom" class="home-chat-select-prompt">Choose a conversation above to open its messages.</p>
+          <template v-else>
+            <div class="home-header-chat-active-room">
+              <span class="home-connection-kicker">CURRENT CONVERSATION</span>
+              <strong>{{ homeChatRooms.find(room => room.id === homeActiveChatRoom)?.name }}</strong>
+            </div>
+            <div class="home-header-chat-messages" aria-live="polite">
+              <article v-for="message in homeHeaderChatMessages.filter(item => item.room === homeActiveChatRoom)" :key="message.id"
+                class="home-header-chat-message" :class="{ 'is-you': message.author === 'YOU' }">
+                <div class="home-header-chat-message-meta"><strong>{{ message.author }}</strong><span>{{ message.time }}</span></div>
+                <p>{{ message.text }}</p>
+              </article>
+            </div>
+            <form class="home-header-chat-composer" @submit.prevent="sendHomeHeaderChatMessage">
+              <input v-model="homeHeaderChatDraft" type="text" maxlength="500"
+                placeholder="Write a message or question…" aria-label="Write a chat message" />
+              <button type="submit" :disabled="!homeHeaderChatDraft.trim()">Send <span aria-hidden="true">↗</span></button>
+            </form>
+            <p class="home-header-chat-note">This preview is stored in this page session; it is not yet a shared live chat.</p>
+          </template>
         </section>
         <div v-if="!homeHeroHidden && !homeHeaderChatOpen" class="hero-stage">
           <transition name="hero-fade" mode="out-in">
@@ -19492,4 +19495,25 @@ a { text-underline-offset: 3px; }
   .home-hero-control { flex-wrap:wrap; }
   .home-local-world-feed { grid-template-columns:minmax(0,1fr); }
   .home-local-world-heading h2 { font-size:16px; }
+}
+
+
+/* Channel-first chat: show the conversation only after a channel is selected. */
+.home-header-chat-heading { margin-bottom:6px; }
+.home-header-chat-heading h2 { font-size:clamp(15px,1.6vw,18px); }
+.home-header-chat-heading p { font-size:10px; }
+.home-chat-rooms-heading { margin-bottom:5px; }
+.home-chat-rooms { gap:6px; margin-bottom:6px; }
+.home-chat-room { padding:7px 8px; border-radius:9px; }
+.home-chat-room-copy { display:flex; flex-direction:column; gap:2px; min-width:0; }
+.home-chat-room-copy strong { font-size:10px; line-height:1.2; }
+.home-chat-room-copy small { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:9px; }
+.home-chat-room-copy em { font-size:8px; }
+.home-chat-room-join { flex:0 0 auto; font-size:9px; white-space:nowrap; }
+.home-chat-select-prompt { margin:2px 0 0; padding:8px 10px; border:1px dashed rgba(123,156,193,.22); border-radius:8px; color:#8198b2; font-size:10px; text-align:center; }
+.home-header-chat-active-room { margin-bottom:5px; }
+.home-header-chat-messages { max-height:96px; padding-bottom:5px; }
+@media(max-width:760px) {
+  .home-chat-rooms { grid-template-columns:minmax(0,1fr); }
+  .home-chat-room-copy small { white-space:normal; }
 }
