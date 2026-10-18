@@ -4666,7 +4666,7 @@ onBeforeUnmount(() => {
         </div>
 
         <div>
-          <strong>COMMONS</strong>
+          <strong>Anfas</strong>
           <small>PEOPLE • ACTIONS • VOICES</small>
         </div>
       </div>
