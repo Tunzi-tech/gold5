@@ -10784,11 +10784,11 @@ textarea:focus-visible {
 }
 
 .hero-accent-impact {
-  color: #76adff;
+  color: #d6df72;
   margin-left: .12em;
   background: none;
-  -webkit-text-fill-color: #76adff;
-  text-shadow: 0 2px 13px rgba(90,155,255,.275), 0 0 22px rgba(90,155,255,.132);
+  -webkit-text-fill-color: #d6df72;
+  text-shadow: 0 2px 13px rgba(195,211,91,.22), 0 0 22px rgba(114,201,149,.16);
 }
 
 .hero-progress {
