@@ -1871,8 +1871,8 @@ const heroes = [
     label: 'YOUR PLACE · YOUR PEOPLE · YOUR VOICE',
     titleBefore: 'Make an',
     titleAccent: 'impact',
-    titleAccentTail: 'where you are.',
-    titleAfter: 'Make your Zone',
+    titleAccentTail: 'where you are,',
+    titleAfter: 'make your Zone',
     secondAccent: 'a place for change.',
     description:
       'Your Zone is a real place. The streets, places and people around you become the starting point for local organization.',
@@ -5065,8 +5065,7 @@ onBeforeUnmount(() => {
                     {{ heroes[activeHero].titleAccentTail }}
                   </span>
                   <template v-if="heroes[activeHero].titleAfter">
-                    <br />
-                    {{ heroes[activeHero].titleAfter }}
+                    <span class="hero-zone-title">{{ heroes[activeHero].titleAfter }}</span>
                     <span class="hero-accent-green">
                       {{ heroes[activeHero].secondAccent }}
                     </span>
@@ -18536,14 +18535,20 @@ a { text-underline-offset: 3px; }
   text-shadow: 0 2px 14px rgba(91, 157, 255, .2);
 }
 
-/* Home hero: keep “something people do.” in a clear blue spectrum, not purple. */
+/* Home hero: add a subtle violet note while keeping “something people do.” blue-led. */
 .hero .hero-accent-blue-home {
   color: #83baff;
-  background: linear-gradient(100deg, #a5d8ff 0%, #72b7ff 48%, #568bff 100%);
+  background: linear-gradient(100deg, #a5d8ff 0%, #8cafff 42%, #a18bff 76%, #8d8aff 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 2px 12px rgba(91, 157, 255, .18);
+  text-shadow: 0 2px 12px rgba(91, 157, 255, .18), 0 0 13px rgba(153, 125, 255, .09);
+}
+
+/* Give “make your Zone” only a subtle hint of white. */
+.hero .hero-zone-title {
+  color: #f0edf8;
+  text-shadow: 0 0 8px rgba(255, 255, 255, .07);
 }
 
 /* Live Flow community video queue — collapsed until explicitly opened. */
