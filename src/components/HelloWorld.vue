@@ -5839,7 +5839,7 @@ onBeforeUnmount(() => {
             </div>
             <span class="live-flow-commons-orbit" aria-hidden="true"><i></i><b></b><em></em></span>
           </div>
-          <div class="live-flow-live-map" role="group" aria-label="Select a Live Flow object to open its stream">
+          <div v-if="liveFlowPrimarySpace === 'moving'" class="live-flow-live-map" role="group" aria-label="Select a Live Flow object to open its stream">
             <svg class="live-flow-live-lines" viewBox="0 0 720 116" preserveAspectRatio="none" aria-hidden="true">
               <path class="flow-link flow-link-a" d="M44 63 C110 63 110 25 180 25 S260 90 328 60 S430 22 496 47 S615 86 676 48" />
               <path class="flow-link flow-link-b" d="M44 63 C120 100 130 92 208 78 S300 26 360 50 S460 92 548 76 S626 32 676 48" />
@@ -5916,6 +5916,12 @@ onBeforeUnmount(() => {
           <div class="live-flow-personal-heading">
             <div><span class="eyebrow">WHAT’S CONNECTING · OBJECT RELATIONSHIPS</span><h2>{{ liveFlowSelectedObject ? liveFlowSelectedObject + ' connects to…' : 'See what is connecting.' }}</h2><p>{{ liveFlowSelectedObject ? 'Explore the people, ideas and activity linked to this object. Select a node below to focus on another stream.' : 'Select an object in What’s Moving first, or explore the relationships across people, ideas, conversations and concerns.' }}</p><a class="live-flow-connection-back" href="#live-flow-commons">↑ Back to what’s moving</a></div>
             <span class="live-flow-connection-count">{{ liveFlowDetectedConnections.length }} detected</span>
+          </div>
+          <div class="live-flow-relationship-map" aria-label="Relationship map for the selected object">
+            <div class="live-flow-relationship-center"><small>SELECTED OBJECT</small><strong>{{ liveFlowSelectedObject || 'Choose an object' }}</strong><span>{{ liveFlowSelectedObject ? 'Explore its connected spaces' : 'Go to What’s Moving and select a node' }}</span></div>
+            <div class="live-flow-relationship-links">
+              <button v-for="related in liveFlowObjectConnections" :key="related" type="button" @click="selectLiveFlowObject(related)" :class="{ active: liveFlowSelectedObject === related }"><i></i><strong>{{ related }}</strong><span>Explore connection →</span></button>
+            </div>
           </div>
           <div v-if="liveFlowSelectedObject" class="live-flow-related-object-row" aria-label="Objects connected to the selected object">
             <span class="live-flow-related-label">CONNECTED WITH</span>
@@ -19366,6 +19372,7 @@ a { text-underline-offset: 3px; }
 .live-flow-space-pair.is-connecting .live-flow-personal-connections{min-width:0;margin:0}
 @media(max-width:700px){.live-flow-space-pair{grid-template-columns:56px minmax(0,1fr);gap:8px}.live-flow-connecting-tab{min-height:130px;padding:9px 4px}.live-flow-connecting-tab strong{font-size:8px}}
 
+.live-flow-relationship-map{display:grid;grid-template-columns:minmax(130px,.7fr) minmax(0,1.3fr);gap:12px;align-items:stretch;margin:12px 0 16px;padding:12px;border:1px solid rgba(124,151,198,.16);border-radius:12px;background:radial-gradient(ellipse at 20% 50%,rgba(91,124,206,.1),transparent 60%),rgba(7,14,25,.4)}.live-flow-relationship-center{display:flex;flex-direction:column;justify-content:center;gap:7px;padding:14px;border:1px solid rgba(151,135,255,.28);border-radius:10px;background:linear-gradient(145deg,rgba(73,62,125,.22),rgba(20,29,46,.7));min-width:0}.live-flow-relationship-center small{font-size:8px;letter-spacing:.13em;color:#9eabce}.live-flow-relationship-center strong{font-size:14px;color:#e9e7ff;overflow-wrap:anywhere}.live-flow-relationship-center span{font-size:9px;color:#94a8c2;line-height:1.4}.live-flow-relationship-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.live-flow-relationship-links button{display:flex;flex-direction:column;align-items:flex-start;gap:5px;padding:10px;border:1px solid rgba(123,158,203,.17);border-radius:9px;background:rgba(255,255,255,.025);color:#d4e2f6;text-align:left;cursor:pointer}.live-flow-relationship-links button:hover,.live-flow-relationship-links button.active{border-color:rgba(142,139,255,.48);background:rgba(112,103,205,.1)}.live-flow-relationship-links button i{width:6px;height:6px;border-radius:50%;background:#7bc9cb;box-shadow:0 0 8px rgba(123,201,203,.35)}.live-flow-relationship-links button strong{font-size:10px}.live-flow-relationship-links button span{font-size:8px;color:#8299b8}@media(max-width:520px){.live-flow-relationship-map{grid-template-columns:1fr}.live-flow-relationship-links{grid-template-columns:repeat(2,minmax(0,1fr))}}
 /* Clickable Live Flow objects, per-object streams and relationship links. */
 .live-flow-map-node{font:inherit;cursor:pointer;appearance:none;transition:transform .18s ease,border-color .18s ease,background .18s ease}
 .live-flow-map-node:hover,.live-flow-map-node.selected{transform:translateY(-2px);border-color:color-mix(in srgb,var(--node-color) 72%,white);background:rgba(24,37,57,.98);box-shadow:0 0 0 2px color-mix(in srgb,var(--node-color) 18%,transparent),0 0 18px color-mix(in srgb,var(--node-color) 12%,transparent)}
