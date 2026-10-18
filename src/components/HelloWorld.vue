@@ -188,9 +188,33 @@ const homeDisplayMode = ref<'content' | 'feed'>('content')
 const homeHeroHidden = ref(false)
 const homeHeaderChatOpen = ref(false)
 const homeHeaderChatDraft = ref('')
+const homeChatRooms = [
+  { id: 'commons', name: 'Commons Lounge', topic: 'Introductions, questions and ideas', members: '128 exploring', mark: '◉', color: 'sky', welcome: 'Welcome to the Commons Lounge. What are you curious about today?' },
+  { id: 'tunis-green', name: 'Greener Tunis', topic: 'Green spaces, gardens and cleaner streets', members: '34 in the conversation', mark: '✳', color: 'mint', welcome: 'Greener Tunis: which local green space would you improve first, and how could neighbours help?' },
+  { id: 'ideas-lab', name: 'Ideas Lab', topic: 'Share early ideas and build them together', members: '56 exploring ideas', mark: '✧', color: 'violet', welcome: 'Ideas Lab: share a rough idea. It does not need to be perfect to start a useful conversation.' },
+  { id: 'local-possibilities', name: 'Local Possibilities', topic: 'Small actions people can take nearby', members: '21 looking for collaborators', mark: '⌖', color: 'gold', welcome: 'Local Possibilities: what is one small action we could take together this week?' },
+  { id: 'music-flow', name: 'Music & Live Flow', topic: 'Songs, culture and things moving now', members: '42 listening and sharing', mark: '♫', color: 'blue', welcome: 'Music & Live Flow: share a song or a sound that fits the moment.' }
+]
+const homeActiveChatRoom = ref('commons')
+const homeJoinedChatRooms = ref<string[]>(['commons'])
 const homeHeaderChatMessages = ref([
-  { id: 1, author: 'COMMONS', text: 'Welcome to the conversation. Share an idea, ask a question, or connect with people around you.', time: 'Now' }
+  { id: 1, author: 'COMMONS', text: 'Welcome to the Commons Lounge. What are you curious about today?', time: 'Now', room: 'commons' }
 ])
+function joinHomeChatRoom(roomId: string) {
+  const room = homeChatRooms.find(item => item.id === roomId)
+  if (!room) return
+  if (!homeJoinedChatRooms.value.includes(roomId)) homeJoinedChatRooms.value.push(roomId)
+  homeActiveChatRoom.value = roomId
+  if (!homeHeaderChatMessages.value.some(message => message.room === roomId)) {
+    homeHeaderChatMessages.value.push({
+      id: Date.now(),
+      author: room.name.toUpperCase(),
+      text: room.welcome,
+      time: 'Now',
+      room: roomId
+    })
+  }
+}
 function sendHomeHeaderChatMessage() {
   const text = homeHeaderChatDraft.value.trim()
   if (!text) return
@@ -198,7 +222,8 @@ function sendHomeHeaderChatMessage() {
     id: Date.now(),
     author: 'YOU',
     text,
-    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    room: homeActiveChatRoom.value
   })
   homeHeaderChatDraft.value = ''
 }
@@ -5199,7 +5224,7 @@ onBeforeUnmount(() => {
             <span aria-hidden="true">✉</span>{{ homeHeaderChatOpen ? 'Close chat' : 'Chat' }}
           </button>
         </div>
-        <section v-if="!homeHeroHidden && homeHeaderChatOpen" class="home-header-chat" aria-label="Home chat">
+        <section v-if="homeHeaderChatOpen" class="home-header-chat" aria-label="Home chat">
           <div class="home-header-chat-heading">
             <div>
               <span class="home-connection-kicker">COMMONS · CONVERSATION</span>
@@ -5208,8 +5233,24 @@ onBeforeUnmount(() => {
             </div>
             <span class="home-header-chat-orbit" aria-hidden="true">✳</span>
           </div>
+          <div class="home-chat-rooms-heading">
+            <span>CONVERSATIONS TO JOIN</span><small>Choose a space to explore</small>
+          </div>
+          <div class="home-chat-rooms" aria-label="Example conversations">
+            <button v-for="room in homeChatRooms" :key="room.id" type="button"
+              class="home-chat-room" :class="['chat-room-' + room.color, { active: homeActiveChatRoom === room.id }]"
+              @click="joinHomeChatRoom(room.id)">
+              <span class="home-chat-room-mark" aria-hidden="true">{{ room.mark }}</span>
+              <span class="home-chat-room-copy"><strong>{{ room.name }}</strong><small>{{ room.topic }}</small><em>{{ room.members }}</em></span>
+              <span class="home-chat-room-join">{{ homeJoinedChatRooms.includes(room.id) ? (homeActiveChatRoom === room.id ? 'Open ✓' : 'Joined') : 'Join +' }}</span>
+            </button>
+          </div>
+          <div class="home-header-chat-active-room">
+            <span class="home-connection-kicker">CURRENT CONVERSATION</span>
+            <strong>{{ homeChatRooms.find(room => room.id === homeActiveChatRoom)?.name || 'Commons Lounge' }}</strong>
+          </div>
           <div class="home-header-chat-messages" aria-live="polite">
-            <article v-for="message in homeHeaderChatMessages" :key="message.id"
+            <article v-for="message in homeHeaderChatMessages.filter(item => item.room === homeActiveChatRoom)" :key="message.id"
               class="home-header-chat-message" :class="{ 'is-you': message.author === 'YOU' }">
               <div class="home-header-chat-message-meta"><strong>{{ message.author }}</strong><span>{{ message.time }}</span></div>
               <p>{{ message.text }}</p>
@@ -19153,6 +19194,41 @@ a { text-underline-offset: 3px; }
   .home-header-chat-message { max-width:96%; }
   .home-header-chat-composer { gap:6px; }
   .home-header-chat-composer button { padding:8px 10px; }
+}
+
+
+/* Keep Home controls in the document flow so they never cover Explore / Feed. */
+.home-commons-content .home-hero-control {
+  position:relative; inset:auto; z-index:8; display:flex; align-items:center; justify-content:flex-end;
+  gap:7px; margin:0 0 8px; padding:0; pointer-events:auto;
+}
+.home-commons-content.home-hero-collapsed .home-hero-control { position:relative; inset:auto; margin:0 0 8px; }
+.home-commons-content.home-hero-collapsed .home-hero-toggle { min-height:32px; width:auto; padding:6px 10px; writing-mode:horizontal-tb; flex-direction:row; }
+.home-commons-content.home-hero-collapsed .home-hero-toggle span { writing-mode:horizontal-tb; }
+.home-commons-content.home-hero-collapsed .home-view-switch { margin-top:0; padding-right:0; }
+.home-commons-content:not(.home-hero-collapsed) .hero-stage { padding-right:0; }
+.home-chat-rooms-heading { display:flex; align-items:center; justify-content:space-between; gap:8px; margin:0 0 8px; color:#9bb1c9; font-size:9px; font-weight:800; letter-spacing:.11em; }
+.home-chat-rooms-heading small { color:#70859d; font-size:9px; font-weight:500; letter-spacing:0; }
+.home-chat-rooms { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-bottom:12px; }
+.home-chat-room { display:flex; align-items:center; gap:10px; min-width:0; padding:10px; text-align:left; border:1px solid rgba(123,156,193,.17); border-radius:10px; color:#d9e6f5; background:rgba(19,32,49,.72); cursor:pointer; transition:border-color .18s ease,background .18s ease; }
+.home-chat-room:hover,.home-chat-room.active { border-color:rgba(105,192,217,.48); background:rgba(32,64,83,.45); }
+.home-chat-room-mark { display:grid; place-items:center; flex:0 0 31px; width:31px; height:31px; border-radius:9px; color:#a9e7ef; background:rgba(78,156,184,.13); font-size:17px; }
+.chat-room-mint .home-chat-room-mark { color:#a4e6c6; background:rgba(78,184,139,.12); }
+.chat-room-violet .home-chat-room-mark { color:#c9b5ff; background:rgba(140,107,212,.15); }
+.chat-room-gold .home-chat-room-mark { color:#f3d49b; background:rgba(207,164,82,.13); }
+.chat-room-blue .home-chat-room-mark { color:#a9caff; background:rgba(93,143,222,.15); }
+.home-chat-room-copy { display:flex; flex:1; flex-direction:column; gap:3px; min-width:0; }
+.home-chat-room-copy strong { color:#e5eefb; font-size:10px; }
+.home-chat-room-copy small { color:#9aacc2; font-size:9px; line-height:1.35; }
+.home-chat-room-copy em { color:#7187a1; font-size:8px; font-style:normal; }
+.home-chat-room-join { flex:0 0 auto; color:#9bdce8; font-size:9px; font-weight:800; }
+.home-header-chat-active-room { display:flex; align-items:center; gap:9px; margin:0 0 7px; padding:8px 10px; border-radius:8px; background:rgba(7,14,25,.38); }
+.home-header-chat-active-room strong { color:#dce9fa; font-size:10px; }
+.home-header-chat-messages { min-height:72px; }
+@media(max-width:760px) {
+  .home-chat-rooms { grid-template-columns:minmax(0,1fr); }
+  .home-chat-room { padding:9px; }
+  .home-chat-rooms-heading { align-items:flex-start; flex-direction:column; gap:3px; }
 }
 
 </style>
