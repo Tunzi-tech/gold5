@@ -186,6 +186,22 @@ const platformCircles = [
 ]
 const homeDisplayMode = ref<'content' | 'feed'>('content')
 const homeHeroHidden = ref(false)
+const homeHeaderChatOpen = ref(false)
+const homeHeaderChatDraft = ref('')
+const homeHeaderChatMessages = ref([
+  { id: 1, author: 'COMMONS', text: 'Welcome to the conversation. Share an idea, ask a question, or connect with people around you.', time: 'Now' }
+])
+function sendHomeHeaderChatMessage() {
+  const text = homeHeaderChatDraft.value.trim()
+  if (!text) return
+  homeHeaderChatMessages.value.push({
+    id: Date.now(),
+    author: 'YOU',
+    text,
+    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  })
+  homeHeaderChatDraft.value = ''
+}
 const homeConnectionPanel = ref<'local' | 'world' | 'channels' | 'calls' | 'initiatives' | 'chat' | null>(null)
 const homeJoinedChannels = ref<string[]>([])
 const homeConnectionItems = [
@@ -5178,8 +5194,35 @@ onBeforeUnmount(() => {
             <span aria-hidden="true">{{ homeHeroHidden ? '⌄' : '⌃' }}</span>
             {{ homeHeroHidden ? 'Show header' : 'Hide header' }}
           </button>
+          <button type="button" class="home-header-chat-toggle" :class="{ active: homeHeaderChatOpen }"
+            :aria-pressed="homeHeaderChatOpen" @click="homeHeaderChatOpen = !homeHeaderChatOpen">
+            <span aria-hidden="true">✉</span>{{ homeHeaderChatOpen ? 'Close chat' : 'Chat' }}
+          </button>
         </div>
-        <div v-if="!homeHeroHidden" class="hero-stage">
+        <section v-if="!homeHeroHidden && homeHeaderChatOpen" class="home-header-chat" aria-label="Home chat">
+          <div class="home-header-chat-heading">
+            <div>
+              <span class="home-connection-kicker">COMMONS · CONVERSATION</span>
+              <h2>Make room for a conversation.</h2>
+              <p>Share a thought, ask a question, or start a connection.</p>
+            </div>
+            <span class="home-header-chat-orbit" aria-hidden="true">✳</span>
+          </div>
+          <div class="home-header-chat-messages" aria-live="polite">
+            <article v-for="message in homeHeaderChatMessages" :key="message.id"
+              class="home-header-chat-message" :class="{ 'is-you': message.author === 'YOU' }">
+              <div class="home-header-chat-message-meta"><strong>{{ message.author }}</strong><span>{{ message.time }}</span></div>
+              <p>{{ message.text }}</p>
+            </article>
+          </div>
+          <form class="home-header-chat-composer" @submit.prevent="sendHomeHeaderChatMessage">
+            <input v-model="homeHeaderChatDraft" type="text" maxlength="500"
+              placeholder="Write a message or question…" aria-label="Write a chat message" />
+            <button type="submit" :disabled="!homeHeaderChatDraft.trim()">Send <span aria-hidden="true">↗</span></button>
+          </form>
+          <p class="home-header-chat-note">This preview is stored in this page session; it is not yet a shared live chat.</p>
+        </section>
+        <div v-if="!homeHeroHidden && !homeHeaderChatOpen" class="hero-stage">
           <transition name="hero-fade" mode="out-in">
             <div :key="activeHero" class="hero hero-rotating">
               <div class="hero-copy">
@@ -19067,5 +19110,49 @@ a { text-underline-offset: 3px; }
 .admin-collab-detail-empty h2{margin:0;font-size:20px}
 @media(max-width:900px){.admin-collab-workspace{grid-template-columns:1fr}.admin-collab-folder-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}.admin-collab-local-note{grid-column:1/-1}.admin-collab-detail{min-height:300px}}
 @media(max-width:650px){.admin-collab-stats{grid-template-columns:1fr}.admin-collab-toolbar{align-items:flex-start;flex-direction:column}.admin-collab-form-row{grid-template-columns:1fr}.admin-collab-folder-list{grid-template-columns:1fr}.admin-collab-detail{padding:15px}.admin-collab-detail h2{font-size:21px}.admin-collab-note{gap:7px;padding:10px}.admin-vote-button{min-width:49px;padding:7px}.admin-collab-form-actions{align-items:flex-start;flex-direction:column}}
+
+
+/* Home header replacement chat — occupies the hero's space and keeps its controls available. */
+.home-hero-control { display:flex; align-items:center; gap:7px; }
+.home-header-chat-toggle {
+  pointer-events:auto; display:inline-flex; align-items:center; justify-content:center; gap:6px;
+  min-height:32px; padding:6px 11px; border:1px solid rgba(105,190,220,.3); border-radius:8px;
+  color:#b8e8f5; background:linear-gradient(135deg,rgba(27,71,91,.72),rgba(28,38,66,.78));
+  font:inherit; font-size:10px; font-weight:750; cursor:pointer; transition:background .18s ease,border-color .18s ease;
+}
+.home-header-chat-toggle:hover,.home-header-chat-toggle.active {
+  border-color:rgba(115,201,224,.62); background:linear-gradient(135deg,rgba(31,105,123,.72),rgba(55,62,112,.82)); color:#f1fbff;
+}
+.home-header-chat {
+  position:relative; overflow:hidden; margin:0 0 14px; min-height:250px; padding:20px 22px 14px;
+  border:1px solid rgba(107,165,205,.24); border-radius:16px;
+  background:radial-gradient(ellipse at 100% 0%,rgba(91,134,230,.15),transparent 42%),linear-gradient(125deg,rgba(16,29,47,.98),rgba(8,16,29,.98));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 10px 28px rgba(0,0,0,.12);
+}
+.home-header-chat-heading { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:16px; }
+.home-header-chat-heading h2 { margin:5px 0 4px; color:#e8f1ff; font-size:clamp(18px,2.3vw,25px); letter-spacing:-.035em; }
+.home-header-chat-heading p { margin:0; color:#91a5bd; font-size:11px; line-height:1.5; }
+.home-header-chat-orbit { display:grid; place-items:center; flex:0 0 42px; width:42px; height:42px; border:1px solid rgba(111,198,218,.38); border-radius:50%; color:#9fe7ef; background:radial-gradient(circle,rgba(64,151,183,.2),rgba(25,41,65,.3)); box-shadow:0 0 24px rgba(67,164,192,.09); }
+.home-header-chat-messages { display:flex; flex-direction:column; gap:8px; max-height:170px; overflow:auto; padding:1px 2px 9px; }
+.home-header-chat-message { align-self:flex-start; max-width:min(88%,680px); padding:9px 12px; border:1px solid rgba(128,159,194,.15); border-radius:10px 10px 10px 3px; background:rgba(29,43,62,.76); }
+.home-header-chat-message.is-you { align-self:flex-end; border-color:rgba(91,170,208,.25); background:rgba(28,70,91,.38); border-radius:10px 10px 3px 10px; }
+.home-header-chat-message-meta { display:flex; align-items:center; gap:10px; color:#9dd5e6; font-size:9px; letter-spacing:.07em; }
+.home-header-chat-message-meta span { color:#72869f; letter-spacing:0; }
+.home-header-chat-message p { margin:4px 0 0; color:#d5e1ef; font-size:11px; line-height:1.5; overflow-wrap:anywhere; }
+.home-header-chat-composer { display:flex; gap:8px; margin-top:8px; }
+.home-header-chat-composer input { flex:1; min-width:0; padding:10px 12px; border:1px solid rgba(124,157,193,.24); border-radius:9px; outline:none; color:#e4eefb; background:rgba(5,12,22,.55); font:inherit; font-size:11px; }
+.home-header-chat-composer input:focus { border-color:rgba(102,192,219,.62); }
+.home-header-chat-composer button { padding:8px 13px; border:1px solid rgba(93,180,207,.35); border-radius:9px; color:#e9fbff; background:linear-gradient(120deg,#246e88,#485aa0); font:inherit; font-size:10px; font-weight:750; cursor:pointer; }
+.home-header-chat-composer button:disabled { opacity:.45; cursor:not-allowed; }
+.home-header-chat-note { margin:8px 0 0; color:#6e8199; font-size:9px; }
+@media(max-width:760px) {
+  .home-hero-control { gap:5px; }
+  .home-header-chat-toggle { min-height:30px; padding:5px 8px; font-size:9px; }
+  .home-header-chat { padding:16px 13px 12px; }
+  .home-header-chat-heading h2 { font-size:18px; }
+  .home-header-chat-message { max-width:96%; }
+  .home-header-chat-composer { gap:6px; }
+  .home-header-chat-composer button { padding:8px 10px; }
+}
 
 </style>
