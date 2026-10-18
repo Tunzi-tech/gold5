@@ -1870,7 +1870,8 @@ const heroes = [
   {
     label: 'YOUR PLACE · YOUR PEOPLE · YOUR VOICE',
     titleBefore: 'Make an',
-    titleAccent: 'impact where you are.',
+    titleAccent: 'impact',
+    titleAccentTail: 'where you are.',
     titleAfter: 'Make your Zone',
     secondAccent: 'a place for change.',
     description:
@@ -5059,6 +5060,9 @@ onBeforeUnmount(() => {
                     :class="activeHero === 0 ? 'hero-accent-blue hero-accent-blue-home' : 'hero-accent-impact'"
                   >
                     {{ heroes[activeHero].titleAccent }}
+                  </span>
+                  <span v-if="heroes[activeHero].titleAccentTail" class="hero-accent-white">
+                    {{ heroes[activeHero].titleAccentTail }}
                   </span>
                   <template v-if="heroes[activeHero].titleAfter">
                     <br />
@@ -18166,11 +18170,11 @@ textarea:focus-visible {
 .home-connection-heading h1{margin:3px 0 3px;color:#e5edf8;font-size:19px;line-height:1.2;letter-spacing:-.035em;font-weight:750}
 .home-connection-heading p{margin:0;max-width:520px;color:#8190a5;font-size:10px;line-height:1.5}
 .home-connection-kicker{display:block;color:#8da9cf;font-size:8px;font-weight:850;letter-spacing:.15em}
-.home-impact-discovery-link{display:flex;align-items:center;gap:10px;flex:0 0 auto;max-width:245px;min-width:190px;padding:10px 12px;border:1px solid rgba(235,196,105,.72);border-radius:11px;background:linear-gradient(120deg,rgba(120,91,35,.44) 0%,rgba(91,75,37,.34) 58%,rgba(49,48,39,.3) 100%);box-shadow:inset 0 1px 0 rgba(255,242,197,.15),0 0 18px rgba(232,190,88,.12);color:#fff6dc;text-align:left;font:inherit;cursor:pointer;transition:border-color .2s ease,background .2s ease,transform .2s ease,box-shadow .2s ease}
-.home-impact-discovery-link:hover{border-color:rgba(255,220,132,.95);background:linear-gradient(120deg,rgba(148,111,39,.52) 0%,rgba(112,91,43,.4) 58%,rgba(58,53,39,.34) 100%);box-shadow:inset 0 1px 0 rgba(255,247,211,.2),0 0 24px rgba(232,190,88,.2);transform:translateY(-2px)}
+.home-impact-discovery-link{display:flex;align-items:center;gap:10px;flex:0 0 auto;max-width:245px;min-width:190px;padding:10px 12px;border:1px solid rgba(255,205,82,.96);border-radius:11px;background:linear-gradient(120deg,rgba(164,119,25,.72) 0%,rgba(130,93,20,.58) 58%,rgba(70,56,25,.48) 100%);box-shadow:inset 0 1px 0 rgba(255,246,203,.28),0 0 20px rgba(255,191,48,.2),0 0 3px rgba(255,211,96,.24);color:#fff9e7;text-align:left;font:inherit;cursor:pointer;transition:border-color .2s ease,background .2s ease,transform .2s ease,box-shadow .2s ease}
+.home-impact-discovery-link:hover{border-color:rgba(255,229,145,1);background:linear-gradient(120deg,rgba(190,139,27,.8) 0%,rgba(151,108,24,.66) 58%,rgba(83,65,26,.54) 100%);box-shadow:inset 0 1px 0 rgba(255,250,222,.32),0 0 26px rgba(255,191,48,.3);transform:translateY(-2px)}
 .home-impact-discovery-link:focus-visible{outline:2px solid rgba(255,220,132,.95);outline-offset:3px}
-.home-impact-discovery-icon{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border:1px solid rgba(255,220,132,.52);border-radius:10px;background:linear-gradient(145deg,rgba(232,190,88,.3),rgba(127,91,31,.22));color:#ffe4a0;text-shadow:0 0 12px rgba(255,213,111,.28);box-shadow:inset 0 0 12px rgba(255,221,135,.1)}
-.home-impact-discovery-icon{display:grid;place-items:center;flex:0 0 31px;width:31px;height:31px;border:1px solid rgba(255,220,132,.45);border-radius:9px;background:rgba(232,190,88,.18);color:#ffe4a0;font-size:19px}
+.home-impact-discovery-icon{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border:1px solid rgba(255,222,122,.82);border-radius:10px;background:linear-gradient(145deg,rgba(255,205,75,.48),rgba(157,107,20,.34));color:#fff0b8;text-shadow:0 0 12px rgba(255,213,111,.38);box-shadow:inset 0 0 14px rgba(255,221,135,.16)}
+.home-impact-discovery-icon{display:grid;place-items:center;flex:0 0 31px;width:31px;height:31px;border:1px solid rgba(255,222,122,.75);border-radius:9px;background:rgba(255,197,61,.28);color:#fff0b8;font-size:19px}
 .home-impact-discovery-copy{display:flex;flex-direction:column;gap:3px;min-width:0}
 .home-impact-discovery-copy .home-connection-kicker{color:#e8c56e;font-size:7px}
 .home-impact-discovery-copy strong{font-size:11px;line-height:1.3;font-weight:800}
