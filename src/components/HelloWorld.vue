@@ -17458,8 +17458,8 @@ textarea:focus-visible {
 .sidebar-orbit-icon{display:grid;place-items:center;width:35px;height:35px;flex:0 0 35px;border:1px solid rgba(142,166,197,.23);border-radius:50%;background:radial-gradient(circle at 35% 25%,rgba(255,255,255,.09),rgba(255,255,255,.015) 68%);font-size:17px;box-shadow:inset 0 0 12px rgba(255,255,255,.025)}
 .sidebar-orbit-button:hover{background:linear-gradient(155deg,rgba(39,58,87,.78),rgba(15,25,41,.9));border-color:rgba(115,151,211,.28);color:#e5edf8;box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 4px 12px rgba(0,0,0,.12)}
 .sidebar-orbit-button.active{background:linear-gradient(155deg,rgba(38,59,91,.88),rgba(16,29,48,.94));border-color:rgba(112,168,255,.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),inset 0 0 0 1px rgba(112,168,255,.035),0 4px 12px rgba(0,0,0,.12);color:#f1f6ff}
-.sidebar-orbit-learn .sidebar-orbit-icon{color:#c4b5fd;border-color:rgba(157,135,239,.43);background:radial-gradient(circle at 35% 25%,rgba(157,135,239,.2),rgba(76,59,122,.08) 72%)}
-.sidebar-orbit-awareness .sidebar-orbit-icon{color:#9bc9f5;border-color:rgba(105,166,224,.43);background:radial-gradient(circle at 35% 25%,rgba(105,166,224,.2),rgba(35,72,112,.08) 72%)}
+.sidebar-orbit-learn .sidebar-orbit-icon{color:#c4b5fd;border-color:rgba(105,166,224,.43);background:radial-gradient(circle at 35% 25%,rgba(105,166,224,.2),rgba(35,72,112,.08) 72%)}
+.sidebar-orbit-awareness .sidebar-orbit-icon{color:#9bc9f5;border-color:rgba(157,135,239,.43);background:radial-gradient(circle at 35% 25%,rgba(157,135,239,.2),rgba(76,59,122,.08) 72%)}
 .sidebar-orbit-impact .sidebar-orbit-icon{color:#8ee0bf;border-color:rgba(99,185,155,.43);background:radial-gradient(circle at 35% 25%,rgba(99,185,155,.2),rgba(25,83,66,.08) 72%)}
 .sidebar-orbit-learn.active{border-color:rgba(157,135,239,.22);color:#d4c8ff}
 .sidebar-orbit-awareness.active{border-color:rgba(105,166,224,.22);color:#b9dcff}
