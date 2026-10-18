@@ -187,6 +187,8 @@ const platformCircles = [
 const homeDisplayMode = ref<'content' | 'feed'>('content')
 const homeHeroHidden = ref(false)
 const homeHeaderChatOpen = ref(false)
+const homeLocalWorldOpen = ref(false)
+const homeLocalWorldScope = ref<'local' | 'world'>('local')
 const homeHeaderChatDraft = ref('')
 const homeChatRooms = [
   { id: 'commons', name: 'Commons Lounge', topic: 'Introductions, questions and ideas', members: '128 exploring', mark: '◉', color: 'sky', welcome: 'Welcome to the Commons Lounge. What are you curious about today?' },
@@ -228,7 +230,7 @@ function sendHomeHeaderChatMessage() {
   homeHeaderChatDraft.value = ''
 }
 const homeConnectionPanel = ref<'local' | 'world' | 'channels' | 'calls' | 'initiatives' | 'chat' | null>(null)
-const homeJoinedChannels = ref<string[]>([])
+const homeJoinedChannels = ref<string[]>(['local', 'world'])
 const homeConnectionItems = [
   { id: 'local', label: 'Local', color: 'mint', detail: 'People and conversations around your Zones.', action: 'Explore nearby people', view: 'people' },
   { id: 'world', label: 'World', color: 'blue', detail: 'Connect with people and ideas beyond your local area.', action: 'Explore the network', view: 'discover' },
@@ -5260,10 +5262,43 @@ onBeforeUnmount(() => {
             {{ homeHeroHidden ? 'Show header' : 'Hide header' }}
           </button>
           <button type="button" class="home-header-chat-toggle" :class="{ active: homeHeaderChatOpen }"
-            :aria-pressed="homeHeaderChatOpen" @click="homeHeaderChatOpen = !homeHeaderChatOpen">
+            :aria-pressed="homeHeaderChatOpen" @click="homeHeaderChatOpen = !homeHeaderChatOpen; homeHeaderChatOpen && (homeLocalWorldOpen = false)">
             <span aria-hidden="true">✉</span>{{ homeHeaderChatOpen ? 'Close chat' : 'Chat' }}
           </button>
+          <button type="button" class="home-header-chat-toggle home-local-world-toggle" :class="{ active: homeLocalWorldOpen }"
+            :aria-pressed="homeLocalWorldOpen" @click="homeLocalWorldOpen = !homeLocalWorldOpen; homeLocalWorldOpen && (homeHeaderChatOpen = false)">
+            <span aria-hidden="true">◎</span>{{ homeLocalWorldOpen ? 'Close Local / World' : 'Local / World' }}
+          </button>
         </div>
+        <section v-if="homeLocalWorldOpen" class="home-header-chat home-local-world-panel" aria-label="Local and world updates">
+          <div class="home-local-world-heading">
+            <div>
+              <span class="home-connection-kicker">YOUR NETWORK · UPDATES</span>
+              <h2>{{ homeLocalWorldScope === 'local' ? 'Around your Zones' : 'Around the world' }}</h2>
+              <p>{{ homeLocalWorldScope === 'local' ? 'Updates, questions and opportunities close to your Zones.' : 'Ideas, conversations and opportunities from across the network.' }}</p>
+            </div>
+            <span class="home-local-world-status">Joined ✓</span>
+          </div>
+          <div class="home-local-world-tabs" role="group" aria-label="Choose Local or World">
+            <button type="button" :class="{ active: homeLocalWorldScope === 'local' }" @click="homeLocalWorldScope = 'local'; joinHomeChannel('local')">◎ Local <span>Joined ✓</span></button>
+            <button type="button" :class="{ active: homeLocalWorldScope === 'world' }" @click="homeLocalWorldScope = 'world'; joinHomeChannel('world')">◌ World <span>Joined ✓</span></button>
+          </div>
+          <div class="home-local-world-feed" aria-live="polite">
+            <article v-if="homeLocalWorldScope === 'local'" class="home-local-world-item">
+              <span class="home-local-world-item-mark">↗</span><div><strong>Greener Tunis</strong><p>People are exploring greener streets, gardens and local spaces.</p><small>Local initiative · Explore opportunities</small></div>
+            </article>
+            <article v-if="homeLocalWorldScope === 'local'" class="home-local-world-item">
+              <span class="home-local-world-item-mark">?</span><div><strong>Local question</strong><p>What is one nearby place that could be improved by a small shared action?</p><small>Conversation · Add your voice in Chat</small></div>
+            </article>
+            <article v-if="homeLocalWorldScope === 'world'" class="home-local-world-item">
+              <span class="home-local-world-item-mark">✧</span><div><strong>Ideas crossing borders</strong><p>Discover ideas and approaches people are sharing across different places.</p><small>Network signal · Discover</small></div>
+            </article>
+            <article v-if="homeLocalWorldScope === 'world'" class="home-local-world-item">
+              <span class="home-local-world-item-mark">◎</span><div><strong>Open invitation</strong><p>Find people interested in learning, collaborating and turning ideas into action.</p><small>Opportunity · Explore the network</small></div>
+            </article>
+          </div>
+          <p class="home-local-world-note">Preview updates for this page — live alerts will need a connected activity source.</p>
+        </section>
         <section v-if="homeHeaderChatOpen" class="home-header-chat" aria-label="Home chat">
           <div class="home-header-chat-heading">
             <div>
@@ -19432,3 +19467,29 @@ a { text-underline-offset: 3px; }
 @media(max-width:520px){.live-flow-live-map{height:126px}.live-flow-map-node{font-size:8px;padding:4px 5px;gap:4px}.node-people{left:2%;top:43%}.node-ideas{left:20%;top:8%}.node-zones{left:24%;top:66%}.node-calls{left:44%;top:35%}.node-actions{left:62%;top:61%}.node-conversations{right:1%;top:19%}.live-flow-map-status{font-size:6px;right:6px;bottom:5px}}
 @media(prefers-reduced-motion:reduce){.live-flow-live-lines .flow-particle,.live-flow-map-node,.live-flow-map-node i,.live-flow-map-status i{animation:none}}
 </style>
+
+
+/* Local / World activity space, opened beside Chat in the Home controls. */
+.home-local-world-toggle { border-color:rgba(113,173,145,.32); color:#c1efd6; background:linear-gradient(135deg,rgba(28,76,59,.62),rgba(27,46,66,.8)); }
+.home-local-world-toggle:hover,.home-local-world-toggle.active { border-color:rgba(119,211,166,.65); background:linear-gradient(135deg,rgba(35,104,72,.78),rgba(36,70,91,.86)); color:#effff5; }
+.home-local-world-panel { background:radial-gradient(ellipse at 100% 0%,rgba(74,170,130,.12),transparent 44%),linear-gradient(125deg,rgba(16,31,43,.98),rgba(8,16,29,.98)); }
+.home-local-world-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px; }
+.home-local-world-heading h2 { margin:3px 0; color:#e8f1ff; font-size:clamp(16px,1.8vw,20px); letter-spacing:-.035em; }
+.home-local-world-heading p { margin:0; color:#91a5bd; font-size:11px; line-height:1.45; }
+.home-local-world-status { flex:0 0 auto; padding:5px 8px; border:1px solid rgba(105,204,151,.3); border-radius:999px; color:#a9e9c3; background:rgba(35,107,69,.18); font-size:9px; font-weight:750; }
+.home-local-world-tabs { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:9px; }
+.home-local-world-tabs button { display:flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid rgba(123,156,193,.2); border-radius:8px; color:#b8c9dc; background:rgba(19,32,49,.72); font:inherit; font-size:10px; cursor:pointer; }
+.home-local-world-tabs button.active { border-color:rgba(111,204,164,.52); color:#e5fff0; background:linear-gradient(120deg,rgba(37,105,75,.55),rgba(34,72,91,.55)); }
+.home-local-world-tabs button span { color:#9fdfb7; font-size:8px; }
+.home-local-world-feed { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px; }
+.home-local-world-item { display:flex; align-items:flex-start; gap:8px; min-width:0; padding:9px; border:1px solid rgba(123,156,193,.15); border-radius:10px; background:rgba(12,23,37,.58); }
+.home-local-world-item-mark { display:grid; place-items:center; flex:0 0 23px; width:23px; height:23px; border-radius:7px; color:#b6e9d0; background:rgba(61,139,104,.2); font-size:12px; }
+.home-local-world-item strong { color:#dce9f7; font-size:10px; }
+.home-local-world-item p { margin:3px 0; color:#b1c1d4; font-size:10px; line-height:1.4; }
+.home-local-world-item small { color:#71879f; font-size:8px; }
+.home-local-world-note { margin:8px 0 0; color:#71879f; font-size:9px; }
+@media(max-width:760px) {
+  .home-hero-control { flex-wrap:wrap; }
+  .home-local-world-feed { grid-template-columns:minmax(0,1fr); }
+  .home-local-world-heading h2 { font-size:16px; }
+}
