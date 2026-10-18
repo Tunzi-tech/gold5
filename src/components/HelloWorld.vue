@@ -19231,4 +19231,42 @@ a { text-underline-offset: 3px; }
   .home-chat-rooms-heading { align-items:flex-start; flex-direction:column; gap:3px; }
 }
 
+
+/* A subtle moving violet orbit marks the user's current main space. */
+.primary-navigation-portal .primary-space-nav-button.active {
+  position: relative;
+  isolation: isolate;
+  z-index: 0;
+}
+.primary-navigation-portal .primary-space-nav-button.active::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  padding: 1.5px;
+  border-radius: 11px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 235deg,
+    rgba(166, 113, 255, .08) 260deg,
+    rgba(183, 132, 255, .96) 302deg,
+    rgba(126, 83, 255, .8) 326deg,
+    transparent 350deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: commons-active-orbit 3.2s linear infinite;
+}
+@keyframes commons-active-orbit {
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .primary-navigation-portal .primary-space-nav-button.active::after {
+    animation: none;
+    background: linear-gradient(135deg, transparent 10%, rgba(183,132,255,.9) 48%, transparent 88%);
+  }
+}
 </style>
