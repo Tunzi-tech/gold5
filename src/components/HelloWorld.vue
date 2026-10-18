@@ -247,6 +247,7 @@ function joinHomeChannel(id: string) {
 }
 
 const liveFlowSpace = ref<'overview' | 'ideas'>('overview')
+const liveFlowPrimarySpace = ref<'moving' | 'connecting'>('moving')
 const liveSongUrl = ref('')
 const liveSongVideoId = ref('')
 const liveSongUpdatedAt = ref('')
@@ -5832,7 +5833,17 @@ onBeforeUnmount(() => {
           </p>
         </div>
 
-        <section id="live-flow-connections" class="live-flow-personal-connections" aria-label="Detected connections between platform activities">
+        <div class="live-network-layout">
+          <div class="live-network-feed">
+            <div class="live-flow-space-pair" :class="{ 'is-connecting': liveFlowPrimarySpace === 'connecting' }">
+              <button v-if="liveFlowPrimarySpace === 'moving'" type="button" class="live-flow-connecting-tab" @click="liveFlowPrimarySpace = 'connecting'" aria-label="Open What's Connecting">
+                <span aria-hidden="true">⌁</span><strong>WHAT'S<br />CONNECTING</strong><span class="live-flow-connecting-tab-arrow" aria-hidden="true">→</span>
+              </button>
+              <button v-else type="button" class="live-flow-connecting-tab live-flow-connecting-tab-back" @click="liveFlowPrimarySpace = 'moving'" aria-label="Return to What's Moving">
+                <span aria-hidden="true">◎</span><strong>WHAT'S<br />MOVING</strong><span class="live-flow-connecting-tab-arrow" aria-hidden="true">→</span>
+              </button>
+              <div class="live-flow-space-pair-content">
+                        <section v-if="liveFlowPrimarySpace === 'connecting'" id="live-flow-connections" class="live-flow-personal-connections" aria-label="Detected connections between platform activities">
           <div class="live-flow-personal-heading">
             <div><span class="eyebrow">FROM ACTIVITY TO RELATIONSHIPS</span><h2>See what is connecting.</h2><p>Follow the links between the people, ideas, conversations and concerns you just explored above.</p><a class="live-flow-connection-back" href="#live-flow-commons">↑ Back to what’s moving</a></div>
             <span class="live-flow-connection-count">{{ liveFlowDetectedConnections.length }} detected</span>
@@ -5849,10 +5860,7 @@ onBeforeUnmount(() => {
             <div><strong>No activity relationship detected yet.</strong><p>As ideas, posts and awareness entries share a topic or place, Live Flow can surface the relationship and show why it was detected.</p></div>
           </div>
         </section>
-
-        <div class="live-network-layout">
-          <div class="live-network-feed">
-            <section class="live-moving-showcase" aria-label="Examples of community activity moving through Live Flow">
+                <section v-if="liveFlowPrimarySpace === 'moving'" class="live-moving-showcase" aria-label="Examples of community activity moving through Live Flow">
 
               <div class="live-moving-showcase-head">
                 <div>
@@ -5907,6 +5915,8 @@ onBeforeUnmount(() => {
             </div>
             </div>
           </section>
+              </div>
+            </div>
             <article class="live-network-event">
               <div class="live-network-event-icon">◉</div>
               <div class="live-network-event-body">
@@ -19269,4 +19279,17 @@ a { text-underline-offset: 3px; }
     background: linear-gradient(135deg, transparent 10%, rgba(183,132,255,.9) 48%, transparent 88%);
   }
 }
+
+/* Live Flow: switch between What's Connecting and What's Moving in one shared space. */
+.live-flow-space-pair{display:grid;grid-template-columns:76px minmax(0,1fr);align-items:stretch;gap:12px;margin:0 0 14px}
+.live-flow-space-pair-content{min-width:0}
+.live-flow-connecting-tab{position:sticky;top:18px;align-self:start;min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:12px 7px;border:1px solid rgba(125,151,255,.28);border-radius:15px;background:linear-gradient(160deg,rgba(37,49,78,.97),rgba(15,23,40,.98));color:#dce7ff;cursor:pointer;text-align:center;box-shadow:inset 0 1px rgba(255,255,255,.05);transition:transform .18s ease,border-color .18s ease,background .18s ease}
+.live-flow-connecting-tab:hover{transform:translateY(-2px);border-color:rgba(163,139,255,.7);background:linear-gradient(160deg,rgba(54,53,99,.98),rgba(17,25,43,.99))}
+.live-flow-connecting-tab>span:first-child{display:grid;place-items:center;width:35px;height:35px;border-radius:11px;background:rgba(144,126,255,.13);border:1px solid rgba(164,147,255,.25);font-size:23px;color:#b9aaff}
+.live-flow-connecting-tab strong{font-size:9px;line-height:1.55;letter-spacing:.11em}
+.live-flow-connecting-tab .live-flow-connecting-tab-arrow{font-size:16px;color:#8dbdff}
+.live-flow-connecting-tab-back{border-color:rgba(92,198,190,.25);background:linear-gradient(160deg,rgba(20,61,68,.96),rgba(13,27,39,.98))}
+.live-flow-connecting-tab-back>span:first-child{color:#80e0d4;background:rgba(80,207,190,.1);border-color:rgba(80,207,190,.22)}
+.live-flow-space-pair.is-connecting .live-flow-personal-connections{min-width:0;margin:0}
+@media(max-width:700px){.live-flow-space-pair{grid-template-columns:56px minmax(0,1fr);gap:8px}.live-flow-connecting-tab{min-height:130px;padding:9px 4px}.live-flow-connecting-tab strong{font-size:8px}}
 </style>
