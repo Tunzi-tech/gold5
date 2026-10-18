@@ -1869,11 +1869,10 @@ const heroes = [
   },
   {
     label: 'YOUR PLACE · YOUR PEOPLE · YOUR VOICE',
-    titleBefore: 'Make an',
-    titleAccent: 'impact',
-    titleAccentTail: 'where you are,',
-    titleAfter: 'make your Zone',
-    secondAccent: 'a place for change.',
+    titleBefore: 'Your Zone,',
+    titleAccent: 'a place for change.',
+    titleAfter: 'Impacting',
+    secondAccent: 'where you are.',
     description:
       'Your Zone is a real place. The streets, places and people around you become the starting point for local organization.',
   },
@@ -5057,16 +5056,14 @@ onBeforeUnmount(() => {
                   <span v-else>{{ heroes[activeHero].titleBefore }}</span>
                   <br v-if="activeHero === 0" />
                   <span
-                    :class="activeHero === 0 ? 'hero-accent-blue hero-accent-blue-home' : 'hero-accent-impact'"
+                    :class="activeHero === 0 ? 'hero-accent-blue hero-accent-blue-home' : 'hero-zone-title'"
                   >
                     {{ heroes[activeHero].titleAccent }}
                   </span>
-                  <span v-if="heroes[activeHero].titleAccentTail" class="hero-accent-white">
-                    {{ heroes[activeHero].titleAccentTail }}
-                  </span>
+                  <br v-if="activeHero !== 0" />
                   <template v-if="heroes[activeHero].titleAfter">
-                    <span class="hero-zone-title">{{ heroes[activeHero].titleAfter }}</span>
-                    <span class="hero-accent-green">
+                    <span class="hero-accent-impact">{{ heroes[activeHero].titleAfter }}</span>
+                    <span class="hero-accent-white">
                       {{ heroes[activeHero].secondAccent }}
                     </span>
                   </template>
