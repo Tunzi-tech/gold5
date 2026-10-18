@@ -19296,39 +19296,53 @@ a { text-underline-offset: 3px; }
   justify-content: flex-start;
 }
 
-/* Keep Home controls in the document flow so they never cover Explore / Feed. */
+/* Place Hide header on the LEFT edge of the Home header; keep its collapsed control anchored there too. */
 .home-commons-content .home-hero-control {
-  position:relative; inset:auto; z-index:8; display:flex; align-items:center; justify-content:flex-end;
-  gap:7px; margin:0 0 8px; padding:0; pointer-events:auto;
+  position:relative;
+  inset:auto;
+  z-index:8;
+  display:flex;
+  align-items:flex-start;
+  justify-content:flex-start;
+  gap:7px;
+  margin:0 0 8px;
+  padding:0;
+  pointer-events:auto;
 }
-.home-commons-content.home-hero-collapsed .home-hero-control { position:relative; inset:auto; margin:0 0 8px; }
-.home-commons-content.home-hero-collapsed .home-hero-toggle { min-height:32px; width:auto; padding:6px 10px; writing-mode:horizontal-tb; flex-direction:row; }
-.home-commons-content.home-hero-collapsed .home-hero-toggle span { writing-mode:horizontal-tb; }
+.home-commons-content .home-hero-toggle {
+  pointer-events:auto;
+  min-height:34px;
+  width:auto;
+  padding:7px 10px;
+  display:inline-flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  writing-mode:horizontal-tb;
+  text-orientation:mixed;
+  border-radius:8px;
+}
+.home-commons-content .home-hero-toggle span { writing-mode:horizontal-tb; }
+.home-commons-content.home-hero-collapsed .home-hero-control {
+  position:relative;
+  inset:auto;
+  justify-content:flex-start;
+  margin:0 0 8px;
+}
+.home-commons-content.home-hero-collapsed .home-hero-toggle {
+  min-height:32px;
+  width:auto;
+  padding:6px 10px;
+  flex-direction:row;
+  writing-mode:horizontal-tb;
+}
 .home-commons-content.home-hero-collapsed .home-view-switch { margin-top:0; padding-right:0; }
 .home-commons-content:not(.home-hero-collapsed) .hero-stage { padding-right:0; }
 .home-chat-rooms-heading { display:flex; align-items:center; justify-content:space-between; gap:8px; margin:0 0 8px; color:#9bb1c9; font-size:9px; font-weight:800; letter-spacing:.11em; }
 .home-chat-rooms-heading small { color:#70859d; font-size:9px; font-weight:500; letter-spacing:0; }
 .home-chat-rooms { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-bottom:12px; }
-.home-chat-room { display:flex; align-items:center; gap:10px; min-width:0; padding:10px; text-align:left; border:1px solid rgba(123,156,193,.17); border-radius:10px; color:#d9e6f5; background:rgba(19,32,49,.72); cursor:pointer; transition:border-color .18s ease,background .18s ease; }
-.home-chat-room:hover,.home-chat-room.active { border-color:rgba(105,192,217,.48); background:rgba(32,64,83,.45); }
-.home-chat-room-mark { display:grid; place-items:center; flex:0 0 31px; width:31px; height:31px; border-radius:9px; color:#a9e7ef; background:rgba(78,156,184,.13); font-size:17px; }
-.chat-room-mint .home-chat-room-mark { color:#a4e6c6; background:rgba(78,184,139,.12); }
-.chat-room-violet .home-chat-room-mark { color:#c9b5ff; background:rgba(140,107,212,.15); }
-.chat-room-gold .home-chat-room-mark { color:#f3d49b; background:rgba(207,164,82,.13); }
-.chat-room-blue .home-chat-room-mark { color:#a9caff; background:rgba(93,143,222,.15); }
-.home-chat-room-copy { display:flex; flex:1; flex-direction:column; gap:3px; min-width:0; }
-.home-chat-room-copy strong { color:#e5eefb; font-size:10px; }
-.home-chat-room-copy small { color:#9aacc2; font-size:9px; line-height:1.35; }
-.home-chat-room-copy em { color:#7187a1; font-size:8px; font-style:normal; }
-.home-chat-room-join { flex:0 0 auto; color:#9bdce8; font-size:9px; font-weight:800; }
-.home-header-chat-active-room { display:flex; align-items:center; gap:9px; margin:0 0 7px; padding:8px 10px; border-radius:8px; background:rgba(7,14,25,.38); }
-.home-header-chat-active-room strong { color:#dce9fa; font-size:10px; }
-.home-header-chat-messages { min-height:72px; }
-@media(max-width:760px) {
-  .home-chat-rooms { grid-template-columns:minmax(0,1fr); }
-  .home-chat-room { padding:9px; }
-  .home-chat-rooms-heading { align-items:flex-start; flex-direction:column; gap:3px; }
-}
+.home-chat-room { display:flex; align-items:center; gap:10px; min-width:0; padding:10px; text-align:left; border:1px solid rgba(123,156,193,.17); border-radius:10px; color:#d9e6f5; background:rgba(19,32,49,.72);
 
 
 /* A subtle moving violet orbit marks the user's current main space. */
