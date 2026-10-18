@@ -5145,36 +5145,39 @@ onBeforeUnmount(() => {
  <!-- MOBILE NAVIGATION -->
     <div class="mobile-navigation">
 
-      <div v-if="['zones', 'around-zones'].includes(activeView)" class="mobile-context-nav">
-        <button :class="{ active: activeView === 'zones' }" @click="navigate('zones')">My Zones</button>
+      <div v-if="['zones', 'my-zones', 'around-zones'].includes(activeView)" class="mobile-context-nav">
+        <button :class="{ active: activeView === 'my-zones' }" @click="navigate('my-zones')">Your Zones</button>
         <button :class="{ active: activeView === 'around-zones' }" @click="navigate('around-zones')">Zones Around</button>
       </div>
 
-      <div v-if="['pages', 'initiatives', 'entities', 'entity'].includes(activeView)" class="mobile-context-nav">
-        <button :class="{ active: activeView === 'initiatives' }" @click="navigate('initiatives')">{{ t('initiatives') }}</button>
+      <div v-if="['pages', 'call', 'initiatives', 'entities', 'entity'].includes(activeView)" class="mobile-context-nav">
+        <button :class="{ active: activeView === 'call' }" @click="navigate('call')">Calls</button>
+        <button :class="{ active: activeView === 'initiatives' }" @click="navigate('initiatives')">Initiatives</button>
+        <button :class="{ active: activeView === 'pages' }" @click="navigate('pages')">Pages</button>
         <button :class="{ active: ['entities', 'entity'].includes(activeView) }" @click="navigate('entities')">{{ t('entities') }}</button>
       </div>
 
-      <nav class="mobile-nav">
+      <nav class="mobile-nav" aria-label="Main navigation">
         <button :class="{ active: activeView === 'home' }" @click="navigate('home')">
-          <span class="mobile-nav-icon">⌂</span>
-          <span>Home</span>
+          <span class="mobile-nav-icon">⌂</span><span>Home</span>
         </button>
-        <button :class="{ active: activeView === 'discover' }" @click="navigate('discover')">
-          <span class="mobile-nav-icon">◎</span>
-          <span>Commons</span>
+        <button :class="{ active: activeView === 'live-flow' }" @click="navigate('live-flow')">
+          <span class="mobile-nav-icon">◎</span><span>Live Flow</span>
         </button>
-        <button :class="{ active: ['zones', 'around-zones'].includes(activeView) }" @click="navigate('zones')">
-          <span class="mobile-nav-icon">◉</span>
-          <span>Zones</span>
+        <button :class="{ active: activeView === 'learn' }" @click="navigate('learn')">
+          <span class="mobile-nav-icon">✦</span><span>Learn</span>
         </button>
-        <button :class="{ active: ['pages', 'initiatives', 'entities', 'entity'].includes(activeView) }" @click="navigate('pages')">
-          <span class="mobile-nav-icon">▣</span>
-          <span>Calls &amp; Commons</span>
+        <button :class="{ active: activeView === 'awareness' }" @click="navigate('awareness')">
+          <span class="mobile-nav-icon">◌</span><span>Impacting</span>
         </button>
-        <button :class="{ active: activeView === 'people' }" @click="navigate('people')">
-          <span class="mobile-nav-icon">♧</span>
-          <span>People</span>
+        <button :class="{ active: ['zones', 'my-zones', 'around-zones', 'zone'].includes(activeView) }" @click="navigate('zones')">
+          <span class="mobile-nav-icon">◉</span><span>Zones</span>
+        </button>
+        <button :class="{ active: ['pages', 'call', 'initiatives', 'entities', 'entity'].includes(activeView) }" @click="navigate('pages')">
+          <span class="mobile-nav-icon">▣</span><span>Flow</span>
+        </button>
+        <button :class="{ active: ['people', 'administration'].includes(activeView) }" @click="navigate('people')">
+          <span class="mobile-nav-icon">♧</span><span>People</span>
         </button>
       </nav>
 
@@ -14757,8 +14760,11 @@ textarea:focus-visible {
     right: auto;
     bottom: auto;
     height: 64px;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    display: flex;
+    gap: 3px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
     padding: 5px;
     background: rgba(10, 14, 23, .96);
     border: 1px solid rgba(255,255,255,.09);
@@ -14770,7 +14776,13 @@ textarea:focus-visible {
     -webkit-backdrop-filter: blur(20px);
   }
 
+  .mobile-nav::-webkit-scrollbar {
+    display: none;
+  }
+
   .mobile-nav button {
+    flex: 0 0 64px;
+    min-width: 0;
     border: 0;
     background: transparent;
     color: rgba(233,238,248,.48);
@@ -14780,7 +14792,7 @@ textarea:focus-visible {
     justify-content: center;
     gap: 3px;
     border-radius: 13px;
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 700;
     cursor: pointer;
     transition: background .2s ease, color .2s ease;
