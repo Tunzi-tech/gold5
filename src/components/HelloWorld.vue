@@ -18174,8 +18174,8 @@ textarea:focus-visible {
 .home-impact-discovery-copy{display:flex;flex-direction:column;gap:3px;min-width:0}
 .home-impact-discovery-copy .home-connection-kicker{color:#e8c56e;font-size:7px}
 .home-impact-discovery-copy strong{font-size:11px;line-height:1.3;font-weight:800}
-.home-impact-discovery-copy small{color:#91b8aa;font-size:9px;line-height:1.3}
-.home-impact-discovery-copy small span{color:#b1f0d0}
+.home-impact-discovery-copy small{color:#d6c28f;font-size:9px;line-height:1.3}
+.home-impact-discovery-copy small span{color:#ffe3a0}
 .home-connection-orbit{position:relative;flex:0 0 40px;width:40px;height:40px;border:1px solid rgba(115,185,201,.26);border-radius:50%;background:radial-gradient(circle,rgba(115,185,201,.16),rgba(111,117,212,.05) 60%,transparent 70%)}
 .home-connection-orbit:before,.home-connection-orbit:after{content:'';position:absolute;inset:6px;border:1px solid rgba(159,143,255,.36);border-radius:50%;transform:rotate(38deg) scaleX(.58)}
 .home-connection-orbit:after{transform:rotate(-38deg) scaleX(.58);border-color:rgba(115,185,201,.35)}
