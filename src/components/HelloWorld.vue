@@ -5800,6 +5800,22 @@ onBeforeUnmount(() => {
             </div>
             <span class="live-flow-commons-orbit" aria-hidden="true"><i></i><b></b><em></em></span>
           </div>
+          <div class="live-flow-live-map" role="img" aria-label="Animated network showing people, ideas, Zones, calls, actions and conversations exchanging activity">
+            <svg class="live-flow-live-lines" viewBox="0 0 720 116" preserveAspectRatio="none" aria-hidden="true">
+              <path class="flow-link flow-link-a" d="M44 63 C110 63 110 25 180 25 S260 90 328 60 S430 22 496 47 S615 86 676 48" />
+              <path class="flow-link flow-link-b" d="M44 63 C120 100 130 92 208 78 S300 26 360 50 S460 92 548 76 S626 32 676 48" />
+              <path class="flow-link flow-link-c" d="M180 25 C200 45 185 65 208 78 M328 60 C338 38 345 35 360 50 M496 47 C500 62 520 68 548 76" />
+              <path class="flow-particle flow-particle-a" d="M44 63 C110 63 110 25 180 25 S260 90 328 60 S430 22 496 47 S615 86 676 48" />
+              <path class="flow-particle flow-particle-b" d="M44 63 C120 100 130 92 208 78 S300 26 360 50 S460 92 548 76 S626 32 676 48" />
+            </svg>
+            <span class="live-flow-map-node node-people"><i></i><b>People</b></span>
+            <span class="live-flow-map-node node-ideas"><i></i><b>Ideas</b></span>
+            <span class="live-flow-map-node node-zones"><i></i><b>Zones</b></span>
+            <span class="live-flow-map-node node-calls"><i></i><b>Calls</b></span>
+            <span class="live-flow-map-node node-actions"><i></i><b>Actions</b></span>
+            <span class="live-flow-map-node node-conversations"><i></i><b>Conversations</b></span>
+            <span class="live-flow-map-status"><i></i> CONNECTIONS IN MOTION</span>
+          </div>
           <div class="live-flow-commons-links" aria-label="Live Flow spaces">
             <button v-for="item in liveFlowCommonsItems" :key="item.id" type="button"
               class="live-flow-commons-link" :class="['flow-' + item.color, { active: liveFlowCommonsPanel === item.id }]"
@@ -19292,4 +19308,29 @@ a { text-underline-offset: 3px; }
 .live-flow-connecting-tab-back>span:first-child{color:#80e0d4;background:rgba(80,207,190,.1);border-color:rgba(80,207,190,.22)}
 .live-flow-space-pair.is-connecting .live-flow-personal-connections{min-width:0;margin:0}
 @media(max-width:700px){.live-flow-space-pair{grid-template-columns:56px minmax(0,1fr);gap:8px}.live-flow-connecting-tab{min-height:130px;padding:9px 4px}.live-flow-connecting-tab strong{font-size:8px}}
+
+/* Animated Live Flow map: subtle moving signals between platform spaces. */
+.live-flow-live-map{position:relative;height:112px;margin:12px 0 2px;overflow:hidden;border:1px solid rgba(105,145,193,.14);border-radius:11px;background:radial-gradient(ellipse at 48% 55%,rgba(71,117,177,.12),transparent 58%),linear-gradient(100deg,rgba(7,15,26,.66),rgba(15,24,39,.55));isolation:isolate}
+.live-flow-live-lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.live-flow-live-lines .flow-link{fill:none;stroke:rgba(111,151,205,.28);stroke-width:1.15;vector-effect:non-scaling-stroke}
+.live-flow-live-lines .flow-link-c{stroke:rgba(168,151,255,.32);stroke-dasharray:3 5}
+.live-flow-live-lines .flow-particle{fill:none;stroke-width:2;stroke-linecap:round;stroke-dasharray:2 18;animation:live-flow-signal-travel 5.5s linear infinite;vector-effect:non-scaling-stroke}
+.live-flow-live-lines .flow-particle-a{stroke:#7ab8ff}
+.live-flow-live-lines .flow-particle-b{stroke:#a99aff;animation-delay:-2.7s;animation-duration:7s}
+.live-flow-map-node{position:absolute;z-index:1;display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border:1px solid rgba(131,162,204,.22);border-radius:7px;background:rgba(12,21,35,.93);box-shadow:0 0 18px rgba(65,114,175,.07);color:#c8d8ed;font-size:9px;white-space:nowrap;animation:live-flow-node-breathe 3.6s ease-in-out infinite}
+.live-flow-map-node i{width:6px;height:6px;border-radius:50%;background:var(--node-color);box-shadow:0 0 9px color-mix(in srgb,var(--node-color) 68%,transparent);animation:live-flow-node-pulse 2.1s ease-in-out infinite}
+.live-flow-map-node b{font-weight:700}
+.node-people{--node-color:#73c9ae;left:3%;top:44%}
+.node-ideas{--node-color:#a99aff;left:20%;top:8%;animation-delay:-.8s}
+.node-zones{--node-color:#78aef5;left:28%;top:62%;animation-delay:-1.4s}
+.node-calls{--node-color:#e0c477;left:47%;top:32%;animation-delay:-.4s}
+.node-actions{--node-color:#e49b88;left:67%;top:57%;animation-delay:-1.8s}
+.node-conversations{--node-color:#73b9c9;right:2%;top:24%;animation-delay:-1.1s}
+.live-flow-map-status{position:absolute;right:10px;bottom:7px;display:flex;align-items:center;gap:5px;color:#6f91b4;font-size:7px;font-weight:800;letter-spacing:.12em}
+.live-flow-map-status i{width:5px;height:5px;border-radius:50%;background:#73c9ae;box-shadow:0 0 8px rgba(115,201,174,.75);animation:live-flow-node-pulse 1.7s ease-in-out infinite}
+@keyframes live-flow-signal-travel{to{stroke-dashoffset:-120}}
+@keyframes live-flow-node-breathe{0%,100%{transform:translateY(0);border-color:rgba(131,162,204,.2)}50%{transform:translateY(-3px);border-color:color-mix(in srgb,var(--node-color) 42%,transparent)}}
+@keyframes live-flow-node-pulse{0%,100%{opacity:.65;transform:scale(.85)}50%{opacity:1;transform:scale(1.2)}}
+@media(max-width:520px){.live-flow-live-map{height:126px}.live-flow-map-node{font-size:8px;padding:4px 5px;gap:4px}.node-people{left:2%;top:43%}.node-ideas{left:20%;top:8%}.node-zones{left:24%;top:66%}.node-calls{left:44%;top:35%}.node-actions{left:62%;top:61%}.node-conversations{right:1%;top:19%}.live-flow-map-status{font-size:6px;right:6px;bottom:5px}}
+@media(prefers-reduced-motion:reduce){.live-flow-live-lines .flow-particle,.live-flow-map-node,.live-flow-map-node i,.live-flow-map-status i{animation:none}}
 </style>
