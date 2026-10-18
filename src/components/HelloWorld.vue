@@ -6208,8 +6208,21 @@ onBeforeUnmount(() => {
       <section v-if="activeView === 'awareness'" class="content awareness-content">
 
         <div class="awareness-category-heading">
-          <span class="eyebrow">IMPACT &amp; AWARENESS</span>
+          <div class="awareness-heading-copy">
+            <span class="eyebrow">IMPACT &amp; AWARENESS <span class="awareness-heading-separator">/</span> A SHARED SPACE</span>
+            <h1>Turn what you notice into <span>shared understanding.</span></h1>
+            <p>People, Pages, entities and communities bring forward the questions that matter — explore what is happening, what may follow, and what we can do together.</p>
+          </div>
           <button type="button" class="awareness-submit-button" @click="showRaiseAwareness = !showRaiseAwareness">{{ showRaiseAwareness ? 'CLOSE FORM' : '+ RAISE AWARENESS' }}</button>
+        </div>
+
+        <div class="awareness-intro-strip" aria-label="How Impact and Awareness works">
+          <div class="awareness-intro-item"><span class="awareness-intro-number">01</span><div><strong>NOTICE</strong><small>Questions, observations and concerns</small></div></div>
+          <span class="awareness-intro-arrow" aria-hidden="true">→</span>
+          <div class="awareness-intro-item"><span class="awareness-intro-number">02</span><div><strong>UNDERSTAND</strong><small>Context, evidence and consequences</small></div></div>
+          <span class="awareness-intro-arrow" aria-hidden="true">→</span>
+          <div class="awareness-intro-item"><span class="awareness-intro-number">03</span><div><strong>TAKE PART</strong><small>Ideas, initiatives and local action</small></div></div>
+          <div class="awareness-intro-count"><strong>{{ filteredAwarenessItems.length }}</strong><span>shared topics</span></div>
         </div>
 
         <form v-if="showRaiseAwareness" class="awareness-card awareness-create-card" @submit.prevent="submitAwarenessItem">
@@ -18806,4 +18819,66 @@ a { text-underline-offset: 3px; }
 .learn-editorial-note{margin:12px 0 0;color:#596b81;font-size:8px;line-height:1.7}
 @media(max-width:760px){.learn-featured-article{grid-template-columns:1fr}.learn-featured-visual{min-height:180px}.learn-featured-copy{padding:21px}.learn-articles-grid{grid-template-columns:1fr}}
 @media(max-width:480px){.learn-feed-heading{align-items:flex-start;flex-direction:column}.learn-featured-copy h3{font-size:23px}.learn-article-card-art{height:90px}.learn-article-tools{gap:8px}}
+
+
+/* IMPACT & AWARENESS — clearer editorial hierarchy */
+.awareness-content{padding-top:12px!important}
+.awareness-category-heading{align-items:center;gap:24px;margin:0 0 17px;padding:18px 0 20px;border-bottom:0}
+.awareness-heading-copy{min-width:0;max-width:790px}
+.awareness-heading-copy .eyebrow{display:inline-flex;align-items:center;gap:8px;color:#9ab4d3;font-size:9px;letter-spacing:.16em}
+.awareness-heading-separator{color:#638b9a}
+.awareness-heading-copy h1{max-width:780px;margin:13px 0 9px;color:#f0f5fc;font-size:clamp(27px,3.1vw,39px);font-weight:650;line-height:1.12;letter-spacing:-.045em}
+.awareness-heading-copy h1 span{color:#a9c9f1}
+.awareness-heading-copy p{max-width:710px;margin:0;color:#91a1b5;font-size:12px;line-height:1.85}
+.awareness-category-heading>.awareness-submit-button{flex:0 0 auto;align-self:center;padding:11px 14px;border-color:rgba(128,177,231,.3);border-radius:9px;background:linear-gradient(135deg,rgba(66,121,184,.2),rgba(71,149,129,.1));color:#d8e8fa;font-size:9px;letter-spacing:.04em;box-shadow:inset 0 1px 0 rgba(255,255,255,.035);transition:transform .18s,border-color .18s,background .18s}
+.awareness-category-heading>.awareness-submit-button:hover{transform:translateY(-1px);border-color:rgba(135,190,242,.55);background:linear-gradient(135deg,rgba(66,121,184,.3),rgba(71,149,129,.16))}
+.awareness-intro-strip{display:flex;align-items:center;gap:14px;margin:0 0 20px;padding:15px 17px;border:1px solid rgba(127,163,204,.13);border-radius:13px;background:linear-gradient(110deg,rgba(22,37,54,.86),rgba(13,23,34,.9) 65%,rgba(19,37,40,.72));box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}
+.awareness-intro-item{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.awareness-intro-number{display:grid;place-items:center;width:30px;height:30px;flex:0 0 30px;border:1px solid rgba(128,174,223,.24);border-radius:9px;background:rgba(91,140,194,.09);color:#a9c9f1;font-size:9px;font-weight:800}
+.awareness-intro-item:nth-of-type(3) .awareness-intro-number{border-color:rgba(121,199,161,.25);background:rgba(121,199,161,.07);color:#9ed9bd}
+.awareness-intro-item strong,.awareness-intro-item small{display:block}
+.awareness-intro-item strong{color:#d4e1f0;font-size:9px;letter-spacing:.11em}
+.awareness-intro-item small{margin-top:4px;color:#75879d;font-size:9px;line-height:1.45}
+.awareness-intro-arrow{color:#5f7895;font-size:15px}
+.awareness-intro-count{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;min-width:70px;padding-left:14px;border-left:1px solid rgba(255,255,255,.08)}
+.awareness-intro-count strong{color:#e5f1ff;font-size:22px;font-weight:600;line-height:1.1}
+.awareness-intro-count span{margin-top:4px;color:#7f91a7;font-size:8px;white-space:nowrap}
+.awareness-category-panel{margin-bottom:22px!important;padding:17px 18px!important;border-color:rgba(132,166,205,.15)!important;border-radius:14px!important;background:linear-gradient(145deg,rgba(17,29,43,.88),rgba(9,15,23,.96))!important;box-shadow:0 12px 28px rgba(0,0,0,.1)}
+.awareness-category-group>.awareness-kicker{color:#a5bad4;font-size:9px;letter-spacing:.15em}
+.awareness-category-group+.awareness-category-group{padding-top:14px;border-top-color:rgba(151,176,207,.1)}
+.awareness-category-compact .awareness-category-chips .awareness-filter{padding:7px 10px;border-radius:8px;font-size:9px;transition:background .16s,border-color .16s,color .16s}
+.awareness-grid{align-items:stretch;gap:15px}
+.awareness-content .awareness-shared-item{padding:21px!important;border-radius:15px!important;box-shadow:0 10px 28px rgba(0,0,0,.09)!important;transition:transform .18s,border-color .18s,box-shadow .18s}
+.awareness-content .awareness-shared-item:hover{transform:translateY(-2px);border-color:#cbd9e8!important;box-shadow:0 15px 32px rgba(0,0,0,.12)!important}
+.awareness-content .awareness-shared-item .awareness-card-head{align-items:flex-start}
+.awareness-content .awareness-shared-item .awareness-kicker{font-size:8px;line-height:1.5;letter-spacing:.08em}
+.awareness-content .awareness-shared-item h2{margin:14px 0 10px;font-size:20px;line-height:1.3;letter-spacing:-.025em}
+.awareness-content .awareness-shared-item .awareness-source-row{margin-top:15px}
+.awareness-content .awareness-shared-item .awareness-story-section{margin-top:17px;padding-top:14px}
+.awareness-content .awareness-shared-item .awareness-story-section .awareness-kicker{font-size:8px;color:#54708e!important}
+.awareness-content .awareness-shared-item .awareness-story-section p{font-size:11px;line-height:1.8}
+.awareness-content .awareness-shared-item .awareness-item-actions{padding-top:12px;border-top:1px solid #e6ebf1;gap:13px}
+.awareness-content .awareness-shared-item .awareness-link{font-size:8px;letter-spacing:.04em}
+.awareness-content .awareness-principle-card{margin-top:2px;border-color:rgba(128,166,209,.14);border-radius:13px}
+@media(max-width:900px){
+  .awareness-intro-strip{gap:9px;padding:13px}
+  .awareness-intro-item{gap:7px}
+  .awareness-intro-item small{font-size:8px}
+  .awareness-intro-count{min-width:58px;padding-left:10px}
+}
+@media(max-width:760px){
+  .awareness-content{padding-top:8px!important}
+  .awareness-category-heading{align-items:flex-start;flex-direction:column;gap:16px;padding:10px 0 18px}
+  .awareness-category-heading>.awareness-submit-button{align-self:flex-start}
+  .awareness-heading-copy h1{font-size:clamp(27px,7vw,36px)}
+  .awareness-heading-copy p{font-size:11px}
+  .awareness-intro-strip{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px}
+  .awareness-intro-item{grid-column:1;align-items:flex-start}
+  .awareness-intro-arrow{display:none}
+  .awareness-intro-item small{font-size:9px}
+  .awareness-intro-count{grid-column:2;grid-row:1 / span 3;align-self:stretch;min-width:66px}
+  .awareness-category-panel{padding:14px!important}
+}
+@media(prefers-reduced-motion:reduce){.awareness-content .awareness-shared-item,.awareness-category-heading>.awareness-submit-button{transition:none}}
+
 </style>
