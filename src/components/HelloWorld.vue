@@ -1159,6 +1159,89 @@ const administrationPassword = ref('')
 const administrationPasswordError = ref(false)
 const selectedAdminElement = ref<string | null>(null)
 
+type AdminCollabNote = { id: number; author: string; text: string; votes: number; voted: boolean; createdAt: string }
+type AdminCollabFolder = { id: number; name: string; description: string; people: string[]; connections: string[]; notes: AdminCollabNote[]; createdAt: string }
+
+const adminFolderSeed: AdminCollabFolder[] = [
+  { id: 1, name: 'Greener Tunis North', description: 'Connect people, local observations and practical ideas for greener shared spaces.', people: ['Amine', 'Sarra', 'Youssef'], connections: ['Tunis North Zone', 'Community garden', 'Green spaces initiative'], notes: [{ id: 11, author: 'Amine', text: 'Map shaded streets and identify places where small community gardens could work.', votes: 4, voted: false, createdAt: 'Example idea' }, { id: 12, author: 'Sarra', text: 'Ask residents which public spaces need trees or better maintenance first.', votes: 3, voted: false, createdAt: 'Example note' }], createdAt: 'Example folder' },
+  { id: 2, name: 'Platform connections', description: 'Explore how people, Pages, Zones and initiatives could work together.', people: ['Maher', 'Community members'], connections: ['People', 'Pages', 'Zones', 'Initiatives'], notes: [{ id: 21, author: 'Community members', text: 'Propose a simple way to connect a shared question to a Zone and an action.', votes: 2, voted: false, createdAt: 'Example idea' }], createdAt: 'Example folder' }
+]
+
+function loadAdminCollabFolders(): AdminCollabFolder[] {
+  try {
+    if (typeof window !== 'undefined') {
+      const saved = window.localStorage.getItem('commons-admin-collab-folders')
+      if (saved) return JSON.parse(saved) as AdminCollabFolder[]
+    }
+  } catch { /* Keep the starter workspace available if browser storage is blocked. */ }
+  return adminFolderSeed.map(folder => ({ ...folder, people: [...folder.people], connections: [...folder.connections], notes: folder.notes.map(note => ({ ...note })) }))
+}
+
+const adminCollabFolders = ref<AdminCollabFolder[]>(loadAdminCollabFolders())
+const selectedAdminFolder = ref<number | null>(adminCollabFolders.value[0]?.id ?? null)
+const newAdminFolderName = ref('')
+const newAdminFolderDescription = ref('')
+const newAdminFolderPeople = ref('')
+const newAdminFolderConnection = ref('')
+const newAdminFolderNote = ref('')
+const adminFolderFormOpen = ref(false)
+const adminFolderFeedback = ref('')
+
+function saveAdminCollabFolders() {
+  try { window.localStorage.setItem('commons-admin-collab-folders', JSON.stringify(adminCollabFolders.value)) } catch { /* Local demo mode can continue without persistence. */ }
+}
+
+function createAdminCollabFolder() {
+  const name = newAdminFolderName.value.trim()
+  if (!name) return
+  const folder: AdminCollabFolder = {
+    id: Date.now(),
+    name,
+    description: newAdminFolderDescription.value.trim() || 'A shared space to gather people, ideas, notes and possible connections.',
+    people: newAdminFolderPeople.value.split(',').map(person => person.trim()).filter(Boolean),
+    connections: newAdminFolderConnection.value.trim() ? [newAdminFolderConnection.value.trim()] : [],
+    notes: newAdminFolderNote.value.trim() ? [{ id: Date.now() + 1, author: 'You', text: newAdminFolderNote.value.trim(), votes: 0, voted: false, createdAt: 'Just now' }] : [],
+    createdAt: 'Just now'
+  }
+  adminCollabFolders.value.unshift(folder)
+  selectedAdminFolder.value = folder.id
+  newAdminFolderName.value = ''
+  newAdminFolderDescription.value = ''
+  newAdminFolderPeople.value = ''
+  newAdminFolderConnection.value = ''
+  newAdminFolderNote.value = ''
+  adminFolderFormOpen.value = false
+  adminFolderFeedback.value = 'Folder created. Add people, connections and ideas as the workspace grows.'
+  saveAdminCollabFolders()
+}
+
+function addAdminFolderPerson(folder: AdminCollabFolder, name: string) {
+  const value = name.trim()
+  if (!value || folder.people.some(person => person.toLowerCase() === value.toLowerCase())) return
+  folder.people.push(value)
+  saveAdminCollabFolders()
+}
+
+function addAdminFolderConnection(folder: AdminCollabFolder, value: string) {
+  const connection = value.trim()
+  if (!connection || folder.connections.some(item => item.toLowerCase() === connection.toLowerCase())) return
+  folder.connections.push(connection)
+  saveAdminCollabFolders()
+}
+
+function addAdminFolderNote(folder: AdminCollabFolder, value: string) {
+  const note = value.trim()
+  if (!note) return
+  folder.notes.unshift({ id: Date.now(), author: 'You', text: note, votes: 0, voted: false, createdAt: 'Just now' })
+  saveAdminCollabFolders()
+}
+
+function voteAdminFolderNote(folder: AdminCollabFolder, note: AdminCollabNote) {
+  note.voted = !note.voted
+  note.votes = Math.max(0, note.votes + (note.voted ? 1 : -1))
+  saveAdminCollabFolders()
+}
+
 type AdminElement = {
   id: string
   name: string
@@ -3299,6 +3382,17 @@ function openAdministration() {
 }
 
 function unlockAdministration() {
+  if (administrationPassword.value === 'imp929') {
+    administrationUnlocked.value = true
+    administrationPasswordError.value = false
+    administrationPassword.value = ''
+    selectedAdminFolder.value = adminCollabFolders.value[0]?.id ?? null
+    return
+  }
+  administrationPasswordError.value = true
+}
+
+function unlockAdministrationSystems() {
   if (administrationPassword.value === '58337979') {
     administrationUnlocked.value = true
     administrationPasswordError.value = false
@@ -6962,7 +7056,7 @@ onBeforeUnmount(() => {
           <div class="admin-lock-orbit" aria-hidden="true">⌑</div>
           <span class="eyebrow">RESTRICTED AREA</span>
           <h1>Administration</h1>
-          <p>This space contains the internal structure of the Commons: elements, connections and what is still missing.</p>
+          <p>This is a shared collaboration space for everyone on the platform. Shared access code: <strong class="admin-shared-code">imp929</strong>. Create folders, bring people together, connect related work, add notes and vote on ideas. This demo stores changes in this browser; shared access across devices requires a connected backend.</p>
 
           <form class="admin-password-form" @submit.prevent="unlockAdministration">
             <label for="admin-password">Administration password</label>
@@ -6973,69 +7067,81 @@ onBeforeUnmount(() => {
         </div>
 
         <template v-else>
-          <div class="administration-header">
+          <div class="administration-header admin-collab-header">
             <div>
-              <span class="eyebrow">SYSTEM ARCHITECTURE</span>
-              <h1>Administration</h1>
-              <p>Inspect every platform element, follow its connections and identify what still needs to be built.</p>
+              <span class="eyebrow">OPEN COLLABORATION SPACE</span>
+              <h1>Administration <span class="admin-header-accent">/ shared work</span></h1>
+              <p>Create a folder around a question, project or connection. Invite people by adding their names, connect related work, leave notes and vote on ideas together.</p>
             </div>
             <button class="ghost-btn" type="button" @click="lockAdministration">Lock</button>
           </div>
 
-          <div class="admin-overview">
-            <div class="admin-overview-card"><span>ELEMENTS</span><strong>{{ adminElements.length }}</strong><small>Platform building blocks</small></div>
-            <div class="admin-overview-card"><span>CONNECTIONS</span><strong>{{ adminElements.reduce((total, element) => total + element.connections.length, 0) }}</strong><small>Known relationships</small></div>
-            <div class="admin-overview-card"><span>MISSING</span><strong>{{ adminElements.reduce((total, element) => total + element.missing.length, 0) }}</strong><small>Things to build or connect</small></div>
+          <div class="admin-collab-stats">
+            <div class="admin-overview-card"><span>FOLDERS</span><strong>{{ adminCollabFolders.length }}</strong><small>Shared spaces in this browser</small></div>
+            <div class="admin-overview-card"><span>PEOPLE ADDED</span><strong>{{ adminCollabFolders.reduce((total, folder) => total + folder.people.length, 0) }}</strong><small>People named across folders</small></div>
+            <div class="admin-overview-card"><span>IDEAS &amp; NOTES</span><strong>{{ adminCollabFolders.reduce((total, folder) => total + folder.notes.length, 0) }}</strong><small>Contributions to discuss</small></div>
           </div>
 
-          <div class="admin-workspace">
-            <div class="admin-elements-panel">
-              <div class="admin-panel-heading"><span class="eyebrow">PLATFORM ELEMENTS</span><h2>Folders</h2></div>
-              <button v-for="element in adminElements" :key="element.id" type="button" class="admin-element-folder" :class="{ active: selectedAdminElement === element.id }" @click="selectedAdminElement = element.id">
-                <span class="admin-folder-icon">□</span>
-                <span class="admin-folder-copy"><strong>{{ element.name }}</strong><small>{{ element.category }} · {{ element.connections.length }} connections</small></span>
-                <span class="admin-folder-arrow">→</span>
-              </button>
+          <div class="admin-collab-toolbar">
+            <div><span class="eyebrow">YOUR COLLABORATION FOLDERS</span><p>Keep related people, connections and proposals in one place.</p></div>
+            <button class="admin-create-folder-button" type="button" @click="adminFolderFormOpen = !adminFolderFormOpen">{{ adminFolderFormOpen ? 'CANCEL' : '+ CREATE FOLDER' }}</button>
+          </div>
+
+          <form v-if="adminFolderFormOpen" class="admin-collab-create" @submit.prevent="createAdminCollabFolder">
+            <div class="admin-collab-form-heading"><span class="admin-folder-icon">＋</span><div><strong>Create a folder</strong><small>Start with a purpose; add or connect people as you go.</small></div></div>
+            <label>Folder name<input v-model="newAdminFolderName" required maxlength="90" placeholder="e.g. Safer streets in Tunis North" /></label>
+            <label>Purpose or description<textarea v-model="newAdminFolderDescription" rows="2" placeholder="What do you want to explore or build together?" /></label>
+            <div class="admin-collab-form-row">
+              <label>People to include<input v-model="newAdminFolderPeople" placeholder="Names separated by commas" /></label>
+              <label>First connection<input v-model="newAdminFolderConnection" placeholder="A person, Zone, Page, idea or project" /></label>
             </div>
+            <label>First note or proposal<textarea v-model="newAdminFolderNote" rows="2" placeholder="What should the group consider first?" /></label>
+            <div class="admin-collab-form-actions"><span>Folders are editable after creation.</span><button type="submit" class="admin-create-folder-button">CREATE FOLDER →</button></div>
+          </form>
 
-            <div class="admin-detail-panel">
-              <template v-if="selectedAdminElement">
-                <template v-for="element in adminElements" :key="element.id">
-                  <div v-if="element.id === selectedAdminElement" class="admin-element-detail">
-                    <span class="eyebrow">{{ element.category }}</span>
-                    <div class="admin-detail-title">
-                      <div><h2>{{ element.name }}</h2><p>{{ element.description }}</p></div>
-                      <span class="admin-status">IN SYSTEM</span>
-                    </div>
+          <p v-if="adminFolderFeedback" class="admin-folder-feedback">{{ adminFolderFeedback }}</p>
 
-                    <div class="admin-detail-section">
-                      <span class="eyebrow">CONNECTIONS</span>
-                      <div class="admin-chip-list">
-                        <span v-for="connection in element.connections" :key="connection" class="admin-chip connected">✓ {{ connection }}</span>
-                      </div>
-                    </div>
+          <div class="admin-collab-workspace">
+            <aside class="admin-collab-folder-list">
+              <button v-for="folder in adminCollabFolders" :key="folder.id" type="button" class="admin-collab-folder" :class="{ active: selectedAdminFolder === folder.id }" @click="selectedAdminFolder = folder.id; adminFolderFeedback = ''">
+                <span class="admin-collab-folder-icon">▱</span><span class="admin-collab-folder-copy"><strong>{{ folder.name }}</strong><small>{{ folder.people.length }} people · {{ folder.connections.length }} connections</small><small>{{ folder.notes.length }} notes and proposals</small></span><span class="admin-folder-arrow">→</span>
+              </button>
+              <div v-if="!adminCollabFolders.length" class="admin-collab-empty-list"><strong>No folders yet</strong><span>Create the first space for a shared question or project.</span></div>
+              <div class="admin-collab-local-note"><span>LOCAL DEMO</span><p>These changes are saved in this browser only. Connect a shared database to make them available to every account and device.</p></div>
+            </aside>
 
-                    <div class="admin-detail-section">
-                      <span class="eyebrow">MISSING / TO BUILD</span>
-                      <div class="admin-missing-list">
-                        <div v-for="item in element.missing" :key="item" class="admin-missing-item"><span>!</span><strong>{{ item }}</strong></div>
-                      </div>
-                    </div>
+            <div class="admin-collab-detail">
+              <template v-for="folder in adminCollabFolders" :key="folder.id">
+                <article v-if="folder.id === selectedAdminFolder" class="admin-collab-detail-inner">
+                  <div class="admin-collab-detail-top"><span class="eyebrow">COLLABORATION FOLDER · {{ folder.createdAt }}</span><span class="admin-status">{{ folder.people.length }} PEOPLE</span></div>
+                  <h2>{{ folder.name }}</h2><p class="admin-collab-description">{{ folder.description }}</p>
 
-                    <div class="admin-detail-note">
-                      <strong>Architecture idea</strong>
-                      <span>Use this element as the starting point to trace what it triggers, what depends on it and which connections still need implementation.</span>
+                  <section class="admin-collab-section">
+                    <div class="admin-collab-section-heading"><div><span class="eyebrow">PEOPLE</span><h3>Who is involved?</h3></div><span>{{ folder.people.length }}</span></div>
+                    <div class="admin-collab-pills"><span v-for="person in folder.people" :key="person" class="admin-collab-person"><i>{{ person.slice(0,1).toUpperCase() }}</i>{{ person }}</span><span v-if="!folder.people.length" class="admin-collab-muted">Add people who should be part of this folder.</span></div>
+                    <form class="admin-inline-add" @submit.prevent="addAdminFolderPerson(folder, newAdminFolderPeople); newAdminFolderPeople = ''"><input v-model="newAdminFolderPeople" placeholder="Add a person by name" aria-label="Add a person by name" /><button type="submit">+ ADD PERSON</button></form>
+                  </section>
+
+                  <section class="admin-collab-section">
+                    <div class="admin-collab-section-heading"><div><span class="eyebrow">CONNECTIONS</span><h3>Connect related work</h3></div><span>{{ folder.connections.length }}</span></div>
+                    <div class="admin-collab-pills"><span v-for="connection in folder.connections" :key="connection" class="admin-collab-connection">↗ {{ connection }}</span><span v-if="!folder.connections.length" class="admin-collab-muted">Connect a Zone, Page, person, initiative, question or another folder.</span></div>
+                    <form class="admin-inline-add" @submit.prevent="addAdminFolderConnection(folder, newAdminFolderConnection); newAdminFolderConnection = ''"><input v-model="newAdminFolderConnection" placeholder="Name a connection or its purpose" aria-label="Add a connection" /><button type="submit">+ CONNECT</button></form>
+                  </section>
+
+                  <section class="admin-collab-section">
+                    <div class="admin-collab-section-heading"><div><span class="eyebrow">NOTES &amp; PROPOSALS</span><h3>Think together. Vote on ideas.</h3></div><span>{{ folder.notes.length }} items</span></div>
+                    <form class="admin-note-composer" @submit.prevent="addAdminFolderNote(folder, newAdminFolderNote); newAdminFolderNote = ''"><textarea v-model="newAdminFolderNote" rows="3" placeholder="Share a note, question, connection idea or proposal…" aria-label="Write a note or proposal" /><div><small>Make room for different views. Every idea can be discussed and voted on.</small><button type="submit" class="admin-create-folder-button">ADD NOTE →</button></div></form>
+                    <div v-if="folder.notes.length" class="admin-collab-notes">
+                      <article v-for="note in folder.notes" :key="note.id" class="admin-collab-note">
+                        <div class="admin-collab-note-main"><span class="admin-collab-note-avatar">{{ note.author.slice(0,1).toUpperCase() }}</span><div><div class="admin-collab-note-meta"><strong>{{ note.author }}</strong><span>{{ note.createdAt }}</span></div><p>{{ note.text }}</p></div></div>
+                        <button type="button" class="admin-vote-button" :class="{ voted: note.voted }" :aria-pressed="note.voted" @click="voteAdminFolderNote(folder, note)"><span>{{ note.voted ? '✓ VOTED' : '↑ VOTE' }}</span><strong>{{ note.votes }}</strong></button>
+                      </article>
                     </div>
-                  </div>
-                </template>
+                    <div v-else class="admin-collab-no-notes"><span>✳</span><strong>Start the conversation</strong><p>Add the first note or proposal. People can then vote to show which ideas deserve attention.</p></div>
+                  </section>
+                </article>
               </template>
-
-              <div v-else class="admin-detail-empty">
-                <div class="admin-empty-orbit">COMMONS</div>
-                <span class="eyebrow">SELECT AN ELEMENT</span>
-                <h2>Open a folder to inspect it.</h2>
-                <p>Start from an element such as Community Call or Notification, then follow its connections and missing pieces.</p>
-              </div>
+              <div v-if="!selectedAdminFolder || !adminCollabFolders.some(folder => folder.id === selectedAdminFolder)" class="admin-collab-detail-empty"><div class="admin-empty-orbit">COMMONS</div><h2>Choose a folder to begin.</h2><p>Open an existing collaboration space or create a new one.</p><button class="admin-create-folder-button" type="button" @click="adminFolderFormOpen = true">+ CREATE FOLDER</button></div>
             </div>
           </div>
         </template>
@@ -18880,5 +18986,86 @@ a { text-underline-offset: 3px; }
   .awareness-category-panel{padding:14px!important}
 }
 @media(prefers-reduced-motion:reduce){.awareness-content .awareness-shared-item,.awareness-category-heading>.awareness-submit-button{transition:none}}
+
+
+
+/* Administration shared-work folders */
+.admin-shared-code{display:inline-block;padding:4px 9px;border:1px solid rgba(121,199,161,.26);border-radius:6px;background:rgba(121,199,161,.09);color:#a6e4c5;font-size:12px;letter-spacing:.1em}
+.admin-collab-header h1{letter-spacing:-.035em}.admin-header-accent{color:#8db9e8;font-size:.58em;font-weight:500}
+.admin-collab-header p{max-width:730px;line-height:1.8}
+.admin-collab-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0 26px}
+.admin-collab-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 13px}
+.admin-collab-toolbar p{margin:6px 0 0;color:#7d8ea4;font-size:10px;line-height:1.6}
+.admin-create-folder-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 13px;border:1px solid rgba(117,178,224,.28);border-radius:9px;background:linear-gradient(130deg,rgba(65,127,191,.2),rgba(72,155,128,.11));color:#d3e7f9;font-size:9px;font-weight:850;letter-spacing:.05em;cursor:pointer;transition:background .18s,border-color .18s,transform .18s}
+.admin-create-folder-button:hover{transform:translateY(-1px);border-color:rgba(135,198,240,.52);background:linear-gradient(130deg,rgba(65,127,191,.3),rgba(72,155,128,.18))}
+.admin-collab-create{display:grid;gap:12px;margin:0 0 16px;padding:19px;border:1px solid rgba(115,164,215,.18);border-radius:14px;background:linear-gradient(145deg,rgba(18,32,49,.95),rgba(10,16,25,.98))}
+.admin-collab-form-heading{display:flex;align-items:center;gap:11px;margin-bottom:3px}
+.admin-collab-form-heading .admin-folder-icon{display:grid;place-items:center;width:35px;height:35px;border:1px solid rgba(117,178,224,.22);border-radius:10px;color:#a8d3f2;font-size:20px}
+.admin-collab-form-heading strong,.admin-collab-form-heading small{display:block}
+.admin-collab-form-heading strong{color:#e0ebf8;font-size:13px}.admin-collab-form-heading small{margin-top:4px;color:#7f91a7;font-size:9px}
+.admin-collab-create label{display:grid;gap:6px;color:#9eafc4;font-size:9px;font-weight:750}
+.admin-collab-create input,.admin-collab-create textarea,.admin-inline-add input,.admin-note-composer textarea{width:100%;box-sizing:border-box;border:1px solid rgba(139,169,203,.15);border-radius:8px;background:rgba(4,9,16,.65);padding:10px 11px;color:#dce8f5;font:inherit;font-size:10px;outline:none}
+.admin-collab-create input:focus,.admin-collab-create textarea:focus,.admin-inline-add input:focus,.admin-note-composer textarea:focus{border-color:rgba(117,178,224,.5);box-shadow:0 0 0 2px rgba(72,127,191,.09)}
+.admin-collab-create textarea,.admin-note-composer textarea{resize:vertical;line-height:1.6}
+.admin-collab-form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.admin-collab-form-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:2px}
+.admin-collab-form-actions>span{color:#71839a;font-size:9px}
+.admin-folder-feedback{margin:0 0 12px;padding:10px 12px;border:1px solid rgba(121,199,161,.15);border-radius:8px;background:rgba(67,155,111,.06);color:#a7d8bd;font-size:10px}
+.admin-collab-workspace{display:grid;grid-template-columns:minmax(240px,300px) minmax(0,1fr);align-items:start;gap:14px}
+.admin-collab-folder-list,.admin-collab-detail{min-width:0;border:1px solid rgba(255,255,255,.07);border-radius:15px;background:linear-gradient(145deg,rgba(14,22,33,.96),rgba(8,13,21,.98))}
+.admin-collab-folder-list{padding:10px}
+.admin-collab-folder{display:flex;align-items:flex-start;gap:10px;width:100%;margin-bottom:6px;padding:12px 10px;border:1px solid transparent;border-radius:10px;background:transparent;color:inherit;text-align:left;cursor:pointer;transition:background .16s,border-color .16s}
+.admin-collab-folder:hover{background:rgba(255,255,255,.025);border-color:rgba(255,255,255,.06)}
+.admin-collab-folder.active{background:linear-gradient(120deg,rgba(65,127,191,.15),rgba(72,155,128,.06));border-color:rgba(117,178,224,.2)}
+.admin-collab-folder-icon{display:grid;place-items:center;flex:0 0 32px;height:32px;border:1px solid rgba(121,174,240,.17);border-radius:9px;background:rgba(74,120,194,.07);color:#a9c9ed;font-size:18px}
+.admin-collab-folder-copy{display:grid;gap:5px;min-width:0;flex:1}
+.admin-collab-folder-copy strong{color:#d9e6f4;font-size:10px;line-height:1.4;overflow-wrap:anywhere}
+.admin-collab-folder-copy small{color:#778aa1;font-size:8px;line-height:1.4}
+.admin-collab-folder .admin-folder-arrow{color:#7288a2;font-size:12px}
+.admin-collab-local-note{margin:12px 3px 2px;padding:12px;border:1px dashed rgba(137,163,194,.14);border-radius:9px;background:rgba(255,255,255,.012)}
+.admin-collab-local-note>span{color:#d5b979;font-size:8px;font-weight:850;letter-spacing:.12em}
+.admin-collab-local-note p{margin:6px 0 0;color:#71839a;font-size:9px;line-height:1.65}
+.admin-collab-detail{min-height:440px;padding:22px}
+.admin-collab-detail-inner{min-width:0}
+.admin-collab-detail-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.admin-collab-detail-top>.eyebrow{font-size:8px}
+.admin-collab-detail h2{margin:13px 0 7px;color:#e4edf8;font-size:24px;line-height:1.25;letter-spacing:-.025em}
+.admin-collab-description{margin:0;color:#91a1b5;font-size:11px;line-height:1.75}
+.admin-collab-section{margin-top:23px;padding-top:18px;border-top:1px solid rgba(255,255,255,.065)}
+.admin-collab-section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.admin-collab-section-heading h3{margin:5px 0 0;color:#d9e6f4;font-size:14px;font-weight:650}
+.admin-collab-section-heading>span{display:grid;place-items:center;min-width:25px;height:25px;padding:0 6px;border:1px solid rgba(132,166,205,.14);border-radius:8px;color:#9bb7d5;font-size:9px}
+.admin-collab-pills{display:flex;flex-wrap:wrap;gap:7px}
+.admin-collab-person,.admin-collab-connection{display:inline-flex;align-items:center;gap:7px;padding:6px 9px;border:1px solid rgba(255,255,255,.07);border-radius:8px;background:rgba(255,255,255,.018);color:#b6c6d9;font-size:9px;overflow-wrap:anywhere}
+.admin-collab-person i{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:rgba(96,151,205,.14);color:#a9cff1;font-size:8px;font-style:normal;font-weight:800}
+.admin-collab-connection{border-color:rgba(121,199,161,.12);background:rgba(67,155,111,.035);color:#9dcbb5}
+.admin-collab-muted{color:#71839a;font-size:10px;line-height:1.6}
+.admin-inline-add{display:flex;gap:7px;margin-top:11px}
+.admin-inline-add input{min-width:0;flex:1}
+.admin-inline-add button{flex:0 0 auto;padding:8px 10px;border:1px solid rgba(117,178,224,.2);border-radius:8px;background:rgba(74,120,194,.08);color:#b9d6f3;font-size:8px;font-weight:850;cursor:pointer}
+.admin-inline-add button:hover{background:rgba(74,120,194,.16)}
+.admin-note-composer{padding:12px;border:1px solid rgba(117,178,224,.12);border-radius:11px;background:rgba(61,105,155,.035)}
+.admin-note-composer>div{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:9px}
+.admin-note-composer small{color:#71839a;font-size:8px;line-height:1.5}
+.admin-collab-notes{display:grid;gap:9px;margin-top:12px}
+.admin-collab-note{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:13px;border:1px solid rgba(255,255,255,.065);border-radius:11px;background:rgba(255,255,255,.016)}
+.admin-collab-note-main{display:flex;align-items:flex-start;gap:9px;min-width:0;flex:1}
+.admin-collab-note-avatar{display:grid;place-items:center;flex:0 0 29px;height:29px;border:1px solid rgba(121,174,240,.16);border-radius:50%;background:rgba(74,120,194,.08);color:#a9c9ed;font-size:9px;font-weight:800}
+.admin-collab-note-main>div{min-width:0}
+.admin-collab-note-meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.admin-collab-note-meta strong{color:#d2e0ef;font-size:9px}.admin-collab-note-meta span{color:#71839a;font-size:8px}
+.admin-collab-note-main p{margin:7px 0 0;color:#9aabc0;font-size:10px;line-height:1.7;overflow-wrap:anywhere}
+.admin-vote-button{display:flex;flex-direction:column;align-items:center;gap:4px;flex:0 0 auto;min-width:55px;padding:8px 9px;border:1px solid rgba(121,174,240,.17);border-radius:9px;background:rgba(74,120,194,.055);color:#8faed0;cursor:pointer}
+.admin-vote-button span{font-size:7px;font-weight:850;letter-spacing:.04em}.admin-vote-button strong{font-size:15px}
+.admin-vote-button:hover,.admin-vote-button.voted{border-color:rgba(121,199,161,.35);background:rgba(67,155,111,.1);color:#a5e0c2}
+.admin-collab-no-notes,.admin-collab-empty-list,.admin-collab-detail-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:25px 16px;text-align:center}
+.admin-collab-no-notes{margin-top:12px;border:1px dashed rgba(137,163,194,.17);border-radius:10px}
+.admin-collab-no-notes>span{color:#9dcbb5;font-size:20px}.admin-collab-no-notes strong,.admin-collab-empty-list strong{color:#cbd9e8;font-size:11px}
+.admin-collab-no-notes p,.admin-collab-empty-list span,.admin-collab-detail-empty p{max-width:330px;margin:0;color:#788aa0;font-size:9px;line-height:1.7}
+.admin-collab-empty-list{min-height:150px}
+.admin-collab-detail-empty{min-height:400px}
+.admin-collab-detail-empty h2{margin:0;font-size:20px}
+@media(max-width:900px){.admin-collab-workspace{grid-template-columns:1fr}.admin-collab-folder-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}.admin-collab-local-note{grid-column:1/-1}.admin-collab-detail{min-height:300px}}
+@media(max-width:650px){.admin-collab-stats{grid-template-columns:1fr}.admin-collab-toolbar{align-items:flex-start;flex-direction:column}.admin-collab-form-row{grid-template-columns:1fr}.admin-collab-folder-list{grid-template-columns:1fr}.admin-collab-detail{padding:15px}.admin-collab-detail h2{font-size:21px}.admin-collab-note{gap:7px;padding:10px}.admin-vote-button{min-width:49px;padding:7px}.admin-collab-form-actions{align-items:flex-start;flex-direction:column}}
 
 </style>
