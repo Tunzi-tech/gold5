@@ -18604,6 +18604,39 @@ a { text-underline-offset: 3px; }
   .live-flow-music-status small { width: 100%; margin-left: 15px; }
 }
 
+
+/* Home discovery spaces: one connected family of surfaces, with color kept in each space's marker. */
+.home-connection-links {
+  gap: 5px;
+  padding: 3px;
+  border: 1px solid rgba(119, 157, 211, .13);
+  border-radius: 11px;
+  background: linear-gradient(105deg, rgba(21, 37, 59, .48), rgba(12, 23, 39, .58) 52%, rgba(22, 34, 53, .46));
+}
+.home-connection-link {
+  position: relative;
+  flex: 1 1 auto;
+  justify-content: center;
+  min-height: 30px;
+  border-color: rgba(125, 157, 199, .12);
+  background: linear-gradient(135deg, rgba(35, 53, 77, .74), rgba(20, 34, 53, .82));
+  color: #c3d1e4;
+  box-shadow: inset 0 1px 0 rgba(229, 239, 255, .035);
+}
+.home-connection-link:hover {
+  border-color: rgba(133, 177, 238, .3);
+  background: linear-gradient(135deg, rgba(49, 75, 109, .82), rgba(27, 47, 72, .9));
+}
+.home-connection-link.active {
+  border-color: color-mix(in srgb, var(--connection-color) 42%, rgba(129, 169, 225, .2));
+  background: linear-gradient(135deg, rgba(48, 75, 110, .94), rgba(28, 48, 73, .96));
+  box-shadow: inset 0 1px 0 rgba(231, 241, 255, .07), 0 3px 12px rgba(0, 0, 0, .12);
+}
+@media (max-width: 760px) {
+  .home-connection-links { gap: 5px; padding: 3px; }
+  .home-connection-link { flex: 1 1 calc(33.333% - 5px); }
+}
+
 </style>
 
 
