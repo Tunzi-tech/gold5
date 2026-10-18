@@ -5349,7 +5349,7 @@ onBeforeUnmount(() => {
             type="button"
             :class="{ active: homeDisplayMode === 'feed' }"
             :aria-pressed="homeDisplayMode === 'feed'"
-            @click="homeDisplayMode = 'feed'"
+            @click="homeDisplayMode = 'feed'; homeHeroHidden = true"
           >
             <span aria-hidden="true">≋</span> Feed
           </button>
