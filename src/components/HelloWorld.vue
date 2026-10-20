@@ -10366,18 +10366,18 @@ textarea:focus-visible {
   box-shadow: 0 0 12px rgba(103,164,255,.7);
 }
 
-/* Diagonal connection from the blue orbit point to the outer white circle */
+/* Blue signal extends from the orbit into the Anfas wordmark, making them one identity */
 .brand-orbit span::after {
   content: "";
   position: absolute;
-  width: 27px;
+  width: 29px;
   height: 1px;
-  left: -24px;
-  top: 5px;
-  transform: rotate(36deg);
-  transform-origin: right center;
-  background: linear-gradient(90deg, rgba(103,164,255,.08), rgba(103,164,255,.72), rgba(220,230,244,.72));
-  box-shadow: 0 0 5px rgba(103,164,255,.22);
+  left: 5px;
+  top: 3px;
+  transform: rotate(-4deg);
+  transform-origin: left center;
+  background: linear-gradient(90deg, rgba(103,164,255,.9), rgba(103,164,255,.65) 45%, rgba(220,230,244,.08));
+  box-shadow: 0 0 5px rgba(103,164,255,.28);
 }
 
 .main-nav {
@@ -20226,3 +20226,24 @@ a { text-underline-offset: 3px; }
   height: 30px;
 }
 
+
+
+/* Join the blue orbit signal to the Anfas wordmark as one continuous logo */
+.sidebar .brand {
+  gap: 8px;
+}
+.sidebar .brand-orbit {
+  flex: 0 0 36px;
+  overflow: visible;
+  z-index: 2;
+}
+.sidebar .brand-orbit span::after {
+  width: 30px;
+  left: 5px;
+  top: 3px;
+  transform: rotate(-4deg);
+}
+.sidebar .brand-name {
+  position: relative;
+  z-index: 1;
+}
