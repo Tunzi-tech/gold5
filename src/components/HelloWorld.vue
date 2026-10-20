@@ -20019,7 +20019,7 @@ a { text-underline-offset: 3px; }
   font-size: 15px;
   font-weight: 900;
   line-height: 1;
-  animation: impacting-direction-pulse 1.65s ease-in-out infinite;
+  animation: impacting-direction-pulse 2.4s linear infinite;
 }
 .zones-subnav .sidebar-zones-main.active .impacting-direction-arrow.up {
   color: #65d99a;
@@ -20037,17 +20037,17 @@ a { text-underline-offset: 3px; }
   animation-delay: .44s;
 }
 @keyframes impacting-direction-pulse {
-  0%, 100% { opacity: .28; transform: translateY(0) scale(.88); }
-  45% { opacity: 1; transform: translateY(-1px) scale(1.14); }
+  0%, 12% { opacity: 1; transform: translateY(-1px) scale(1.14); }
+  20%, 100% { opacity: .28; transform: translateY(0) scale(.88); }
 }
 .zones-subnav .sidebar-zones-main.active .impacting-direction-arrow.up {
   animation-delay: 0s;
 }
 .zones-subnav .sidebar-zones-main.active .impacting-direction-arrow.right {
-  animation-delay: .6s;
+  animation-delay: .8s;
 }
 .zones-subnav .sidebar-zones-main.active .impacting-direction-arrow.down {
-  animation-delay: 1.2s;
+  animation-delay: 1.6s;
 }
 @media (prefers-reduced-motion: reduce) {
   .zones-subnav .sidebar-zones-main.active .impacting-direction-arrow {
