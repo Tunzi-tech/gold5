@@ -19926,4 +19926,10 @@ a { text-underline-offset: 3px; }
   background: linear-gradient(105deg, rgba(133,99,211,.23), rgba(44,86,121,.27) 68%, rgba(24,39,58,.49));
   color: #f0eaff;
 }
+
+/* Keep the branch line, but remove the horizontal connector beside Your Zones. */
+.zones-subnav .zones-connected-pair .zone-space-button-mine::before {
+  display: none;
+  content: none;
+}
 </style>
