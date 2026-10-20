@@ -19932,4 +19932,62 @@ a { text-underline-offset: 3px; }
   display: none;
   content: none;
 }
+
+
+/* Give Impacting a clearer violet-blue surface in both idle and selected states. */
+.zones-subnav .sidebar-zones-main {
+  background:
+    radial-gradient(ellipse at 4% 50%, rgba(163,119,255,.18), transparent 52%),
+    linear-gradient(105deg, rgba(91,69,151,.32), rgba(37,69,101,.36) 68%, rgba(19,31,49,.72));
+  border-color: rgba(159,137,238,.38);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.075),
+    inset 3px 0 0 rgba(157,128,255,.62),
+    0 3px 12px rgba(7,12,24,.20);
+}
+.zones-subnav .sidebar-zones-main .icon {
+  color: #bda8ff;
+  filter: drop-shadow(0 0 4px rgba(166,133,255,.28));
+  transition: color .22s ease, filter .22s ease, transform .22s ease;
+}
+.zones-subnav .sidebar-zones-main:hover,
+.zones-subnav .sidebar-zones-main:focus-visible {
+  background:
+    radial-gradient(ellipse at 4% 50%, rgba(183,143,255,.25), transparent 54%),
+    linear-gradient(105deg, rgba(118,83,191,.43), rgba(45,91,130,.43) 68%, rgba(24,40,61,.82));
+  border-color: rgba(190,164,255,.64);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.11),
+    inset 3px 0 0 rgba(190,157,255,.9),
+    0 0 15px rgba(137,104,232,.17);
+}
+.zones-subnav .sidebar-zones-main:hover .icon,
+.zones-subnav .sidebar-zones-main:focus-visible .icon {
+  color: #e1d4ff;
+  filter: drop-shadow(0 0 6px rgba(183,143,255,.48));
+  transform: scale(1.06);
+}
+.zones-subnav .sidebar-zones-main.active {
+  background:
+    radial-gradient(ellipse at 4% 50%, rgba(190,151,255,.31), transparent 56%),
+    linear-gradient(105deg, rgba(129,91,204,.48), rgba(48,98,137,.45) 68%, rgba(25,43,65,.86));
+  border-color: rgba(199,174,255,.72);
+  color: #fbf8ff;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.13),
+    inset 3px 0 0 #b69aff,
+    0 0 17px rgba(137,104,232,.2),
+    0 4px 12px rgba(5,10,20,.18);
+}
+.zones-subnav .sidebar-zones-main.active .icon {
+  color: #e4d7ff;
+  filter: drop-shadow(0 0 7px rgba(190,151,255,.55));
+}
+.zones-subnav .sidebar-zones-main.active .impacting-button-cue {
+  color: #f0eaff;
+  opacity: 1;
+}
+.zones-subnav .sidebar-zones-main.active .impacting-button-cue > span {
+  color: #d8c5ff;
+}
 </style>
