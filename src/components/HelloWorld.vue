@@ -20016,7 +20016,7 @@ a { text-underline-offset: 3px; }
 }
 .zones-subnav .sidebar-zones-main.active .impacting-direction-arrow {
   display: inline-block;
-  font-size: 15px;
+  font-size: 11px;
   font-weight: 900;
   line-height: 1;
   animation: impacting-direction-pulse 2.88s linear infinite;
