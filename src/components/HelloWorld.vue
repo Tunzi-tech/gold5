@@ -5306,8 +5306,9 @@ onBeforeUnmount(() => {
         <button type="button" class="desktop-menu-launch" :class="{ active: mobileMoreOpen }" @click="mobileMoreOpen = !mobileMoreOpen" :aria-expanded="mobileMoreOpen" aria-label="Open navigation drawer" title="Open navigation">
           <span></span><span></span><span></span>
         </button>
-        <button type="button" class="desktop-impact-launch" :class="{ active: activeView === 'awareness' }" @click="navigate('awareness')" aria-label="Open Impact" title="Impact">
+        <button type="button" class="desktop-impact-launch" :class="{ active: activeView === 'awareness' }" @click="navigate('awareness')" aria-label="Impact and Awareness / Impact" title="Impact and Awareness / Impact">
           <span v-if="activeView === 'awareness'" class="brand-orbit impact-button-orbit" aria-hidden="true"><span></span></span>
+          <span class="desktop-impact-label">Impact and Awareness / Impact</span>
         </button>
         <div class="mobile-brand" @click="navigate('home')" role="button" tabindex="0" @keydown.enter="navigate('home')" aria-label="Anfas home">
           <span class="brand-orbit mobile-brand-mark" aria-hidden="true"><span></span></span>
@@ -22290,6 +22291,25 @@ header.topbar:not(.impact-orbit-transferred) > .desktop-impact-launch::after {
 }
 header.topbar > .desktop-impact-launch:not(.active) {
   background: transparent !important;
+  box-shadow: none !important;
+}
+
+
+/* Make the Impact destination explicit in the desktop top bar. */
+header.topbar > .desktop-impact-launch > .desktop-impact-label {
+  display: inline !important;
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: inherit !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+  background: transparent !important;
+  border: 0 !important;
   box-shadow: none !important;
 }
 
