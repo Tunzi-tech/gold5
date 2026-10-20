@@ -4926,28 +4926,27 @@ onBeforeUnmount(() => {
               Pages
             </button>
 
-            <div class="flow-more-nested">
-              <button
-                class="flow-more-button"
-                type="button"
-                @click="showPagesMoreSubnav = !showPagesMoreSubnav"
-                :aria-expanded="showPagesMoreSubnav"
-              >
-                <span class="subnav-dot"></span>
-                <span>More</span>
-                <span class="subnav-chevron">{{ showPagesMoreSubnav ? '⌃' : '⌄' }}</span>
-              </button>
-
-              <div v-if="showPagesMoreSubnav" class="flow-more-subnav">
-                <button
-                  :class="{ active: activeView === 'entities' || activeView === 'entity' }"
-                  @click="navigate('entities')"
-                >
-                  <span class="subnav-dot"></span>
-                  Entities
-                </button>
-              </div>
-            </div>
+            <button
+              :class="{ active: activeView === 'entities' || activeView === 'entity' }"
+              @click="navigate('entities')"
+            >
+              <span class="subnav-dot"></span>
+              Entities
+            </button>
+            <button
+              :class="{ active: activeView === 'people' }"
+              @click="navigate('people')"
+            >
+              <span class="subnav-dot"></span>
+              People
+            </button>
+            <button
+              :class="{ active: homeHeaderChatOpen }"
+              @click="homeHeaderChatOpen = true; homeLocalWorldOpen = true; activeView !== 'home' && navigate('home')"
+            >
+              <span class="subnav-dot"></span>
+              NetworkChat
+            </button>
           </template>
         </div>
 
