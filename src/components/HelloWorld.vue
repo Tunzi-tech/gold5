@@ -5306,6 +5306,9 @@ onBeforeUnmount(() => {
         <button type="button" class="desktop-menu-launch" :class="{ active: mobileMoreOpen }" @click="mobileMoreOpen = !mobileMoreOpen" :aria-expanded="mobileMoreOpen" aria-label="Open navigation drawer" title="Open navigation">
           <span></span><span></span><span></span>
         </button>
+        <button type="button" class="desktop-impact-launch" :class="{ active: activeView === 'awareness' }" @click="navigate('awareness')" aria-label="Open Impact" title="Impact">
+          <span aria-hidden="true">◎</span><strong>Impact</strong>
+        </button>
         <div class="mobile-brand" @click="navigate('home')" role="button" tabindex="0" @keydown.enter="navigate('home')" aria-label="Anfas home">
           <span class="brand-orbit mobile-brand-mark" aria-hidden="true"><span></span></span>
           <span class="brand-name mobile-brand-copy"><strong>Anfas</strong><small>PEOPLE · VOICES · IMPACT</small></span>
@@ -19739,6 +19742,30 @@ a { text-underline-offset: 3px; }
     background: #c9d9ee !important;
   }
   header.topbar > .desktop-menu-launch.active { border-color: rgba(126,163,213,.55) !important; background: rgba(82,130,190,.12) !important; }
+  header.topbar > .desktop-impact-launch {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    flex: 0 0 auto !important;
+    min-width: 94px !important;
+    height: 36px !important;
+    padding: 0 13px !important;
+    border: 1px solid rgba(126,163,213,.24) !important;
+    border-radius: 10px !important;
+    background: linear-gradient(105deg,rgba(37,56,78,.88),rgba(18,32,49,.96)) !important;
+    color: #d8e7fb !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    letter-spacing: .02em !important;
+    cursor: pointer !important;
+    white-space: nowrap !important;
+    transition: border-color .18s ease, background .18s ease, color .18s ease !important;
+  }
+  header.topbar > .desktop-impact-launch > span { color: #a9ceff !important; font-size: 16px !important; line-height: 1 !important; }
+  header.topbar > .desktop-impact-launch:hover { border-color: rgba(126,163,213,.48) !important; background: linear-gradient(105deg,rgba(47,72,101,.94),rgba(23,42,63,.98)) !important; }
+  header.topbar > .desktop-impact-launch.active { border-color: rgba(232,190,98,.58) !important; background: linear-gradient(105deg,rgba(96,73,35,.35),rgba(31,39,48,.98)) !important; color: #ffe2a0 !important; }
+  header.topbar > .desktop-impact-launch.active > span { color: #ffd36e !important; }
   header.topbar > .mobile-menu-launch { display: none !important; }
   header.topbar > .mobile-brand {
     grid-column: 2 !important;
@@ -19753,7 +19780,8 @@ a { text-underline-offset: 3px; }
   }
 }
 @media screen and (max-width: 900px) {
-  header.topbar > .desktop-menu-launch { display: none !important; }
+  header.topbar > .desktop-menu-launch,
+  header.topbar > .desktop-impact-launch { display: none !important; }
 }
 
 /* Desktop hamburger: the shared drawer was previously styled only for mobile,
