@@ -20019,7 +20019,7 @@ a { text-underline-offset: 3px; }
   font-size: 15px;
   font-weight: 900;
   line-height: 1;
-  animation: impacting-direction-pulse 2.4s linear infinite;
+  animation: impacting-direction-pulse 2.88s linear infinite;
 }
 .zones-subnav .sidebar-zones-main.active .impacting-direction-arrow.up {
   color: #65d99a;
@@ -20044,10 +20044,10 @@ a { text-underline-offset: 3px; }
   animation-delay: 0s;
 }
 .zones-subnav .sidebar-zones-main.active .impacting-direction-arrow.right {
-  animation-delay: .8s;
+  animation-delay: .96s;
 }
 .zones-subnav .sidebar-zones-main.active .impacting-direction-arrow.down {
-  animation-delay: 1.6s;
+  animation-delay: 1.92s;
 }
 @media (prefers-reduced-motion: reduce) {
   .zones-subnav .sidebar-zones-main.active .impacting-direction-arrow {
