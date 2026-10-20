@@ -914,8 +914,16 @@ const showImpactCategories = ref(false)
 const awarenessCategory = ref('ALL')
 const awarenessImpactType = ref('ALL')
 const showRaiseAwareness = ref(false)
+const impactingCountryFilter = ref('Tunisia')
+const selectedImpactIssueId = ref<number | null>(null)
+const impactingIssueItems = computed(() =>
+  awarenessItems.value.filter(item =>
+    impactingCountryFilter.value === 'ALL' || item.country === impactingCountryFilter.value
+  )
+)
 const awarenessDraft = ref({
   title: '',
+  country: 'Tunisia',
   category: 'Biodiversity & habitats',
   impactType: 'Environmental',
   sourceType: 'Person',
@@ -931,6 +939,7 @@ const awarenessItems = ref([
   {
     id: 1,
     title: 'Are we losing usable green spaces in our neighborhood?',
+    country: 'Tunisia',
     category: 'Biodiversity & habitats',
     impactType: 'Environmental',
     sourceType: 'Residents',
@@ -946,6 +955,7 @@ const awarenessItems = ref([
   {
     id: 2,
     title: 'How can we make local streets cleaner?',
+    country: 'Tunisia',
     category: 'Waste & circularity',
     impactType: 'Environmental',
     sourceType: 'Community',
@@ -961,6 +971,7 @@ const awarenessItems = ref([
   {
     id: 3,
     title: 'What would make our neighborhood easier for everyone to move around?',
+    country: 'Tunisia',
     category: 'Cities & mobility',
     impactType: 'Social & wellbeing',
     sourceType: 'Community',
@@ -976,6 +987,7 @@ const awarenessItems = ref([
   {
     id: 4,
     title: 'How can we understand local heat, water and coastal changes?',
+    country: 'Tunisia',
     category: 'Climate & energy',
     impactType: 'Environmental',
     sourceType: 'Community',
@@ -3882,6 +3894,7 @@ const awarenessCategories = [
 
 const filteredAwarenessItems = computed(() => {
   return awarenessItems.value.filter(item => {
+    const matchesCountry = impactingCountryFilter.value === 'ALL' || item.country === impactingCountryFilter.value
     const matchesCategory = awarenessCategory.value === 'ALL' || item.category === awarenessCategory.value
     const matchesImpact = awarenessImpactType.value === 'ALL' || item.impactType === awarenessImpactType.value
     const filter = awarenessFilter.value
@@ -3891,7 +3904,7 @@ const filteredAwarenessItems = computed(() => {
       || (filter === 'ACTION' && !!item.whatWeCanDo)
       || filter === 'LEARN'
       || (filter === 'FUTURES' && !!item.possibleChange)
-    return matchesCategory && matchesImpact && matchesSection
+    return matchesCountry && matchesCategory && matchesImpact && matchesSection
   })
 })
 
@@ -3901,6 +3914,7 @@ function submitAwarenessItem() {
   awarenessItems.value.unshift({
     id: Date.now(),
     title: draft.title.trim(),
+    country: draft.country || impactingCountryFilter.value,
     category: draft.category,
     impactType: draft.impactType,
     sourceType: draft.sourceType,
@@ -3916,9 +3930,12 @@ function submitAwarenessItem() {
   awarenessCategory.value = 'ALL'
   awarenessImpactType.value = 'ALL'
   awarenessFilter.value = 'ALL'
+  impactingCountryFilter.value = draft.country || 'Tunisia'
+  selectedImpactIssueId.value = null
   showRaiseAwareness.value = false
   awarenessDraft.value = {
     title: '',
+    country: 'Tunisia',
     category: 'Biodiversity & habitats',
     impactType: 'Environmental',
     sourceType: 'Person',
@@ -6618,6 +6635,40 @@ onBeforeUnmount(() => {
           <button type="button" class="awareness-submit-button" @click="showRaiseAwareness = !showRaiseAwareness">{{ showRaiseAwareness ? 'CLOSE FORM' : '+ RAISE AWARENESS' }}</button>
         </div>
 
+        <section class="impacting-path-panel" aria-label="Choose how to make an impact">
+          <div class="impacting-path-heading">
+            <div>
+              <span class="awareness-kicker">START WHERE YOU CAN MAKE A DIFFERENCE</span>
+              <h2>Where would you like to make an impact?</h2>
+              <p>Explore shared concerns by country, or start with an issue people have connected to a Zone.</p>
+            </div>
+            <span class="impacting-path-orbit" aria-hidden="true">◎</span>
+          </div>
+          <div class="impacting-path-options">
+            <div class="impacting-path-option">
+              <span class="impacting-path-step">01 · PLACE</span>
+              <label for="impacting-country-select">Choose a country</label>
+              <select id="impacting-country-select" v-model="impactingCountryFilter" @change="selectedImpactIssueId = null">
+                <option value="ALL">All countries</option>
+                <option v-for="country in countryOptions" :key="country.name" :value="country.name">{{ country.label }}</option>
+              </select>
+              <p>Find topics connected to a country and its Zones.</p>
+              <span class="impacting-path-count">{{ impactingIssueItems.length }} shared {{ impactingIssueItems.length === 1 ? 'topic' : 'topics' }}</span>
+            </div>
+            <div class="impacting-path-option impacting-issue-option">
+              <span class="impacting-path-step">02 · ISSUE</span>
+              <label for="impacting-issue-select">Choose an issue in a Zone</label>
+              <select id="impacting-issue-select" :value="selectedImpactIssueId ?? ''" @change="selectedImpactIssueId = $event.target.value ? Number($event.target.value) : null">
+                <option value="">Select a shared issue…</option>
+                <option v-for="item in impactingIssueItems" :key="item.id" :value="item.id">{{ item.title }} — {{ item.zone }}</option>
+              </select>
+              <p>Start with a concern, observation or question linked to a place.</p>
+              <button type="button" class="impacting-focus-button" :disabled="selectedImpactIssueId === null" @click="() => { const item = awarenessItems.find(entry => entry.id === selectedImpactIssueId); if (item) { awarenessCategory = item.category; awarenessImpactType = item.impactType || 'ALL'; awarenessFilter = 'ALL' } }">FOCUS ON THIS ISSUE <span>→</span></button>
+            </div>
+          </div>
+          <p v-if="impactingCountryFilter !== 'ALL' && impactingIssueItems.length === 0" class="impacting-empty-note">No shared topics are currently listed for {{ impactingCountryFilter }}. You can raise awareness and connect a new item to a Zone in this country.</p>
+        </section>
+
         <div class="awareness-intro-strip" aria-label="How Impact and Awareness works">
           <div class="awareness-intro-item"><span class="awareness-intro-number">01</span><div><strong>NOTICE</strong><small>Questions, observations and concerns</small></div></div>
           <span class="awareness-intro-arrow" aria-hidden="true">→</span>
@@ -6638,6 +6689,11 @@ onBeforeUnmount(() => {
             <input v-model="awarenessDraft.title" required maxlength="140" placeholder="What should people understand?" />
           </label>
           <div class="awareness-form-row">
+            <label class="awareness-form-label">Country
+              <select v-model="awarenessDraft.country">
+                <option v-for="country in countryOptions" :key="country.name" :value="country.name">{{ country.label }}</option>
+              </select>
+            </label>
             <label class="awareness-form-label">Earth / shared-world topic
               <select v-model="awarenessDraft.category">
                 <option v-for="category in awarenessCategories" :key="category" :value="category">{{ category }}</option>
@@ -6724,7 +6780,11 @@ onBeforeUnmount(() => {
         </div>
 
         <div class="awareness-grid">
-          <article v-for="item in filteredAwarenessItems" :key="item.id" class="awareness-card awareness-signal-card awareness-shared-item">
+          <article v-for="item in filteredAwarenessItems" :key="item.id" class="awareness-card awareness-signal-card awareness-shared-item" :class="{ 'impacting-issue-selected': selectedImpactIssueId === item.id }">
+            <div class="awareness-card-head">
+              <span class="awareness-kicker">{{ item.country || 'Country not specified' }} <span class="awareness-impact-label">· {{ item.zone }}</span></span>
+              <span class="awareness-live-dot">{{ item.createdAt }}</span>
+            </div>
             <div class="awareness-card-head">
               <span class="awareness-kicker">{{ item.category }} <span class="awareness-impact-label">· {{ item.impactType || 'Impact not classified' }}</span></span>
               <span class="awareness-live-dot">{{ item.createdAt }}</span>
@@ -6757,6 +6817,7 @@ onBeforeUnmount(() => {
             </div>
             <p v-if="!item.evidence && (awarenessFilter === 'ALL' || awarenessFilter === 'LEARN')" class="awareness-note">No reference added yet. Explore reliable sources and add evidence before treating a claim as established.</p>
             <div class="awareness-item-actions">
+              <button type="button" class="awareness-link" @click="selectedImpactIssueId = item.id; impactingCountryFilter = item.country || 'ALL'">{{ selectedImpactIssueId === item.id ? '✓ ISSUE SELECTED' : 'CHOOSE THIS ISSUE' }}</button>
               <button type="button" class="awareness-link" @click="navigate('zones')">EXPLORE ZONES →</button>
               <button type="button" class="awareness-link" @click="navigate('call')">FIND A CALL →</button>
               <button type="button" class="awareness-link" @click="navigate('initiatives')">EXPLORE INITIATIVES →</button>
@@ -21363,6 +21424,43 @@ a { text-underline-offset: 3px; }
     box-sizing: border-box !important;
   }
 }
+
+/* Impacting entry point: country-first discovery or selecting an issue linked to a Zone. */
+.impacting-path-panel {
+  margin: 0 0 18px;
+  padding: 19px;
+  border: 1px solid rgba(136,163,205,.18);
+  border-radius: 15px;
+  background:
+    radial-gradient(ellipse at 2% 0%, rgba(119,91,190,.14), transparent 45%),
+    linear-gradient(125deg, rgba(23,35,53,.86), rgba(12,20,32,.94) 58%, rgba(17,29,43,.88));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.035), 0 8px 22px rgba(0,0,0,.08);
+}
+.impacting-path-heading {
+  display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:15px;
+}
+.impacting-path-heading h2 { margin:7px 0 5px; color:#edf4ff; font-size:clamp(17px,2vw,23px); font-weight:650; letter-spacing:-.025em; }
+.impacting-path-heading p { margin:0; max-width:680px; color:#9cacc2; font-size:11px; line-height:1.65; }
+.impacting-path-orbit { display:flex; flex:0 0 43px; width:43px; height:43px; align-items:center; justify-content:center; border:1px solid rgba(164,143,245,.35); border-radius:50%; color:#c2b3ff; background:radial-gradient(circle,rgba(132,104,214,.18),rgba(16,28,43,.2)); font-size:25px; box-shadow:0 0 24px rgba(111,91,190,.12); }
+.impacting-path-options { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+.impacting-path-option { display:flex; flex-direction:column; align-items:stretch; min-width:0; padding:14px; border:1px solid rgba(132,160,202,.15); border-radius:11px; background:linear-gradient(140deg,rgba(27,43,64,.72),rgba(13,23,37,.75)); }
+.impacting-path-step { margin-bottom:10px; color:#b6a3f7; font-size:8px; font-weight:850; letter-spacing:.15em; }
+.impacting-path-option label { margin-bottom:8px; color:#e3ecf9; font-size:12px; font-weight:750; }
+.impacting-path-option select { width:100%; min-width:0; min-height:38px; padding:8px 10px; border:1px solid rgba(135,165,208,.24); border-radius:8px; background:#101d2d; color:#e1eafa; font:inherit; font-size:11px; }
+.impacting-path-option p { min-height:30px; margin:9px 0; color:#8fa1b9; font-size:10px; line-height:1.55; }
+.impacting-path-count { color:#83d3b0; font-size:9px; font-weight:750; }
+.impacting-focus-button { display:flex; align-items:center; justify-content:space-between; gap:8px; min-height:32px; margin-top:auto; padding:8px 10px; border:1px solid rgba(139,119,225,.32); border-radius:8px; background:linear-gradient(105deg,rgba(99,76,157,.26),rgba(35,70,101,.3)); color:#e0d8ff; font-size:9px; font-weight:800; letter-spacing:.04em; cursor:pointer; }
+.impacting-focus-button:disabled { opacity:.42; cursor:not-allowed; }
+.impacting-empty-note { margin:12px 0 0; color:#c4b6e7; font-size:10px; line-height:1.6; }
+.awareness-shared-item.impacting-issue-selected { border-color:rgba(149,127,237,.65); box-shadow:0 0 0 1px rgba(149,127,237,.14),0 8px 25px rgba(80,58,140,.13); }
+@media(max-width:680px) {
+  .impacting-path-panel { padding:13px; border-radius:12px; }
+  .impacting-path-options { grid-template-columns:minmax(0,1fr); }
+  .impacting-path-option p { min-height:0; }
+  .impacting-path-heading { align-items:flex-start; }
+  .impacting-path-orbit { width:34px; height:34px; flex-basis:34px; font-size:20px; }
+}
+
 
 /* On phones, Home remains in the mobile top bar; hide its duplicate in the sidebar. */
 @media screen and (max-width: 760px) {
