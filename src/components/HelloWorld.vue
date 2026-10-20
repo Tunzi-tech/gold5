@@ -5213,6 +5213,7 @@ onBeforeUnmount(() => {
         <div class="mobile-more-drawer-head"><div><span class="home-connection-kicker">ANFAS · EXPLORE</span><h2>More spaces</h2><p>Follow the flow, meet people and open NetworkChat.</p></div><button type="button" class="mobile-network-drawer-close" @click="mobileMoreOpen = false" aria-label="Close navigation">×</button></div>
         <button type="button" class="mobile-more-drawer-item" @click="mobileMoreOpen = false; navigate('pages')"><span>▣</span><span><strong>Flow</strong><small>Calls, pages, initiatives and entities</small></span><b>→</b></button>
         <button type="button" class="mobile-more-drawer-item" @click="mobileMoreOpen = false; navigate('people')"><span>♧</span><span><strong>People</strong><small>Discover people and connections</small></span><b>→</b></button>
+         <button type="button" class="mobile-more-drawer-item mobile-more-network-item" @click="mobileMoreOpen = false; homeHeaderChatOpen = true; homeLocalWorldOpen = true" aria-label="Open NetworkChat Local and World"><span>◎</span><span><strong>NetworkChat</strong><small>Local conversations and the global network</small></span><b>↗</b></button>
         <section class="mobile-more-network-space" :class="{ 'is-open': homeHeaderChatOpen }" aria-label="NetworkChat space">
           <div class="mobile-more-network-space-head">
             <span class="mobile-more-network-space-mark" aria-hidden="true">◎</span>
@@ -5245,7 +5246,7 @@ onBeforeUnmount(() => {
 
         <div class="mobile-brand" @click="navigate('home')" role="button" tabindex="0" @keydown.enter="navigate('home')" aria-label="Anfas home">
           <span class="brand-orbit mobile-brand-mark" aria-hidden="true"><span></span></span>
-          <span class="mobile-brand-copy"><strong>Anfas</strong><small>PEOPLE · VOICES · IMPACT</small></span>
+          <span class="brand-name mobile-brand-copy"><strong>Anfas</strong><small>PEOPLE · VOICES · IMPACT</small></span>
         </div>
 
         <div class="search-box">
@@ -20735,46 +20736,54 @@ a { text-underline-offset: 3px; }
   .topbar {
     box-sizing:border-box !important;
     display:grid !important;
-    grid-template-columns:auto minmax(0,1fr) auto !important;
+    grid-template-columns:minmax(0,1fr) auto !important;
+    grid-template-rows:35px 35px !important;
     align-items:center !important;
-    gap:10px !important;
+    gap:8px 10px !important;
     width:100% !important;
     min-width:0 !important;
-    height:66px !important;
-    padding:0 13px !important;
+    min-height:88px !important;
+    height:auto !important;
+    padding:9px 13px 10px !important;
     background:rgba(8,13,22,.96) !important;
     border-bottom:1px solid rgba(145,169,204,.16) !important;
     box-shadow:0 8px 24px rgba(0,0,0,.12) !important;
   }
-  .mobile-brand {
-    display:flex !important;
-    flex-direction:column !important;
-    justify-content:center !important;
-    min-width:0 !important;
-    color:#edf4ff !important;
-    font-size:0 !important;
-    line-height:1.1 !important;
-    letter-spacing:0 !important;
-    white-space:nowrap !important;
+  .topbar .mobile-brand {
+    grid-column:1 !important; grid-row:1 !important;
+    display:flex !important; flex-direction:row !important; align-items:center !important; justify-content:flex-start !important;
+    gap:9px !important; min-width:0 !important; color:#edf4ff !important;
+    font-size:inherit !important; line-height:1.1 !important; letter-spacing:0 !important; white-space:nowrap !important;
   }
-  .mobile-brand strong {
-    font-size:17px !important;
-    font-weight:800 !important;
-    letter-spacing:-.04em !important;
-    background:linear-gradient(100deg,#f1f6ff,#a9c8f3 72%,#b7b0f5) !important;
-    -webkit-background-clip:text !important;
-    background-clip:text !important;
-    -webkit-text-fill-color:transparent !important;
+  .topbar .mobile-brand-mark {
+    position:relative !important; display:grid !important; place-items:center !important;
+    width:34px !important; height:34px !important; flex:0 0 34px !important;
+    border:1px solid rgba(133,180,239,.42) !important; border-radius:50% !important;
+    background:radial-gradient(circle at 50% 50%,rgba(71,113,168,.2),rgba(9,17,29,.4) 70%) !important;
+    box-shadow:inset 0 0 0 4px rgba(106,157,224,.045),0 0 15px rgba(83,143,218,.08) !important;
   }
-  .mobile-brand span {
-    display:block !important;
-    margin-top:4px !important;
-    color:#8399b6 !important;
-    font-size:5.5px !important;
-    font-weight:750 !important;
-    letter-spacing:.08em !important;
+  .topbar .mobile-brand-mark > span {
+    display:block !important; width:18px !important; height:18px !important; margin:0 !important;
+    border:1px solid #9fcaff !important; border-radius:50% !important;
+    transform:rotate(-35deg) scaleY(.7) !important; box-shadow:0 0 9px rgba(133,190,255,.12) !important;
+  }
+  .topbar .mobile-brand-copy {
+    display:flex !important; flex-direction:column !important; justify-content:center !important;
+    gap:4px !important; min-width:0 !important; padding:0 !important; white-space:nowrap !important;
+  }
+  .topbar .mobile-brand-copy strong {
+    display:block !important; margin:0 !important; color:#f0f5fc !important;
+    font-size:19px !important; line-height:1 !important; font-weight:750 !important; letter-spacing:-.045em !important;
+    background:none !important; -webkit-text-fill-color:currentColor !important;
+  }
+  .topbar .mobile-brand-copy small {
+    display:block !important; margin:0 !important; color:#8297b3 !important;
+    font-size:6px !important; line-height:1 !important; font-weight:750 !important;
+    letter-spacing:.12em !important; white-space:nowrap !important;
   }
   .topbar .search-box {
+    grid-column:1 / -1 !important;
+    grid-row:2 !important;
     box-sizing:border-box !important;
     width:100% !important;
     min-width:0 !important;
@@ -20787,7 +20796,7 @@ a { text-underline-offset: 3px; }
   }
   .topbar .search-box > span { flex:0 0 auto; font-size:17px; }
   .topbar .search-box input { min-width:0 !important; width:100% !important; font-size:10px !important; }
-  .topbar .top-actions { gap:3px !important; flex:0 0 auto !important; }
+  .topbar .top-actions { grid-column:2 !important; grid-row:1 !important; gap:3px !important; flex:0 0 auto !important; justify-content:flex-end !important; }
   .topbar .top-icon {
     width:27px !important;
     min-width:27px !important;
@@ -20807,9 +20816,9 @@ a { text-underline-offset: 3px; }
   }
 }
 @media (max-width:380px) {
-  .topbar { grid-template-columns:56px minmax(0,1fr) auto !important; gap:6px !important; padding:0 8px !important; }
-  .mobile-brand strong { font-size:15px !important; }
-  .mobile-brand span { font-size:4.8px !important; letter-spacing:.04em !important; }
+  .topbar { grid-template-columns:minmax(0,1fr) auto !important; gap:7px 6px !important; padding:8px 9px 9px !important; }
+  .topbar .mobile-brand-copy strong { font-size:17px !important; }
+  .topbar .mobile-brand-copy small { font-size:5px !important; letter-spacing:.07em !important; }
   .topbar .top-actions { gap:1px !important; }
   .topbar .top-icon { width:24px !important; min-width:24px !important; }
   .topbar .primary-btn { width:26px !important; min-width:26px !important; }
