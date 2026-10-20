@@ -5317,6 +5317,18 @@ onBeforeUnmount(() => {
           <kbd>⌘ K</kbd>
         </div>
 
+        <div class="top-impact-actions" aria-label="Impacting shortcuts">
+          <button type="button" class="top-impact-action top-impact-choose" @click="navigate('awareness')">
+            <span aria-hidden="true">◎</span>
+            <span>Choose an issue</span>
+            <small>Zone or interests</small>
+          </button>
+          <button type="button" class="top-impact-action top-impact-report" @click="activeView = 'awareness'; showRaiseAwareness = true">
+            <span aria-hidden="true">＋</span>
+            <span>Report an issue</span>
+          </button>
+        </div>
+
         <div class="mobile-home-space-row" aria-label="Home and your space">
           <button
             type="button"
@@ -21580,3 +21592,18 @@ a { text-underline-offset: 3px; }
 .impacting-report-actions button.active { border-color:rgba(111,212,176,.42); color:#a6ebce; background:rgba(39,112,89,.2); }
 .impacting-report-actions button.impacting-report-submit { border-color:rgba(150,132,230,.35); color:#ded5ff; background:linear-gradient(100deg,rgba(110,84,176,.25),rgba(49,91,122,.25)); }
 @media(max-width:760px) { .organization-calls-strip { padding:12px; } .organization-calls-heading { align-items:flex-start; } .organization-calls-heading h2 { font-size:16px; } .organization-calls-heading > button { max-width:112px; white-space:normal; } .organization-call-cards { grid-template-columns:1fr; } .organization-call-card { display:grid; grid-template-columns:104px minmax(0,1fr); } .organization-call-card > img { height:100%; min-height:155px; } .organization-call-card-copy { padding:10px; } .organization-call-card-copy p { min-height:0; } .impacting-report-header { align-items:flex-start; flex-direction:column; } .impacting-report-actions { justify-content:flex-start; width:100%; } .impacting-report-actions button { flex:1 1 auto; } }
+
+
+/* Quick access to issue discovery and reporting, directly below the global search. */
+.top-impact-actions { display:flex; align-items:center; gap:7px; width:100%; min-width:0; }
+.top-impact-action { display:flex; align-items:center; justify-content:center; gap:7px; min-height:34px; padding:6px 11px; border:1px solid rgba(133,164,195,.2); border-radius:9px; color:#d9e7f7; background:linear-gradient(110deg,rgba(31,50,73,.82),rgba(20,32,48,.88)); font-size:10px; font-weight:780; cursor:pointer; transition:border-color .18s ease, background .18s ease; }
+.top-impact-action > span:first-child { color:#9fdbc9; font-size:15px; }
+.top-impact-action small { color:#91a5bd; font-size:9px; font-weight:550; }
+.top-impact-action:hover { border-color:rgba(121,190,177,.48); background:rgba(43,70,85,.86); }
+.top-impact-action.top-impact-report { border-color:rgba(148,130,223,.3); color:#e2d9ff; background:linear-gradient(110deg,rgba(92,72,145,.25),rgba(34,54,77,.75)); }
+.top-impact-action.top-impact-report > span:first-child { color:#c7b8ff; }
+@media(max-width:760px) {
+  .top-impact-actions { grid-column:1 / -1; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:6px; }
+  .top-impact-action { justify-content:flex-start; min-width:0; padding:8px 9px; font-size:10px; }
+  .top-impact-action small { display:none; }
+}
