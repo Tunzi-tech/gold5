@@ -21797,4 +21797,40 @@ a { text-underline-offset: 3px; }
   .awareness-content .awareness-submit-button, .impacting-report-actions button, .top-impact-action { transition: none; }
 }
 
+/* Explicitly keep Home in the lower mobile navigation row, never beside the hamburger. */
+@media screen and (max-width: 760px) {
+  header.topbar {
+    display: grid !important;
+    grid-template-columns: 32px minmax(0, 1fr) auto !important;
+    grid-template-rows: 35px 36px 36px !important;
+    align-items: center !important;
+  }
+  header.topbar > .mobile-menu-launch {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+  }
+  header.topbar > .mobile-brand {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+  }
+  header.topbar > .top-actions {
+    grid-column: 3 !important;
+    grid-row: 1 !important;
+  }
+  header.topbar > .mobile-home-space-row {
+    grid-column: 1 / -1 !important;
+    grid-row: 3 !important;
+    display: flex !important;
+    position: relative !important;
+    align-self: stretch !important;
+    width: 100% !important;
+  }
+  header.topbar > .mobile-home-space-row > .mobile-home-only,
+  header.topbar > .mobile-home-space-row > .mobile-your-space-button {
+    grid-column: auto !important;
+    grid-row: auto !important;
+    position: relative !important;
+  }
+}
+
 </style>
