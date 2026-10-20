@@ -18300,6 +18300,71 @@ textarea:focus-visible {
 }
 
 
+/* Final override: keep each navigation label on one line and prevent legacy
+   diagonal-orbit button rules from pushing text across the sidebar. */
+.main-nav .primary-spaces-cluster {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  gap: 0 5px;
+  padding: 4px 0;
+}
+.main-nav .primary-spaces-cluster > .primary-navigation-portal {
+  display: block;
+  min-width: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.main-nav .primary-spaces-cluster > .primary-navigation-portal:nth-child(1) { grid-column: 2; grid-row: 1; }
+.main-nav .primary-spaces-cluster > .primary-navigation-portal:nth-child(2) { grid-column: 2; grid-row: 2; }
+.main-nav .primary-spaces-cluster > .primary-navigation-portal:nth-child(3) { grid-column: 1; grid-row: 1; }
+.main-nav .primary-spaces-cluster > .primary-navigation-portal:nth-child(4) { grid-column: 1; grid-row: 2; }
+.main-nav .primary-spaces-cluster > .primary-navigation-portal .primary-space-nav-button {
+  display: flex;
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  min-height: 39px;
+  margin: 0;
+  padding: 7px 5px 7px 8px;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  overflow-wrap: normal;
+  word-break: normal;
+  font-size: 10px;
+  line-height: 1.2;
+  border-radius: 7px;
+}
+.main-nav .primary-spaces-cluster > .primary-navigation-portal .primary-space-nav-button > span:not(.icon) {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.main-nav .primary-spaces-cluster > .primary-navigation-portal .primary-space-nav-button .icon {
+  flex: 0 0 14px;
+  width: 14px;
+  text-align: center;
+}
+@media (max-width: 1100px) {
+  .main-nav .primary-spaces-cluster > .primary-navigation-portal .primary-space-nav-button {
+    padding-left: 5px;
+    padding-right: 4px;
+    gap: 4px;
+    font-size: 9px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .main-nav .primary-spaces-cluster > .primary-navigation-portal .primary-space-nav-button {
+    transition: none;
+  }
+}
+
 /* Zones Around and Your Zones are two sides of one connected space. */
 .zones-subnav .zones-connected-pair {
   position: relative;
