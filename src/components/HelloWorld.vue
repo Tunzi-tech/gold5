@@ -21178,3 +21178,29 @@ a { text-underline-offset: 3px; }
     flex: 0 0 auto !important;
   }
 }
+
+/* Final fix: visibly separate Home and Your space across the mobile navigation row. */
+@media (max-width: 760px) {
+  .topbar > .mobile-home-space-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .topbar > .mobile-home-space-row > .mobile-home-only {
+    flex: 0 0 auto !important;
+    width: max-content !important;
+    margin: 0 auto 0 0 !important;
+    justify-self: auto !important;
+  }
+  .topbar > .mobile-home-space-row > .mobile-your-space-button {
+    flex: 0 0 auto !important;
+    width: max-content !important;
+    margin: 0 0 0 auto !important;
+    justify-self: auto !important;
+  }
+}
+
