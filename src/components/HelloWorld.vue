@@ -4715,7 +4715,8 @@ onBeforeUnmount(() => {
 
       <nav class="main-nav">
 
-        <div class="primary-navigation-portal" aria-label="Main spaces">
+        <div class="primary-spaces-cluster" aria-label="Main spaces and discovery">
+        <div class="primary-navigation-portal" aria-label="Home and Live Flow">
           <button
             class="primary-space-nav-button"
             :class="{ active: activeView === 'home' }"
@@ -4744,8 +4745,6 @@ onBeforeUnmount(() => {
             Live Flow
           </button>
         </div>
-        <div class="live-flow-section-line"></div>
-
 <div class="sidebar-orbit-actions" aria-label="Explore and impact">
           <button
             class="sidebar-orbit-button sidebar-orbit-learn"
@@ -4767,6 +4766,7 @@ onBeforeUnmount(() => {
             <span class="sidebar-orbit-icon" aria-hidden="true">◌</span>
             <span>{{ t('impactAwareness') }}</span>
           </button>
+        </div>
         </div>
 
         <div class="sidebar-subnav zones-subnav">
@@ -19037,6 +19037,64 @@ a { text-underline-offset: 3px; }
   .home-connection-link { flex: 1 1 calc(33.333% - 5px); }
 }
 
+
+/* One connected navigation cluster: Home, Live Flow, Learn and Impact & Awareness. */
+.main-nav .primary-spaces-cluster {
+  position: relative;
+  isolation: isolate;
+  margin: 2px 0 9px;
+  padding: 5px 5px 7px;
+  border: 1px solid rgba(126, 153, 194, .14);
+  border-radius: 17px 12px 17px 12px;
+  background:
+    radial-gradient(ellipse at 18% 0%, rgba(89, 121, 174, .10), transparent 55%),
+    linear-gradient(145deg, rgba(13, 19, 30, .96), rgba(8, 12, 20, .98) 62%, rgba(12, 18, 29, .96));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.025), 0 5px 14px rgba(0,0,0,.08);
+}
+.main-nav .primary-navigation-portal {
+  margin: 0;
+  padding: 3px 2px 5px;
+  border: 0 !important;
+  border-radius: 12px 9px 12px 9px;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.main-nav .primary-navigation-portal::before { display: none; }
+.main-nav .primary-navigation-portal .primary-space-nav-button.active {
+  background: linear-gradient(100deg, rgba(75, 108, 161, .17), rgba(42, 62, 94, .07)) !important;
+  box-shadow: inset 2px 0 0 rgba(112, 168, 255, .56) !important;
+}
+.main-nav .primary-navigation-portal .primary-space-nav-button:hover {
+  background: rgba(92, 124, 177, .09) !important;
+}
+.main-nav .primary-spaces-cluster .sidebar-orbit-actions {
+  margin: 1px 2px 0;
+  padding: 7px 5px 2px;
+  gap: 6px;
+  border: 0;
+  border-top: 1px solid rgba(133, 158, 197, .12);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.main-nav .primary-spaces-cluster .sidebar-orbit-button {
+  padding: 5px 3px 6px;
+  border-color: rgba(117, 146, 190, .10);
+  border-radius: 10px;
+  background: linear-gradient(150deg, rgba(23, 33, 49, .42), rgba(10, 15, 24, .42));
+  box-shadow: none;
+}
+.main-nav .primary-spaces-cluster .sidebar-orbit-button:hover,
+.main-nav .primary-spaces-cluster .sidebar-orbit-button.active {
+  background: linear-gradient(150deg, rgba(40, 57, 83, .62), rgba(15, 24, 39, .72));
+  box-shadow: inset 0 0 0 1px rgba(126, 164, 220, .08);
+}
+.main-nav .primary-spaces-cluster .sidebar-orbit-icon {
+  width: 30px;
+  height: 30px;
+  flex-basis: 30px;
+}
+
 </style>
 
 <style>
@@ -19560,29 +19618,3 @@ a { text-underline-offset: 3px; }
 }
 
 </style>
-
-
-/* Blend Home and Live Flow into the platform's deep navy surface. */
-.main-nav .primary-navigation-portal {
-  background:
-    radial-gradient(ellipse at 50% 0%, rgba(76, 108, 157, .09), transparent 68%),
-    linear-gradient(145deg, rgba(10, 14, 23, .98), rgba(8, 11, 18, .98) 58%, rgba(11, 16, 26, .98)) !important;
-  border-color: rgba(135, 157, 193, .14) !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.025), 0 4px 12px rgba(0,0,0,.08) !important;
-}
-.main-nav .primary-navigation-portal::before {
-  border-color: rgba(151, 174, 212, .045) !important;
-}
-.main-nav .primary-navigation-portal .primary-space-nav-button {
-  background: transparent !important;
-  box-shadow: none;
-}
-.main-nav .primary-navigation-portal .primary-space-nav-button:hover {
-  background: rgba(92, 124, 177, .09) !important;
-  box-shadow: inset 0 0 0 1px rgba(137, 166, 213, .08);
-}
-.main-nav .primary-navigation-portal .primary-space-nav-button.active {
-  background: linear-gradient(100deg, rgba(67, 96, 145, .16), rgba(40, 59, 91, .07)) !important;
-  border-color: rgba(131, 172, 244, .08) !important;
-  box-shadow: inset 2px 0 0 rgba(112, 168, 255, .56) !important;
-}
