@@ -4736,27 +4736,27 @@ onBeforeUnmount(() => {
             Home
           </button>
         </div>
-        <div class="sidebar-orbit-actions" aria-label="Explore and impact">
+        <div class="primary-navigation-portal" aria-label="Learn and Discover">
           <button
-            class="sidebar-orbit-button sidebar-orbit-learn"
+            class="primary-space-nav-button"
             :class="{ active: activeView === 'learn' }"
             type="button"
             @click="navigate('learn')"
             :title="t('learnDiscover')"
           >
-            <span class="sidebar-orbit-icon" aria-hidden="true">✦</span>
+            <span class="icon">✦</span>
             <span>{{ t('learnDiscover') }}</span>
           </button>
         </div>
-        <div class="sidebar-orbit-actions" aria-label="Impact and awareness">
+        <div class="primary-navigation-portal" aria-label="Impact and Awareness">
           <button
-            class="sidebar-orbit-button sidebar-orbit-awareness"
+            class="primary-space-nav-button"
             :class="{ active: activeView === 'awareness' }"
             type="button"
             @click="navigate('awareness')"
             :title="t('impactAwareness')"
           >
-            <span class="sidebar-orbit-icon" aria-hidden="true">◌</span>
+            <span class="icon">◌</span>
             <span>{{ t('impactAwareness') }}</span>
           </button>
         </div>
@@ -4769,9 +4769,10 @@ onBeforeUnmount(() => {
             <span class="icon">◎</span>
             Live Flow
           </button>
-        </div>        </div>
+        </div>
+        </div>
 
-        <div class="sidebar-subnav zones-subnav">
+                <div class="sidebar-subnav zones-subnav">
           <div class="sidebar-zones-header">
             <button
               class="sidebar-zones-main"
