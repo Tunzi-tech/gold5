@@ -5204,36 +5204,23 @@ onBeforeUnmount(() => {
 
     </div>
 
-    <!-- Mobile overflow rail: secondary destinations stay separate from the four primary spaces. -->
-    <button class="mobile-more-rail" type="button" :class="{ active: mobileMoreOpen }" @click="mobileMoreOpen = !mobileMoreOpen" :aria-expanded="mobileMoreOpen" aria-label="Open more navigation">
-      <span class="mobile-more-rail-line" aria-hidden="true"></span><span>MORE</span>
-    </button>
+    <!-- Three dedicated mobile edge actions, separate from the four primary spaces. -->
+    <div class="mobile-edge-actions" aria-label="Anfas quick navigation">
+      <button class="mobile-edge-action mobile-edge-explore" type="button" :class="{ active: mobileMoreOpen }" @click="mobileMoreOpen = !mobileMoreOpen" :aria-expanded="mobileMoreOpen" aria-label="Open Anfas Explore">
+        <span class="mobile-edge-action-icon" aria-hidden="true">⌁</span><span>Anfas Explore</span>
+      </button>
+      <button class="mobile-edge-action mobile-edge-network" type="button" :class="{ active: homeHeaderChatOpen }" @click="homeHeaderChatOpen = !homeHeaderChatOpen; homeLocalWorldOpen = homeHeaderChatOpen" :aria-pressed="homeHeaderChatOpen" aria-label="Open Anfas Network Chat">
+        <span class="mobile-edge-action-icon" aria-hidden="true">◎</span><span>Anfas Network Chat</span>
+      </button>
+      <button class="mobile-edge-action mobile-edge-impact" type="button" :class="{ active: activeView === 'awareness' }" @click="mobileMoreOpen = false; homeHeaderChatOpen = false; homeLocalWorldOpen = false; navigate('awareness')" aria-label="Open Impact">
+        <span class="mobile-edge-action-icon" aria-hidden="true">✳</span><span>Impact</span>
+      </button>
+    </div>
     <div v-if="mobileMoreOpen" class="mobile-more-overlay" @click.self="mobileMoreOpen = false">
-      <aside class="mobile-more-drawer" role="dialog" aria-modal="true" aria-label="More navigation">
-        <div class="mobile-more-drawer-head"><div><span class="home-connection-kicker">ANFAS · EXPLORE</span><h2>More spaces</h2><p>Follow the flow, meet people and open NetworkChat.</p></div><button type="button" class="mobile-network-drawer-close" @click="mobileMoreOpen = false" aria-label="Close navigation">×</button></div>
+      <aside class="mobile-more-drawer" role="dialog" aria-modal="true" aria-label="Anfas Explore">
+        <div class="mobile-more-drawer-head"><div><span class="home-connection-kicker">ANFAS · EXPLORE</span><h2>Anfas Explore</h2><p>Follow the flow and connect with people.</p></div><button type="button" class="mobile-network-drawer-close" @click="mobileMoreOpen = false" aria-label="Close Anfas Explore">×</button></div>
         <button type="button" class="mobile-more-drawer-item" @click="mobileMoreOpen = false; navigate('pages')"><span>▣</span><span><strong>Flow</strong><small>Calls, pages, initiatives and entities</small></span><b>→</b></button>
         <button type="button" class="mobile-more-drawer-item" @click="mobileMoreOpen = false; navigate('people')"><span>♧</span><span><strong>People</strong><small>Discover people and connections</small></span><b>→</b></button>
-         <button type="button" class="mobile-more-drawer-item mobile-more-network-item" @click="mobileMoreOpen = false; homeHeaderChatOpen = true; homeLocalWorldOpen = true" aria-label="Open NetworkChat Local and World"><span>◎</span><span><strong>NetworkChat</strong><small>Local conversations and the global network</small></span><b>↗</b></button>
-        <section class="mobile-more-network-space" :class="{ 'is-open': homeHeaderChatOpen }" aria-label="NetworkChat space">
-          <div class="mobile-more-network-space-head">
-            <span class="mobile-more-network-space-mark" aria-hidden="true">◎</span>
-            <div><strong>NetworkChat</strong><small>Local · World · Conversations</small></div>
-            <span class="mobile-more-live-dot" aria-hidden="true"></span>
-          </div>
-          <p class="mobile-more-network-space-intro">Choose a conversation space, then open NetworkChat to join in.</p>
-          <div class="mobile-more-room-list">
-            <button v-for="room in homeChatRooms" :key="room.id" type="button" class="mobile-more-room" :class="['chat-room-' + room.color, { active: homeActiveChatRoom === room.id }]" @click="joinHomeChatRoom(room.id); homeHeaderChatOpen = true; homeLocalWorldOpen = true; mobileMoreOpen = false">
-              <span class="home-chat-room-mark" aria-hidden="true">{{ room.mark }}</span>
-              <span class="mobile-more-room-copy"><strong>{{ room.name }}</strong><small>{{ room.topic }}</small></span>
-              <span class="mobile-more-room-action">{{ homeJoinedChatRooms.includes(room.id) ? (homeActiveChatRoom === room.id ? 'Open ✓' : 'Joined') : 'Join +' }}</span>
-            </button>
-          </div>
-          <button type="button" class="mobile-more-space-toggle" :class="{ active: homeHeaderChatOpen }" @click="homeHeaderChatOpen ? (homeHeaderChatOpen = false, homeLocalWorldOpen = false) : (homeHeaderChatOpen = true, homeLocalWorldOpen = true, mobileMoreOpen = false)" :aria-expanded="homeHeaderChatOpen">
-            <span aria-hidden="true">{{ homeHeaderChatOpen ? '×' : '↗' }}</span>
-            {{ homeHeaderChatOpen ? 'Close NetworkChat space' : 'Open NetworkChat space' }}
-            <span class="mobile-more-space-toggle-arrow">{{ homeHeaderChatOpen ? '−' : '→' }}</span>
-          </button>
-        </section>
       </aside>
     </div>
 
@@ -20627,14 +20614,18 @@ a { text-underline-offset: 3px; }
 }
 
 
-/* Mobile overflow rail and right-side secondary navigation drawer. */
-.mobile-more-rail,.mobile-more-overlay{display:none}
+/* Three fixed mobile quick actions replace the ambiguous MORE tab. */
+.mobile-edge-actions,.mobile-more-overlay{display:none}
 @media(max-width:760px){
-  .mobile-more-rail{position:fixed;z-index:58;left:0;top:46%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;width:24px;min-height:92px;padding:10px 3px;border:1px solid rgba(124,166,222,.28);border-left:0;border-radius:0 10px 10px 0;background:linear-gradient(180deg,rgba(21,38,60,.97),rgba(9,17,29,.98));color:#a8c9f4;box-shadow:5px 8px 22px rgba(0,0,0,.24);cursor:pointer}
-  .mobile-more-rail>span:last-child{font-size:7px;font-weight:850;letter-spacing:.12em;writing-mode:vertical-rl}
-  .mobile-more-rail-line{display:block;width:11px;height:2px;border-radius:2px;background:#a8c9f4;box-shadow:0 4px 0 rgba(168,201,244,.6),0 -4px 0 rgba(168,201,244,.6)}
-  .mobile-more-rail.active{border-color:rgba(137,190,255,.62);background:linear-gradient(180deg,rgba(35,61,93,.99),rgba(13,26,44,.99))}
-  .mobile-more-overlay{position:fixed;inset:0;z-index:100;display:flex;justify-content:flex-end;background:rgba(2,6,12,.66);backdrop-filter:blur(5px)}
+  .mobile-edge-actions{position:fixed;z-index:10001;left:0;top:39%;display:flex;flex-direction:column;align-items:stretch;gap:7px;width:34px}
+  .mobile-edge-action{display:flex;align-items:center;justify-content:flex-start;gap:7px;width:34px;min-height:92px;padding:9px 7px;border:1px solid rgba(124,166,222,.32);border-left:0;border-radius:0 11px 11px 0;background:linear-gradient(180deg,rgba(21,38,60,.98),rgba(9,17,29,.99));color:#c9dcf6;box-shadow:5px 8px 22px rgba(0,0,0,.24);cursor:pointer;writing-mode:vertical-rl}
+  .mobile-edge-action>span:last-child{font-size:8px;font-weight:850;letter-spacing:.08em;white-space:nowrap}
+  .mobile-edge-action-icon{font-size:15px;color:#9ac9ff}
+  .mobile-edge-explore{border-color:rgba(125,174,237,.35)}
+  .mobile-edge-network{border-color:rgba(115,207,226,.55);background:linear-gradient(180deg,rgba(27,77,99,.98),rgba(20,31,62,.99))}
+  .mobile-edge-impact{min-height:70px;border-color:rgba(216,177,104,.4);background:linear-gradient(180deg,rgba(75,59,34,.96),rgba(25,25,31,.99));color:#f0d8a3}
+  .mobile-edge-action.active{border-color:rgba(157,202,255,.8);box-shadow:5px 8px 22px rgba(0,0,0,.24),0 0 16px rgba(89,169,229,.14)}
+  .mobile-more-overlay{position:fixed;inset:0;z-index:10000;display:flex;justify-content:flex-end;background:rgba(2,6,12,.66);backdrop-filter:blur(5px)}
   .mobile-more-drawer{display:flex;flex-direction:column;gap:10px;width:min(370px,90vw);height:100%;box-sizing:border-box;padding:24px 17px max(20px,env(safe-area-inset-bottom));overflow-y:auto;border-left:1px solid rgba(111,145,193,.2);background:radial-gradient(ellipse at 100% 0,rgba(93,133,205,.13),transparent 46%),linear-gradient(155deg,rgba(17,27,43,.98),rgba(8,15,26,.99) 72%);box-shadow:-22px 0 70px rgba(0,0,0,.4);backdrop-filter:blur(18px)}
   .mobile-more-drawer-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin:5px 0 16px}
   .mobile-more-drawer-head h2{margin:8px 0 5px;color:#edf4ff;font-size:22px;letter-spacing:-.04em}
@@ -20645,28 +20636,6 @@ a { text-underline-offset: 3px; }
   .mobile-more-drawer-item strong{font-size:12px;color:#e7f1ff}
   .mobile-more-drawer-item small{font-size:9px;color:#8398b4;line-height:1.45}
   .mobile-more-drawer-item>b{color:#8dbdff;font-size:16px}
-  .mobile-more-network-item{border-color:rgba(104,169,232,.3);background:linear-gradient(120deg,rgba(27,57,84,.9),rgba(13,25,41,.96))}
-
-   .mobile-more-network-space{display:flex;flex-direction:column;gap:10px;margin-top:3px;padding:13px;border:1px solid rgba(111,145,193,.23);border-radius:15px;background:linear-gradient(145deg,rgba(25,39,59,.76),rgba(10,18,30,.92));box-shadow:inset 0 1px 0 rgba(230,240,255,.035),0 10px 26px rgba(0,0,0,.12)}
-   .mobile-more-network-space.is-open{border-color:rgba(112,174,255,.38);background:linear-gradient(145deg,rgba(30,51,76,.85),rgba(10,18,30,.95))}
-   .mobile-more-network-space-head{display:flex;align-items:center;gap:10px}
-   .mobile-more-network-space-mark{display:grid;place-items:center;width:36px;height:36px;flex:0 0 36px;border:1px solid rgba(125,174,237,.28);border-radius:11px;background:rgba(73,126,194,.13);color:#a9ceff;font-size:19px}
-   .mobile-more-network-space-head>div{display:flex;flex:1;flex-direction:column;gap:4px;min-width:0}
-   .mobile-more-network-space-head strong{color:#e7f1ff;font-size:13px}
-   .mobile-more-network-space-head small{color:#8da3bf;font-size:9px}
-   .mobile-more-live-dot{width:7px;height:7px;border-radius:50%;background:#72d3b2;box-shadow:0 0 10px rgba(114,211,178,.35)}
-   .mobile-more-network-space-intro{margin:0;color:#8fa1b9;font-size:10px;line-height:1.55}
-   .mobile-more-room-list{display:grid;gap:6px}
-   .mobile-more-room{display:flex;align-items:center;gap:9px;width:100%;min-width:0;padding:9px;border:1px solid rgba(130,164,208,.12);border-radius:10px;background:rgba(6,13,23,.48);color:#cfe0f7;text-align:left;cursor:pointer}
-   .mobile-more-room.active{border-color:rgba(116,174,247,.4);background:rgba(58,99,151,.2)}
-   .mobile-more-room .home-chat-room-mark{display:grid;place-items:center;width:29px;height:29px;flex:0 0 29px;border-radius:9px;background:rgba(93,140,204,.12);color:#b8d6ff}
-   .mobile-more-room-copy{display:flex;flex:1;flex-direction:column;gap:3px;min-width:0}
-   .mobile-more-room-copy strong{overflow:hidden;color:#e1ecfb;font-size:10px;text-overflow:ellipsis;white-space:nowrap}
-   .mobile-more-room-copy small{overflow:hidden;color:#8196b1;font-size:8px;text-overflow:ellipsis;white-space:nowrap}
-   .mobile-more-room-action{color:#9fc8ff;font-size:8px;font-weight:800;white-space:nowrap}
-   .mobile-more-space-toggle{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;min-height:45px;padding:10px 12px;border:1px solid rgba(115,169,245,.38);border-radius:11px;background:linear-gradient(110deg,rgba(49,105,178,.36),rgba(31,62,99,.48));color:#d8eaff;font-size:11px;font-weight:800;cursor:pointer;box-shadow:inset 0 1px rgba(230,240,255,.055),0 6px 18px rgba(0,0,0,.12)}
-   .mobile-more-space-toggle.active{border-color:rgba(113,211,178,.36);background:linear-gradient(110deg,rgba(37,100,86,.3),rgba(24,55,59,.45));color:#c8f4e5}
-   .mobile-more-space-toggle-arrow{margin-left:auto;font-size:15px}
   .mobile-network-launch{display:none!important}
   .mobile-brand-mark{width:34px!important;height:34px!important;flex-basis:34px!important;border-radius:50%!important;background:radial-gradient(circle at 50% 50%,rgba(71,113,168,.2),rgba(9,17,29,.4) 70%)!important;border-color:rgba(137,183,242,.52)!important;box-shadow:inset 0 0 0 4px rgba(106,157,224,.045),0 0 15px rgba(83,143,218,.08)!important}
   .mobile-brand-mark>span{display:block!important;width:18px;height:18px;border:1px solid #9fcaff;border-radius:50%;transform:rotate(-35deg) scaleY(.7);box-shadow:0 0 9px rgba(133,190,255,.12)}
