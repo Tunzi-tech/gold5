@@ -21370,3 +21370,11 @@ a { text-underline-offset: 3px; }
     white-space: nowrap !important;
   }
 }
+
+
+/* On phones, Home remains in the mobile top bar; hide its duplicate in the sidebar. */
+@media screen and (max-width: 760px) {
+  .sidebar .main-nav .primary-spaces-cluster > .primary-navigation-portal[aria-label="Home"] {
+    display: none !important;
+  }
+}
