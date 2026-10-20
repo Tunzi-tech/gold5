@@ -21276,3 +21276,37 @@ a { text-underline-offset: 3px; }
   }
   .mobile-more-drawer-head { padding-bottom:13px; border-bottom:1px solid rgba(126,163,213,.15); }
 }
+
+
+/* Final mobile fix: keep Home on the left and Your space at the far right of the same navigation row. */
+@media (max-width: 760px) {
+  .topbar > .mobile-home-space-row {
+    grid-column: 1 / -1 !important;
+    grid-row: 3 !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) max-content !important;
+    align-items: center !important;
+    justify-content: stretch !important;
+    gap: 8px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    direction: ltr !important;
+    box-sizing: border-box !important;
+  }
+  .topbar > .mobile-home-space-row > .mobile-home-only {
+    grid-column: 1 !important;
+    justify-self: start !important;
+    width: max-content !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+  .topbar > .mobile-home-space-row > .mobile-your-space-button {
+    grid-column: 2 !important;
+    justify-self: end !important;
+    width: max-content !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+}
