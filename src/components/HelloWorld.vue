@@ -5249,6 +5249,43 @@ onBeforeUnmount(() => {
 
       </header>
 
+      <!-- Mobile NetworkChat is global: it is independent of the Home view and primary navigation. -->
+      <div v-if="homeHeaderChatOpen" class="mobile-network-overlay" @click.self="homeHeaderChatOpen = false; homeLocalWorldOpen = false">
+        <aside class="mobile-network-drawer" role="dialog" aria-modal="true" aria-label="NetworkChat Local and World">
+          <div class="mobile-network-drawer-head">
+            <div>
+              <span class="home-connection-kicker">NETWORKCHAT · LIVE SPACE</span>
+              <h2>Connect beyond your feed.</h2>
+              <p>Choose a local conversation or explore the wider network.</p>
+            </div>
+            <button type="button" class="mobile-network-drawer-close" @click="homeHeaderChatOpen = false; homeLocalWorldOpen = false" aria-label="Close NetworkChat">×</button>
+          </div>
+          <div class="home-local-world-tabs mobile-drawer-tabs" role="group" aria-label="Choose Local or World">
+            <button type="button" :class="{ active: homeLocalWorldScope === 'local' }" @click="homeLocalWorldScope = 'local'; joinHomeChannel('local')">◎ Local <span>Nearby</span></button>
+            <button type="button" :class="{ active: homeLocalWorldScope === 'world' }" @click="homeLocalWorldScope = 'world'; joinHomeChannel('world')">◌ World <span>Global</span></button>
+          </div>
+          <div class="mobile-network-drawer-stream" aria-live="polite">
+            <template v-if="homeLocalWorldScope === 'local'">
+              <article class="home-local-world-item"><span class="home-local-world-item-mark">↗</span><div><strong>Greener Tunis</strong><p>People are exploring greener streets, gardens and local spaces.</p><small>Local initiative · Explore opportunities</small></div></article>
+              <article class="home-local-world-item"><span class="home-local-world-item-mark">?</span><div><strong>Local question</strong><p>What nearby place could improve through one small shared action?</p><small>Conversation · Add your voice</small></div></article>
+            </template>
+            <template v-else>
+              <article class="home-local-world-item"><span class="home-local-world-item-mark">✧</span><div><strong>Ideas crossing borders</strong><p>Discover approaches people are sharing across different places.</p><small>Global network · Discover</small></div></article>
+              <article class="home-local-world-item"><span class="home-local-world-item-mark">◎</span><div><strong>Open invitation</strong><p>Meet people interested in learning, collaborating and acting together.</p><small>Opportunity · Connect</small></div></article>
+            </template>
+          </div>
+          <div class="mobile-network-drawer-rooms">
+            <span class="home-network-section-label">CONVERSATIONS TO JOIN</span>
+            <button v-for="room in homeChatRooms" :key="room.id" type="button" class="home-chat-room" :class="['chat-room-' + room.color, { active: homeActiveChatRoom === room.id }]" @click="joinHomeChatRoom(room.id)">
+              <span class="home-chat-room-mark" aria-hidden="true">{{ room.mark }}</span>
+              <span class="home-chat-room-copy"><strong>{{ room.name }}</strong><small>{{ room.topic }}</small><em>{{ room.members }}</em></span>
+              <span class="home-chat-room-join">{{ homeJoinedChatRooms.includes(room.id) ? (homeActiveChatRoom === room.id ? 'Open ✓' : 'Joined') : 'Join +' }}</span>
+            </button>
+          </div>
+          <p class="mobile-network-drawer-note">Activity previews are examples; live alerts need a connected activity source.</p>
+        </aside>
+      </div>
+
       <!-- =================================================
            MY EVENTS
            ================================================= -->
@@ -20336,6 +20373,38 @@ a { text-underline-offset: 3px; }
 @keyframes network-drawer-enter {
   from { transform:translateX(22px); opacity:.65; }
   to { transform:translateX(0); opacity:1; }
+}
+
+/* Global mobile NetworkChat drawer, available from every view. */
+.mobile-network-overlay { display:none; }
+@media (max-width:760px) {
+  .mobile-network-overlay {
+    display:block; position:fixed; inset:0; z-index:12000;
+    background:rgba(2,7,14,.62); backdrop-filter:blur(5px);
+  }
+  .mobile-network-drawer {
+    position:absolute; top:0; right:0; bottom:0; display:flex; flex-direction:column;
+    gap:14px; width:min(92vw,430px); max-width:100%; height:100dvh; overflow-y:auto;
+    padding:18px 14px 24px; border:1px solid rgba(111,170,224,.3); border-radius:18px 0 0 18px;
+    color:#dce8f8; background:radial-gradient(ellipse at 100% 0%,rgba(74,122,211,.14),transparent 42%),linear-gradient(155deg,#0f1a2b,#070d17 70%);
+    box-shadow:-22px 0 70px rgba(0,0,0,.52); animation:network-drawer-enter .24s cubic-bezier(.2,.75,.25,1) both;
+  }
+  .mobile-network-drawer-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; padding:30px 2px 4px; }
+  .mobile-network-drawer-head h2 { margin:5px 0; color:#e8f1ff; font-size:21px; letter-spacing:-.035em; }
+  .mobile-network-drawer-head p { margin:0; color:#91a5bd; font-size:11px; line-height:1.55; }
+  .mobile-network-drawer-close { flex:0 0 36px; width:36px; height:36px; border:1px solid rgba(132,168,211,.32); border-radius:10px; color:#e3efff; background:rgba(24,38,58,.95); font-size:24px; cursor:pointer; }
+  .mobile-drawer-tabs { display:grid; grid-template-columns:1fr 1fr; margin:0; }
+  .mobile-drawer-tabs button { justify-content:center; min-height:42px; }
+  .mobile-network-drawer-stream { display:grid; gap:8px; }
+  .mobile-network-drawer-stream .home-local-world-item { padding:12px; }
+  .mobile-network-drawer-rooms { display:grid; gap:8px; }
+  .mobile-network-drawer-rooms > .home-network-section-label { margin:3px 0; }
+  .mobile-network-drawer-rooms .home-chat-room { width:100%; text-align:left; }
+  .mobile-network-drawer-note { margin:auto 0 0; color:#71859f; font-size:9px; line-height:1.5; }
+  /* The old Home-inline panel must not duplicate the new global drawer on phones. */
+  .home-commons-content > .home-header-chat { display:none !important; }
+  .home-commons-content .home-view-switch { display:flex; justify-content:flex-end; position:relative; z-index:4; order:-2; width:max-content; margin:0 0 12px auto !important; }
+  .home-commons-content .home-hero-control { order:-1; }
 }
 @media (prefers-reduced-motion:reduce) {
   .home-header-chat { animation:none !important; }
