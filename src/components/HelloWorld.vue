@@ -916,11 +916,11 @@ const awarenessImpactType = ref('ALL')
 const showRaiseAwareness = ref(false)
 const impactingCountryFilter = ref('Tunisia')
 const selectedImpactIssueId = ref<number | null>(null)
-const impactingIssueItems = computed(() =>
-  allImpactingAwarenessItems.value.filter(item =>
-    impactingCountryFilter.value === 'ALL' || item.country === impactingCountryFilter.value
-  )
-)
+const impactingSourceFilter = ref<'ALL' | 'ZONE_REPORTS'>('ALL')
+const impactingIssueItems = computed(() => allImpactingAwarenessItems.value.filter(item =>
+  (impactingCountryFilter.value === 'ALL' || item.country === impactingCountryFilter.value)
+  && (impactingSourceFilter.value === 'ALL' || item.sourceKind === 'post' || item.sourceKind === 'suggestion')
+))
 const awarenessDraft = ref({
   title: '',
   country: 'Tunisia',
@@ -3975,6 +3975,7 @@ function focusSelectedImpactIssue() {
 const filteredAwarenessItems = computed(() => {
   return allImpactingAwarenessItems.value.filter(item => {
     const matchesCountry = impactingCountryFilter.value === 'ALL' || item.country === impactingCountryFilter.value
+    const matchesSource = impactingSourceFilter.value === 'ALL' || item.sourceKind === 'post' || item.sourceKind === 'suggestion'
     const matchesCategory = awarenessCategory.value === 'ALL' || item.category === awarenessCategory.value
     const matchesImpact = awarenessImpactType.value === 'ALL' || item.impactType === awarenessImpactType.value
     const filter = awarenessFilter.value
@@ -3984,7 +3985,7 @@ const filteredAwarenessItems = computed(() => {
       || (filter === 'ACTION' && !!item.whatWeCanDo)
       || filter === 'LEARN'
       || (filter === 'FUTURES' && !!item.possibleChange)
-    return matchesCountry && matchesCategory && matchesImpact && matchesSection
+    return matchesCountry && matchesSource && matchesCategory && matchesImpact && matchesSection
   })
 })
 
@@ -5645,13 +5646,16 @@ onBeforeUnmount(() => {
             <span class="home-connection-orbit" aria-hidden="true"><i></i><b></b><em></em></span>
           </div>
           <div class="home-connection-links" aria-label="Connection spaces">
-            <button v-for="item in homeConnectionItems" :key="item.id" type="button"
-              class="home-connection-link" :class="['connection-' + item.color, { active: homeConnectionPanel === item.id }]"
-              :aria-expanded="homeConnectionPanel === item.id" @click="toggleHomeConnectionPanel(item.id)">
-              <span class="home-connection-dot" aria-hidden="true"></span>{{ item.label }}
-              <span class="home-connection-chevron" aria-hidden="true">{{ homeConnectionPanel === item.id ? '−' : '+' }}</span>
-            </button>
+            <button v-for="item in homeConnectionItems" :key="item.id" type="button" class="home-connection-link" :class="['connection-' + item.color, { active: homeConnectionPanel === item.id }]" :aria-expanded="homeConnectionPanel === item.id" @click="toggleHomeConnectionPanel(item.id)"><span class="home-connection-dot" aria-hidden="true"></span>{{ item.label }}<span class="home-connection-chevron" aria-hidden="true">{{ homeConnectionPanel === item.id ? '−' : '+' }}</span></button>
           </div>
+          <section class="organization-calls-strip" aria-label="Calls from organizations and communities">
+            <div class="organization-calls-heading"><div><span class="home-connection-kicker">FROM PEOPLE ORGANIZING TOGETHER</span><h2>Organization calls</h2><p>Invitations from associations, local groups and people — not platform announcements.</p></div><button type="button" @click="navigate('call')">Explore all calls →</button></div>
+            <div class="organization-call-cards">
+              <article class="organization-call-card"><img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=720&q=80" alt="Community members meeting outdoors" loading="lazy" /><div class="organization-call-card-copy"><span>ASSOCIATION · COMMUNITY</span><h3>Help grow a neighborhood garden</h3><p>A local association invites residents to share skills, plants and a little time.</p><button type="button" @click="navigate('call')">View association call →</button></div></article>
+              <article class="organization-call-card"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=720&q=80" alt="Community members connecting" loading="lazy" /><div class="organization-call-card-copy"><span>SOCIAL CALL · OPEN INVITATION</span><h3>Bring people together locally</h3><p>Meet neighbors for a shared meal, cultural exchange or a welcoming activity.</p><button type="button" @click="navigate('call')">Join the conversation →</button></div></article>
+              <article class="organization-call-card"><img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=720&q=80" alt="Volunteers working together" loading="lazy" /><div class="organization-call-card-copy"><span>LOCAL ACTION · VOLUNTEERS</span><h3>Make public spaces more welcoming</h3><p>A community group is looking for ideas and helping hands for a shared place.</p><button type="button" @click="navigate('initiatives')">Explore the initiative →</button></div></article>
+            </div>
+          </section>
           <div v-if="homeConnectionPanel" class="home-connection-panel">
             <template v-for="item in homeConnectionItems.filter(entry => entry.id === homeConnectionPanel)" :key="item.id">
               <div class="home-connection-panel-copy">
@@ -6724,6 +6728,7 @@ onBeforeUnmount(() => {
             </div>
             <span class="impacting-path-orbit" aria-hidden="true">◎</span>
           </div>
+          <div class="impacting-report-header"><div><span class="impacting-report-mark" aria-hidden="true">◎</span><div><strong>Zone issue reports</strong><p>Concerns, observations and suggestions already shared in Zones.</p></div></div><div class="impacting-report-actions"><button type="button" :class="{ active: impactingSourceFilter === 'ZONE_REPORTS' }" @click="impactingSourceFilter = impactingSourceFilter === 'ZONE_REPORTS' ? 'ALL' : 'ZONE_REPORTS'; selectedImpactIssueId = null">{{ impactingSourceFilter === 'ZONE_REPORTS' ? 'Showing Zone reports' : 'Show Zone reports' }}</button><button type="button" class="impacting-report-submit" @click="showRaiseAwareness = true">+ Report an issue</button></div></div>
           <div class="impacting-path-options">
             <div class="impacting-path-option">
               <span class="impacting-path-step">01 · PLACE</span>
@@ -6743,6 +6748,7 @@ onBeforeUnmount(() => {
                 <option v-for="item in impactingIssueItems" :key="item.id" :value="item.id">{{ item.title }} — {{ item.zone }}</option>
               </select>
               <p>Start with a concern, observation or question linked to a place.</p>
+              <span class="impacting-path-count">{{ impactingIssueItems.filter(item => item.sourceKind === 'post' || item.sourceKind === 'suggestion').length }} items from Zones</span>
               <button type="button" class="impacting-focus-button" :disabled="selectedImpactIssueId === null" @click="focusSelectedImpactIssue">FOCUS ON THIS ISSUE <span>→</span></button>
             </div>
           </div>
@@ -21548,3 +21554,29 @@ a { text-underline-offset: 3px; }
     display: none !important;
   }
 }
+
+
+/* Organization calls: community-authored invitations, separate from platform navigation. */
+.organization-calls-strip { margin-top:16px; padding:16px; border:1px solid rgba(120,153,190,.16); border-radius:14px; background:linear-gradient(125deg,rgba(22,36,53,.76),rgba(13,22,34,.84)); }
+.organization-calls-heading { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:13px; }
+.organization-calls-heading h2 { margin:5px 0 4px; color:#edf4ff; font-size:18px; letter-spacing:-.025em; }
+.organization-calls-heading p { margin:0; color:#9aabc1; font-size:10px; line-height:1.55; }
+.organization-calls-heading > button { flex:0 0 auto; padding:8px 10px; border:1px solid rgba(131,159,204,.23); border-radius:8px; color:#d7e7fa; background:rgba(44,66,93,.38); font-size:10px; font-weight:750; cursor:pointer; }
+.organization-call-cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:11px; }
+.organization-call-card { min-width:0; overflow:hidden; border:1px solid rgba(127,155,190,.17); border-radius:11px; background:rgba(9,18,29,.54); }
+.organization-call-card > img { display:block; width:100%; height:112px; object-fit:cover; filter:saturate(.78) brightness(.82); }
+.organization-call-card-copy { padding:12px; }
+.organization-call-card-copy > span { color:#a8b9d7; font-size:8px; font-weight:850; letter-spacing:.12em; }
+.organization-call-card-copy h3 { margin:7px 0 6px; color:#e9f1fc; font-size:13px; line-height:1.35; }
+.organization-call-card-copy p { min-height:42px; margin:0 0 10px; color:#99aabe; font-size:10px; line-height:1.55; }
+.organization-call-card-copy button { padding:0; border:0; color:#b9c9ff; background:transparent; font-size:9px; font-weight:800; cursor:pointer; text-align:left; }
+.impacting-report-header { display:flex; align-items:center; justify-content:space-between; gap:14px; margin:0 0 13px; padding:11px 12px; border:1px solid rgba(105,180,167,.2); border-radius:10px; background:linear-gradient(100deg,rgba(34,105,94,.14),rgba(31,51,70,.24)); }
+.impacting-report-header > div:first-child { display:flex; align-items:center; gap:10px; min-width:0; }
+.impacting-report-mark { display:flex; flex:0 0 30px; width:30px; height:30px; align-items:center; justify-content:center; border:1px solid rgba(110,211,179,.28); border-radius:9px; color:#91e0c1; background:rgba(54,135,112,.14); font-size:18px; }
+.impacting-report-header strong { color:#e4f4f1; font-size:11px; }
+.impacting-report-header p { margin:3px 0 0; color:#91aeb0; font-size:9px; line-height:1.45; }
+.impacting-report-actions { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:7px; }
+.impacting-report-actions button { min-height:30px; padding:6px 9px; border:1px solid rgba(131,170,193,.2); border-radius:7px; color:#c9d8e8; background:rgba(24,39,55,.72); font-size:9px; font-weight:750; cursor:pointer; }
+.impacting-report-actions button.active { border-color:rgba(111,212,176,.42); color:#a6ebce; background:rgba(39,112,89,.2); }
+.impacting-report-actions button.impacting-report-submit { border-color:rgba(150,132,230,.35); color:#ded5ff; background:linear-gradient(100deg,rgba(110,84,176,.25),rgba(49,91,122,.25)); }
+@media(max-width:760px) { .organization-calls-strip { padding:12px; } .organization-calls-heading { align-items:flex-start; } .organization-calls-heading h2 { font-size:16px; } .organization-calls-heading > button { max-width:112px; white-space:normal; } .organization-call-cards { grid-template-columns:1fr; } .organization-call-card { display:grid; grid-template-columns:104px minmax(0,1fr); } .organization-call-card > img { height:100%; min-height:155px; } .organization-call-card-copy { padding:10px; } .organization-call-card-copy p { min-height:0; } .impacting-report-header { align-items:flex-start; flex-direction:column; } .impacting-report-actions { justify-content:flex-start; width:100%; } .impacting-report-actions button { flex:1 1 auto; } }
