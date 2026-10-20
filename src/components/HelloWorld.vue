@@ -5204,16 +5204,10 @@ onBeforeUnmount(() => {
 
     </div>
 
-    <!-- Three dedicated mobile edge actions, separate from the four primary spaces. -->
-    <div class="mobile-edge-actions" aria-label="Anfas quick navigation">
-      <button class="mobile-edge-action mobile-edge-explore" type="button" :class="{ active: mobileMoreOpen }" @click="mobileMoreOpen = !mobileMoreOpen" :aria-expanded="mobileMoreOpen" aria-label="Open Anfas Explore">
-        <span class="mobile-edge-action-icon" aria-hidden="true">⌁</span><span>Anfas Explore</span>
-      </button>
-      <button class="mobile-edge-action mobile-edge-network" type="button" :class="{ active: homeHeaderChatOpen }" @click="homeHeaderChatOpen = !homeHeaderChatOpen; homeLocalWorldOpen = homeHeaderChatOpen" :aria-pressed="homeHeaderChatOpen" aria-label="Open Anfas Network Chat">
-        <span class="mobile-edge-action-icon" aria-hidden="true">◎</span><span>Anfas Network Chat</span>
-      </button>
-      <button class="mobile-edge-action mobile-edge-impact" type="button" :class="{ active: activeView === 'awareness' }" @click="mobileMoreOpen = false; homeHeaderChatOpen = false; homeLocalWorldOpen = false; navigate('awareness')" aria-label="Open Impact">
-        <span class="mobile-edge-action-icon" aria-hidden="true">✳</span><span>Impact</span>
+    <!-- One compact mobile edge tab opens the secondary navigation drawer. -->
+    <div class="mobile-edge-actions" aria-label="More navigation">
+      <button class="mobile-edge-action mobile-edge-explore" type="button" :class="{ active: mobileMoreOpen }" @click="mobileMoreOpen = !mobileMoreOpen" :aria-expanded="mobileMoreOpen" aria-label="Open navigation drawer" title="Flow, People and NetworkChat">
+        <span class="mobile-edge-action-icon" aria-hidden="true">⌁</span><span>MORE</span>
       </button>
     </div>
     <div v-if="mobileMoreOpen" class="mobile-more-overlay" @click.self="mobileMoreOpen = false">
@@ -20615,17 +20609,15 @@ a { text-underline-offset: 3px; }
 }
 
 
-/* Three fixed mobile quick actions replace the ambiguous MORE tab. */
+/* A single slim mobile edge tab opens the secondary navigation drawer. */
 .mobile-edge-actions,.mobile-more-overlay{display:none}
 @media(max-width:760px){
-  .mobile-edge-actions{position:fixed;z-index:10001;left:0;top:39%;display:flex;flex-direction:column;align-items:stretch;gap:7px;width:34px}
-  .mobile-edge-action{display:flex;align-items:center;justify-content:flex-start;gap:7px;width:34px;min-height:92px;padding:9px 7px;border:1px solid rgba(124,166,222,.32);border-left:0;border-radius:0 11px 11px 0;background:linear-gradient(180deg,rgba(21,38,60,.98),rgba(9,17,29,.99));color:#c9dcf6;box-shadow:5px 8px 22px rgba(0,0,0,.24);cursor:pointer;writing-mode:vertical-rl}
-  .mobile-edge-action>span:last-child{font-size:8px;font-weight:850;letter-spacing:.08em;white-space:nowrap}
-  .mobile-edge-action-icon{font-size:15px;color:#9ac9ff}
-  .mobile-edge-explore{border-color:rgba(125,174,237,.35)}
-  .mobile-edge-network{border-color:rgba(115,207,226,.55);background:linear-gradient(180deg,rgba(27,77,99,.98),rgba(20,31,62,.99))}
-  .mobile-edge-impact{min-height:70px;border-color:rgba(216,177,104,.4);background:linear-gradient(180deg,rgba(75,59,34,.96),rgba(25,25,31,.99));color:#f0d8a3}
-  .mobile-edge-action.active{border-color:rgba(157,202,255,.8);box-shadow:5px 8px 22px rgba(0,0,0,.24),0 0 16px rgba(89,169,229,.14)}
+  .mobile-edge-actions{position:fixed;z-index:10001;left:0;top:46%;display:flex;align-items:stretch;width:27px}
+  .mobile-edge-action{display:flex;align-items:center;justify-content:center;gap:7px;width:27px;min-height:74px;padding:8px 4px;border:1px solid rgba(124,166,222,.34);border-left:0;border-radius:0 9px 9px 0;background:linear-gradient(180deg,rgba(21,38,60,.98),rgba(9,17,29,.99));color:#c9dcf6;box-shadow:4px 6px 16px rgba(0,0,0,.22);cursor:pointer;writing-mode:vertical-rl}
+  .mobile-edge-action>span:last-child{font-size:7px;font-weight:850;letter-spacing:.1em;white-space:nowrap}
+  .mobile-edge-action-icon{font-size:13px;color:#9ac9ff}
+  .mobile-edge-explore{border-color:rgba(125,174,237,.4)}
+  .mobile-edge-action.active{border-color:rgba(157,202,255,.8);box-shadow:4px 6px 16px rgba(0,0,0,.22),0 0 12px rgba(89,169,229,.12)}
   .mobile-more-overlay{position:fixed;inset:0;z-index:10000;display:flex;justify-content:flex-end;background:rgba(2,6,12,.66);backdrop-filter:blur(5px)}
   .mobile-more-drawer{display:flex;flex-direction:column;gap:10px;width:min(370px,90vw);height:100%;box-sizing:border-box;padding:24px 17px max(20px,env(safe-area-inset-bottom));overflow-y:auto;border-left:1px solid rgba(111,145,193,.2);background:radial-gradient(ellipse at 100% 0,rgba(93,133,205,.13),transparent 46%),linear-gradient(155deg,rgba(17,27,43,.98),rgba(8,15,26,.99) 72%);box-shadow:-22px 0 70px rgba(0,0,0,.4);backdrop-filter:blur(18px)}
   .mobile-more-drawer-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin:5px 0 16px}
@@ -20807,9 +20799,8 @@ a { text-underline-offset: 3px; }
   .sidebar-network-entry { margin:3px 0 6px !important; }
   .mobile-navigation .mobile-nav { gap:3px !important; }
   .mobile-navigation .mobile-nav button { padding:6px 4px !important; min-height:46px !important; }
-  .mobile-edge-actions { gap:4px !important; width:30px !important; }
-  .mobile-edge-action { width:30px !important; min-height:78px !important; padding:7px 5px !important; gap:5px !important; }
-  .mobile-edge-impact { min-height:60px !important; }
+  .mobile-edge-actions { width:27px !important; }
+  .mobile-edge-action { width:27px !important; min-height:74px !important; padding:8px 4px !important; gap:5px !important; }
   .mobile-more-drawer { gap:7px !important; padding:20px 14px max(16px,env(safe-area-inset-bottom)) !important; }
   .mobile-more-drawer-head { margin:3px 0 10px !important; }
   .mobile-more-drawer-item { min-height:56px !important; padding:9px !important; gap:9px !important; border-radius:10px !important; }
