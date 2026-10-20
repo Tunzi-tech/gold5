@@ -5226,7 +5226,7 @@ onBeforeUnmount(() => {
         </div>
 
         <div class="top-actions">
-          <button class="top-icon mobile-network-launch" type="button" :class="{ active: homeHeaderChatOpen }" @click="homeHeaderChatOpen = !homeHeaderChatOpen; homeLocalWorldOpen = homeHeaderChatOpen" aria-label="Open local and global network" title="NetworkChat · Local · World">◎</button>
+          
           <button class="top-icon" title="Notifications" aria-label="Notifications">◌</button>
           <button class="top-icon" title="Messages" aria-label="Messages">✉</button>
           <button
@@ -5248,6 +5248,8 @@ onBeforeUnmount(() => {
         </div>
 
       </header>
+
+      <button class="mobile-network-launch" type="button" :class="{ active: homeHeaderChatOpen }" @click="homeHeaderChatOpen = !homeHeaderChatOpen; homeLocalWorldOpen = homeHeaderChatOpen" aria-label="Open local and global network" title="NetworkChat · Local · World"><span aria-hidden="true">◎</span><span class="mobile-network-launch-label">NETWORKCHAT</span></button>
 
       <!-- Mobile NetworkChat is global: it is independent of the Home view and primary navigation. -->
       <div v-if="homeHeaderChatOpen" class="mobile-network-overlay" @click.self="homeHeaderChatOpen = false; homeLocalWorldOpen = false">
@@ -20421,7 +20423,7 @@ a { text-underline-offset: 3px; }
 /* Mobile access: a persistent right-edge NetworkChat tab, independent of sidebar spaces. */
 @media (max-width:760px) {
   .sidebar-network-entry { display:none !important; }
-  .topbar .top-actions .mobile-network-launch {
+  .mobile-network-launch {
     display:flex !important;
     position:fixed !important;
     top:42% !important;
@@ -20439,19 +20441,26 @@ a { text-underline-offset: 3px; }
     color:#d8f8ff !important;
     background:linear-gradient(180deg,rgba(34,100,126,.98),rgba(38,49,91,.98)) !important;
     box-shadow:-5px 0 24px rgba(40,142,183,.22),0 0 18px rgba(89,169,229,.12) !important;
+    flex-direction:column !important;
+    gap:7px !important;
     font-size:19px !important;
     writing-mode:vertical-rl !important;
     transform:none !important;
     cursor:pointer !important;
+    opacity:1 !important;
+    visibility:visible !important;
   }
-  .topbar .top-actions .mobile-network-launch::after {
-    content:"NETWORK";
-    display:block;
-    margin-top:7px;
-    font-size:8px;
-    font-weight:850;
-    letter-spacing:.13em;
-    writing-mode:vertical-rl;
+  .mobile-network-launch-label {
+    display:block !important;
+    font-size:8px !important;
+    font-weight:850 !important;
+    letter-spacing:.13em !important;
+    writing-mode:vertical-rl !important;
+    color:#e1faff !important;
+  }
+  .mobile-network-launch.active {
+    background:linear-gradient(180deg,rgba(45,122,151,.99),rgba(55,63,115,.99)) !important;
+    border-color:rgba(156,225,255,.9) !important;
   }
   .home-commons-content .home-view-switch {
     order:-2 !important;
