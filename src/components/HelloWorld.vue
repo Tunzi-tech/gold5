@@ -21594,6 +21594,24 @@ a { text-underline-offset: 3px; }
 @media(max-width:760px) { .organization-calls-strip { padding:12px; } .organization-calls-heading { align-items:flex-start; } .organization-calls-heading h2 { font-size:16px; } .organization-calls-heading > button { max-width:112px; white-space:normal; } .organization-call-cards { grid-template-columns:1fr; } .organization-call-card { display:grid; grid-template-columns:104px minmax(0,1fr); } .organization-call-card > img { height:100%; min-height:155px; } .organization-call-card-copy { padding:10px; } .organization-call-card-copy p { min-height:0; } .impacting-report-header { align-items:flex-start; flex-direction:column; } .impacting-report-actions { justify-content:flex-start; width:100%; } .impacting-report-actions button { flex:1 1 auto; } }
 
 
+
+/* Desktop: keep issue shortcuts grouped immediately beside notifications on the right. */
+@media (min-width: 761px) {
+  header.topbar .top-impact-actions {
+    order: 3;
+    flex: 0 1 auto;
+    width: auto;
+    max-width: min(390px, 35vw);
+    margin-left: auto;
+  }
+  header.topbar .top-actions {
+    order: 4;
+    flex: 0 0 auto;
+    margin-left: 0;
+  }
+  header.topbar .mobile-home-space-row { order: 2; }
+}
+
 /* Quick access to issue discovery and reporting, directly below the global search. */
 .top-impact-actions { display:flex; align-items:center; gap:7px; width:100%; min-width:0; }
 .top-impact-action { display:flex; align-items:center; justify-content:center; gap:7px; min-height:34px; padding:6px 11px; border:1px solid rgba(133,164,195,.2); border-radius:9px; color:#d9e7f7; background:linear-gradient(110deg,rgba(31,50,73,.82),rgba(20,32,48,.88)); font-size:10px; font-weight:780; cursor:pointer; transition:border-color .18s ease, background .18s ease; }
