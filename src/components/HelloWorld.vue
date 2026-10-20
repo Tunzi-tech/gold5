@@ -5272,14 +5272,14 @@ onBeforeUnmount(() => {
       <section v-if="activeView === 'home'" class="content home-commons-content" :class="{ 'home-hero-collapsed': homeHeroHidden }">
 
         <div class="home-hero-control">
-          <button type="button" class="home-hero-toggle" :aria-expanded="!homeHeroHidden" @click="homeHeroHidden = !homeHeroHidden; homeHeroHidden || (homeHeaderChatOpen = false)">
-            <span aria-hidden="true">{{ homeHeroHidden ? '⌄' : '⌃' }}</span>
-            {{ homeHeroHidden ? 'Show header' : 'Hide header' }}
-          </button>
           <button type="button" class="home-header-chat-toggle home-network-toggle" :class="{ active: homeHeaderChatOpen }"
             :aria-pressed="homeHeaderChatOpen" @click="homeHeaderChatOpen = !homeHeaderChatOpen; homeLocalWorldOpen = homeHeaderChatOpen">
             <span aria-hidden="true">◎</span>{{ homeHeaderChatOpen ? 'Close network' : 'Network' }}
             <span class="home-network-toggle-caption">Chat · Local · World</span>
+          </button>
+          <button type="button" class="home-hero-toggle" :aria-expanded="!homeHeroHidden" @click="homeHeroHidden = !homeHeroHidden; homeHeroHidden || (homeHeaderChatOpen = false)">
+            <span aria-hidden="true">{{ homeHeroHidden ? '⌄' : '⌃' }}</span>
+            {{ homeHeroHidden ? 'Show header' : 'Hide header' }}
           </button>
         </div>
         <section v-if="homeHeaderChatOpen" class="home-header-chat" aria-label="Home chat">
