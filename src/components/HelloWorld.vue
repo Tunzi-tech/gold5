@@ -5307,7 +5307,7 @@ onBeforeUnmount(() => {
           <span></span><span></span><span></span>
         </button>
         <button type="button" class="desktop-impact-launch" :class="{ active: activeView === 'awareness' }" @click="navigate('awareness')" aria-label="Open Impact" title="Impact">
-          <span class="brand-orbit impact-button-orbit" aria-hidden="true"><span></span></span>
+          <span v-if="activeView === 'awareness'" class="brand-orbit impact-button-orbit" aria-hidden="true"><span></span></span>
         </button>
         <div class="mobile-brand" @click="navigate('home')" role="button" tabindex="0" @keydown.enter="navigate('home')" aria-label="Anfas home">
           <span class="brand-orbit mobile-brand-mark" aria-hidden="true"><span></span></span>
