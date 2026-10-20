@@ -18251,6 +18251,39 @@ textarea:focus-visible {
   background: linear-gradient(90deg, rgba(83, 132, 213, .22), rgba(83, 132, 213, .045));
   box-shadow: inset 2px 0 0 rgba(112, 168, 255, .82);
 }
+
+/* Keep the left active rail fixed; let a blue-violet signal travel on the right. */
+.main-nav .primary-navigation-portal .primary-space-nav-button {
+  position: relative;
+  overflow: hidden;
+}
+.main-nav .primary-navigation-portal .primary-space-nav-button.active::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  width: 3px;
+  height: 17px;
+  border-radius: 999px;
+  opacity: .95;
+  pointer-events: none;
+  transform: translateY(-50%);
+  background: linear-gradient(180deg, #a78bfa 0%, #7b78ff 38%, #4d8dff 72%, #6fc8ff 100%);
+  background-size: 100% 220%;
+  box-shadow: 0 0 6px rgba(126, 105, 255, .7), 0 0 13px rgba(77, 141, 255, .42);
+  animation: navBlueVioletSignal 2.4s ease-in-out infinite;
+}
+@keyframes navBlueVioletSignal {
+  0%, 100% { background-position: 0 0%; height: 10px; opacity: .72; box-shadow: 0 0 5px rgba(126, 105, 255, .55), 0 0 9px rgba(77, 141, 255, .28); }
+  50% { background-position: 0 100%; height: 23px; opacity: 1; box-shadow: 0 0 8px rgba(167, 139, 250, .8), 0 0 16px rgba(77, 141, 255, .55); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .main-nav .primary-navigation-portal .primary-space-nav-button.active::after {
+    animation: none;
+    height: 16px;
+    background-position: 0 50%;
+  }
+}
 .main-nav .primary-navigation-portal .dimension-portal-trigger {
   height: 19px;
   min-height: 19px;
