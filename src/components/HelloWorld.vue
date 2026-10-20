@@ -22214,5 +22214,63 @@ header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button
   box-shadow: 0 0 7px rgba(255,210,105,.9) !important;
 }
 
+
+/* Final Impact mark: no outlined button, orbital rings, or decorative borders.
+   Keep only a soft light when the Impact view is selected. */
+header.topbar > .desktop-impact-launch,
+header.topbar > .desktop-impact-launch:hover,
+header.topbar > .desktop-impact-launch.active {
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+header.topbar > .desktop-impact-launch > .impact-button-orbit,
+header.topbar > .desktop-impact-launch > .impact-button-orbit::before,
+header.topbar > .desktop-impact-launch > .impact-button-orbit::after {
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+header.topbar > .desktop-impact-launch > .impact-button-orbit::before,
+header.topbar > .desktop-impact-launch > .impact-button-orbit::after {
+  content: none !important;
+  display: none !important;
+}
+header.topbar:not(.impact-orbit-transferred) > .desktop-impact-launch > .impact-button-orbit,
+header.topbar:not(.impact-orbit-transferred) > .desktop-impact-launch > .impact-button-orbit > span {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  animation: none !important;
+}
+header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit {
+  display: inline-block !important;
+  width: 12px !important;
+  height: 12px !important;
+  padding: 0 !important;
+  position: relative !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: radial-gradient(circle, rgba(255,224,138,.32) 0%, rgba(117,177,255,.22) 40%, transparent 76%) !important;
+  box-shadow: 0 0 14px rgba(117,177,255,.34), 0 0 22px rgba(143,91,255,.18) !important;
+  animation: impact-button-light-pulse 1.8s ease-in-out infinite alternate !important;
+}
+header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit > span {
+  display: block !important;
+  position: absolute !important;
+  width: 4px !important;
+  height: 4px !important;
+  top: 4px !important;
+  left: 4px !important;
+  right: auto !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: #ffe08a !important;
+  box-shadow: 0 0 7px rgba(255,210,105,.9), 0 0 13px rgba(255,210,105,.55) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
 </style>
-\n\n/* Reuse the Nfas logo orbit as the Impact button icon. */\nheader.topbar > .desktop-impact-launch > .impact-button-orbit {\n  width: 22px !important;\n  height: 22px !important;\n  flex: 0 0 22px !important;\n  display: inline-block !important;\n  border-radius: 50% !important;\n  border: 1px solid rgba(169,206,255,.78) !important;\n  background: radial-gradient(circle at 45% 40%, rgba(103,164,255,.12), transparent 58%) !important;\n  box-shadow: inset 0 0 10px rgba(80,125,190,.12) !important;\n  position: relative !important;\n}\nheader.topbar > .desktop-impact-launch > .impact-button-orbit::before {\n  content: "" !important;\n  position: absolute !important;\n  inset: 4px !important;\n  border: 1px solid rgba(103,164,255,.6) !important;\n  border-radius: 50% !important;\n}\nheader.topbar > .desktop-impact-launch > .impact-button-orbit::after {\n  content: "" !important;\n  position: absolute !important;\n  inset: 6px 3px !important;\n  border: 1px solid rgba(139,92,246,.65) !important;\n  border-radius: 50% !important;\n  transform: rotate(-28deg) !important;\n}\nheader.topbar > .desktop-impact-launch > .impact-button-orbit > span {\n  position: absolute !important;\n  width: 5px !important;\n  height: 5px !important;\n  top: -2px !important;\n  right: 2px !important;\n  border-radius: 50% !important;\n  background: #79b0ff !important;\n  box-shadow: 0 0 8px rgba(103,164,255,.8) !important;\n}\nheader.topbar > .desktop-impact-launch.active > .impact-button-orbit {\n  border-color: rgba(255,211,110,.9) !important;\n  background: radial-gradient(circle at 45% 40%, rgba(255,211,110,.16), transparent 62%) !important;\n  box-shadow: inset 0 0 10px rgba(255,211,110,.12), 0 0 8px rgba(255,211,110,.08) !important;\n}\nheader.topbar > .desktop-impact-launch.active > .impact-button-orbit::before {\n  border-color: rgba(255,211,110,.7) !important;\n}\nheader.topbar > .desktop-impact-launch.active > .impact-button-orbit::after {\n  border-color: rgba(255,211,110,.52) !important;\n}\nheader.topbar > .desktop-impact-launch.active > .impact-button-orbit > span {\n  background: #ffd36e !important;\n  box-shadow: 0 0 8px rgba(255,211,110,.8) !important;\n}\nheader.topbar > .desktop-impact-launch:hover > .impact-button-orbit {\n  border-color: rgba(169,206,255,.95) !important;\n  background: radial-gradient(circle at 45% 40%, rgba(169,206,255,.18), transparent 62%) !important;\n}\nheader.topbar > .desktop-impact-launch:hover > .impact-button-orbit::before {\n  border-color: rgba(169,206,255,.72) !important;\n}\nheader.topbar > .desktop-impact-launch:hover > .impact-button-orbit::after {\n  border-color: rgba(169,206,255,.58) !important;\n}\n\n\n/* Keep the Impact mark clearly smaller than the Nfas logo: a compact icon inside its own button. */\n@media screen and (min-width: 901px) {\n  header.topbar > .desktop-impact-launch {\n    width: 32px !important;\n    min-width: 32px !important;\n    max-width: 32px !important;\n    height: 32px !important;\n    padding: 0 !important;\n    gap: 0 !important;\n    border-radius: 9px !important;\n  }\n  header.topbar > .desktop-impact-launch > .impact-button-orbit {\n    width: 12px !important;\n    height: 12px !important;\n    flex: 0 0 12px !important;\n    border-radius: 50% !important;\n  }\n  header.topbar > .desktop-impact-launch > .impact-button-orbit::before {\n    inset: 3px !important;\n  }\n  header.topbar > .desktop-impact-launch > .impact-button-orbit::after {\n    inset: 4px 2px !important;\n  }\n  header.topbar > .desktop-impact-launch > .impact-button-orbit > span {\n    width: 3px !important;\n    height: 3px !important;\n    top: -1px !important;\n    right: 2px !important;\n  }\n}}\n
