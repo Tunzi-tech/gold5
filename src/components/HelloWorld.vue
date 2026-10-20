@@ -21832,18 +21832,37 @@ a { text-underline-offset: 3px; }
   }
 }
 
-/* Mobile: Home is a dedicated navigation bar immediately below Search. */
-@media screen and (max-width: 760px) {
+/* Final mobile layout override: keep Home directly below Search despite older nav rules. */
+@media screen and (max-width: 900px) {
   header.topbar {
+    display: grid !important;
     grid-template-columns: 32px minmax(0, 1fr) auto !important;
     grid-template-rows: 35px 35px 36px 36px !important;
+    grid-auto-flow: row !important;
+    align-items: center !important;
+  }
+  header.topbar > .mobile-menu-launch {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+  }
+  header.topbar > .mobile-brand {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+  }
+  header.topbar > .top-actions {
+    grid-column: 3 !important;
+    grid-row: 1 !important;
   }
   header.topbar > .search-box {
+    display: flex !important;
     grid-column: 1 / -1 !important;
     grid-row: 2 !important;
+    width: 100% !important;
   }
   header.topbar > .mobile-home-under-search {
     display: flex !important;
+    position: relative !important;
+    inset: auto !important;
     grid-column: 1 / -1 !important;
     grid-row: 3 !important;
     justify-self: stretch !important;
@@ -21861,6 +21880,8 @@ a { text-underline-offset: 3px; }
     background: linear-gradient(100deg,rgba(18,34,53,.88),rgba(25,42,64,.92)) !important;
     color: #c9d9ee !important;
     gap: 7px !important;
+    transform: none !important;
+    order: 0 !important;
   }
   header.topbar > .mobile-home-under-search strong {
     font-size: 10px !important;
@@ -21885,8 +21906,7 @@ a { text-underline-offset: 3px; }
     margin: 0 !important;
   }
   header.topbar > .top-impact-actions {
-    grid-column: 1 / -1 !important;
-    grid-row: auto !important;
+    display: none !important;
   }
 }
 
