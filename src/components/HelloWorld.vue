@@ -5330,17 +5330,19 @@ onBeforeUnmount(() => {
           </button>
         </div>
 
-        <div class="mobile-home-space-row" aria-label="Home and your space">
-          <button
-            type="button"
-            class="mobile-home-bar-button mobile-home-only"
-            :class="{ active: activeView === 'home' }"
-            @click="navigate('home')"
-            aria-label="Go to Home"
-          >
-            <span aria-hidden="true">⌂</span>
-            <strong>Home</strong>
-          </button>
+
+        <button
+          type="button"
+          class="mobile-home-bar-button mobile-home-only mobile-home-under-search"
+          :class="{ active: activeView === 'home' }"
+          @click="navigate('home')"
+          aria-label="Go to Home"
+        >
+          <span aria-hidden="true">⌂</span>
+          <strong>Home</strong>
+        </button>
+
+        <div class="mobile-home-space-row" aria-label="Your space">
           <button
             type="button"
             class="mobile-home-bar-button mobile-your-space-button"
@@ -21830,6 +21832,64 @@ a { text-underline-offset: 3px; }
     grid-column: auto !important;
     grid-row: auto !important;
     position: relative !important;
+  }
+}
+
+/* Mobile: Home is a dedicated navigation bar immediately below Search. */
+@media screen and (max-width: 760px) {
+  header.topbar {
+    grid-template-columns: 32px minmax(0, 1fr) auto !important;
+    grid-template-rows: 35px 35px 36px 36px !important;
+  }
+  header.topbar > .search-box {
+    grid-column: 1 / -1 !important;
+    grid-row: 2 !important;
+  }
+  header.topbar > .mobile-home-under-search {
+    display: flex !important;
+    grid-column: 1 / -1 !important;
+    grid-row: 3 !important;
+    justify-self: stretch !important;
+    align-self: stretch !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    margin: 0 !important;
+    padding: 0 13px !important;
+    border: 1px solid rgba(126,163,213,.22) !important;
+    border-radius: 9px !important;
+    background: linear-gradient(100deg,rgba(18,34,53,.88),rgba(25,42,64,.92)) !important;
+    color: #c9d9ee !important;
+    gap: 7px !important;
+  }
+  header.topbar > .mobile-home-under-search strong {
+    font-size: 10px !important;
+    font-weight: 800 !important;
+  }
+  header.topbar > .mobile-home-under-search.active {
+    border-color: rgba(111,171,244,.5) !important;
+    background: linear-gradient(100deg,rgba(28,48,74,.9),rgba(18,34,53,.98)) !important;
+    color: #f0f6ff !important;
+  }
+  header.topbar > .mobile-home-space-row {
+    grid-column: 1 / -1 !important;
+    grid-row: 4 !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    width: 100% !important;
+  }
+  header.topbar > .mobile-home-space-row > .mobile-your-space-button {
+    display: flex !important;
+    grid-column: auto !important;
+    grid-row: auto !important;
+    margin: 0 !important;
+  }
+  header.topbar > .top-impact-actions {
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
   }
 }
 
