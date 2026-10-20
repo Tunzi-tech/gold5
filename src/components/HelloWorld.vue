@@ -21323,3 +21323,50 @@ a { text-underline-offset: 3px; }
     justify-content: flex-end !important;
   }
 }
+
+
+/* Definitive mobile layout: Home and Your space occupy two equal columns on one row. */
+@media screen and (max-width: 760px) {
+  header.topbar > div.mobile-home-space-row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    grid-template-rows: 36px !important;
+    grid-auto-flow: row !important;
+    align-items: stretch !important;
+    justify-content: stretch !important;
+    gap: 8px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 36px !important;
+    max-height: 36px !important;
+    overflow: hidden !important;
+    direction: ltr !important;
+    box-sizing: border-box !important;
+  }
+  header.topbar > div.mobile-home-space-row > button.mobile-home-bar-button.mobile-home-only {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    justify-self: stretch !important;
+    align-self: stretch !important;
+    display: flex !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    white-space: nowrap !important;
+  }
+  header.topbar > div.mobile-home-space-row > button.mobile-home-bar-button.mobile-your-space-button {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    justify-self: stretch !important;
+    align-self: stretch !important;
+    display: flex !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    white-space: nowrap !important;
+  }
+}
