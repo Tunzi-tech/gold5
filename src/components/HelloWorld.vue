@@ -22394,3 +22394,54 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
   }
 }
 
+
+
+/* Ensure the animated mark is visible inside the mobile Impact bar when selected. */
+@media screen and (max-width: 900px) {
+  header.topbar > .mobile-home-space-row > button.mobile-your-space-button.active > .mobile-impact-orbit {
+    display: inline-block !important;
+    position: relative !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    flex: 0 0 22px !important;
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    min-height: 22px !important;
+    overflow: visible !important;
+    margin-right: 5px !important;
+    animation: mobile-impact-orbit-in .48s cubic-bezier(.2,.75,.25,1) both, impact-button-light-pulse 1.8s ease-in-out .48s infinite alternate !important;
+  }
+  header.topbar > .mobile-home-space-row > button.mobile-your-space-button.active > .mobile-impact-orbit::before,
+  header.topbar > .mobile-home-space-row > button.mobile-your-space-button.active > .mobile-impact-orbit::after {
+    content: "" !important;
+    display: block !important;
+    position: absolute !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    inset: 2px -3px !important;
+    border: 1px solid rgba(105,169,255,.98) !important;
+    border-radius: 50% !important;
+    background: transparent !important;
+    box-shadow: 0 0 5px rgba(80,150,255,.38) !important;
+    animation: mobile-impact-orbit-spin 2.1s linear infinite !important;
+  }
+  header.topbar > .mobile-home-space-row > button.mobile-your-space-button.active > .mobile-impact-orbit::after {
+    inset: 3px -4px !important;
+    border-color: rgba(190,116,255,.95) !important;
+    animation-duration: 2.8s !important;
+    animation-direction: reverse !important;
+  }
+  header.topbar > .mobile-home-space-row > button.mobile-your-space-button.active > .mobile-impact-orbit > span {
+    display: block !important;
+    position: absolute !important;
+    left: 8px !important;
+    top: 8px !important;
+    width: 6px !important;
+    height: 6px !important;
+    border-radius: 50% !important;
+    background: #ffe08a !important;
+    box-shadow: 0 0 7px rgba(255,210,105,.9), 0 0 13px rgba(255,210,105,.45) !important;
+  }
+}
+
