@@ -19861,4 +19861,69 @@ a { text-underline-offset: 3px; }
   border-color: rgba(177,148,255,.36);
   color: #f0eaff;
 }
+
+
+/* Rework the relationship as one parent branching into two destinations. */
+.zones-subnav .sidebar-zones-header::after {
+  left: 20px;
+  bottom: -8px;
+  height: 9px;
+  background: linear-gradient(180deg, rgba(167,132,255,.7), rgba(115,185,201,.6));
+  box-shadow: 0 0 6px rgba(151,124,255,.16);
+}
+.zones-subnav .zones-connected-pair {
+  position: relative;
+  gap: 5px;
+  margin: 1px 0 5px 7px;
+  padding: 4px 2px 4px 17px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.zones-subnav .zones-connected-pair::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 0;
+  bottom: 18px;
+  width: 1px;
+  background: linear-gradient(180deg, rgba(167,132,255,.62), rgba(115,185,201,.55));
+  box-shadow: 0 0 6px rgba(151,124,255,.15);
+  pointer-events: none;
+}
+.zones-subnav .zones-connected-pair .zones-pair-connection {
+  display: none;
+}
+.zones-subnav .zones-connected-pair .zone-space-button {
+  position: relative;
+  min-height: 34px;
+  border: 1px solid rgba(151,124,255,.16);
+  border-radius: 8px;
+  background: linear-gradient(105deg, rgba(103,76,165,.14), rgba(38,63,91,.19) 68%, rgba(21,32,48,.30));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.025);
+}
+.zones-subnav .zones-connected-pair .zone-space-button::before {
+  content: "";
+  position: absolute;
+  left: -11px;
+  top: 50%;
+  width: 10px;
+  height: 1px;
+  background: rgba(142,167,220,.62);
+  pointer-events: none;
+}
+.zones-subnav .zones-connected-pair .zone-space-button-around.active,
+.zones-subnav .zones-connected-pair .zone-space-button-mine.active {
+  border-color: rgba(177,148,255,.4);
+  background: linear-gradient(105deg, rgba(133,99,211,.28), rgba(44,86,121,.30) 68%, rgba(24,39,58,.54));
+  color: #f0eaff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.055), 0 0 10px rgba(137,104,232,.09);
+}
+.zones-subnav .zones-connected-pair .zone-space-button:hover,
+.zones-subnav .zones-connected-pair .zone-space-button:focus-visible {
+  border-color: rgba(177,148,255,.36);
+  background: linear-gradient(105deg, rgba(133,99,211,.23), rgba(44,86,121,.27) 68%, rgba(24,39,58,.49));
+  color: #f0eaff;
+}
 </style>
