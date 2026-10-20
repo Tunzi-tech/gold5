@@ -22157,7 +22157,8 @@ header.topbar > .mobile-brand .mobile-brand-mark::after {
   transition: opacity .28s ease, transform .35s ease !important;
 }
 header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit {
-  border-color: rgba(239,247,255,.98) !important;
+  border: none !important;
+  outline: none !important;
   background: radial-gradient(circle, rgba(226,241,255,.2), transparent 72%) !important;
   box-shadow: 0 0 9px rgba(210,232,255,.2), inset 0 0 5px rgba(255,255,255,.12) !important;
   animation: impact-orbit-arrives .55s cubic-bezier(.2,.75,.25,1) both;
