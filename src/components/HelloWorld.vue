@@ -4707,6 +4707,16 @@ onBeforeUnmount(() => {
           <span></span>
         </div>
 
+        <button
+          class="dimension-portal-trigger brand-dimension-portal"
+          type="button"
+          @click.stop="showCircleHome = true"
+          :aria-label="t('Circles')"
+          :title="t('Circles')"
+        >
+          <span class="dimension-portal-line" aria-hidden="true"></span>
+        </button>
+
         <div>
           <strong>Anfas</strong>
           <small>PEOPLE • ACTIONS • VOICES</small>
@@ -4724,16 +4734,6 @@ onBeforeUnmount(() => {
           >
             <span class="icon">⌂</span>
             Home
-          </button>
-
-          <button
-            class="dimension-portal-trigger"
-            type="button"
-            @click="showCircleHome = true"
-            :aria-label="t('Circles')"
-            :title="t('Circles')"
-          >
-            <span class="dimension-portal-line" aria-hidden="true"></span>
           </button>
 
           <button
@@ -20055,3 +20055,23 @@ a { text-underline-offset: 3px; }
   }
 }
 </style>
+
+/* Keep the Circles dimension portal beside the Anfas logo, not between Home and Live Flow. */
+.brand .brand-dimension-portal {
+  flex: 0 0 18px;
+  width: 18px !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  margin: 0 1px 0 0 !important;
+  padding: 0 !important;
+  align-self: center;
+  background: transparent !important;
+}
+.brand .brand-dimension-portal .dimension-portal-line {
+  height: 25px;
+}
+.brand .brand-dimension-portal:hover .dimension-portal-line,
+.brand .brand-dimension-portal:focus-visible .dimension-portal-line {
+  height: 30px;
+}
+
