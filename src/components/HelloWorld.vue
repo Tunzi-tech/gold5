@@ -914,6 +914,7 @@ const showImpactCategories = ref(false)
 const awarenessCategory = ref('ALL')
 const awarenessImpactType = ref('ALL')
 const showRaiseAwareness = ref(false)
+const isReportingIssue = ref(false)
 const impactingCountryFilter = ref('Tunisia')
 const selectedImpactIssueId = ref<number | null>(null)
 const impactingSourceFilter = ref<'ALL' | 'ZONE_REPORTS'>('ALL')
@@ -5323,7 +5324,7 @@ onBeforeUnmount(() => {
             <span>Choose an issue</span>
             <small>Zone or interests</small>
           </button>
-          <button type="button" class="top-impact-action top-impact-report" @click="activeView = 'awareness'; showRaiseAwareness = true">
+          <button type="button" class="top-impact-action top-impact-report" @click="activeView = 'awareness'; showRaiseAwareness = true; isReportingIssue = true">
             <span aria-hidden="true">＋</span>
             <span>Report an issue</span>
           </button>
@@ -6728,7 +6729,7 @@ onBeforeUnmount(() => {
             <h1>Turn what you notice into <span>shared understanding.</span></h1>
             <p>People, Pages, entities and communities bring forward the questions that matter — explore what is happening, what may follow, and what we can do together.</p>
           </div>
-          <button type="button" class="awareness-submit-button" @click="showRaiseAwareness = !showRaiseAwareness">{{ showRaiseAwareness ? 'CLOSE FORM' : '+ RAISE AWARENESS' }}</button>
+          <button type="button" class="awareness-submit-button" @click="showRaiseAwareness = !showRaiseAwareness; if (!showRaiseAwareness) isReportingIssue = false">{{ showRaiseAwareness ? 'CLOSE FORM' : '+ RAISE AWARENESS' }}</button>
         </div>
 
         <section class="impacting-path-panel" aria-label="Choose how to make an impact">
@@ -6740,7 +6741,7 @@ onBeforeUnmount(() => {
             </div>
             <span class="impacting-path-orbit" aria-hidden="true">◎</span>
           </div>
-          <div class="impacting-report-header"><div><span class="impacting-report-mark" aria-hidden="true">◎</span><div><strong>Zone issue reports</strong><p>Concerns, observations and suggestions already shared in Zones.</p></div></div><div class="impacting-report-actions"><button type="button" :class="{ active: impactingSourceFilter === 'ZONE_REPORTS' }" @click="impactingSourceFilter = impactingSourceFilter === 'ZONE_REPORTS' ? 'ALL' : 'ZONE_REPORTS'; selectedImpactIssueId = null">{{ impactingSourceFilter === 'ZONE_REPORTS' ? 'Showing Zone reports' : 'Show Zone reports' }}</button><button type="button" class="impacting-report-submit" @click="showRaiseAwareness = true">+ Report an issue</button></div></div>
+          <div class="impacting-report-header"><div><span class="impacting-report-mark" aria-hidden="true">◎</span><div><strong>Zone issue reports</strong><p>Concerns, observations and suggestions already shared in Zones.</p></div></div><div class="impacting-report-actions"><button type="button" :class="{ active: impactingSourceFilter === 'ZONE_REPORTS' }" @click="impactingSourceFilter = impactingSourceFilter === 'ZONE_REPORTS' ? 'ALL' : 'ZONE_REPORTS'; selectedImpactIssueId = null">{{ impactingSourceFilter === 'ZONE_REPORTS' ? 'Showing Zone reports' : 'Show Zone reports' }}</button><button type="button" class="impacting-report-submit" @click="isReportingIssue = true; showRaiseAwareness = true">+ Report an issue</button></div></div>
           <div class="impacting-path-options">
             <div class="impacting-path-option">
               <span class="impacting-path-step">01 · PLACE</span>
@@ -6778,11 +6779,11 @@ onBeforeUnmount(() => {
 
         <form v-if="showRaiseAwareness" class="awareness-card awareness-create-card" @submit.prevent="submitAwarenessItem">
           <div class="awareness-card-head">
-            <span class="awareness-kicker">RAISE AWARENESS</span>
+            <span class="awareness-kicker">{{ isReportingIssue ? 'REPORT AN ISSUE' : 'RAISE AWARENESS' }}</span>
             <span class="awareness-learn-mark">✦</span>
           </div>
-          <h2>What deserves more attention?</h2>
-          <p>Share what you have noticed, what you want to understand, and what people could explore together. Be clear about what is observed and what is still uncertain.</p>
+          <h2>{{ isReportingIssue ? 'What issue needs attention?' : 'What deserves more attention?' }}</h2>
+          <p>{{ isReportingIssue ? 'Report a concern in a Zone or place so people can understand it, explore its consequences and consider what to do together. Separate what you observed from what still needs checking.' : 'Share what you have noticed, what you want to understand, and what people could explore together. Be clear about what is observed and what is still uncertain.' }}</p>
           <label class="awareness-form-label">Title
             <input v-model="awarenessDraft.title" required maxlength="140" placeholder="What should people understand?" />
           </label>
@@ -6838,8 +6839,8 @@ onBeforeUnmount(() => {
             <input v-model="awarenessDraft.evidence" placeholder="Add a source, report, link title or note" />
           </label>
           <div class="awareness-form-actions">
-            <button type="button" class="awareness-link" @click="showRaiseAwareness = false">CANCEL</button>
-            <button type="submit" class="awareness-submit-button">PUBLISH AWARENESS ITEM →</button>
+            <button type="button" class="awareness-link" @click="showRaiseAwareness = false; isReportingIssue = false">CANCEL</button>
+            <button type="submit" class="awareness-submit-button">{{ isReportingIssue ? 'SUBMIT ISSUE →' : 'PUBLISH AWARENESS ITEM →' }}</button>
           </div>
         </form>
 
