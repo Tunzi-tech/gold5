@@ -5307,7 +5307,7 @@ onBeforeUnmount(() => {
           <span></span><span></span><span></span>
         </button>
         <button type="button" class="desktop-impact-launch" :class="{ active: activeView === 'awareness' }" @click="navigate('awareness')" aria-label="Open Impact" title="Impact">
-          <span aria-hidden="true">◎</span><strong>Impact</strong>
+          <span class="brand-orbit impact-button-orbit" aria-hidden="true"><span></span></span><strong>Impact</strong>
         </button>
         <div class="mobile-brand" @click="navigate('home')" role="button" tabindex="0" @keydown.enter="navigate('home')" aria-label="Anfas home">
           <span class="brand-orbit mobile-brand-mark" aria-hidden="true"><span></span></span>
@@ -22141,3 +22141,4 @@ a { text-underline-offset: 3px; }
 }
 
 </style>
+\n\n/* Reuse the Nfas logo orbit as the Impact button icon. */\nheader.topbar > .desktop-impact-launch > .impact-button-orbit {\n  width: 22px !important;\n  height: 22px !important;\n  flex: 0 0 22px !important;\n  display: inline-block !important;\n  border-radius: 50% !important;\n  border: 1px solid rgba(169,206,255,.78) !important;\n  background: radial-gradient(circle at 45% 40%, rgba(103,164,255,.12), transparent 58%) !important;\n  box-shadow: inset 0 0 10px rgba(80,125,190,.12) !important;\n  position: relative !important;\n}\nheader.topbar > .desktop-impact-launch > .impact-button-orbit::before {\n  content: "" !important;\n  position: absolute !important;\n  inset: 4px !important;\n  border: 1px solid rgba(103,164,255,.6) !important;\n  border-radius: 50% !important;\n}\nheader.topbar > .desktop-impact-launch > .impact-button-orbit::after {\n  content: "" !important;\n  position: absolute !important;\n  inset: 6px 3px !important;\n  border: 1px solid rgba(139,92,246,.65) !important;\n  border-radius: 50% !important;\n  transform: rotate(-28deg) !important;\n}\nheader.topbar > .desktop-impact-launch > .impact-button-orbit > span {\n  position: absolute !important;\n  width: 5px !important;\n  height: 5px !important;\n  top: -2px !important;\n  right: 2px !important;\n  border-radius: 50% !important;\n  background: #79b0ff !important;\n  box-shadow: 0 0 8px rgba(103,164,255,.8) !important;\n}\nheader.topbar > .desktop-impact-launch.active > .impact-button-orbit {\n  border-color: rgba(255,211,110,.9) !important;\n}\nheader.topbar > .desktop-impact-launch.active > .impact-button-orbit > span {\n  background: #ffd36e !important;\n  box-shadow: 0 0 8px rgba(255,211,110,.8) !important;\n}\n
