@@ -5194,31 +5194,9 @@ onBeforeUnmount(() => {
         <button :class="{ active: ['zones', 'my-zones', 'around-zones', 'zone'].includes(activeView) }" @click="navigate('zones')">
           <span class="mobile-nav-icon">◉</span><span>Zones</span>
         </button>
-        <button :class="{ active: ['pages', 'call', 'initiatives', 'entities', 'entity'].includes(activeView) }" @click="navigate('pages')">
-          <span class="mobile-nav-icon">▣</span><span>Flow</span>
-        </button>
-        <button :class="{ active: ['people', 'administration'].includes(activeView) }" @click="navigate('people')">
-          <span class="mobile-nav-icon">♧</span><span>People</span>
-        </button>
       </nav>
 
     </div>
-
-    <!-- One compact mobile edge tab opens the secondary navigation drawer. -->
-    <div class="mobile-edge-actions" aria-label="More navigation">
-      <button class="mobile-edge-action mobile-edge-explore" type="button" :class="{ active: mobileMoreOpen }" @click="mobileMoreOpen = !mobileMoreOpen" :aria-expanded="mobileMoreOpen" aria-label="Open navigation drawer" title="Flow, People and NetworkChat">
-        <span class="mobile-edge-action-icon" aria-hidden="true">⌁</span><span>MORE</span>
-      </button>
-    </div>
-    <div v-if="mobileMoreOpen" class="mobile-more-overlay" @click.self="mobileMoreOpen = false">
-      <aside class="mobile-more-drawer" role="dialog" aria-modal="true" aria-label="Anfas Explore">
-        <div class="mobile-more-drawer-head"><div><span class="home-connection-kicker">ANFAS · EXPLORE</span><h2>Anfas Explore</h2><p>Follow the flow and connect with people.</p></div><button type="button" class="mobile-network-drawer-close" @click="mobileMoreOpen = false" aria-label="Close Anfas Explore">×</button></div>
-        <button type="button" class="mobile-more-drawer-item" @click="mobileMoreOpen = false; navigate('pages')"><span>▣</span><span><strong>Flow</strong><small>Calls, pages, initiatives and entities</small></span><b>→</b></button>
-        <button type="button" class="mobile-more-drawer-item" @click="mobileMoreOpen = false; navigate('people')"><span>♧</span><span><strong>People</strong><small>Discover people and connections</small></span><b>→</b></button>
-        <button type="button" class="mobile-more-drawer-item mobile-more-network-item" @click="mobileMoreOpen = false; homeHeaderChatOpen = true; homeLocalWorldOpen = true"><span>◎</span><span><strong>NetworkChat</strong><small>Open your Local · World network chat</small></span><b>→</b></button>
-      </aside>
-    </div>
-
 
     <!-- MAIN -->
     <main class="main">
@@ -5266,7 +5244,17 @@ onBeforeUnmount(() => {
 
       </header>
 
-      <button class="mobile-network-launch" type="button" :class="{ active: homeHeaderChatOpen }" @click="homeHeaderChatOpen = !homeHeaderChatOpen; homeLocalWorldOpen = homeHeaderChatOpen" aria-label="Open local and global network" title="NetworkChat · Local · World"><span aria-hidden="true">◎</span><span class="mobile-network-launch-label">NETWORKCHAT</span></button>
+      <nav class="mobile-secondary-nav" aria-label="Flow, People and NetworkChat">
+        <button type="button" :class="{ active: ['pages', 'call', 'initiatives', 'entities', 'entity'].includes(activeView) }" @click="navigate('pages')">
+          <span aria-hidden="true">▣</span><span>Flow</span>
+        </button>
+        <button type="button" :class="{ active: ['people', 'administration'].includes(activeView) }" @click="navigate('people')">
+          <span aria-hidden="true">♧</span><span>People</span>
+        </button>
+        <button type="button" :class="{ active: homeHeaderChatOpen }" @click="homeHeaderChatOpen = !homeHeaderChatOpen; homeLocalWorldOpen = homeHeaderChatOpen" :aria-expanded="homeHeaderChatOpen">
+          <span aria-hidden="true">◎</span><span>NetworkChat</span>
+        </button>
+      </nav>
 
       <!-- Mobile NetworkChat is global: it is independent of the Home view and primary navigation. -->
       <div v-if="homeHeaderChatOpen" class="mobile-network-overlay" @click.self="homeHeaderChatOpen = false; homeLocalWorldOpen = false">
@@ -20805,4 +20793,56 @@ a { text-underline-offset: 3px; }
   .mobile-more-drawer-head { margin:3px 0 10px !important; }
   .mobile-more-drawer-item { min-height:56px !important; padding:9px !important; gap:9px !important; border-radius:10px !important; }
   .mobile-more-drawer-item>span:first-child { width:31px !important; height:31px !important; flex-basis:31px !important; border-radius:9px !important; }
+}
+
+
+/* Mobile secondary navigation: three compact destinations visually attached to the top bar. */
+@media (max-width: 760px) {
+  .mobile-secondary-nav {
+    position: relative;
+    z-index: 14;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 5px;
+    margin: 0;
+    padding: 7px 12px 8px;
+    border-bottom: 1px solid rgba(145,169,204,.13);
+    background: linear-gradient(180deg, rgba(8,13,22,.96), rgba(12,19,31,.96));
+    box-shadow: 0 5px 16px rgba(0,0,0,.09), inset 0 1px rgba(255,255,255,.018);
+  }
+  .mobile-secondary-nav button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-width: 0;
+    min-height: 35px;
+    padding: 7px 5px;
+    border: 1px solid rgba(126,157,201,.13);
+    border-radius: 9px;
+    background: linear-gradient(180deg, rgba(28,41,60,.62), rgba(18,29,45,.72));
+    color: #9eafc6;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .005em;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background .18s ease, border-color .18s ease, color .18s ease;
+  }
+  .mobile-secondary-nav button > span:first-child {
+    color: #8eafd9;
+    font-size: 13px;
+    line-height: 1;
+  }
+  .mobile-secondary-nav button.active {
+    border-color: rgba(121,173,237,.34);
+    background: linear-gradient(180deg, rgba(47,70,101,.72), rgba(29,46,69,.82));
+    color: #e0ecfc;
+    box-shadow: inset 0 1px rgba(255,255,255,.045);
+  }
+  .mobile-secondary-nav button:last-child.active > span:first-child { color: #a8d7ff; }
+  .mobile-network-launch, .mobile-edge-actions, .mobile-more-overlay { display: none !important; }
+}
+@media (min-width: 761px) {
+  .mobile-secondary-nav { display: none; }
 }
