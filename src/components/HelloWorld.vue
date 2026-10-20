@@ -22177,6 +22177,19 @@ header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button
   from { filter: brightness(.95); box-shadow: 0 0 12px rgba(102,157,255,.24), 0 0 20px rgba(143,91,255,.14); }
   to { filter: brightness(1.35); box-shadow: 0 0 20px rgba(102,157,255,.48), 0 0 32px rgba(143,91,255,.28); }
 }
+
+/* Keep the Impact orbital icon hidden until the Impact button is selected. */
+header.topbar > .desktop-impact-launch > .impact-button-orbit {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  transition: opacity .2s ease, visibility .2s ease !important;
+}
+header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
   outline: none !important;
   background: radial-gradient(circle, rgba(226,241,255,.2), transparent 72%) !important;
   box-shadow: 0 0 9px rgba(210,232,255,.2), inset 0 0 5px rgba(255,255,255,.12) !important;
