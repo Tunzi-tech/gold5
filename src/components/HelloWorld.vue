@@ -19756,6 +19756,72 @@ a { text-underline-offset: 3px; }
   header.topbar > .desktop-menu-launch { display: none !important; }
 }
 
+/* Desktop hamburger: the shared drawer was previously styled only for mobile,
+   so the click changed Vue state but the overlay stayed display:none. */
+@media screen and (min-width: 901px) {
+  .mobile-more-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 12050 !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    background: rgba(2, 6, 12, .66) !important;
+    backdrop-filter: blur(5px) !important;
+  }
+  .mobile-more-drawer {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    width: min(390px, 34vw) !important;
+    min-width: 320px !important;
+    max-width: 430px !important;
+    height: 100% !important;
+    box-sizing: border-box !important;
+    padding: 26px 20px 22px !important;
+    overflow-y: auto !important;
+    border-left: 0 !important;
+    border-right: 1px solid rgba(111, 145, 193, .24) !important;
+    background: radial-gradient(ellipse at 0 0, rgba(93,133,205,.13), transparent 46%), linear-gradient(155deg, rgba(17,27,43,.99), rgba(8,15,26,.99) 72%) !important;
+    box-shadow: 22px 0 70px rgba(0,0,0,.4) !important;
+    backdrop-filter: blur(18px) !important;
+  }
+  .mobile-more-drawer-head {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    margin: 5px 0 16px !important;
+    padding-bottom: 16px !important;
+    border-bottom: 1px solid rgba(126,163,213,.15) !important;
+  }
+  .mobile-more-drawer-head h2 { margin: 8px 0 5px !important; color: #edf4ff !important; font-size: 24px !important; letter-spacing: -.04em !important; }
+  .mobile-more-drawer-head p { margin: 0 !important; color: #8ea1ba !important; font-size: 12px !important; line-height: 1.6 !important; }
+  .mobile-drawer-section-label { margin: 2px 0 4px !important; color: #7f9cbe !important; font-size: 9px !important; font-weight: 850 !important; letter-spacing: .16em !important; }
+  .mobile-more-drawer-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+    min-height: 68px !important;
+    padding: 13px !important;
+    border: 1px solid rgba(124,166,222,.18) !important;
+    border-radius: 12px !important;
+    background: linear-gradient(120deg,rgba(26,43,65,.82),rgba(13,23,38,.94)) !important;
+    color: #cfe0f7 !important;
+    text-align: left !important;
+    cursor: pointer !important;
+  }
+  .mobile-more-drawer-item > span:first-child { display: grid !important; place-items: center !important; width: 36px !important; height: 36px !important; flex: 0 0 36px !important; border: 1px solid rgba(125,174,237,.22) !important; border-radius: 10px !important; background: rgba(73,126,194,.12) !important; color: #a9ceff !important; font-size: 17px !important; }
+  .mobile-more-drawer-item > span:nth-child(2) { display: flex !important; flex: 1 !important; flex-direction: column !important; gap: 4px !important; min-width: 0 !important; }
+  .mobile-more-drawer-item strong { font-size: 12px !important; color: #e7f1ff !important; }
+  .mobile-more-drawer-item small { font-size: 10px !important; color: #8398b4 !important; line-height: 1.45 !important; }
+  .mobile-more-drawer-item > b { color: #8dbdff !important; font-size: 16px !important; }
+  .mobile-more-drawer-item:hover,
+  .mobile-more-drawer-item:focus-visible { border-color: rgba(126,163,213,.42) !important; background: linear-gradient(110deg,rgba(34,54,79,.94),rgba(16,29,46,.98)) !important; outline: none !important; }
+  .mobile-more-drawer-item.active { border-color: rgba(121,173,237,.42) !important; background: linear-gradient(120deg,rgba(37,61,91,.94),rgba(16,31,51,.98)) !important; }
+}
+
 </style>
 
 <style>
