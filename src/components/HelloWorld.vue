@@ -19834,4 +19834,31 @@ a { text-underline-offset: 3px; }
   border-color: rgba(105,145,199,.11);
   background: linear-gradient(155deg, rgba(25,39,59,.32), rgba(13,20,33,.24));
 }
+
+
+/* Carry the Impacting button's violet-to-blue surface into both zone destinations. */
+.zones-subnav .zones-connected-pair {
+  border: 1px solid rgba(151,124,255,.18);
+  background: linear-gradient(105deg, rgba(103,76,165,.15), rgba(38,63,91,.23) 68%, rgba(21,32,48,.42));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.035), 0 3px 10px rgba(8,12,22,.08);
+}
+.zones-subnav .zones-connected-pair .zone-space-button {
+  border: 1px solid rgba(151,124,255,.13);
+  background: linear-gradient(105deg, rgba(103,76,165,.14), rgba(38,63,91,.2) 68%, rgba(21,32,48,.28));
+  color: #d7dff0;
+  transition: background .22s ease, border-color .22s ease, box-shadow .22s ease, color .22s ease;
+}
+.zones-subnav .zones-connected-pair .zone-space-button-around.active,
+.zones-subnav .zones-connected-pair .zone-space-button-mine.active {
+  background: linear-gradient(105deg, rgba(133,99,211,.29), rgba(44,86,121,.31) 68%, rgba(24,39,58,.56));
+  border-color: rgba(177,148,255,.38);
+  color: #f0eaff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 0 11px rgba(137,104,232,.10);
+}
+.zones-subnav .zones-connected-pair .zone-space-button:hover,
+.zones-subnav .zones-connected-pair .zone-space-button:focus-visible {
+  background: linear-gradient(105deg, rgba(133,99,211,.25), rgba(44,86,121,.29) 68%, rgba(24,39,58,.52));
+  border-color: rgba(177,148,255,.36);
+  color: #f0eaff;
+}
 </style>
