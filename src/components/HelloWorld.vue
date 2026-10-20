@@ -19617,4 +19617,47 @@ a { text-underline-offset: 3px; }
   .home-network-activity-top strong { font-size:12px; }
 }
 
+
+/* Restore the original coloured, softly-shining selected states for Learn and Impact. */
+.main-nav .primary-spaces-cluster .sidebar-orbit-button.sidebar-orbit-learn.active {
+  color: #e5dcff !important;
+  border-color: rgba(178, 139, 255, .58) !important;
+  background:
+    radial-gradient(ellipse at 18% 0%, rgba(184, 137, 255, .27), transparent 72%),
+    linear-gradient(145deg, rgba(91, 57, 145, .58), rgba(30, 34, 66, .84) 58%, rgba(17, 24, 43, .92)) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(239, 224, 255, .18),
+    inset 0 0 0 1px rgba(188, 151, 255, .14),
+    0 0 13px rgba(151, 104, 255, .19),
+    0 4px 12px rgba(0, 0, 0, .16) !important;
+}
+.main-nav .primary-spaces-cluster .sidebar-orbit-button.sidebar-orbit-learn.active .sidebar-orbit-icon {
+  color: #e2ceff !important;
+  border-color: rgba(195, 157, 255, .72) !important;
+  background: radial-gradient(circle at 35% 25%, rgba(198, 156, 255, .42), rgba(87, 57, 142, .30) 72%) !important;
+  box-shadow: 0 0 12px rgba(171, 120, 255, .22);
+}
+.main-nav .primary-spaces-cluster .sidebar-orbit-button.sidebar-orbit-awareness.active {
+  color: #d8f0ff !important;
+  border-color: rgba(104, 190, 255, .62) !important;
+  background:
+    radial-gradient(ellipse at 18% 0%, rgba(92, 190, 255, .25), transparent 72%),
+    linear-gradient(145deg, rgba(31, 99, 143, .56), rgba(22, 48, 79, .84) 58%, rgba(14, 25, 43, .93)) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(221, 244, 255, .17),
+    inset 0 0 0 1px rgba(110, 199, 255, .15),
+    0 0 13px rgba(63, 166, 255, .19),
+    0 4px 12px rgba(0, 0, 0, .16) !important;
+}
+.main-nav .primary-spaces-cluster .sidebar-orbit-button.sidebar-orbit-awareness.active .sidebar-orbit-icon {
+  color: #c9eaff !important;
+  border-color: rgba(119, 204, 255, .72) !important;
+  background: radial-gradient(circle at 35% 25%, rgba(102, 198, 255, .40), rgba(32, 94, 143, .30) 72%) !important;
+  box-shadow: 0 0 12px rgba(73, 177, 255, .22);
+}
+.main-nav .primary-spaces-cluster .sidebar-orbit-button.sidebar-orbit-learn:hover,
+.main-nav .primary-spaces-cluster .sidebar-orbit-button.sidebar-orbit-awareness:hover {
+  filter: brightness(1.12);
+}
+
 </style>
