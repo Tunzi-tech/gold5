@@ -19660,4 +19660,81 @@ a { text-underline-offset: 3px; }
   filter: brightness(1.12);
 }
 
+
+
+/* Smooth colour build-up on selection: glow blooms in, then stays stacked while active. */
+.main-nav .primary-spaces-cluster .sidebar-orbit-button {
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  transition:
+    color .28s ease,
+    background .42s cubic-bezier(.2,.75,.25,1),
+    border-color .32s ease,
+    box-shadow .42s ease,
+    transform .32s cubic-bezier(.2,.75,.25,1),
+    filter .25s ease;
+}
+.main-nav .primary-spaces-cluster .sidebar-orbit-button::after {
+  content: "";
+  position: absolute;
+  inset: -45% -70%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-55%) rotate(12deg);
+  transition: opacity .25s ease;
+}
+.main-nav .primary-spaces-cluster .sidebar-orbit-button > * {
+  position: relative;
+  z-index: 1;
+}
+.main-nav .primary-spaces-cluster .sidebar-orbit-button.sidebar-orbit-learn::after {
+  background: linear-gradient(105deg, transparent 35%, rgba(216, 187, 255, .2) 49%, transparent 63%);
+}
+.main-nav .primary-spaces-cluster .sidebar-orbit-button.sidebar-orbit-awareness::after {
+  background: linear-gradient(105deg, transparent 35%, rgba(171, 225, 255, .2) 49%, transparent 63%);
+}
+.main-nav .primary-spaces-cluster .sidebar-orbit-button.sidebar-orbit-learn.active {
+  animation: learn-colour-stack .62s cubic-bezier(.18,.72,.25,1) both;
+}
+.main-nav .primary-spaces-cluster .sidebar-orbit-button.sidebar-orbit-awareness.active {
+  animation: awareness-colour-stack .62s cubic-bezier(.18,.72,.25,1) both;
+}
+.main-nav .primary-spaces-cluster .sidebar-orbit-button.active::after {
+  opacity: 1;
+  animation: selected-colour-sweep .75s ease-out both;
+}
+.main-nav .primary-spaces-cluster .sidebar-orbit-button.active .sidebar-orbit-icon {
+  animation: selected-icon-glow .52s ease-out both;
+}
+@keyframes learn-colour-stack {
+  0% { background: linear-gradient(145deg, rgba(23,33,49,.42), rgba(10,15,24,.42)); box-shadow: inset 0 0 0 0 rgba(188,151,255,0); }
+  55% { box-shadow: inset 0 0 0 1px rgba(188,151,255,.2), 0 0 18px rgba(151,104,255,.28); }
+  100% { background: radial-gradient(ellipse at 18% 0%, rgba(184,137,255,.27), transparent 72%), linear-gradient(145deg, rgba(91,57,145,.58), rgba(30,34,66,.84) 58%, rgba(17,24,43,.92)); }
+}
+@keyframes awareness-colour-stack {
+  0% { background: linear-gradient(150deg, rgba(23,33,49,.42), rgba(10,15,24,.42)); box-shadow: inset 0 0 0 0 rgba(110,199,255,0); }
+  55% { box-shadow: inset 0 0 0 1px rgba(110,199,255,.2), 0 0 18px rgba(63,166,255,.28); }
+  100% { background: radial-gradient(ellipse at 18% 0%, rgba(92,190,255,.25), transparent 72%), linear-gradient(145deg, rgba(31,99,143,.56), rgba(22,48,79,.84) 58%, rgba(14,25,43,.93)); }
+}
+@keyframes selected-colour-sweep {
+  0% { opacity: 0; transform: translateX(-55%) rotate(12deg); }
+  35% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(55%) rotate(12deg); }
+}
+@keyframes selected-icon-glow {
+  0% { transform: scale(.88); filter: brightness(.85); }
+  65% { transform: scale(1.09); filter: brightness(1.3); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .main-nav .primary-spaces-cluster .sidebar-orbit-button,
+  .main-nav .primary-spaces-cluster .sidebar-orbit-button::after,
+  .main-nav .primary-spaces-cluster .sidebar-orbit-button.active,
+  .main-nav .primary-spaces-cluster .sidebar-orbit-button.active .sidebar-orbit-icon {
+    animation: none !important;
+    transition: none !important;
+  }
+}
 </style>
