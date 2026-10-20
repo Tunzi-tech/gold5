@@ -20022,8 +20022,8 @@ a { text-underline-offset: 3px; }
   animation: impacting-direction-pulse 1.65s ease-in-out infinite;
 }
 .zones-subnav .sidebar-zones-main.active .impacting-direction-arrow.up {
-  color: #ff646b;
-  text-shadow: 0 0 6px rgba(255, 82, 93, .42);
+  color: #65d99a;
+  text-shadow: 0 0 6px rgba(75, 220, 142, .35);
   animation-delay: 0s;
 }
 .zones-subnav .sidebar-zones-main.active .impacting-direction-arrow.right {
@@ -20032,8 +20032,8 @@ a { text-underline-offset: 3px; }
   animation-delay: .22s;
 }
 .zones-subnav .sidebar-zones-main.active .impacting-direction-arrow.down {
-  color: #65d99a;
-  text-shadow: 0 0 6px rgba(75, 220, 142, .35);
+  color: #ff646b;
+  text-shadow: 0 0 6px rgba(255, 82, 93, .42);
   animation-delay: .44s;
 }
 @keyframes impacting-direction-pulse {
