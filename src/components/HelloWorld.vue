@@ -3966,7 +3966,9 @@ function focusSelectedImpactIssue() {
   const item = allImpactingAwarenessItems.value.find(entry => entry.id === selectedImpactIssueId.value)
   if (!item) return
   awarenessCategory.value = item.category
-  awarenessImpactType.value = item.impactType || 'ALL'
+  awarenessImpactType.value = item.sourceType === 'Zone post' || item.sourceType === 'Zone suggestion'
+    ? 'ALL'
+    : (item.impactType || 'ALL')
   awarenessFilter.value = 'ALL'
 }
 
