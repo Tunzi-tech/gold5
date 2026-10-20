@@ -4772,6 +4772,14 @@ onBeforeUnmount(() => {
         </div>
         </div>
 
+        <div class="sidebar-network-entry">
+          <button type="button" class="home-header-chat-toggle home-network-toggle sidebar-network-toggle" :class="{ active: homeHeaderChatOpen }"
+            :aria-pressed="homeHeaderChatOpen" @click="homeHeaderChatOpen = !homeHeaderChatOpen; homeLocalWorldOpen = homeHeaderChatOpen; activeView !== 'home' && navigate('home')">
+            <span aria-hidden="true">◎</span>{{ homeHeaderChatOpen ? 'Close network' : 'NetworkChat' }}
+            <span class="home-network-toggle-caption">Local · World</span>
+          </button>
+        </div>
+
                 <div class="sidebar-subnav zones-subnav">
           <div class="sidebar-zones-header">
             <button
@@ -5272,11 +5280,6 @@ onBeforeUnmount(() => {
       <section v-if="activeView === 'home'" class="content home-commons-content" :class="{ 'home-hero-collapsed': homeHeroHidden }">
 
         <div class="home-hero-control">
-          <button type="button" class="home-header-chat-toggle home-network-toggle" :class="{ active: homeHeaderChatOpen }"
-            :aria-pressed="homeHeaderChatOpen" @click="homeHeaderChatOpen = !homeHeaderChatOpen; homeLocalWorldOpen = homeHeaderChatOpen">
-            <span aria-hidden="true">◎</span>{{ homeHeaderChatOpen ? 'Close network' : 'Network' }}
-            <span class="home-network-toggle-caption">Chat · Local · World</span>
-          </button>
           <button type="button" class="home-hero-toggle" :aria-expanded="!homeHeroHidden" @click="homeHeroHidden = !homeHeroHidden; homeHeroHidden || (homeHeaderChatOpen = false)">
             <span aria-hidden="true">{{ homeHeroHidden ? '⌄' : '⌃' }}</span>
             {{ homeHeroHidden ? 'Show header' : 'Hide header' }}
@@ -20279,3 +20282,10 @@ a { text-underline-offset: 3px; }
   white-space: nowrap !important;
   color: #a9bbd5 !important;
 }
+
+
+/* NetworkChat now lives directly below the four primary sidebar spaces. */
+.sidebar-network-entry { width:100%; margin:5px 0 10px; padding:0 2px; }
+.sidebar-network-toggle { width:100%; min-height:34px; justify-content:flex-start; padding:7px 10px; border-color:rgba(91,164,220,.27); background:linear-gradient(105deg,rgba(24,65,91,.46),rgba(22,31,53,.66)); }
+.sidebar-network-toggle .home-network-toggle-caption { margin-left:auto; font-size:8px; }
+.sidebar-network-toggle.active { border-color:rgba(100,173,242,.58); box-shadow:inset 0 0 0 1px rgba(93,159,233,.08),0 0 16px rgba(66,126,207,.08); }
