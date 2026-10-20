@@ -917,7 +917,7 @@ const showRaiseAwareness = ref(false)
 const impactingCountryFilter = ref('Tunisia')
 const selectedImpactIssueId = ref<number | null>(null)
 const impactingIssueItems = computed(() =>
-  awarenessItems.value.filter(item =>
+  allImpactingAwarenessItems.value.filter(item =>
     impactingCountryFilter.value === 'ALL' || item.country === impactingCountryFilter.value
   )
 )
@@ -1163,6 +1163,72 @@ const zoneCommunitySuggestions = ref<ZoneCommunitySuggestion[]>([
     status: 'OPEN',
     zone: 'Sidi Bou Said'
   }
+])
+
+// Live Impacting sources: awareness items, Zone community posts, and Zone suggestions.
+// These stay reactive with the current app state. They are not server-persisted yet.
+function categoryForZoneIssue(text: string) {
+  const value = text.toLowerCase()
+  if (/tree|green|garden|plant|bird|habitat|biodivers|park/.test(value)) return 'Biodiversity & habitats'
+  if (/water|coast|sea|beach|ocean|flood/.test(value)) return 'Water & oceans'
+  if (/waste|clean|litter|recycl|trash|rubbish/.test(value)) return 'Waste & circularity'
+  if (/street|transport|traffic|walk|bike|mobility|road/.test(value)) return 'Cities & mobility'
+  if (/climate|energy|heat|solar|emission/.test(value)) return 'Climate & energy'
+  if (/school|learn|education|culture|library/.test(value)) return 'Education & culture'
+  if (/job|business|livelihood|market|econom/.test(value)) return 'Economy & livelihoods'
+  if (/health|wellbeing|safety|care|people/.test(value)) return 'People & wellbeing'
+  if (/soil|land|farm|agricultur|food/.test(value)) return 'Land & soil'
+  if (/air|pollution|smoke/.test(value)) return 'Air & atmosphere'
+  if (/technology|digital|innovation/.test(value)) return 'Technology & innovation'
+  return 'People & wellbeing'
+}
+
+function countryForZoneIssue(zoneName: string) {
+  const matchedZone = zones.value.find(zone => zone.name === zoneName)
+  if (matchedZone?.location?.toLowerCase().includes('tunisia')) return 'Tunisia'
+  return 'Tunisia'
+}
+
+const liveZoneAwarenessItems = computed(() => [
+  ...zoneCommunityPosts.value.map(post => ({
+    id: 1000000 + post.id,
+    title: post.content.length > 120 ? post.content.slice(0, 117).trimEnd() + '…' : post.content,
+    country: countryForZoneIssue(post.zone),
+    category: categoryForZoneIssue(post.content),
+    impactType: 'Community',
+    sourceType: 'Zone post',
+    sourceName: post.author,
+    zone: post.zone,
+    happening: post.content,
+    ifNothingChanges: 'Potential consequences have not been assessed yet. Discuss the context and add evidence before drawing conclusions.',
+    whatWeCanDo: 'Discuss this post with people in the Zone and identify a constructive next step.',
+    possibleChange: 'A shared understanding or a community action shaped by Zone participants.',
+    evidence: '',
+    createdAt: post.time,
+    sourceKind: 'post'
+  })),
+  ...zoneCommunitySuggestions.value.map(suggestion => ({
+    id: 2000000 + suggestion.id,
+    title: suggestion.text.length > 120 ? suggestion.text.slice(0, 117).trimEnd() + '…' : suggestion.text,
+    country: countryForZoneIssue(suggestion.zone),
+    category: categoryForZoneIssue(suggestion.text),
+    impactType: 'Community',
+    sourceType: 'Zone suggestion',
+    sourceName: suggestion.author,
+    zone: suggestion.zone,
+    happening: suggestion.text,
+    ifNothingChanges: 'The suggestion is still open for discussion; no outcome should be assumed.',
+    whatWeCanDo: 'Review the suggestion, discuss it and decide whether to support or develop it.',
+    possibleChange: 'A practical proposal that can be considered by people in the Zone.',
+    evidence: '',
+    createdAt: suggestion.status,
+    sourceKind: 'suggestion'
+  }))
+])
+
+const allImpactingAwarenessItems = computed(() => [
+  ...awarenessItems.value,
+  ...liveZoneAwarenessItems.value
 ])
 
 const visibleZoneCommunityPosts = computed(() =>
@@ -3897,7 +3963,7 @@ function updateSelectedImpactIssue(value: string) {
 }
 
 function focusSelectedImpactIssue() {
-  const item = awarenessItems.value.find(entry => entry.id === selectedImpactIssueId.value)
+  const item = allImpactingAwarenessItems.value.find(entry => entry.id === selectedImpactIssueId.value)
   if (!item) return
   awarenessCategory.value = item.category
   awarenessImpactType.value = item.impactType || 'ALL'
@@ -3905,7 +3971,7 @@ function focusSelectedImpactIssue() {
 }
 
 const filteredAwarenessItems = computed(() => {
-  return awarenessItems.value.filter(item => {
+  return allImpactingAwarenessItems.value.filter(item => {
     const matchesCountry = impactingCountryFilter.value === 'ALL' || item.country === impactingCountryFilter.value
     const matchesCategory = awarenessCategory.value === 'ALL' || item.category === awarenessCategory.value
     const matchesImpact = awarenessImpactType.value === 'ALL' || item.impactType === awarenessImpactType.value
