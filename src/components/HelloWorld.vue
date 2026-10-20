@@ -4782,7 +4782,11 @@ onBeforeUnmount(() => {
               <span class="impacting-button-cue" aria-hidden="true">
                 <span class="impacting-cue-label">Explore</span>
                 <span class="impacting-cue-arrow">→</span>
-                <span class="impacting-cue-icon">✧</span>
+                <span class="impacting-direction-cues">
+                  <span class="impacting-direction-arrow up">↑</span>
+                  <span class="impacting-direction-arrow right">→</span>
+                  <span class="impacting-direction-arrow down">↓</span>
+                </span>
               </span>
             </button>
 
@@ -19995,21 +19999,50 @@ a { text-underline-offset: 3px; }
   color: #d8c5ff;
 }
 
-/* Keep the active Impacting button clean: replace the Explore cue with one icon. */
-.zones-subnav .sidebar-zones-main .impacting-cue-icon {
+/* When Impacting is selected, animate the three directional signals from the impact guide. */
+.zones-subnav .sidebar-zones-main .impacting-direction-cues {
   display: none;
 }
 .zones-subnav .sidebar-zones-main.active .impacting-cue-label,
 .zones-subnav .sidebar-zones-main.active .impacting-cue-arrow {
   display: none;
 }
-.zones-subnav .sidebar-zones-main.active .impacting-cue-icon {
+.zones-subnav .sidebar-zones-main.active .impacting-direction-cues {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #f0eaff;
-  font-size: 19px;
+  gap: 3px;
+  min-width: 39px;
+}
+.zones-subnav .sidebar-zones-main.active .impacting-direction-arrow {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 900;
   line-height: 1;
-  filter: drop-shadow(0 0 5px rgba(190,151,255,.42));
+  animation: impacting-direction-pulse 1.65s ease-in-out infinite;
+}
+.zones-subnav .sidebar-zones-main.active .impacting-direction-arrow.up {
+  color: #ff646b;
+  text-shadow: 0 0 6px rgba(255, 82, 93, .42);
+  animation-delay: 0s;
+}
+.zones-subnav .sidebar-zones-main.active .impacting-direction-arrow.right {
+  color: #ffad55;
+  text-shadow: 0 0 6px rgba(255, 160, 65, .38);
+  animation-delay: .22s;
+}
+.zones-subnav .sidebar-zones-main.active .impacting-direction-arrow.down {
+  color: #65d99a;
+  text-shadow: 0 0 6px rgba(75, 220, 142, .35);
+  animation-delay: .44s;
+}
+@keyframes impacting-direction-pulse {
+  0%, 100% { opacity: .68; transform: translateY(0) scale(.94); }
+  45% { opacity: 1; transform: translateY(-1px) scale(1.12); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .zones-subnav .sidebar-zones-main.active .impacting-direction-arrow {
+    animation: none;
+  }
 }
 </style>
