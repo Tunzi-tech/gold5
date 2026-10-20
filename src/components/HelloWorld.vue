@@ -187,6 +187,7 @@ const platformCircles = [
 const homeDisplayMode = ref<'content' | 'feed'>('content')
 const homeHeroHidden = ref(false)
 const homeHeaderChatOpen = ref(false)
+const mobileMoreOpen = ref(false)
 const homeLocalWorldOpen = ref(false)
 const homeLocalWorldScope = ref<'local' | 'world'>('local')
 const homeHeaderChatDraft = ref('')
@@ -4709,7 +4710,7 @@ onBeforeUnmount(() => {
 
         <div class="brand-name">
           <strong>Anfas</strong>
-          <small>PEOPLE · ACTIONS · VOICES</small>
+          <small>PEOPLE · VOICES · IMPACT</small>
         </div>
 
         <button
@@ -5203,6 +5204,19 @@ onBeforeUnmount(() => {
 
     </div>
 
+    <!-- Mobile overflow rail: secondary destinations stay separate from the four primary spaces. -->
+    <button class="mobile-more-rail" type="button" :class="{ active: mobileMoreOpen }" @click="mobileMoreOpen = !mobileMoreOpen" :aria-expanded="mobileMoreOpen" aria-label="Open more navigation">
+      <span class="mobile-more-rail-line" aria-hidden="true"></span><span>MORE</span>
+    </button>
+    <div v-if="mobileMoreOpen" class="mobile-more-overlay" @click.self="mobileMoreOpen = false">
+      <aside class="mobile-more-drawer" role="dialog" aria-modal="true" aria-label="More navigation">
+        <div class="mobile-more-drawer-head"><div><span class="home-connection-kicker">ANFAS · EXPLORE</span><h2>More spaces</h2><p>Follow the flow, meet people and open NetworkChat.</p></div><button type="button" class="mobile-network-drawer-close" @click="mobileMoreOpen = false" aria-label="Close navigation">×</button></div>
+        <button type="button" class="mobile-more-drawer-item" @click="mobileMoreOpen = false; navigate('pages')"><span>▣</span><span><strong>Flow</strong><small>Calls, pages, initiatives and entities</small></span><b>→</b></button>
+        <button type="button" class="mobile-more-drawer-item" @click="mobileMoreOpen = false; navigate('people')"><span>♧</span><span><strong>People</strong><small>Discover people and connections</small></span><b>→</b></button>
+        <button type="button" class="mobile-more-drawer-item mobile-more-network-item" @click="mobileMoreOpen = false; homeHeaderChatOpen = true; homeLocalWorldOpen = true"><span>◎</span><span><strong>NetworkChat</strong><small>Local · World conversations</small></span><b>→</b></button>
+      </aside>
+    </div>
+
 
     <!-- MAIN -->
     <main class="main">
@@ -5211,8 +5225,8 @@ onBeforeUnmount(() => {
       <header class="topbar">
 
         <div class="mobile-brand" @click="navigate('home')" role="button" tabindex="0" @keydown.enter="navigate('home')" aria-label="Anfas home">
-          <span class="mobile-brand-mark" aria-hidden="true"><i></i><b></b></span>
-          <span class="mobile-brand-copy"><strong>Anfas</strong><small>PEOPLE · ACTIONS · VOICES</small></span>
+          <span class="brand-orbit mobile-brand-mark" aria-hidden="true"><span></span></span>
+          <span class="mobile-brand-copy"><strong>Anfas</strong><small>PEOPLE · VOICES · IMPACT</small></span>
         </div>
 
         <div class="search-box">
@@ -20592,6 +20606,30 @@ a { text-underline-offset: 3px; }
   .home-header-chat { animation:none !important; }
 }
 
+
+/* Mobile overflow rail and right-side secondary navigation drawer. */
+.mobile-more-rail,.mobile-more-overlay{display:none}
+@media(max-width:760px){
+  .mobile-more-rail{position:fixed;z-index:58;left:0;top:46%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;width:24px;min-height:92px;padding:10px 3px;border:1px solid rgba(124,166,222,.28);border-left:0;border-radius:0 10px 10px 0;background:linear-gradient(180deg,rgba(21,38,60,.97),rgba(9,17,29,.98));color:#a8c9f4;box-shadow:5px 8px 22px rgba(0,0,0,.24);cursor:pointer}
+  .mobile-more-rail>span:last-child{font-size:7px;font-weight:850;letter-spacing:.12em;writing-mode:vertical-rl}
+  .mobile-more-rail-line{display:block;width:11px;height:2px;border-radius:2px;background:#a8c9f4;box-shadow:0 4px 0 rgba(168,201,244,.6),0 -4px 0 rgba(168,201,244,.6)}
+  .mobile-more-rail.active{border-color:rgba(137,190,255,.62);background:linear-gradient(180deg,rgba(35,61,93,.99),rgba(13,26,44,.99))}
+  .mobile-more-overlay{position:fixed;inset:0;z-index:100;display:flex;justify-content:flex-end;background:rgba(2,6,12,.66);backdrop-filter:blur(5px)}
+  .mobile-more-drawer{display:flex;flex-direction:column;gap:10px;width:min(350px,88vw);height:100%;box-sizing:border-box;padding:24px 17px max(20px,env(safe-area-inset-bottom));overflow-y:auto;border-left:1px solid rgba(124,166,222,.2);background:radial-gradient(ellipse at 100% 0,rgba(57,104,164,.15),transparent 45%),#0a111d;box-shadow:-18px 0 45px rgba(0,0,0,.35)}
+  .mobile-more-drawer-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin:5px 0 16px}
+  .mobile-more-drawer-head h2{margin:8px 0 5px;color:#edf4ff;font-size:22px;letter-spacing:-.04em}
+  .mobile-more-drawer-head p{margin:0;color:#8ea1ba;font-size:11px;line-height:1.6}
+  .mobile-more-drawer-item{display:flex;align-items:center;gap:12px;width:100%;min-height:66px;padding:12px;border:1px solid rgba(124,166,222,.16);border-radius:12px;background:linear-gradient(120deg,rgba(26,43,65,.82),rgba(13,23,38,.94));color:#cfe0f7;text-align:left;cursor:pointer}
+  .mobile-more-drawer-item>span:first-child{display:grid;place-items:center;width:36px;height:36px;flex:0 0 36px;border:1px solid rgba(125,174,237,.22);border-radius:10px;background:rgba(73,126,194,.12);color:#a9ceff;font-size:17px}
+  .mobile-more-drawer-item>span:nth-child(2){display:flex;flex:1;flex-direction:column;gap:4px;min-width:0}
+  .mobile-more-drawer-item strong{font-size:12px;color:#e7f1ff}
+  .mobile-more-drawer-item small{font-size:9px;color:#8398b4;line-height:1.45}
+  .mobile-more-drawer-item>b{color:#8dbdff;font-size:16px}
+  .mobile-more-network-item{border-color:rgba(104,169,232,.3);background:linear-gradient(120deg,rgba(27,57,84,.9),rgba(13,25,41,.96))}
+  .mobile-network-launch{display:none!important}
+  .mobile-brand-mark{width:34px!important;height:34px!important;flex-basis:34px!important;border-radius:50%!important;background:radial-gradient(circle at 50% 50%,rgba(71,113,168,.2),rgba(9,17,29,.4) 70%)!important;border-color:rgba(137,183,242,.52)!important;box-shadow:inset 0 0 0 4px rgba(106,157,224,.045),0 0 15px rgba(83,143,218,.08)!important}
+  .mobile-brand-mark>span{display:block!important;width:18px;height:18px;border:1px solid #9fcaff;border-radius:50%;transform:rotate(-35deg) scaleY(.7);box-shadow:0 0 9px rgba(133,190,255,.12)}
+}
 
 /* NetworkChat now lives directly below the four primary sidebar spaces. */
 .sidebar-network-entry { width:100%; margin:5px 0 10px; padding:0 2px; }
