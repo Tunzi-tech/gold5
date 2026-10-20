@@ -21023,3 +21023,34 @@ a { text-underline-offset: 3px; }
     color:#f0f6ff;
   }
 }
+
+
+/* Mobile top navigation: give Home its own clearly bordered third row. */
+@media (max-width: 760px) {
+  .topbar {
+    grid-template-rows: 35px 36px 36px !important;
+    row-gap: 8px !important;
+    min-height: 0 !important;
+    padding: 11px 15px 12px !important;
+    align-content: start !important;
+  }
+  .topbar .mobile-home-bar-button {
+    grid-column: 1 / -1 !important;
+    grid-row: 3 !important;
+    display: flex !important;
+    min-height: 36px !important;
+    height: 36px !important;
+    box-sizing: border-box !important;
+    margin-top: 0 !important;
+    padding: 0 12px !important;
+    border: 1px solid rgba(126, 163, 213, .3) !important;
+    border-radius: 10px !important;
+    background: linear-gradient(100deg, rgba(25, 43, 65, .78), rgba(15, 27, 43, .94)) !important;
+    box-shadow: inset 0 1px rgba(230, 241, 255, .045), 0 3px 10px rgba(0, 0, 0, .12) !important;
+  }
+  .topbar .mobile-home-bar-button.active {
+    border-color: rgba(111, 171, 244, .58) !important;
+    background: linear-gradient(100deg, rgba(38, 65, 97, .92), rgba(19, 35, 55, .98)) !important;
+    box-shadow: inset 0 1px rgba(230, 241, 255, .07), 0 0 0 1px rgba(88, 145, 220, .08) !important;
+  }
+}
