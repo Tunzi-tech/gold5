@@ -21278,16 +21278,18 @@ a { text-underline-offset: 3px; }
 }
 
 
-/* Final mobile fix: keep Home on the left and Your space at the far right of the same navigation row. */
+/* Mobile navigation correction: keep Home and Your space side-by-side.
+   Explicitly cancel grid placement inherited by each button from older mobile rules. */
 @media (max-width: 760px) {
   .topbar > .mobile-home-space-row {
     grid-column: 1 / -1 !important;
     grid-row: 3 !important;
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) max-content !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
     align-items: center !important;
-    justify-content: stretch !important;
-    gap: 8px !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
     width: 100% !important;
     min-width: 0 !important;
     margin: 0 !important;
@@ -21295,18 +21297,29 @@ a { text-underline-offset: 3px; }
     direction: ltr !important;
     box-sizing: border-box !important;
   }
-  .topbar > .mobile-home-space-row > .mobile-home-only {
-    grid-column: 1 !important;
-    justify-self: start !important;
+  .topbar > .mobile-home-space-row > button.mobile-home-bar-button {
+    display: flex !important;
+    position: relative !important;
+    grid-column: auto !important;
+    grid-row: auto !important;
+    align-self: center !important;
+    flex: 0 0 auto !important;
+    height: 36px !important;
+    min-height: 36px !important;
     width: max-content !important;
-    max-width: 100% !important;
-    margin: 0 !important;
+    max-width: calc(100% - 100px) !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    white-space: nowrap !important;
+  }
+  .topbar > .mobile-home-space-row > .mobile-home-only {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+    justify-content: flex-start !important;
   }
   .topbar > .mobile-home-space-row > .mobile-your-space-button {
-    grid-column: 2 !important;
-    justify-self: end !important;
-    width: max-content !important;
-    max-width: 100% !important;
-    margin: 0 !important;
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    justify-content: flex-end !important;
   }
 }
