@@ -5358,6 +5358,7 @@ onBeforeUnmount(() => {
             @click="navigate('awareness')"
             aria-label="Open Impact"
           >
+            <span v-if="activeView === 'awareness'" class="brand-orbit impact-button-orbit mobile-impact-orbit" aria-hidden="true"><span></span></span>
             <strong>Impact</strong>
             <span class="mobile-home-bar-arrow" aria-hidden="true">→</span>
           </button>
@@ -22314,3 +22315,82 @@ header.topbar > .desktop-impact-launch > .desktop-impact-label {
 }
 
 </style>
+
+
+/* Mobile Impact orbit: animate the logo mark on the active Impact view only. */
+@keyframes mobile-impact-orbit-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes mobile-impact-orbit-in {
+  0% { opacity: 0; transform: scale(.45) rotate(-80deg); }
+  65% { opacity: 1; transform: scale(1.12) rotate(12deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-impact-orbit {
+  position: relative !important;
+  display: inline-block !important;
+  flex: 0 0 22px !important;
+  width: 22px !important;
+  height: 22px !important;
+  margin: 0 3px 0 0 !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: radial-gradient(circle, rgba(117,177,255,.35), rgba(130,94,255,.15) 48%, transparent 74%) !important;
+  box-shadow: 0 0 10px rgba(102,157,255,.28), 0 0 17px rgba(143,91,255,.16) !important;
+  animation: mobile-impact-orbit-in .48s cubic-bezier(.2,.75,.25,1) both, impact-button-light-pulse 1.8s ease-in-out .48s infinite alternate !important;
+}
+header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-impact-orbit::before,
+header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-impact-orbit::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 2px -3px !important;
+  display: block !important;
+  border: 1px solid rgba(105,169,255,.95) !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  box-shadow: 0 0 5px rgba(80,150,255,.32) !important;
+  transform: rotate(-35deg) scaleY(.62) !important;
+  transform-origin: center !important;
+  animation: mobile-impact-orbit-spin 2.1s linear infinite !important;
+}
+header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-impact-orbit::after {
+  inset: 3px -4px !important;
+  border-color: rgba(190,116,255,.92) !important;
+  box-shadow: 0 0 5px rgba(171,103,255,.28) !important;
+  transform: rotate(48deg) scaleY(.72) !important;
+  animation-duration: 2.8s !important;
+  animation-direction: reverse !important;
+}
+header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-impact-orbit > span {
+  position: absolute !important;
+  z-index: 2 !important;
+  left: 8px !important;
+  top: 8px !important;
+  display: block !important;
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  background: #ffe08a !important;
+  box-shadow: 0 0 7px rgba(255,210,105,.9), 0 0 13px rgba(255,210,105,.45) !important;
+}
+header.topbar > .mobile-home-space-row > .mobile-your-space-button.active {
+  gap: 7px !important;
+  color: #ffe2a0 !important;
+  text-shadow: 0 0 12px rgba(117,177,255,.22) !important;
+}
+header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-your-space-button > .mobile-impact-orbit {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  animation: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-impact-orbit,
+  header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-impact-orbit::before,
+  header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-impact-orbit::after {
+    animation: none !important;
+  }
+}
+
