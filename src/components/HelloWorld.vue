@@ -21119,3 +21119,29 @@ a { text-underline-offset: 3px; }
   .mobile-more-drawer .mobile-home-bar-button,
   .mobile-more-drawer .mobile-home-space-row { display:none !important; }
 }
+
+
+/* Mobile top-bar alignment: keep Your space anchored to the far right, including RTL app mode. */
+@media (max-width: 760px) {
+  .topbar .mobile-home-space-row {
+    display: grid !important;
+    grid-template-columns: max-content max-content !important;
+    justify-content: space-between !important;
+    align-items: stretch !important;
+    direction: ltr !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .topbar .mobile-home-space-row .mobile-home-only {
+    justify-self: start !important;
+    margin-left: 0 !important;
+    width: max-content !important;
+  }
+  .topbar .mobile-home-space-row .mobile-your-space-button {
+    justify-self: end !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: max-content !important;
+    max-width: 100% !important;
+  }
+}
