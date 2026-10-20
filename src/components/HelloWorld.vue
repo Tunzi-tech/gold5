@@ -4726,7 +4726,7 @@ onBeforeUnmount(() => {
       <nav class="main-nav">
 
         <div class="primary-spaces-cluster" aria-label="Main spaces and discovery">
-        <div class="primary-navigation-portal" aria-label="Home and Live Flow">
+        <div class="primary-navigation-portal" aria-label="Home">
           <button
             class="primary-space-nav-button"
             :class="{ active: activeView === 'home' }"
@@ -4735,17 +4735,8 @@ onBeforeUnmount(() => {
             <span class="icon">⌂</span>
             Home
           </button>
-
-          <button
-            class="primary-space-nav-button"
-            :class="{ active: activeView === 'live-flow' }"
-            @click="navigate('live-flow')"
-          >
-            <span class="icon">◎</span>
-            Live Flow
-          </button>
         </div>
-<div class="sidebar-orbit-actions" aria-label="Explore and impact">
+        <div class="sidebar-orbit-actions" aria-label="Explore and impact">
           <button
             class="sidebar-orbit-button sidebar-orbit-learn"
             :class="{ active: activeView === 'learn' }"
@@ -4756,6 +4747,8 @@ onBeforeUnmount(() => {
             <span class="sidebar-orbit-icon" aria-hidden="true">✦</span>
             <span>{{ t('learnDiscover') }}</span>
           </button>
+        </div>
+        <div class="sidebar-orbit-actions" aria-label="Impact and awareness">
           <button
             class="sidebar-orbit-button sidebar-orbit-awareness"
             :class="{ active: activeView === 'awareness' }"
@@ -4767,7 +4760,16 @@ onBeforeUnmount(() => {
             <span>{{ t('impactAwareness') }}</span>
           </button>
         </div>
-        </div>
+        <div class="primary-navigation-portal" aria-label="Live Flow">
+          <button
+            class="primary-space-nav-button"
+            :class="{ active: activeView === 'live-flow' }"
+            @click="navigate('live-flow')"
+          >
+            <span class="icon">◎</span>
+            Live Flow
+          </button>
+        </div>        </div>
 
         <div class="sidebar-subnav zones-subnav">
           <div class="sidebar-zones-header">
