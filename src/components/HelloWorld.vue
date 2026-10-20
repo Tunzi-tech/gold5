@@ -5269,6 +5269,19 @@ onBeforeUnmount(() => {
 
       </header>
 
+      <button
+        type="button"
+        class="mobile-network-launch"
+        :class="{ active: homeHeaderChatOpen }"
+        @click="homeHeaderChatOpen = !homeHeaderChatOpen; homeLocalWorldOpen = homeHeaderChatOpen"
+        :aria-expanded="homeHeaderChatOpen"
+        aria-label="Open NetworkChat Local and World"
+        title="NetworkChat · Local · World"
+      >
+        <span aria-hidden="true">◎</span>
+        <span class="mobile-network-launch-label">NETWORKCHAT</span>
+      </button>
+
       <div v-if="mobileMoreOpen" class="mobile-more-overlay" @click.self="mobileMoreOpen = false">
         <aside class="mobile-more-drawer" role="dialog" aria-modal="true" aria-label="Additional navigation">
           <div class="mobile-more-drawer-head">
@@ -21204,3 +21217,62 @@ a { text-underline-offset: 3px; }
   }
 }
 
+
+
+/* Final mobile navigation repair: show the independent NetworkChat edge tab and make
+   the three secondary destinations feel like a quieter continuation of the top bar. */
+@media (max-width:760px) {
+  .mobile-network-launch {
+    display:flex !important;
+    position:fixed !important;
+    top:44% !important;
+    right:0 !important;
+    z-index:13001 !important;
+    width:34px !important;
+    min-width:34px !important;
+    height:112px !important;
+    padding:8px 5px !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:8px !important;
+    border:1px solid rgba(126,163,213,.34) !important;
+    border-right:0 !important;
+    border-radius:11px 0 0 11px !important;
+    background:linear-gradient(180deg,rgba(22,38,58,.98),rgba(10,18,30,.99)) !important;
+    color:#cfe3fc !important;
+    box-shadow:-5px 0 20px rgba(0,0,0,.24),inset 0 1px rgba(255,255,255,.055) !important;
+    writing-mode:vertical-rl !important;
+    visibility:visible !important;
+    opacity:1 !important;
+  }
+  .mobile-network-launch .mobile-network-launch-label {
+    display:block !important;
+    color:#a9c9ef !important;
+    font-size:8px !important;
+    font-weight:850 !important;
+    letter-spacing:.12em !important;
+    writing-mode:vertical-rl !important;
+  }
+  .mobile-network-launch.active {
+    border-color:rgba(143,193,255,.56) !important;
+    background:linear-gradient(180deg,rgba(38,62,91,.99),rgba(16,29,47,.99)) !important;
+    color:#eff7ff !important;
+  }
+  .mobile-more-drawer {
+    background:linear-gradient(180deg,rgba(13,23,37,.99) 0%,rgba(9,16,27,.99) 100%) !important;
+    border-left-color:rgba(126,163,213,.24) !important;
+  }
+  .mobile-more-drawer-item {
+    background:linear-gradient(110deg,rgba(25,42,62,.9),rgba(13,23,37,.96)) !important;
+    border-color:rgba(126,163,213,.2) !important;
+    box-shadow:inset 0 1px rgba(255,255,255,.035) !important;
+  }
+  .mobile-more-drawer-item:hover,
+  .mobile-more-drawer-item:focus-visible {
+    border-color:rgba(126,163,213,.42) !important;
+    background:linear-gradient(110deg,rgba(34,54,79,.94),rgba(16,29,46,.98)) !important;
+    outline:none !important;
+  }
+  .mobile-more-drawer-head { padding-bottom:13px; border-bottom:1px solid rgba(126,163,213,.15); }
+}
