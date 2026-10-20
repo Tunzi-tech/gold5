@@ -5342,18 +5342,15 @@ onBeforeUnmount(() => {
           <strong>Home</strong>
         </button>
 
-        <div class="mobile-home-space-row" aria-label="Your space">
+        <div class="mobile-home-space-row" aria-label="Impact">
           <button
             type="button"
             class="mobile-home-bar-button mobile-your-space-button"
-          <button
-            type="button"
-            class="mobile-home-bar-button mobile-your-space-button"
-            :class="{ active: ['my-zones', 'zone'].includes(activeView) }"
-            @click="navigate('my-zones')"
-            aria-label="Open Your space"
+            :class="{ active: activeView === 'awareness' }"
+            @click="navigate('awareness')"
+            aria-label="Open Impact"
           >
-            <strong>Your space</strong>
+            <strong>Impact</strong>
             <span class="mobile-home-bar-arrow" aria-hidden="true">→</span>
           </button>
         </div>
