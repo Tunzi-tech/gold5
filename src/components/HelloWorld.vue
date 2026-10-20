@@ -22178,15 +22178,21 @@ header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button
   to { filter: brightness(1.35); box-shadow: 0 0 20px rgba(102,157,255,.48), 0 0 32px rgba(143,91,255,.28); }
 }
 
-/* Keep the Impact orbital icon hidden until the Impact button is selected. */
-header.topbar > .desktop-impact-launch > .impact-button-orbit {
+/* The Impact icon must not exist visually until the logo orbit transfers to it. */
+header.topbar:not(.impact-orbit-transferred) .desktop-impact-launch .impact-button-orbit,
+header.topbar:not(.impact-orbit-transferred) .desktop-impact-launch .impact-button-orbit::before,
+header.topbar:not(.impact-orbit-transferred) .desktop-impact-launch .impact-button-orbit::after,
+header.topbar:not(.impact-orbit-transferred) .desktop-impact-launch .impact-button-orbit > span {
+  display: none !important;
   opacity: 0 !important;
   visibility: hidden !important;
-  box-shadow: none !important;
   background: transparent !important;
-  transition: opacity .2s ease, visibility .2s ease !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  animation: none !important;
 }
-header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit {
+header.topbar.impact-orbit-transferred .desktop-impact-launch .impact-button-orbit {
+  display: inline-block !important;
   opacity: 1 !important;
   visibility: visible !important;
 }
