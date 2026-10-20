@@ -20649,7 +20649,6 @@ a { text-underline-offset: 3px; }
   .mobile-network-launch { display: flex; }
 }
 
-</style>
 
 /* Keep the Circles dimension portal beside the Anfas logo, not between Home and Live Flow. */
 .brand .brand-dimension-portal {
@@ -21776,3 +21775,5 @@ a { text-underline-offset: 3px; }
   .awareness-create-card { animation: none; }
   .awareness-content .awareness-submit-button, .impacting-report-actions button, .top-impact-action { transition: none; }
 }
+
+</style>
