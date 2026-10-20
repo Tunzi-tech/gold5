@@ -20249,10 +20249,33 @@ a { text-underline-offset: 3px; }
 }
 
 
-/* Refined Anfas signature: orbit, signal and wordmark read as one logo */
-.sidebar .brand { gap: 5px; }
-.sidebar .brand-orbit { flex: 0 0 36px; overflow: visible; z-index: 2; }
-.sidebar .brand-orbit span::after { width: 36px; left: 5px; top: 5px; transform: none; }
-.sidebar .brand-name { position: relative; z-index: 1; margin-left: -1px; min-width: 0; }
-.sidebar .brand-name strong { font-size: 16px; font-weight: 650; letter-spacing: .16em; line-height: 1.1; color: #f4f7fc; text-shadow: 0 0 16px rgba(103,164,255,.08); }
-.sidebar .brand-name small { margin-top: 4px; font-size: 7px; font-weight: 600; letter-spacing: .105em; line-height: 1.35; white-space: nowrap; color: #93a5bf; }
+/* Anfas signature — make the orbit, blue signal and wordmark visibly read as one mark */
+.sidebar .brand { gap: 4px !important; }
+.sidebar .brand-orbit { flex: 0 0 38px !important; overflow: visible !important; z-index: 2; }
+.sidebar .brand-orbit span::after {
+  width: 43px !important;
+  height: 1.5px !important;
+  left: 5px !important;
+  top: 5px !important;
+  transform: none !important;
+  background: linear-gradient(90deg, #83bdff 0%, #5c9eff 48%, rgba(92,158,255,.12) 100%) !important;
+  box-shadow: 0 0 7px rgba(91,157,255,.58), 0 0 16px rgba(91,157,255,.2) !important;
+}
+.sidebar .brand-name { position: relative; z-index: 1; margin-left: -2px; min-width: 0; }
+.sidebar .brand-name strong {
+  font-size: 18px !important;
+  font-weight: 650 !important;
+  letter-spacing: .17em !important;
+  line-height: 1.1 !important;
+  color: #f5f8ff !important;
+  text-shadow: 0 0 18px rgba(103,164,255,.14) !important;
+}
+.sidebar .brand-name small {
+  margin-top: 5px !important;
+  font-size: 8px !important;
+  font-weight: 650 !important;
+  letter-spacing: .09em !important;
+  line-height: 1.35 !important;
+  white-space: nowrap !important;
+  color: #a9bbd5 !important;
+}
