@@ -5330,18 +5330,20 @@ onBeforeUnmount(() => {
           </button>
         </div>
 
-        <button
-          type="button"
-          class="mobile-home-bar-button mobile-home-only mobile-home-adjacent"
-          :class="{ active: activeView === 'home' }"
-          @click="navigate('home')"
-          aria-label="Go to Home"
-        >
-          <span aria-hidden="true">⌂</span>
-          <strong>Home</strong>
-        </button>
-
-        <div class="mobile-home-space-row" aria-label="Your space">
+        <div class="mobile-home-space-row" aria-label="Home and your space">
+          <button
+            type="button"
+            class="mobile-home-bar-button mobile-home-only"
+            :class="{ active: activeView === 'home' }"
+            @click="navigate('home')"
+            aria-label="Go to Home"
+          >
+            <span aria-hidden="true">⌂</span>
+            <strong>Home</strong>
+          </button>
+          <button
+            type="button"
+            class="mobile-home-bar-button mobile-your-space-button"
           <button
             type="button"
             class="mobile-home-bar-button mobile-your-space-button"
@@ -21793,60 +21795,6 @@ a { text-underline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {
   .awareness-create-card { animation: none; }
   .awareness-content .awareness-submit-button, .impacting-report-actions button, .top-impact-action { transition: none; }
-}
-
-/* Final mobile navigation: Home sits immediately to the right of the hamburger. */
-@media (max-width: 760px) {
-  header.topbar {
-    grid-template-columns: 32px max-content minmax(0, 1fr) auto !important;
-  }
-  header.topbar .mobile-menu-launch {
-    grid-column: 1 !important;
-    grid-row: 1 !important;
-  }
-  header.topbar .mobile-home-adjacent {
-    display: flex !important;
-    grid-column: 2 !important;
-    grid-row: 1 !important;
-    align-self: center !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 5px !important;
-    width: max-content !important;
-    min-width: 0 !important;
-    height: 31px !important;
-    min-height: 31px !important;
-    margin: 0 !important;
-    padding: 0 9px !important;
-    border: 1px solid rgba(126,163,213,.24) !important;
-    border-radius: 9px !important;
-    background: linear-gradient(100deg,rgba(18,34,53,.88),rgba(25,42,64,.92)) !important;
-    color: #c9d9ee !important;
-    font-size: 10px !important;
-    white-space: nowrap !important;
-  }
-  header.topbar .mobile-home-adjacent strong { font-size: 10px !important; font-weight: 800 !important; }
-  header.topbar .mobile-home-adjacent.active {
-    border-color: rgba(111,171,244,.5) !important;
-    background: linear-gradient(100deg,rgba(28,48,74,.9),rgba(18,34,53,.98)) !important;
-    color: #f0f6ff !important;
-  }
-  header.topbar .mobile-brand {
-    grid-column: 3 !important;
-    grid-row: 1 !important;
-    min-width: 0 !important;
-  }
-  header.topbar .top-actions {
-    grid-column: 4 !important;
-    grid-row: 1 !important;
-  }
-  header.topbar .mobile-home-space-row {
-    grid-column: 1 / -1 !important;
-    grid-row: 3 !important;
-    display: flex !important;
-    justify-content: flex-end !important;
-  }
-  header.topbar .mobile-home-space-row .mobile-your-space-button { margin-left: 0 !important; }
 }
 
 </style>
