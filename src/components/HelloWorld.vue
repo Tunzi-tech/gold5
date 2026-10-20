@@ -5221,6 +5221,7 @@ onBeforeUnmount(() => {
         <div class="mobile-more-drawer-head"><div><span class="home-connection-kicker">ANFAS · EXPLORE</span><h2>Anfas Explore</h2><p>Follow the flow and connect with people.</p></div><button type="button" class="mobile-network-drawer-close" @click="mobileMoreOpen = false" aria-label="Close Anfas Explore">×</button></div>
         <button type="button" class="mobile-more-drawer-item" @click="mobileMoreOpen = false; navigate('pages')"><span>▣</span><span><strong>Flow</strong><small>Calls, pages, initiatives and entities</small></span><b>→</b></button>
         <button type="button" class="mobile-more-drawer-item" @click="mobileMoreOpen = false; navigate('people')"><span>♧</span><span><strong>People</strong><small>Discover people and connections</small></span><b>→</b></button>
+        <button type="button" class="mobile-more-drawer-item mobile-more-network-item" @click="mobileMoreOpen = false; homeHeaderChatOpen = true; homeLocalWorldOpen = true"><span>◎</span><span><strong>NetworkChat</strong><small>Open your Local · World network chat</small></span><b>→</b></button>
       </aside>
     </div>
 
@@ -20791,4 +20792,26 @@ a { text-underline-offset: 3px; }
   .topbar .top-actions { gap:1px !important; }
   .topbar .top-icon { width:24px !important; min-width:24px !important; }
   .topbar .primary-btn { width:26px !important; min-width:26px !important; }
+}
+
+
+/* Compact mobile navigation spacing and keep the secondary spaces in one right-side drawer. */
+@media (max-width:760px) {
+  .main-nav .primary-spaces-cluster { gap:0 3px !important; padding:2px 0 !important; }
+  .main-nav .primary-spaces-cluster > .primary-navigation-portal .primary-space-nav-button {
+    min-height:34px !important;
+    padding:5px 4px 5px 6px !important;
+    gap:4px !important;
+    font-size:9px !important;
+  }
+  .sidebar-network-entry { margin:3px 0 6px !important; }
+  .mobile-navigation .mobile-nav { gap:3px !important; }
+  .mobile-navigation .mobile-nav button { padding:6px 4px !important; min-height:46px !important; }
+  .mobile-edge-actions { gap:4px !important; width:30px !important; }
+  .mobile-edge-action { width:30px !important; min-height:78px !important; padding:7px 5px !important; gap:5px !important; }
+  .mobile-edge-impact { min-height:60px !important; }
+  .mobile-more-drawer { gap:7px !important; padding:20px 14px max(16px,env(safe-area-inset-bottom)) !important; }
+  .mobile-more-drawer-head { margin:3px 0 10px !important; }
+  .mobile-more-drawer-item { min-height:56px !important; padding:9px !important; gap:9px !important; border-radius:10px !important; }
+  .mobile-more-drawer-item>span:first-child { width:31px !important; height:31px !important; flex-basis:31px !important; border-radius:9px !important; }
 }
