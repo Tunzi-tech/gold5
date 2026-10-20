@@ -188,6 +188,7 @@ const homeDisplayMode = ref<'content' | 'feed'>('content')
 const homeHeroHidden = ref(false)
 const homeHeaderChatOpen = ref(false)
 const mobileMoreOpen = ref(false)
+const mobileIssueMenuOpen = ref(false)
 const homeLocalWorldOpen = ref(false)
 const homeLocalWorldScope = ref<'local' | 'world'>('local')
 const homeHeaderChatDraft = ref('')
@@ -5369,6 +5370,27 @@ onBeforeUnmount(() => {
             ◷
           </button>
 
+          <button
+            type="button"
+            class="mobile-issue-menu-trigger"
+            :class="{ active: mobileIssueMenuOpen }"
+            @click="mobileIssueMenuOpen = !mobileIssueMenuOpen"
+            :aria-expanded="mobileIssueMenuOpen"
+            aria-label="Choose an issue or report an issue"
+            title="Impact options"
+          >
+            ◎
+          </button>
+          <div v-if="mobileIssueMenuOpen" class="mobile-issue-menu" role="menu">
+            <button type="button" role="menuitem" @click="mobileIssueMenuOpen = false; navigate('awareness')">
+              <span class="mobile-issue-menu-mark" aria-hidden="true">◎</span>
+              <span><strong>Choose an issue</strong><small>Zone or interests</small></span>
+            </button>
+            <button type="button" role="menuitem" @click="mobileIssueMenuOpen = false; activeView = 'awareness'; showRaiseAwareness = true; isReportingIssue = true">
+              <span class="mobile-issue-menu-mark" aria-hidden="true">＋</span>
+              <span><strong>Report an issue</strong></span>
+            </button>
+          </div>
           <button
             class="primary-btn"
             @click="showCreatePost = true"
@@ -19618,6 +19640,69 @@ a { text-underline-offset: 3px; }
   width: 30px;
   height: 30px;
   flex-basis: 30px;
+}
+
+
+
+/* Compact mobile impact menu beside the create (+) button. */
+@media screen and (max-width: 900px) {
+  header.topbar > .top-actions { position: relative !important; overflow: visible !important; }
+  header.topbar .mobile-issue-menu-trigger {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 26px !important;
+    width: 26px !important;
+    min-width: 26px !important;
+    height: 30px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 1px solid rgba(115,164,229,.38) !important;
+    border-radius: 8px !important;
+    background: linear-gradient(145deg,rgba(37,63,96,.95),rgba(25,39,62,.98)) !important;
+    color: #b9d9ff !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    cursor: pointer !important;
+  }
+  header.topbar .mobile-issue-menu-trigger.active { border-color: rgba(160,190,255,.8) !important; color: #fff !important; }
+  header.topbar .mobile-issue-menu { 
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 5px !important;
+    position: absolute !important;
+    z-index: 10000 !important;
+    top: calc(100% + 8px) !important;
+    right: 0 !important;
+    width: 208px !important;
+    max-width: calc(100vw - 24px) !important;
+    padding: 7px !important;
+    border: 1px solid rgba(126,163,213,.28) !important;
+    border-radius: 12px !important;
+    background: #101c2c !important;
+    box-shadow: 0 14px 36px rgba(0,0,0,.42) !important;
+  }
+  header.topbar .mobile-issue-menu > button {
+    display: flex !important;
+    align-items: center !important;
+    gap: 9px !important;
+    width: 100% !important;
+    min-height: 40px !important;
+    padding: 8px 9px !important;
+    border: 0 !important;
+    border-radius: 8px !important;
+    background: rgba(255,255,255,.045) !important;
+    color: #e6efff !important;
+    text-align: left !important;
+    cursor: pointer !important;
+  }
+  header.topbar .mobile-issue-menu > button:active { background: rgba(105,157,230,.18) !important; }
+  header.topbar .mobile-issue-menu-mark { display: inline-flex !important; width: 22px !important; justify-content: center !important; color: #8fc4ff !important; font-size: 17px !important; }
+  header.topbar .mobile-issue-menu strong { display: block !important; font-size: 11px !important; font-weight: 800 !important; }
+  header.topbar .mobile-issue-menu small { display: block !important; margin-top: 2px !important; color: #9fb1ca !important; font-size: 10px !important; }
+}
+@media screen and (min-width: 901px) {
+  header.topbar .mobile-issue-menu-trigger, header.topbar .mobile-issue-menu { display: none !important; }
 }
 
 </style>
