@@ -4779,7 +4779,11 @@ onBeforeUnmount(() => {
             >
               <span class="icon">◉</span>
               <span class="subnav-section-label impact-zone-label">Impacting</span>
-              <span class="impacting-button-cue" aria-hidden="true">Explore <span>→</span></span>
+              <span class="impacting-button-cue" aria-hidden="true">
+                <span class="impacting-cue-label">Explore</span>
+                <span class="impacting-cue-arrow">→</span>
+                <span class="impacting-cue-icon">✧</span>
+              </span>
             </button>
 
             <button
@@ -19989,5 +19993,23 @@ a { text-underline-offset: 3px; }
 }
 .zones-subnav .sidebar-zones-main.active .impacting-button-cue > span {
   color: #d8c5ff;
+}
+
+/* Keep the active Impacting button clean: replace the Explore cue with one icon. */
+.zones-subnav .sidebar-zones-main .impacting-cue-icon {
+  display: none;
+}
+.zones-subnav .sidebar-zones-main.active .impacting-cue-label,
+.zones-subnav .sidebar-zones-main.active .impacting-cue-arrow {
+  display: none;
+}
+.zones-subnav .sidebar-zones-main.active .impacting-cue-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #f0eaff;
+  font-size: 19px;
+  line-height: 1;
+  filter: drop-shadow(0 0 5px rgba(190,151,255,.42));
 }
 </style>
