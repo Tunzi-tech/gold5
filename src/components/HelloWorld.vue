@@ -5178,9 +5178,6 @@ onBeforeUnmount(() => {
       </div>
 
       <nav class="mobile-nav" aria-label="Main navigation">
-        <button :class="{ active: activeView === 'home' }" @click="navigate('home')">
-          <span class="mobile-nav-icon">⌂</span><span>Home</span>
-        </button>
         <button :class="{ active: activeView === 'live-flow' }" @click="navigate('live-flow')">
           <span class="mobile-nav-icon">◎</span><span>Live Flow</span>
         </button>
@@ -21325,52 +21322,47 @@ a { text-underline-offset: 3px; }
 }
 
 
-/* Definitive mobile layout: Home and Your space occupy two equal columns on one row. */
+/* Final mobile layout: keep Home and Your space side by side in one row.
+   Flex layout avoids older grid-placement rules forcing either button onto another row. */
 @media screen and (max-width: 760px) {
-  header.topbar > div.mobile-home-space-row {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
-    grid-template-rows: 36px !important;
-    grid-auto-flow: row !important;
+  header.topbar > .mobile-home-space-row {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
     align-items: stretch !important;
-    justify-content: stretch !important;
+    justify-content: space-between !important;
     gap: 8px !important;
     width: 100% !important;
-    min-width: 0 !important;
     height: 36px !important;
+    min-height: 36px !important;
     max-height: 36px !important;
-    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
     direction: ltr !important;
     box-sizing: border-box !important;
   }
-  header.topbar > div.mobile-home-space-row > button.mobile-home-bar-button.mobile-home-only {
-    grid-column: 1 !important;
-    grid-row: 1 !important;
-    justify-self: stretch !important;
-    align-self: stretch !important;
+  header.topbar > .mobile-home-space-row > button.mobile-home-bar-button {
     display: flex !important;
-    width: 100% !important;
+    position: relative !important;
+    float: none !important;
+    clear: none !important;
+    grid-column: auto !important;
+    grid-row: auto !important;
+    flex: 1 1 0 !important;
+    width: 0 !important;
     min-width: 0 !important;
     max-width: none !important;
+    height: 36px !important;
+    min-height: 36px !important;
     margin: 0 !important;
-    box-sizing: border-box !important;
-    white-space: nowrap !important;
-  }
-  header.topbar > div.mobile-home-space-row > button.mobile-home-bar-button.mobile-your-space-button {
-    grid-column: 2 !important;
-    grid-row: 1 !important;
-    justify-self: stretch !important;
     align-self: stretch !important;
-    display: flex !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    margin: 0 !important;
-    box-sizing: border-box !important;
+    justify-content: center !important;
+    align-items: center !important;
     white-space: nowrap !important;
+    box-sizing: border-box !important;
   }
 }
-
 
 /* On phones, Home remains in the mobile top bar; hide its duplicate in the sidebar. */
 @media screen and (max-width: 760px) {
