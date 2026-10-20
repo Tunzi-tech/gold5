@@ -19725,7 +19725,7 @@ a { text-underline-offset: 3px; }
 @keyframes awareness-colour-stack {
   0% { background: linear-gradient(150deg, rgba(23,33,49,.42), rgba(10,15,24,.42)); box-shadow: inset 0 0 0 0 rgba(110,199,255,0); }
   55% { box-shadow: inset 0 0 0 1px rgba(110,199,255,.2), 0 0 18px rgba(63,166,255,.28); }
-  100% { background: radial-gradient(ellipse at 18% 0%, rgba(92,190,255,.25), transparent 72%), linear-gradient(145deg, rgba(31,99,143,.56), rgba(22,48,79,.84) 58%, rgba(14,25,43,.93)); }
+  100% { background: radial-gradient(ellipse at 82% 78%, rgba(255, 207, 82, .22), transparent 48%), radial-gradient(ellipse at 18% 0%, rgba(92,190,255,.28), transparent 72%), linear-gradient(145deg, rgba(31,99,143,.60), rgba(22,48,79,.86) 58%, rgba(14,25,43,.93)); }
 }
 @keyframes selected-colour-sweep {
   0% { opacity: 0; transform: translateX(-55%) rotate(12deg); }
