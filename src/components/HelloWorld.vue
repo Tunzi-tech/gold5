@@ -20037,8 +20037,17 @@ a { text-underline-offset: 3px; }
   animation-delay: .44s;
 }
 @keyframes impacting-direction-pulse {
-  0%, 100% { opacity: .68; transform: translateY(0) scale(.94); }
-  45% { opacity: 1; transform: translateY(-1px) scale(1.12); }
+  0%, 100% { opacity: .28; transform: translateY(0) scale(.88); }
+  45% { opacity: 1; transform: translateY(-1px) scale(1.14); }
+}
+.zones-subnav .sidebar-zones-main.active .impacting-direction-arrow.up {
+  animation-delay: 0s;
+}
+.zones-subnav .sidebar-zones-main.active .impacting-direction-arrow.right {
+  animation-delay: .6s;
+}
+.zones-subnav .sidebar-zones-main.active .impacting-direction-arrow.down {
+  animation-delay: 1.2s;
 }
 @media (prefers-reduced-motion: reduce) {
   .zones-subnav .sidebar-zones-main.active .impacting-direction-arrow {
