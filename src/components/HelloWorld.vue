@@ -4702,14 +4702,14 @@ onBeforeUnmount(() => {
     <!-- SIDEBAR -->
     <aside class="sidebar">
 
-      <div class="brand" @click="navigate('home')">
-        <div class="brand-orbit">
+      <div class="brand" @click="navigate('home')" role="button" tabindex="0" @keydown.enter="navigate('home')" aria-label="Anfas home">
+        <div class="brand-orbit" aria-hidden="true">
           <span></span>
         </div>
 
         <div class="brand-name">
           <strong>Anfas</strong>
-          <small>PEOPLE • ACTIONS • VOICES</small>
+          <small>PEOPLE · ACTIONS · VOICES</small>
         </div>
 
         <button
@@ -5210,8 +5210,9 @@ onBeforeUnmount(() => {
       <!-- TOP BAR -->
       <header class="topbar">
 
-        <div class="mobile-brand">
-          <strong>Anfas</strong><span>PEOPLE · ACTIONS · VOICES</span>
+        <div class="mobile-brand" @click="navigate('home')" role="button" tabindex="0" @keydown.enter="navigate('home')" aria-label="Anfas home">
+          <span class="mobile-brand-mark" aria-hidden="true"><i></i><b></b></span>
+          <span class="mobile-brand-copy"><strong>Anfas</strong><small>PEOPLE · ACTIONS · VOICES</small></span>
         </div>
 
         <div class="search-box">
@@ -18950,19 +18951,117 @@ a { text-underline-offset: 3px; }
   .sidebar { display: none; }
   .main { margin-left: 0; width: 100%; padding-left: 0; padding-bottom: 90px; }
   .topbar {
-    height: 58px;
+    min-height: 104px;
+    height: auto;
     margin-left: 0;
-    padding: 0 15px;
-    gap: 10px;
+    padding: 11px 15px 12px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: 35px 36px;
+    align-content: center;
+    align-items: center;
+    column-gap: 12px;
+    row-gap: 10px;
+    background: rgba(8,13,22,.96);
+    border-bottom: 1px solid rgba(145,169,204,.14);
   }
-  .search-box { width: auto; min-width: 0; flex: 1; height: 35px; }
+  .mobile-brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-width: 0;
+    cursor: pointer;
+    letter-spacing: 0;
+  }
+  .mobile-brand-mark {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 31px;
+    height: 31px;
+    flex: 0 0 31px;
+    border: 1px solid rgba(133,180,239,.42);
+    border-radius: 10px;
+    background: linear-gradient(145deg,rgba(37,63,95,.9),rgba(11,20,34,.96));
+    box-shadow: inset 0 1px rgba(255,255,255,.08), 0 4px 13px rgba(0,0,0,.18);
+  }
+  .mobile-brand-mark i {
+    width: 15px;
+    height: 15px;
+    border: 1px solid #9cc9fa;
+    border-radius: 50%;
+    transform: rotate(-35deg) scaleY(.68);
+  }
+  .mobile-brand-mark b {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #dcecff;
+    box-shadow: 0 0 8px rgba(133,190,255,.6);
+  }
+  .mobile-brand-copy { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .mobile-brand-copy strong {
+    color: #f0f5fc;
+    font-size: 17px;
+    line-height: 1;
+    font-weight: 750;
+    letter-spacing: -.045em;
+  }
+  .mobile-brand-copy small {
+    color: #8297b3;
+    font-size: 6px;
+    line-height: 1;
+    font-weight: 750;
+    letter-spacing: .12em;
+    white-space: nowrap;
+  }
+  .search-box {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+    min-width: 0;
+    height: 36px;
+    box-sizing: border-box;
+    gap: 9px;
+    padding: 0 11px;
+  }
+  .search-box input { min-width: 0; font-size: 11px; }
+  .search-box kbd { display: none; }
+  .top-actions { grid-column: 2; grid-row: 1; gap: 5px; justify-content: flex-end; }
+  .top-actions .top-icon { width: 30px; height: 30px; flex: 0 0 30px; }
+  .top-actions .primary-btn { width: 31px; height: 30px; padding: 0; border-radius: 9px; }
+  .mobile-network-launch {
+    position: fixed;
+    z-index: 60;
+    right: 13px;
+    bottom: 82px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 42px;
+    padding: 0 13px;
+    border: 1px solid rgba(120,174,239,.45);
+    border-radius: 999px;
+    background: linear-gradient(120deg,rgba(24,48,76,.98),rgba(13,24,40,.98));
+    color: #dcecff;
+    box-shadow: 0 8px 24px rgba(0,0,0,.3), inset 0 1px rgba(255,255,255,.07);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .07em;
+    cursor: pointer;
+  }
+  .mobile-network-launch > span:first-child { color: #9ac9ff; font-size: 16px; }
+  .mobile-network-launch.active { border-color: rgba(143,193,255,.72); background: linear-gradient(120deg,rgba(36,68,105,.99),rgba(17,34,56,.99)); }
   .content {
     width: 100%;
     max-width: none;
     margin: 0;
-    padding: 22px 15px 48px;
+    padding: 18px 15px 48px;
   }
   .home-connection-hub { width: 100%; }
+  .home-view-switch { position: relative; z-index: 9; margin-top: 0; margin-bottom: 14px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .topbar { backdrop-filter: none; }
@@ -20249,6 +20348,87 @@ a { text-underline-offset: 3px; }
     animation: none;
   }
 }
+
+/* Refined Anfas identity: consistent editorial wordmark across desktop and mobile. */
+.brand { align-items: center; gap: 12px; padding-top: 2px; }
+.brand-orbit {
+  width: 39px;
+  height: 39px;
+  flex: 0 0 39px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(136,181,239,.38);
+  border-radius: 12px;
+  background: linear-gradient(145deg,rgba(34,59,90,.9),rgba(10,18,31,.98));
+  box-shadow: inset 0 1px rgba(255,255,255,.075), 0 5px 15px rgba(0,0,0,.18);
+}
+.brand-orbit::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(156,201,250,.88);
+  border-radius: 50%;
+  transform: rotate(-35deg) scaleY(.68);
+}
+.brand-orbit span {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #e3f1ff;
+  box-shadow: 0 0 10px rgba(137,193,255,.75);
+}
+.brand-name { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.brand-name strong {
+  color: #f0f5fc;
+  font-size: 23px;
+  line-height: 1;
+  font-weight: 760;
+  letter-spacing: -.055em;
+}
+.brand-name small {
+  color: #8297b3;
+  font-size: 7px;
+  line-height: 1;
+  font-weight: 750;
+  letter-spacing: .13em;
+  white-space: nowrap;
+}
+.mobile-brand { display: none; }
+.mobile-network-launch { display: none; }
+.mobile-network-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(2,6,12,.62);
+  backdrop-filter: blur(5px);
+}
+.mobile-network-drawer {
+  width: min(410px, 88vw);
+  height: 100%;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 24px 18px calc(28px + env(safe-area-inset-bottom));
+  border-left: 1px solid rgba(132,178,235,.22);
+  background: linear-gradient(160deg,#101c2d 0%,#09111d 48%,#080d16 100%);
+  box-shadow: -18px 0 55px rgba(0,0,0,.35);
+}
+.mobile-network-drawer-head { display: flex; align-items: flex-start; gap: 12px; justify-content: space-between; }
+.mobile-network-drawer-head h2 { margin: 9px 0 6px; color: #edf5ff; font-size: 21px; letter-spacing: -.035em; line-height: 1.2; }
+.mobile-network-drawer-head p { margin: 0; color: #91a3bb; font-size: 11px; line-height: 1.65; }
+.mobile-network-drawer-close { flex: 0 0 32px; width: 32px; height: 32px; border: 1px solid rgba(143,177,220,.2); border-radius: 9px; background: rgba(255,255,255,.035); color: #d5e6fb; font-size: 22px; cursor: pointer; }
+.mobile-drawer-tabs { margin-top: 22px; }
+.mobile-network-drawer-stream { display: grid; gap: 9px; margin-top: 15px; }
+.mobile-network-drawer-rooms { display: grid; gap: 8px; margin-top: 23px; }
+.mobile-network-drawer-note { margin-top: 17px; color: #6f829b; font-size: 9px; line-height: 1.6; }
+@media (max-width: 760px) {
+  .brand { display: none; }
+  .mobile-brand { display: flex; }
+  .mobile-network-launch { display: flex; }
+}
+
 </style>
 
 /* Keep the Circles dimension portal beside the Anfas logo, not between Home and Live Flow. */
