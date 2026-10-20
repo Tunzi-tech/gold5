@@ -5226,6 +5226,7 @@ onBeforeUnmount(() => {
         </div>
 
         <div class="top-actions">
+          <button class="top-icon mobile-network-launch" type="button" :class="{ active: homeHeaderChatOpen }" @click="homeHeaderChatOpen = !homeHeaderChatOpen; homeLocalWorldOpen = homeHeaderChatOpen" aria-label="Open local and global network" title="NetworkChat · Local · World">◎</button>
           <button class="top-icon" title="Notifications" aria-label="Notifications">◌</button>
           <button class="top-icon" title="Messages" aria-label="Messages">✉</button>
           <button
@@ -5279,6 +5280,25 @@ onBeforeUnmount(() => {
            ================================================= -->
       <section v-if="activeView === 'home'" class="content home-commons-content" :class="{ 'home-hero-collapsed': homeHeroHidden }">
 
+        <div class="home-view-switch" role="group" aria-label="Choose home view">
+          <button
+            type="button"
+            :class="{ active: homeDisplayMode === 'content' }"
+            :aria-pressed="homeDisplayMode === 'content'"
+            @click="homeDisplayMode = 'content'"
+          >
+            <span aria-hidden="true">◈</span> Explore
+          </button>
+          <button
+            type="button"
+            :class="{ active: homeDisplayMode === 'feed' }"
+            :aria-pressed="homeDisplayMode === 'feed'"
+            @click="homeDisplayMode = 'feed'; homeHeroHidden = true"
+          >
+            <span aria-hidden="true">≋</span> Feed
+          </button>
+        </div>
+
         <div class="home-hero-control">
           <button type="button" class="home-hero-toggle" :aria-expanded="!homeHeroHidden" @click="homeHeroHidden = !homeHeroHidden; homeHeroHidden || (homeHeaderChatOpen = false)">
             <span aria-hidden="true">{{ homeHeroHidden ? '⌄' : '⌃' }}</span>
@@ -5287,6 +5307,7 @@ onBeforeUnmount(() => {
         </div>
         <section v-if="homeHeaderChatOpen" class="home-header-chat" aria-label="Home chat">
           <div class="home-header-chat-heading home-network-heading">
+            <button class="mobile-network-close" type="button" @click="homeHeaderChatOpen = false; homeLocalWorldOpen = false" aria-label="Close network sidebar">×</button>
             <div>
               <span class="home-connection-kicker">YOUR NETWORK · LIVE SPACE</span>
               <h2>Conversations and updates, connected.</h2>
@@ -5428,25 +5449,6 @@ onBeforeUnmount(() => {
           </div>
         </div>
 
-
-        <div class="home-view-switch" role="group" aria-label="Choose home view">
-          <button
-            type="button"
-            :class="{ active: homeDisplayMode === 'content' }"
-            :aria-pressed="homeDisplayMode === 'content'"
-            @click="homeDisplayMode = 'content'"
-          >
-            <span aria-hidden="true">◈</span> Explore
-          </button>
-          <button
-            type="button"
-            :class="{ active: homeDisplayMode === 'feed' }"
-            :aria-pressed="homeDisplayMode === 'feed'"
-            @click="homeDisplayMode = 'feed'; homeHeroHidden = true"
-          >
-            <span aria-hidden="true">≋</span> Feed
-          </button>
-        </div>
 
         <section class="home-connection-hub" aria-label="Discover calls, people and opportunities">
           <div class="home-connection-heading">
@@ -20281,6 +20283,62 @@ a { text-underline-offset: 3px; }
   line-height: 1.35 !important;
   white-space: nowrap !important;
   color: #a9bbd5 !important;
+}
+
+
+/* Mobile NetworkChat opens as a dedicated drawer, separate from the four main spaces. */
+.mobile-network-launch { display:none; }
+.mobile-network-close { display:none; }
+@media (max-width:760px) {
+  .mobile-network-launch { display:inline-flex; align-items:center; justify-content:center; color:#b8e8f5; border-color:rgba(105,190,220,.35); }
+  .home-commons-content .home-view-switch { order:-1; position:relative; z-index:3; margin:0 0 12px; }
+  .home-commons-content:not(.home-hero-collapsed) .home-view-switch { margin-top:0; }
+  .home-header-chat {
+    position:fixed !important;
+    z-index:10050 !important;
+    top:0 !important;
+    right:0 !important;
+    bottom:0 !important;
+    width:min(92vw,430px) !important;
+    max-width:100vw !important;
+    height:100dvh !important;
+    max-height:100dvh !important;
+    margin:0 !important;
+    padding:54px 14px 20px !important;
+    overflow-y:auto !important;
+    overscroll-behavior:contain;
+    border-radius:18px 0 0 18px !important;
+    border:1px solid rgba(111,170,224,.3) !important;
+    background:linear-gradient(155deg,rgba(15,26,43,.99),rgba(7,13,23,.99) 65%) !important;
+    box-shadow:-22px 0 70px rgba(0,0,0,.52),0 0 0 100vmax rgba(0,0,0,.56) !important;
+    animation:network-drawer-enter .24s cubic-bezier(.2,.75,.25,1) both;
+  }
+  .home-header-chat-heading { position:relative; padding-right:24px; }
+  .mobile-network-close {
+    display:inline-flex;
+    position:fixed;
+    z-index:2;
+    top:10px;
+    right:12px;
+    width:34px;
+    height:34px;
+    align-items:center;
+    justify-content:center;
+    border:1px solid rgba(132,168,211,.32);
+    border-radius:10px;
+    color:#e3efff;
+    background:rgba(24,38,58,.95);
+    font-size:23px;
+    line-height:1;
+    cursor:pointer;
+  }
+}
+@keyframes network-drawer-enter {
+  from { transform:translateX(22px); opacity:.65; }
+  to { transform:translateX(0); opacity:1; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .home-header-chat { animation:none !important; }
 }
 
 
