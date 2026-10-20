@@ -4707,6 +4707,11 @@ onBeforeUnmount(() => {
           <span></span>
         </div>
 
+        <div class="brand-name">
+          <strong>Anfas</strong>
+          <small>PEOPLE • ACTIONS • VOICES</small>
+        </div>
+
         <button
           class="dimension-portal-trigger brand-dimension-portal"
           type="button"
@@ -4716,11 +4721,6 @@ onBeforeUnmount(() => {
         >
           <span class="dimension-portal-line" aria-hidden="true"></span>
         </button>
-
-        <div>
-          <strong>Anfas</strong>
-          <small>PEOPLE • ACTIONS • VOICES</small>
-        </div>
       </div>
 
       <nav class="main-nav">
