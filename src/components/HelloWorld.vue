@@ -22162,14 +22162,17 @@ header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button
   box-shadow: 0 0 9px rgba(210,232,255,.2), inset 0 0 5px rgba(255,255,255,.12) !important;
   animation: impact-orbit-arrives .55s cubic-bezier(.2,.75,.25,1) both;
 }
-header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit::before,
+header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit::before {
+  border-color: rgba(105,169,255,.98) !important;
+  box-shadow: 0 0 5px rgba(80,150,255,.62) !important;
+}
 header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit::after {
-  border-color: rgba(242,248,255,.96) !important;
-  box-shadow: 0 0 4px rgba(220,238,255,.45) !important;
+  border-color: rgba(190,116,255,.95) !important;
+  box-shadow: 0 0 5px rgba(171,103,255,.55) !important;
 }
 header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit > span {
-  background: #fff !important;
-  box-shadow: 0 0 7px rgba(255,255,255,.95) !important;
+  background: #ffe08a !important;
+  box-shadow: 0 0 7px rgba(255,210,105,.9) !important;
 }
 
 </style>
