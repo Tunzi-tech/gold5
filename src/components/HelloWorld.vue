@@ -19113,6 +19113,47 @@ a { text-underline-offset: 3px; }
   text-align: left;
   border-radius: 0;
 }
+
+/* Two-column navigation saves vertical space: Impact and Live Flow sit left,
+   while Home and Learn & Discover keep their own column on the right. */
+.main-nav .primary-spaces-cluster {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  column-gap: 5px;
+  row-gap: 0;
+  align-items: stretch;
+}
+.main-nav .primary-spaces-cluster > .primary-navigation-portal {
+  min-width: 0;
+  padding: 0;
+}
+.main-nav .primary-spaces-cluster > .primary-navigation-portal:nth-child(1) {
+  grid-column: 2;
+  grid-row: 1;
+}
+.main-nav .primary-spaces-cluster > .primary-navigation-portal:nth-child(2) {
+  grid-column: 2;
+  grid-row: 2;
+}
+.main-nav .primary-spaces-cluster > .primary-navigation-portal:nth-child(3) {
+  grid-column: 1;
+  grid-row: 1;
+}
+.main-nav .primary-spaces-cluster > .primary-navigation-portal:nth-child(4) {
+  grid-column: 1;
+  grid-row: 2;
+}
+.main-nav .primary-spaces-cluster > .primary-navigation-portal .primary-space-nav-button {
+  min-width: 0;
+  min-height: 39px;
+  padding-left: 8px;
+  padding-right: 8px;
+  gap: 7px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 .main-nav .primary-navigation-portal::before { display: none; }
 .main-nav .primary-navigation-portal .primary-space-nav-button.active {
   background: linear-gradient(100deg, rgba(75, 108, 161, .17), rgba(42, 62, 94, .07)) !important;
