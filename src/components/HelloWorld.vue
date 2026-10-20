@@ -5222,6 +5222,19 @@ onBeforeUnmount(() => {
           <kbd>⌘ K</kbd>
         </div>
 
+        <button
+          type="button"
+          class="mobile-home-bar-button"
+          :class="{ active: activeView === 'home' }"
+          @click="navigate('home')"
+          aria-label="Go to Home"
+        >
+          <span aria-hidden="true">⌂</span>
+          <strong>Home</strong>
+          <span class="mobile-home-bar-context">Your space</span>
+          <span class="mobile-home-bar-arrow" aria-hidden="true">→</span>
+        </button>
+
         <div class="top-actions">
           
           <button class="top-icon" title="Notifications" aria-label="Notifications">◌</button>
@@ -20913,4 +20926,100 @@ a { text-underline-offset: 3px; }
   .home-commons-content .home-view-switch button { min-height:30px; padding:7px 12px; border:1px solid rgba(125,157,199,.12); border-radius:8px; background:linear-gradient(135deg,rgba(35,53,77,.74),rgba(20,34,53,.82)); color:#c3d1e4; }
   .home-commons-content .home-view-switch button.active { border-color:rgba(133,177,238,.3); background:linear-gradient(135deg,rgba(49,75,109,.82),rgba(27,47,72,.9)); color:#edf5ff; }
   .mobile-secondary-nav { display:none !important; }
+}
+
+
+/* Mobile top bar: keep Home in its own connected navigation row beneath Search. */
+.mobile-home-bar-button { display:none; }
+@media (max-width:760px) {
+  .topbar {
+    min-height: 151px;
+    grid-template-rows: 35px 36px 34px;
+    row-gap: 8px;
+    padding: 10px 13px 11px;
+    background: linear-gradient(180deg,rgba(8,13,22,.98),rgba(10,17,28,.97));
+  }
+  .mobile-brand-mark {
+    width:34px;
+    height:34px;
+    flex:0 0 34px;
+    border:1px solid #51678d;
+    border-radius:50%;
+    background:transparent;
+    box-shadow:none;
+  }
+  .mobile-brand-mark::before,
+  .mobile-brand-mark::after {
+    content:"";
+    position:absolute;
+    inset:6px;
+    border:1px solid rgba(99,143,219,.55);
+    border-radius:50%;
+  }
+  .mobile-brand-mark > span {
+    width:7px;
+    height:7px;
+    position:absolute;
+    top:-3px;
+    right:4px;
+    border-radius:50%;
+    background:#67a4ff;
+    box-shadow:0 0 12px rgba(103,164,255,.7);
+  }
+  .mobile-brand-mark > span::after {
+    content:"";
+    position:absolute;
+    width:36px;
+    height:1px;
+    left:5px;
+    top:5px;
+    background:linear-gradient(90deg,rgba(103,164,255,.9),rgba(103,164,255,.65) 45%,rgba(220,230,244,.08));
+    box-shadow:0 0 5px rgba(103,164,255,.28);
+  }
+  .mobile-brand-copy strong {
+    font-size:16px;
+    letter-spacing:-.035em;
+  }
+  .mobile-brand-copy small {
+    font-size:6px;
+    letter-spacing:.1em;
+    color:#8297b3;
+  }
+  .search-box { grid-row:2; }
+  .mobile-home-bar-button {
+    grid-column:1 / -1;
+    grid-row:3;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    width:100%;
+    min-width:0;
+    height:34px;
+    padding:0 11px;
+    border:1px solid rgba(126,163,213,.15);
+    border-radius:9px;
+    background:linear-gradient(100deg,rgba(25,43,65,.8),rgba(15,27,43,.92));
+    color:#bdcde2;
+    text-align:left;
+    cursor:pointer;
+    box-shadow:inset 0 1px rgba(230,241,255,.025);
+  }
+  .mobile-home-bar-button > span:first-child {
+    display:grid;
+    place-items:center;
+    width:20px;
+    height:20px;
+    border-radius:6px;
+    background:rgba(110,159,226,.12);
+    color:#a8ccfa;
+    font-size:16px;
+  }
+  .mobile-home-bar-button strong { font-size:10px; font-weight:800; }
+  .mobile-home-bar-context { color:#7186a1; font-size:9px; }
+  .mobile-home-bar-arrow { margin-left:auto; color:#83b5f5; font-size:14px; }
+  .mobile-home-bar-button.active {
+    border-color:rgba(111,171,244,.32);
+    background:linear-gradient(100deg,rgba(38,65,97,.88),rgba(19,35,55,.95));
+    color:#f0f6ff;
+  }
 }
