@@ -3892,6 +3892,18 @@ const awarenessCategories = [
   'Technology & innovation'
 ]
 
+function updateSelectedImpactIssue(value: string) {
+  selectedImpactIssueId.value = value ? Number(value) : null
+}
+
+function focusSelectedImpactIssue() {
+  const item = awarenessItems.value.find(entry => entry.id === selectedImpactIssueId.value)
+  if (!item) return
+  awarenessCategory.value = item.category
+  awarenessImpactType.value = item.impactType || 'ALL'
+  awarenessFilter.value = 'ALL'
+}
+
 const filteredAwarenessItems = computed(() => {
   return awarenessItems.value.filter(item => {
     const matchesCountry = impactingCountryFilter.value === 'ALL' || item.country === impactingCountryFilter.value
@@ -6658,12 +6670,12 @@ onBeforeUnmount(() => {
             <div class="impacting-path-option impacting-issue-option">
               <span class="impacting-path-step">02 · ISSUE</span>
               <label for="impacting-issue-select">Choose an issue in a Zone</label>
-              <select id="impacting-issue-select" :value="selectedImpactIssueId ?? ''" @change="selectedImpactIssueId = $event.target.value ? Number($event.target.value) : null">
+              <select id="impacting-issue-select" :value="selectedImpactIssueId ?? ''" @change="updateSelectedImpactIssue(($event.target as HTMLSelectElement).value)">
                 <option value="">Select a shared issue…</option>
                 <option v-for="item in impactingIssueItems" :key="item.id" :value="item.id">{{ item.title }} — {{ item.zone }}</option>
               </select>
               <p>Start with a concern, observation or question linked to a place.</p>
-              <button type="button" class="impacting-focus-button" :disabled="selectedImpactIssueId === null" @click="() => { const item = awarenessItems.find(entry => entry.id === selectedImpactIssueId); if (item) { awarenessCategory = item.category; awarenessImpactType = item.impactType || 'ALL'; awarenessFilter = 'ALL' } }">FOCUS ON THIS ISSUE <span>→</span></button>
+              <button type="button" class="impacting-focus-button" :disabled="selectedImpactIssueId === null" @click="focusSelectedImpactIssue">FOCUS ON THIS ISSUE <span>→</span></button>
             </div>
           </div>
           <p v-if="impactingCountryFilter !== 'ALL' && impactingIssueItems.length === 0" class="impacting-empty-note">No shared topics are currently listed for {{ impactingCountryFilter }}. You can raise awareness and connect a new item to a Zone in this country.</p>
