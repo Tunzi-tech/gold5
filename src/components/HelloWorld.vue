@@ -4773,12 +4773,13 @@ onBeforeUnmount(() => {
           <div class="sidebar-zones-header">
             <button
               class="sidebar-zones-main"
-              :class="{ active: ['zones', 'around-zones'].includes(activeView) }"
+              :class="{ active: ['zones', 'my-zones', 'around-zones', 'zone'].includes(activeView) }"
               type="button"
               @click="navigate('zones')"
             >
               <span class="icon">◉</span>
               <span class="subnav-section-label impact-zone-label">Impacting</span>
+              <span class="impacting-button-cue" aria-hidden="true">Explore <span>→</span></span>
             </button>
 
             <button
@@ -19757,5 +19758,80 @@ a { text-underline-offset: 3px; }
 .main-nav .primary-spaces-cluster::before {
   display: none !important;
   content: none !important;
+}
+
+
+/* Make Impacting read as the action that leads into Zones Around and Your Zones. */
+.zones-subnav .sidebar-zones-header {
+  position: relative;
+  margin-bottom: 4px;
+}
+.zones-subnav .sidebar-zones-header::after {
+  content: "";
+  position: absolute;
+  left: 20px;
+  bottom: -7px;
+  width: 1px;
+  height: 8px;
+  background: linear-gradient(180deg, rgba(167,132,255,.72), rgba(115,185,201,.58));
+  box-shadow: 0 0 7px rgba(151,124,255,.22);
+  pointer-events: none;
+}
+.zones-subnav .sidebar-zones-main {
+  position: relative;
+  gap: 8px;
+  min-height: 34px;
+  padding: 7px 9px;
+  border: 1px solid rgba(151,124,255,.24);
+  border-radius: 9px;
+  background: linear-gradient(105deg, rgba(103,76,165,.20), rgba(38,63,91,.28) 68%, rgba(21,32,48,.48));
+  color: #d7dff0;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.045), 0 3px 10px rgba(8,12,22,.10);
+  transition: background .22s ease, border-color .22s ease, box-shadow .22s ease, transform .22s ease;
+}
+.zones-subnav .sidebar-zones-main:hover,
+.zones-subnav .sidebar-zones-main:focus-visible {
+  background: linear-gradient(105deg, rgba(133,99,211,.31), rgba(44,86,121,.34) 68%, rgba(24,39,58,.62));
+  border-color: rgba(177,148,255,.48);
+  color: #f0eaff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 0 13px rgba(137,104,232,.13);
+}
+.zones-subnav .sidebar-zones-main.active {
+  background: linear-gradient(105deg, rgba(133,99,211,.30), rgba(44,86,121,.34) 68%, rgba(24,39,58,.62));
+  border-color: rgba(177,148,255,.45);
+  color: #f0eaff;
+}
+.zones-subnav .sidebar-zones-main .impact-zone-label {
+  flex: 1;
+}
+.impacting-button-cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  color: #b5c5df;
+  font-size: 6px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: none;
+  white-space: nowrap;
+  opacity: .88;
+  transition: color .2s ease, transform .2s ease, opacity .2s ease;
+}
+.impacting-button-cue > span {
+  color: #c3a8ff;
+  font-size: 11px;
+  line-height: 1;
+}
+.zones-subnav .sidebar-zones-main:hover .impacting-button-cue,
+.zones-subnav .sidebar-zones-main:focus-visible .impacting-button-cue {
+  color: #f0eaff;
+  opacity: 1;
+  transform: translateX(2px);
+}
+.zones-subnav .zones-connected-pair {
+  margin-top: 5px;
+  border-color: rgba(105,145,199,.11);
+  background: linear-gradient(155deg, rgba(25,39,59,.32), rgba(13,20,33,.24));
 }
 </style>
