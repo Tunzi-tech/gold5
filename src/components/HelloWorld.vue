@@ -5222,18 +5222,28 @@ onBeforeUnmount(() => {
           <kbd>⌘ K</kbd>
         </div>
 
-        <button
-          type="button"
-          class="mobile-home-bar-button"
-          :class="{ active: activeView === 'home' }"
-          @click="navigate('home')"
-          aria-label="Go to Home"
-        >
-          <span aria-hidden="true">⌂</span>
-          <strong>Home</strong>
-          <span class="mobile-home-bar-context">Your space</span>
-          <span class="mobile-home-bar-arrow" aria-hidden="true">→</span>
-        </button>
+        <div class="mobile-home-space-row" aria-label="Home and your space">
+          <button
+            type="button"
+            class="mobile-home-bar-button mobile-home-only"
+            :class="{ active: activeView === 'home' }"
+            @click="navigate('home')"
+            aria-label="Go to Home"
+          >
+            <span aria-hidden="true">⌂</span>
+            <strong>Home</strong>
+          </button>
+          <button
+            type="button"
+            class="mobile-home-bar-button mobile-your-space-button"
+            :class="{ active: ['my-zones', 'zone'].includes(activeView) }"
+            @click="navigate('my-zones')"
+            aria-label="Open Your space"
+          >
+            <strong>Your space</strong>
+            <span class="mobile-home-bar-arrow" aria-hidden="true">→</span>
+          </button>
+        </div>
 
         <div class="top-actions">
           
@@ -21053,4 +21063,59 @@ a { text-underline-offset: 3px; }
     background: linear-gradient(100deg, rgba(38, 65, 97, .92), rgba(19, 35, 55, .98)) !important;
     box-shadow: inset 0 1px rgba(230, 241, 255, .07), 0 0 0 1px rgba(88, 145, 220, .08) !important;
   }
+}
+
+
+/* Mobile navigation row: Home and Your space are independent destinations. */
+.mobile-home-space-row { display:none; }
+@media (max-width:760px) {
+  .topbar {
+    grid-template-rows:35px 36px 36px !important;
+  }
+  .topbar .mobile-home-space-row {
+    grid-column:1 / -1;
+    grid-row:3;
+    display:flex;
+    align-items:stretch;
+    justify-content:space-between;
+    gap:8px;
+    width:100%;
+    min-width:0;
+  }
+  .topbar .mobile-home-space-row .mobile-home-bar-button {
+    display:flex !important;
+    grid-column:auto !important;
+    grid-row:auto !important;
+    width:auto !important;
+    min-width:0 !important;
+    height:36px !important;
+    min-height:36px !important;
+    margin:0 !important;
+    box-sizing:border-box !important;
+  }
+  .topbar .mobile-home-only {
+    flex:0 0 auto;
+    justify-content:flex-start;
+    padding:0 13px !important;
+  }
+  .topbar .mobile-your-space-button {
+    flex:0 0 auto;
+    margin-left:auto !important;
+    justify-content:flex-end;
+    gap:10px;
+    padding:0 12px !important;
+    border-color:rgba(126,163,213,.22) !important;
+    background:linear-gradient(100deg,rgba(18,34,53,.88),rgba(25,42,64,.92)) !important;
+    color:#c9d9ee !important;
+  }
+  .topbar .mobile-your-space-button strong { font-size:10px; font-weight:800; white-space:nowrap; }
+  .topbar .mobile-your-space-button.active {
+    border-color:rgba(111,171,244,.5) !important;
+    background:linear-gradient(100deg,rgba(28,48,74,.9),rgba(18,34,53,.98)) !important;
+    color:#f0f6ff !important;
+  }
+  .topbar .mobile-your-space-button .mobile-home-bar-arrow { margin-left:0; }
+  /* Home stays in the top navigation row, not in the mobile side drawer. */
+  .mobile-more-drawer .mobile-home-bar-button,
+  .mobile-more-drawer .mobile-home-space-row { display:none !important; }
 }
