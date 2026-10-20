@@ -19737,4 +19737,25 @@ a { text-underline-offset: 3px; }
     transition: none !important;
   }
 }
+
+
+/* Keep the four destinations visually connected without a surrounding frame or divider. */
+.main-nav .primary-spaces-cluster {
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.main-nav .primary-spaces-cluster .sidebar-orbit-actions {
+  border-top: 0 !important;
+}
+.main-nav .primary-navigation-portal {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.main-nav .primary-navigation-portal::before,
+.main-nav .primary-spaces-cluster::before {
+  display: none !important;
+  content: none !important;
+}
 </style>
