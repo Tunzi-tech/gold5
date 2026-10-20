@@ -22159,6 +22159,25 @@ header.topbar > .mobile-brand .mobile-brand-mark::after {
 header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit {
   border: none !important;
   outline: none !important;
+  background: radial-gradient(circle, rgba(117,177,255,.42) 0%, rgba(130,94,255,.24) 38%, rgba(255,218,128,.12) 58%, transparent 76%) !important;
+  box-shadow: 0 0 16px rgba(102,157,255,.34), 0 0 26px rgba(143,91,255,.2) !important;
+  animation: impact-orbit-arrives .55s cubic-bezier(.2,.75,.25,1) both, impact-button-light-pulse 1.8s ease-in-out .55s infinite alternate;
+}
+header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit::before,
+header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit::after {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit > span {
+  background: #ffe08a !important;
+  box-shadow: 0 0 7px rgba(255,210,105,.9), 0 0 13px rgba(255,210,105,.55) !important;
+}
+@keyframes impact-button-light-pulse {
+  from { filter: brightness(.95); box-shadow: 0 0 12px rgba(102,157,255,.24), 0 0 20px rgba(143,91,255,.14); }
+  to { filter: brightness(1.35); box-shadow: 0 0 20px rgba(102,157,255,.48), 0 0 32px rgba(143,91,255,.28); }
+}
+  outline: none !important;
   background: radial-gradient(circle, rgba(226,241,255,.2), transparent 72%) !important;
   box-shadow: 0 0 9px rgba(210,232,255,.2), inset 0 0 5px rgba(255,255,255,.12) !important;
   animation: impact-orbit-arrives .55s cubic-bezier(.2,.75,.25,1) both;
