@@ -19560,3 +19560,29 @@ a { text-underline-offset: 3px; }
 }
 
 </style>
+
+
+/* Blend Home and Live Flow into the platform's deep navy surface. */
+.main-nav .primary-navigation-portal {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(76, 108, 157, .09), transparent 68%),
+    linear-gradient(145deg, rgba(10, 14, 23, .98), rgba(8, 11, 18, .98) 58%, rgba(11, 16, 26, .98)) !important;
+  border-color: rgba(135, 157, 193, .14) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.025), 0 4px 12px rgba(0,0,0,.08) !important;
+}
+.main-nav .primary-navigation-portal::before {
+  border-color: rgba(151, 174, 212, .045) !important;
+}
+.main-nav .primary-navigation-portal .primary-space-nav-button {
+  background: transparent !important;
+  box-shadow: none;
+}
+.main-nav .primary-navigation-portal .primary-space-nav-button:hover {
+  background: rgba(92, 124, 177, .09) !important;
+  box-shadow: inset 0 0 0 1px rgba(137, 166, 213, .08);
+}
+.main-nav .primary-navigation-portal .primary-space-nav-button.active {
+  background: linear-gradient(100deg, rgba(67, 96, 145, .16), rgba(40, 59, 91, .07)) !important;
+  border-color: rgba(131, 172, 244, .08) !important;
+  box-shadow: inset 2px 0 0 rgba(112, 168, 255, .56) !important;
+}
