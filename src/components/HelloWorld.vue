@@ -21145,3 +21145,36 @@ a { text-underline-offset: 3px; }
     max-width: 100% !important;
   }
 }
+
+
+/* Final mobile top-bar alignment: pin Home left and Your space to the far right edge. */
+@media (max-width: 760px) {
+  .topbar > .mobile-home-space-row {
+    grid-column: 1 / -1 !important;
+    grid-row: 3 !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    justify-content: stretch !important;
+    align-items: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    direction: ltr !important;
+  }
+  .topbar > .mobile-home-space-row > .mobile-home-only {
+    justify-self: start !important;
+    width: max-content !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+  .topbar > .mobile-home-space-row > .mobile-your-space-button {
+    justify-self: end !important;
+    width: max-content !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    flex: 0 0 auto !important;
+  }
+}
