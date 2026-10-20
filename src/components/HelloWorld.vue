@@ -5298,7 +5298,7 @@ onBeforeUnmount(() => {
     <main class="main">
 
       <!-- TOP BAR -->
-      <header class="topbar">
+      <header class="topbar" :class="{ 'impact-orbit-transferred': activeView === 'awareness' }">
 
         <button type="button" class="mobile-menu-launch" :class="{ active: mobileMoreOpen }" @click="mobileMoreOpen = !mobileMoreOpen" :aria-expanded="mobileMoreOpen" aria-label="Open navigation drawer" title="Open navigation">
           <span></span><span></span><span></span>
@@ -22138,6 +22138,38 @@ a { text-underline-offset: 3px; }
   header.topbar > .top-impact-actions {
     display: none !important;
   }
+}
+
+
+/* Transfer the logo's orbital rings to the Impact button while Impact is selected. */
+@keyframes impact-orbit-arrives {
+  0% { opacity: 0; transform: scale(1.8) rotate(-35deg); filter: brightness(2.2); }
+  55% { opacity: 1; transform: scale(.92) rotate(0deg); filter: brightness(1.5); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); filter: brightness(1); }
+}
+header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::before,
+header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after {
+  opacity: 0 !important;
+  transform: scale(.55) rotate(-35deg) !important;
+}
+header.topbar > .mobile-brand .mobile-brand-mark::before,
+header.topbar > .mobile-brand .mobile-brand-mark::after {
+  transition: opacity .28s ease, transform .35s ease !important;
+}
+header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit {
+  border-color: rgba(239,247,255,.98) !important;
+  background: radial-gradient(circle, rgba(226,241,255,.2), transparent 72%) !important;
+  box-shadow: 0 0 9px rgba(210,232,255,.2), inset 0 0 5px rgba(255,255,255,.12) !important;
+  animation: impact-orbit-arrives .55s cubic-bezier(.2,.75,.25,1) both;
+}
+header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit::before,
+header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit::after {
+  border-color: rgba(242,248,255,.96) !important;
+  box-shadow: 0 0 4px rgba(220,238,255,.45) !important;
+}
+header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit > span {
+  background: #fff !important;
+  box-shadow: 0 0 7px rgba(255,255,255,.95) !important;
 }
 
 </style>
