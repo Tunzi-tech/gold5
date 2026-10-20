@@ -6777,7 +6777,7 @@ onBeforeUnmount(() => {
           <div class="awareness-intro-count"><strong>{{ filteredAwarenessItems.length }}</strong><span>shared topics</span></div>
         </div>
 
-        <form v-if="showRaiseAwareness" class="awareness-card awareness-create-card" @submit.prevent="submitAwarenessItem">
+        <form v-if="showRaiseAwareness" class="awareness-card awareness-create-card" :class="{ 'is-reporting-issue': isReportingIssue }" @submit.prevent="submitAwarenessItem">
           <div class="awareness-card-head">
             <span class="awareness-kicker">{{ isReportingIssue ? 'REPORT AN ISSUE' : 'RAISE AWARENESS' }}</span>
             <span class="awareness-learn-mark">✦</span>
@@ -21607,4 +21607,172 @@ a { text-underline-offset: 3px; }
   .top-impact-actions { grid-column:1 / -1; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:6px; }
   .top-impact-action { justify-content:flex-start; min-width:0; padding:8px 9px; font-size:10px; }
   .top-impact-action small { display:none; }
+}
+
+
+/* Refined issue-reporting panel and shared-space actions */
+.awareness-content .awareness-category-heading > .awareness-submit-button,
+.awareness-content .awareness-submit-button {
+  min-height: 38px;
+  padding: 10px 15px;
+  border: 1px solid rgba(119, 174, 222, .32);
+  border-radius: 10px;
+  color: #e1efff;
+  background: linear-gradient(115deg, rgba(51, 105, 157, .34), rgba(42, 112, 103, .22));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.055), 0 5px 16px rgba(0,0,0,.12);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: .07em;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease;
+}
+.awareness-content .awareness-submit-button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(143, 207, 232, .58);
+  background: linear-gradient(115deg, rgba(57, 126, 185, .43), rgba(47, 137, 116, .3));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 8px 20px rgba(0,0,0,.2);
+}
+.awareness-content .awareness-submit-button:focus-visible,
+.impacting-report-actions button:focus-visible,
+.top-impact-action:focus-visible {
+  outline: 2px solid rgba(137, 207, 221, .82);
+  outline-offset: 3px;
+}
+.impacting-report-header {
+  padding: 13px 14px;
+  border-color: rgba(102, 185, 166, .25);
+  border-radius: 12px;
+  background: linear-gradient(105deg, rgba(28, 94, 83, .18), rgba(27, 46, 66, .3));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.025);
+}
+.impacting-report-actions button {
+  min-height: 36px;
+  padding: 8px 12px;
+  border-radius: 9px;
+  transition: transform .16s ease, border-color .16s ease, background .16s ease, box-shadow .16s ease;
+}
+.impacting-report-actions button:hover { transform: translateY(-1px); border-color: rgba(139, 181, 209, .42); }
+.impacting-report-actions button.impacting-report-submit {
+  border-color: rgba(158, 142, 235, .42);
+  color: #eee8ff;
+  background: linear-gradient(115deg, rgba(105, 79, 166, .34), rgba(47, 91, 126, .32));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+}
+.impacting-report-actions button.impacting-report-submit:hover {
+  border-color: rgba(180, 164, 255, .68);
+  background: linear-gradient(115deg, rgba(121, 91, 190, .46), rgba(53, 112, 148, .4));
+}
+.awareness-create-card {
+  position: relative;
+  overflow: hidden;
+  margin: 16px 0 20px;
+  padding: clamp(16px, 2.2vw, 25px);
+  border: 1px solid rgba(104, 173, 195, .25);
+  border-radius: 16px;
+  background:
+    radial-gradient(ellipse at 0% 0%, rgba(48, 125, 132, .14), transparent 48%),
+    linear-gradient(145deg, rgba(20, 36, 50, .96), rgba(10, 17, 27, .98) 70%);
+  box-shadow: 0 18px 42px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.035);
+  animation: issue-panel-enter .24s ease-out both;
+}
+.awareness-create-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 20px; right: 20px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(116, 205, 190, .5), rgba(154, 145, 230, .42), transparent);
+  pointer-events: none;
+}
+.awareness-create-card .awareness-card-head { align-items: center; margin-bottom: 9px; }
+.awareness-create-card .awareness-kicker {
+  color: #8dd6c4;
+  font-size: 9px;
+  letter-spacing: .16em;
+}
+.awareness-create-card .awareness-learn-mark {
+  width: 32px; height: 32px;
+  border: 1px solid rgba(112, 194, 178, .22);
+  border-radius: 11px;
+  color: #8fe0c6;
+  background: rgba(48, 126, 109, .13);
+  font-size: 15px;
+}
+.awareness-create-card > h2 { margin: 4px 0 8px; font-size: clamp(19px, 2.1vw, 25px); letter-spacing: -.025em; }
+.awareness-create-card > p { max-width: 720px; margin-bottom: 18px; color: #a0b3c6; font-size: 11px; line-height: 1.7; }
+.awareness-create-card .awareness-form-label { gap: 8px; margin: 10px 0; color: #b4c7d9; font-size: 10px; font-weight: 750; }
+.awareness-create-card .awareness-form-label input,
+.awareness-create-card .awareness-form-label select,
+.awareness-create-card .awareness-form-label textarea {
+  min-height: 40px;
+  padding: 11px 12px;
+  border-color: rgba(136, 169, 198, .2);
+  border-radius: 9px;
+  background: rgba(4, 11, 19, .66);
+  color: #e5eff9;
+  font-size: 11px;
+  transition: border-color .16s ease, box-shadow .16s ease, background .16s ease;
+}
+.awareness-create-card .awareness-form-label input::placeholder,
+.awareness-create-card .awareness-form-label textarea::placeholder { color: #667d93; }
+.awareness-create-card .awareness-form-label input:focus,
+.awareness-create-card .awareness-form-label select:focus,
+.awareness-create-card .awareness-form-label textarea:focus {
+  border-color: rgba(110, 196, 188, .58);
+  background: rgba(6, 15, 24, .92);
+  box-shadow: 0 0 0 3px rgba(65, 147, 137, .1);
+}
+.awareness-create-card .awareness-form-label textarea { min-height: 84px; }
+.awareness-create-card .awareness-form-row { gap: 14px; align-items: flex-start; }
+.awareness-create-card .awareness-form-actions {
+  justify-content: flex-end;
+  gap: 9px;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255,255,255,.07);
+}
+.awareness-create-card .awareness-form-actions .awareness-link {
+  min-height: 38px;
+  margin: 0;
+  padding: 10px 13px;
+  border: 1px solid rgba(143, 165, 190, .17);
+  border-radius: 9px;
+  color: #9eb1c5;
+  font-size: 9px;
+  letter-spacing: .07em;
+}
+.awareness-create-card .awareness-form-actions .awareness-link:hover { color: #e1edf8; border-color: rgba(143, 165, 190, .34); background: rgba(255,255,255,.035); }
+.awareness-create-card .awareness-form-actions .awareness-submit-button { min-width: 150px; }
+.awareness-create-card.is-reporting-issue { border-color: rgba(111, 191, 175, .35); }
+.awareness-create-card.is-reporting-issue .awareness-kicker { color: #9ae0cd; }
+.top-impact-action {
+  min-height: 39px;
+  border-radius: 10px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.035);
+  transition: transform .16s ease, border-color .16s ease, background .16s ease, box-shadow .16s ease;
+}
+.top-impact-action:hover { transform: translateY(-1px); box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 6px 15px rgba(0,0,0,.16); }
+.top-impact-action.top-impact-report { border-color: rgba(160, 143, 235, .38); }
+@keyframes issue-panel-enter {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 760px) {
+  .impacting-report-header { gap: 11px; padding: 12px; }
+  .impacting-report-actions { display: grid; grid-template-columns: minmax(0, 1fr); gap: 7px; }
+  .impacting-report-actions button { width: 100%; min-height: 39px; }
+  .awareness-create-card { padding: 16px 13px; border-radius: 13px; }
+  .awareness-create-card > p { font-size: 10px; }
+  .awareness-create-card .awareness-form-label { margin: 9px 0; }
+  .awareness-create-card .awareness-form-row { display: flex; flex-direction: column; gap: 0; }
+  .awareness-create-card .awareness-form-label input,
+  .awareness-create-card .awareness-form-label select,
+  .awareness-create-card .awareness-form-label textarea { min-height: 43px; font-size: 16px; }
+  .awareness-create-card .awareness-form-label textarea { min-height: 94px; }
+  .awareness-create-card .awareness-form-actions { display: grid; grid-template-columns: minmax(0, .75fr) minmax(0, 1.25fr); align-items: stretch; }
+  .awareness-create-card .awareness-form-actions > button { width: 100%; min-height: 43px; }
+  .awareness-create-card .awareness-form-actions .awareness-submit-button { min-width: 0; padding: 9px 8px; font-size: 8px; }
+  .top-impact-action { min-height: 42px; border-radius: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .awareness-create-card { animation: none; }
+  .awareness-content .awareness-submit-button, .impacting-report-actions button, .top-impact-action { transition: none; }
 }
