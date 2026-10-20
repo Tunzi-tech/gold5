@@ -3501,7 +3501,7 @@ function openAccountMenu() {
 const arabicDictionary: Record<string, string> = {
   'ADDED TO YOUR ZONES':'تمت الإضافة إلى مناطقك',
   'COMMONS':'كومنز',
-  'PEOPLE • ACTIONS • VOICES':'الأشخاص • الأفعال • الأصوات',
+  'PEOPLE · IDEAS · IMPACT':'الأشخاص • الأفعال • الأصوات',
   'LEARN & DISCOVER':'تعلّم واكتشف',
   'Impacting':'التأثير',
   'Zones Around':'المناطق من حولك',
@@ -10370,11 +10370,11 @@ textarea:focus-visible {
 .brand-orbit span::after {
   content: "";
   position: absolute;
-  width: 29px;
+  width: 36px;
   height: 1px;
   left: 5px;
-  top: 3px;
-  transform: rotate(-4deg);
+  top: 5px;
+  transform: none;
   transform-origin: left center;
   background: linear-gradient(90deg, rgba(103,164,255,.9), rgba(103,164,255,.65) 45%, rgba(220,230,244,.08));
   box-shadow: 0 0 5px rgba(103,164,255,.28);
@@ -20247,3 +20247,12 @@ a { text-underline-offset: 3px; }
   position: relative;
   z-index: 1;
 }
+
+
+/* Refined Anfas signature: orbit, signal and wordmark read as one logo */
+.sidebar .brand { gap: 5px; }
+.sidebar .brand-orbit { flex: 0 0 36px; overflow: visible; z-index: 2; }
+.sidebar .brand-orbit span::after { width: 36px; left: 5px; top: 5px; transform: none; }
+.sidebar .brand-name { position: relative; z-index: 1; margin-left: -1px; min-width: 0; }
+.sidebar .brand-name strong { font-size: 16px; font-weight: 650; letter-spacing: .16em; line-height: 1.1; color: #f4f7fc; text-shadow: 0 0 16px rgba(103,164,255,.08); }
+.sidebar .brand-name small { margin-top: 4px; font-size: 7px; font-weight: 600; letter-spacing: .105em; line-height: 1.35; white-space: nowrap; color: #93a5bf; }
