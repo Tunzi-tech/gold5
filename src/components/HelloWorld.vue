@@ -4803,13 +4803,13 @@ onBeforeUnmount(() => {
     <!-- SIDEBAR -->
     <aside class="sidebar">
 
-      <div class="brand" @click="navigate('home')" role="button" tabindex="0" @keydown.enter="navigate('home')" aria-label="Anfas home">
+      <div class="brand" @click="navigate('home')" role="button" tabindex="0" @keydown.enter="navigate('home')" aria-label="Nfas home">
         <div class="brand-orbit" aria-hidden="true">
           <span></span>
         </div>
 
         <div class="brand-name">
-          <strong>Anfas</strong>
+          <strong>Nfas</strong>
           <small>PEOPLE · VOICES · IMPACT</small>
         </div>
 
@@ -5311,7 +5311,7 @@ onBeforeUnmount(() => {
         </button>
         <div class="mobile-brand" @click="navigate('home')" role="button" tabindex="0" @keydown.enter="navigate('home')" aria-label="Anfas home">
           <span class="brand-orbit mobile-brand-mark" aria-hidden="true"><span></span></span>
-          <span class="brand-name mobile-brand-copy"><strong>Anfas</strong><small>PEOPLE · VOICES · IMPACT</small></span>
+          <span class="brand-name mobile-brand-copy"><strong>Nfas</strong><small>PEOPLE · VOICES · IMPACT</small></span>
         </div>
 
         <div class="search-box">
