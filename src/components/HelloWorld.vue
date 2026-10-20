@@ -5249,26 +5249,15 @@ onBeforeUnmount(() => {
       <div v-if="mobileMoreOpen" class="mobile-more-overlay" @click.self="mobileMoreOpen = false">
         <aside class="mobile-more-drawer" role="dialog" aria-modal="true" aria-label="Additional navigation">
           <div class="mobile-more-drawer-head">
-            <div><span class="home-connection-kicker">ANFAS · CONNECTED SPACES</span><h2>Go further.</h2><p>Move between activity, people and conversations.</p></div>
+            <div><span class="home-connection-kicker">ANFAS · CONNECTED SPACES</span><h2>Your spaces.</h2><p>Flow, people and conversations — together in one drawer.</p></div>
             <button type="button" class="mobile-network-drawer-close" @click="mobileMoreOpen = false" aria-label="Close navigation">×</button>
           </div>
-          <button type="button" class="mobile-more-drawer-item" @click="mobileMoreOpen = false; navigate('pages')"><span>▣</span><span><strong>Flow</strong><small>Calls, initiatives, Pages and entities</small></span><b>→</b></button>
-          <button type="button" class="mobile-more-drawer-item" @click="mobileMoreOpen = false; navigate('people')"><span>♧</span><span><strong>People</strong><small>Find people and connect around shared interests</small></span><b>→</b></button>
-          <button type="button" class="mobile-more-drawer-item" @click="mobileMoreOpen = false; homeHeaderChatOpen = true; homeLocalWorldOpen = true"><span>◎</span><span><strong>NetworkChat</strong><small>Open Local and World conversations</small></span><b>→</b></button>
+          <div class="mobile-drawer-section-label">EXPLORE & CONNECT</div>
+          <button type="button" class="mobile-more-drawer-item" :class="{ active: ['pages', 'call', 'initiatives', 'entities', 'entity'].includes(activeView) }" @click="mobileMoreOpen = false; navigate('pages')"><span>▣</span><span><strong>Flow</strong><small>Calls, initiatives, Pages and entities</small></span><b>→</b></button>
+          <button type="button" class="mobile-more-drawer-item" :class="{ active: ['people', 'administration'].includes(activeView) }" @click="mobileMoreOpen = false; navigate('people')"><span>♧</span><span><strong>People · Voices · Impact</strong><small>Find people and connect around shared interests</small></span><b>→</b></button>
+          <button type="button" class="mobile-more-drawer-item" :class="{ active: homeHeaderChatOpen }" @click="mobileMoreOpen = false; homeHeaderChatOpen = true; homeLocalWorldOpen = true"><span>◎</span><span><strong>NetworkChat</strong><small>Open Local and World conversations</small></span><b>→</b></button>
         </aside>
       </div>
-
-      <nav class="mobile-secondary-nav" aria-label="Flow, People and NetworkChat">
-        <button type="button" :class="{ active: ['pages', 'call', 'initiatives', 'entities', 'entity'].includes(activeView) }" @click="navigate('pages')">
-          <span aria-hidden="true">▣</span><span>Flow</span>
-        </button>
-        <button type="button" :class="{ active: ['people', 'administration'].includes(activeView) }" @click="navigate('people')">
-          <span aria-hidden="true">♧</span><span>People</span>
-        </button>
-        <button type="button" :class="{ active: homeHeaderChatOpen }" @click="homeHeaderChatOpen = !homeHeaderChatOpen; homeLocalWorldOpen = homeHeaderChatOpen" :aria-expanded="homeHeaderChatOpen">
-          <span aria-hidden="true">◎</span><span>NetworkChat</span>
-        </button>
-      </nav>
 
       <!-- Mobile NetworkChat is global: it is independent of the Home view and primary navigation. -->
       <div v-if="homeHeaderChatOpen" class="mobile-network-overlay" @click.self="homeHeaderChatOpen = false; homeLocalWorldOpen = false">
@@ -20883,14 +20872,43 @@ a { text-underline-offset: 3px; }
   .mobile-secondary-nav { display: none; }
 }
 
-/* Mobile header controls use the same restrained connected-blue surface as Explore and Feed. */
+/* Mobile header and right-side navigation drawer: keep the Anfas identity consistent with desktop. */
 .mobile-menu-launch { display:none; }
 @media (max-width:760px) {
   .mobile-more-overlay { position:fixed; inset:0; z-index:12050; display:flex; justify-content:flex-end; background:rgba(2,6,12,.66); backdrop-filter:blur(5px); }
   .mobile-more-drawer { width:min(390px,88vw); border-left:1px solid rgba(111,145,193,.24); }
-  .topbar .mobile-brand-mark { border-radius:50% !important; }
-  .topbar .mobile-brand-copy strong { font-size:19px !important; letter-spacing:-.045em !important; }
-  .topbar .mobile-brand-copy small { font-size:6px !important; letter-spacing:.12em !important; }
+  /* The hamburger must remain visible after the shared desktop header styles. */
+  .topbar { grid-template-columns:32px minmax(0,1fr) auto !important; grid-template-rows:35px 35px !important; }
+  .topbar .mobile-menu-launch {
+    display:flex !important; grid-column:1 !important; grid-row:1 !important;
+    width:31px !important; min-width:31px !important; height:31px !important;
+    align-items:center !important; justify-content:center !important; flex-direction:column !important; gap:4px !important;
+    padding:0 !important; border:1px solid rgba(126,157,201,.22) !important; border-radius:9px !important;
+    background:linear-gradient(180deg,rgba(28,41,60,.72),rgba(18,29,45,.84)) !important;
+    box-shadow:inset 0 1px rgba(255,255,255,.04) !important;
+  }
+  .topbar .mobile-menu-launch span { display:block !important; width:13px !important; height:1.5px !important; border-radius:2px !important; background:#a8c9f2 !important; }
+  .topbar .mobile-menu-launch.active { border-color:rgba(121,173,237,.5) !important; background:linear-gradient(180deg,rgba(47,70,101,.8),rgba(29,46,69,.9)) !important; }
+  .topbar .mobile-brand {
+    grid-column:2 !important; grid-row:1 !important; display:flex !important; flex-direction:row !important;
+    align-items:center !important; justify-content:flex-start !important; gap:8px !important; min-width:0 !important;
+    color:#edf4ff !important; white-space:nowrap !important;
+  }
+  /* Match the desktop square orbit mark rather than using a separate mobile logo. */
+  .topbar .mobile-brand-mark {
+    width:38px !important; height:38px !important; flex:0 0 38px !important;
+    border:1px solid rgba(136,181,239,.38) !important; border-radius:12px !important;
+    background:linear-gradient(145deg,rgba(34,59,90,.9),rgba(10,18,31,.98)) !important;
+    box-shadow:inset 0 1px rgba(255,255,255,.075),0 5px 15px rgba(0,0,0,.18) !important;
+  }
+  .topbar .mobile-brand-mark::before { content:"" !important; width:20px !important; height:20px !important; border:1px solid rgba(156,201,250,.88) !important; border-radius:50% !important; transform:rotate(-35deg) scaleY(.68) !important; }
+  .topbar .mobile-brand-mark > span { position:absolute !important; display:block !important; width:6px !important; height:6px !important; border:0 !important; border-radius:50% !important; background:#e3f1ff !important; box-shadow:0 0 10px rgba(137,193,255,.75) !important; transform:none !important; }
+  .topbar .mobile-brand-copy { display:flex !important; flex-direction:column !important; justify-content:center !important; gap:5px !important; min-width:0 !important; padding:0 !important; white-space:nowrap !important; }
+  .topbar .mobile-brand-copy strong { display:block !important; margin:0 !important; color:#f5f8ff !important; font-size:18px !important; line-height:1.1 !important; font-weight:650 !important; letter-spacing:.17em !important; background:none !important; -webkit-text-fill-color:currentColor !important; text-shadow:0 0 18px rgba(103,164,255,.14) !important; }
+  .topbar .mobile-brand-copy small { display:block !important; margin:0 !important; color:#a9bbd5 !important; font-size:7px !important; line-height:1.35 !important; font-weight:650 !important; letter-spacing:.09em !important; white-space:nowrap !important; }
+  .topbar .top-actions { grid-column:3 !important; grid-row:1 !important; gap:3px !important; flex:0 0 auto !important; justify-content:flex-end !important; }
+  .mobile-more-drawer-item.active { border-color:rgba(121,173,237,.42) !important; background:linear-gradient(120deg,rgba(37,61,91,.94),rgba(16,31,51,.98)) !important; box-shadow:inset 0 1px rgba(255,255,255,.045),0 0 18px rgba(67,126,197,.08) !important; }
+  .mobile-drawer-section-label { margin:2px 0 2px; color:#7f9cbe; font-size:8px; font-weight:850; letter-spacing:.16em; }
   .home-commons-content .home-view-switch { gap:5px !important; padding:3px !important; border:1px solid rgba(119,157,211,.13) !important; border-radius:11px !important; background:linear-gradient(105deg,rgba(21,37,59,.48),rgba(12,23,39,.58) 52%,rgba(22,34,53,.46)) !important; }
   .home-commons-content .home-view-switch button { min-height:30px; padding:7px 12px; border:1px solid rgba(125,157,199,.12); border-radius:8px; background:linear-gradient(135deg,rgba(35,53,77,.74),rgba(20,34,53,.82)); color:#c3d1e4; }
   .home-commons-content .home-view-switch button.active { border-color:rgba(133,177,238,.3); background:linear-gradient(135deg,rgba(49,75,109,.82),rgba(27,47,72,.9)); color:#edf5ff; }
