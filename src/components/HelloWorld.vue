@@ -5303,6 +5303,9 @@ onBeforeUnmount(() => {
         <button type="button" class="mobile-menu-launch" :class="{ active: mobileMoreOpen }" @click="mobileMoreOpen = !mobileMoreOpen" :aria-expanded="mobileMoreOpen" aria-label="Open navigation drawer" title="Open navigation">
           <span></span><span></span><span></span>
         </button>
+        <button type="button" class="desktop-menu-launch" :class="{ active: mobileMoreOpen }" @click="mobileMoreOpen = !mobileMoreOpen" :aria-expanded="mobileMoreOpen" aria-label="Open navigation drawer" title="Open navigation">
+          <span></span><span></span><span></span>
+        </button>
         <div class="mobile-brand" @click="navigate('home')" role="button" tabindex="0" @keydown.enter="navigate('home')" aria-label="Anfas home">
           <span class="brand-orbit mobile-brand-mark" aria-hidden="true"><span></span></span>
           <span class="brand-name mobile-brand-copy"><strong>Anfas</strong><small>PEOPLE · VOICES · IMPACT</small></span>
@@ -19703,6 +19706,54 @@ a { text-underline-offset: 3px; }
 }
 @media screen and (min-width: 901px) {
   header.topbar .mobile-issue-menu-trigger, header.topbar .mobile-issue-menu { display: none !important; }
+}
+
+
+
+/* Keep the brand visually connected to the desktop top bar and expose its menu control. */
+@media screen and (min-width: 901px) {
+  header.topbar > .desktop-menu-launch {
+    display: inline-flex !important;
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    align-self: center !important;
+    justify-self: start !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    width: 34px !important;
+    min-width: 34px !important;
+    height: 34px !important;
+    padding: 7px !important;
+    border: 1px solid rgba(126,163,213,.2) !important;
+    border-radius: 9px !important;
+    background: rgba(255,255,255,.035) !important;
+    cursor: pointer !important;
+  }
+  header.topbar > .desktop-menu-launch span {
+    display: block !important;
+    width: 15px !important;
+    height: 2px !important;
+    border-radius: 2px !important;
+    background: #c9d9ee !important;
+  }
+  header.topbar > .desktop-menu-launch.active { border-color: rgba(126,163,213,.55) !important; background: rgba(82,130,190,.12) !important; }
+  header.topbar > .mobile-menu-launch { display: none !important; }
+  header.topbar > .mobile-brand {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    margin-left: 0 !important;
+    padding-left: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 9px !important;
+    min-width: 0 !important;
+    cursor: pointer !important;
+  }
+}
+@media screen and (max-width: 900px) {
+  header.topbar > .desktop-menu-launch { display: none !important; }
 }
 
 </style>
