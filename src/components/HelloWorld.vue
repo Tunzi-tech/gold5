@@ -22278,7 +22278,7 @@ header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button
 /* Strict inactive state: no icon, pseudo-element, or residual glow unless Impact is selected. */
 header.topbar > .desktop-impact-launch:not(.active)::before,
 header.topbar > .desktop-impact-launch:not(.active)::after,
-header.topbar > .desktop-impact-launch:not(.active) > *,
+header.topbar > .desktop-impact-launch:not(.active) > .impact-button-orbit,
 header.topbar:not(.impact-orbit-transferred) > .desktop-impact-launch::before,
 header.topbar:not(.impact-orbit-transferred) > .desktop-impact-launch::after {
   content: none !important;
