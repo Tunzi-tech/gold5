@@ -5204,6 +5204,9 @@ onBeforeUnmount(() => {
       <!-- TOP BAR -->
       <header class="topbar">
 
+        <button type="button" class="mobile-menu-launch" :class="{ active: mobileMoreOpen }" @click="mobileMoreOpen = !mobileMoreOpen" :aria-expanded="mobileMoreOpen" aria-label="Open navigation drawer" title="Open navigation">
+          <span></span><span></span><span></span>
+        </button>
         <div class="mobile-brand" @click="navigate('home')" role="button" tabindex="0" @keydown.enter="navigate('home')" aria-label="Anfas home">
           <span class="brand-orbit mobile-brand-mark" aria-hidden="true"><span></span></span>
           <span class="brand-name mobile-brand-copy"><strong>Anfas</strong><small>PEOPLE · VOICES · IMPACT</small></span>
@@ -5243,6 +5246,18 @@ onBeforeUnmount(() => {
         </div>
 
       </header>
+
+      <div v-if="mobileMoreOpen" class="mobile-more-overlay" @click.self="mobileMoreOpen = false">
+        <aside class="mobile-more-drawer" role="dialog" aria-modal="true" aria-label="Additional navigation">
+          <div class="mobile-more-drawer-head">
+            <div><span class="home-connection-kicker">ANFAS · CONNECTED SPACES</span><h2>Go further.</h2><p>Move between activity, people and conversations.</p></div>
+            <button type="button" class="mobile-network-drawer-close" @click="mobileMoreOpen = false" aria-label="Close navigation">×</button>
+          </div>
+          <button type="button" class="mobile-more-drawer-item" @click="mobileMoreOpen = false; navigate('pages')"><span>▣</span><span><strong>Flow</strong><small>Calls, initiatives, Pages and entities</small></span><b>→</b></button>
+          <button type="button" class="mobile-more-drawer-item" @click="mobileMoreOpen = false; navigate('people')"><span>♧</span><span><strong>People</strong><small>Find people and connect around shared interests</small></span><b>→</b></button>
+          <button type="button" class="mobile-more-drawer-item" @click="mobileMoreOpen = false; homeHeaderChatOpen = true; homeLocalWorldOpen = true"><span>◎</span><span><strong>NetworkChat</strong><small>Open Local and World conversations</small></span><b>→</b></button>
+        </aside>
+      </div>
 
       <nav class="mobile-secondary-nav" aria-label="Flow, People and NetworkChat">
         <button type="button" :class="{ active: ['pages', 'call', 'initiatives', 'entities', 'entity'].includes(activeView) }" @click="navigate('pages')">
@@ -18960,7 +18975,7 @@ a { text-underline-offset: 3px; }
     margin-left: 0;
     padding: 11px 15px 12px;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: 32px minmax(0, 1fr) auto;
     grid-template-rows: 35px 36px;
     align-content: center;
     align-items: center;
@@ -18969,7 +18984,27 @@ a { text-underline-offset: 3px; }
     background: rgba(8,13,22,.96);
     border-bottom: 1px solid rgba(145,169,204,.14);
   }
+  .mobile-menu-launch {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    width: 31px;
+    height: 31px;
+    padding: 0;
+    border: 1px solid rgba(126,157,201,.17);
+    border-radius: 9px;
+    background: linear-gradient(180deg,rgba(28,41,60,.62),rgba(18,29,45,.72));
+    cursor: pointer;
+  }
+  .mobile-menu-launch span { display:block; width:13px; height:1.5px; border-radius:2px; background:#a8c9f2; }
+  .mobile-menu-launch.active { border-color:rgba(121,173,237,.44); background:linear-gradient(180deg,rgba(47,70,101,.72),rgba(29,46,69,.82)); }
   .mobile-brand {
+    grid-column: 2;
+    grid-row: 1;
     display: flex;
     align-items: center;
     gap: 9px;
@@ -19032,7 +19067,7 @@ a { text-underline-offset: 3px; }
   }
   .search-box input { min-width: 0; font-size: 11px; }
   .search-box kbd { display: none; }
-  .top-actions { grid-column: 2; grid-row: 1; gap: 5px; justify-content: flex-end; }
+  .top-actions { grid-column: 3; grid-row: 1; gap: 5px; justify-content: flex-end; }
   .top-actions .top-icon { width: 30px; height: 30px; flex: 0 0 30px; }
   .top-actions .primary-btn { width: 31px; height: 30px; padding: 0; border-radius: 9px; }
   .mobile-network-launch {
@@ -20841,8 +20876,24 @@ a { text-underline-offset: 3px; }
     box-shadow: inset 0 1px rgba(255,255,255,.045);
   }
   .mobile-secondary-nav button:last-child.active > span:first-child { color: #a8d7ff; }
-  .mobile-network-launch, .mobile-edge-actions, .mobile-more-overlay { display: none !important; }
+  .mobile-network-launch, .mobile-edge-actions { display: none !important; }
+  .mobile-secondary-nav { display: none !important; }
+  .mobile-more-overlay { display:flex !important; }
 }
 @media (min-width: 761px) {
   .mobile-secondary-nav { display: none; }
+}
+
+/* Mobile header controls use the same restrained connected-blue surface as Explore and Feed. */
+.mobile-menu-launch { display:none; }
+@media (max-width:760px) {
+  .mobile-more-overlay { position:fixed; inset:0; z-index:12050; display:flex; justify-content:flex-end; background:rgba(2,6,12,.66); backdrop-filter:blur(5px); }
+  .mobile-more-drawer { width:min(390px,88vw); border-left:1px solid rgba(111,145,193,.24); }
+  .topbar .mobile-brand-mark { border-radius:50% !important; }
+  .topbar .mobile-brand-copy strong { font-size:19px !important; letter-spacing:-.045em !important; }
+  .topbar .mobile-brand-copy small { font-size:6px !important; letter-spacing:.12em !important; }
+  .home-commons-content .home-view-switch { gap:5px !important; padding:3px !important; border:1px solid rgba(119,157,211,.13) !important; border-radius:11px !important; background:linear-gradient(105deg,rgba(21,37,59,.48),rgba(12,23,39,.58) 52%,rgba(22,34,53,.46)) !important; }
+  .home-commons-content .home-view-switch button { min-height:30px; padding:7px 12px; border:1px solid rgba(125,157,199,.12); border-radius:8px; background:linear-gradient(135deg,rgba(35,53,77,.74),rgba(20,34,53,.82)); color:#c3d1e4; }
+  .home-commons-content .home-view-switch button.active { border-color:rgba(133,177,238,.3); background:linear-gradient(135deg,rgba(49,75,109,.82),rgba(27,47,72,.9)); color:#edf5ff; }
+  .mobile-secondary-nav { display:none !important; }
 }
