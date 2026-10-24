@@ -22574,6 +22574,10 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
 @media(prefers-reduced-motion:reduce){.nfas-navigation-overlay{display:none}.nfas-navigation-portal,.nfas-navigation-aura,.nfas-navigation-icon,.nfas-navigation-link,.nfas-navigation-portal::before,.nfas-navigation-portal::after{animation:none!important}}
 
 /* Keep the active navigation signal below the label, never across the text. */
+.primary-navigation-portal .primary-space-nav-button.active,
+.sidebar .sidebar-zones-main.active,
+.sidebar .sidebar-flow-main.active,
+.sidebar .sidebar-subnav button.active { position: relative; }
 .primary-navigation-portal .primary-space-nav-button.active::before,
 .sidebar .sidebar-zones-main.active::before,
 .sidebar .sidebar-flow-main.active::before,
