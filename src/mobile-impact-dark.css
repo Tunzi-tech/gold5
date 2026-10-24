@@ -105,51 +105,20 @@ header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-imp
 }
 
 
-/* Animate the Live Flow logo rings only while Live Flow is selected. */
-header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active > .mobile-flow-orbit,
-header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active .mobile-flow-orbit {
-  animation: mobile-impact-orbit-in .48s cubic-bezier(.2,.75,.25,1) both,
-             mobile-flow-orbit-pulse 1.8s ease-in-out .48s infinite alternate !important;
-}
-header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active > .mobile-flow-orbit::before,
-header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active .mobile-flow-orbit::before {
-  animation: mobile-impact-orbit-spin 2.1s linear infinite !important;
-  transform-origin: center !important;
-}
-header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active > .mobile-flow-orbit::after,
-header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active .mobile-flow-orbit::after {
-  animation: mobile-impact-orbit-spin 2.8s linear infinite reverse !important;
-  transform-origin: center !important;
-}
-@media (prefers-reduced-motion: reduce) {
-  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active > .mobile-flow-orbit,
-  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active .mobile-flow-orbit,
-  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active > .mobile-flow-orbit::before,
-  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active .mobile-flow-orbit::before,
-  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active > .mobile-flow-orbit::after,
-  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active .mobile-flow-orbit::after {
-    animation: none !important;
-  }
-}
-
-
-/* Rotate the actual elliptical rings on the selected Live Flow logo.
-   Use the individual CSS rotate property so the rings' existing ellipse transforms remain intact. */
+/* When Live Flow is selected, hide the rings on the main brand logo only.
+   Keep the separate circular/elliptical rings inside the Live Flow button icon visible. */
 @media screen and (max-width: 760px) {
-  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active > .mobile-flow-orbit::before {
-    animation: live-flow-ring-rotate 2.1s linear infinite !important;
+  header.topbar:has(.mobile-live-flow-button.active) .brand-orbit:not(.mobile-flow-orbit)::before,
+  header.topbar:has(.mobile-live-flow-button.active) .brand-orbit:not(.mobile-flow-orbit)::after {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    animation: none !important;
   }
-  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active > .mobile-flow-orbit::after {
-    animation: live-flow-ring-rotate 2.8s linear infinite reverse !important;
-  }
-}
-@keyframes live-flow-ring-rotate {
-  from { rotate: 0deg; }
-  to { rotate: 360deg; }
-}
-@media (prefers-reduced-motion: reduce) {
+
+  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active > .mobile-flow-orbit,
   header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active > .mobile-flow-orbit::before,
   header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active > .mobile-flow-orbit::after {
     animation: none !important;
+    rotate: 0deg !important;
   }
 }
