@@ -4138,6 +4138,13 @@ function openAwarenessReport() {
   isReportingIssue.value = true
 }
 
+function openHomeExplore() {
+  homeDisplayMode.value = 'content'
+  homeHeroHidden.value = false
+  homeHeaderChatOpen.value = false
+  nextTick(() => window.scrollTo({ top: 0, behavior: 'smooth' }))
+}
+
 function navigate(view: string) {
   if (activeView.value !== view) playNavigationPortal()
   activeView.value = view
@@ -5627,7 +5634,7 @@ onBeforeUnmount(() => {
             type="button"
             :class="{ active: homeDisplayMode === 'content' }"
             :aria-pressed="homeDisplayMode === 'content'"
-            @click.stop="homeDisplayMode = 'content'"
+            @click.stop="openHomeExplore"
           >
             <span aria-hidden="true">◈</span> Explore
           </button>
