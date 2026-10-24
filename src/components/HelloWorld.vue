@@ -23026,8 +23026,6 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
     transition: none;
   }
 }
-</style>
-
 /* Calls shown directly inside the Local / World discovery choices. */
 .home-scope-calls{display:grid;gap:8px;min-width:0;margin-top:14px}
 .home-scope-calls-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#e2edfc}
@@ -23144,3 +23142,47 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
     animation: none !important;
   }
 }
+
+
+/* Keep all navigation CSS inside the Vue style block; Explore must collapse the hero reliably. */
+.home-commons-content.home-hero-collapsed .hero-stage {
+  display: none !important;
+}
+.home-commons-content .home-view-switch button.active {
+  border: 1px solid rgba(115, 185, 201, .72) !important;
+  color: #e7fbff !important;
+  background: linear-gradient(110deg, rgba(115,185,201,.20), rgba(159,143,255,.16)) !important;
+  box-shadow: inset 0 0 0 1px rgba(115,185,201,.12), 0 0 12px rgba(115,185,201,.12) !important;
+}
+.home-commons-content.home-hero-collapsed > .home-view-switch {
+  display: inline-flex !important;
+  vertical-align: middle;
+  width: max-content !important;
+  margin: 0 0 12px 0 !important;
+  padding-right: 3px !important;
+}
+.home-commons-content.home-hero-collapsed > .home-hero-control {
+  display: inline-flex !important;
+  position: relative !important;
+  inset: auto !important;
+  vertical-align: middle;
+  width: auto !important;
+  margin: 0 0 12px 8px !important;
+  justify-content: flex-start !important;
+}
+.home-commons-content.home-hero-collapsed > .home-hero-control > .home-hero-toggle {
+  min-height: 30px !important;
+  width: auto !important;
+  padding: 6px 10px !important;
+  flex-direction: row !important;
+  writing-mode: horizontal-tb !important;
+}
+@media (max-width: 760px) {
+  .home-commons-content.home-hero-collapsed > .home-view-switch {
+    margin-bottom: 10px !important;
+  }
+  .home-commons-content.home-hero-collapsed > .home-hero-control {
+    margin: 0 0 10px 6px !important;
+  }
+}
+</style>
