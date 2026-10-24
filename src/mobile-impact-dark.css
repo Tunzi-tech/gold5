@@ -20,3 +20,12 @@ header.topbar > .mobile-home-space-row > .mobile-your-space-button.active,
   border: 0 !important;
   outline: none !important;
 }
+
+/* Remove the ambient glow behind the mobile Home and Live Flow button group. */
+@media screen and (max-width: 760px) {
+  header.topbar > .mobile-home-space-row {
+    background: transparent !important;
+    box-shadow: none !important;
+    filter: none !important;
+  }
+}
