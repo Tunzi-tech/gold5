@@ -5624,7 +5624,7 @@ onBeforeUnmount(() => {
         <button type="button" class="mobile-menu-launch" :class="{ active: mobileMoreOpen }" @click="mobileSpace = 'menu'; mobileMoreOpen = !mobileMoreOpen; homeHeaderChatOpen = false" :aria-expanded="mobileMoreOpen" aria-label="Open navigation drawer" title="Open navigation">
           <span></span><span></span><span></span>
         </button>
-        <button type="button" class="desktop-menu-launch" :class="{ active: mobileMoreOpen }" @click="mobileMoreOpen = !mobileMoreOpen" :aria-expanded="mobileMoreOpen" aria-label="Open navigation drawer" title="Open navigation">
+        <button type="button" class="desktop-menu-launch" :class="{ active: mobileMoreOpen }" @click="mobileSpace = 'menu'; mobileMoreOpen = !mobileMoreOpen; homeHeaderChatOpen = false" :aria-expanded="mobileMoreOpen" aria-label="Open navigation drawer" title="Open navigation">
           <span></span><span></span><span></span>
         </button>
         <nav class="desktop-primary-nav" aria-label="Main navigation">
