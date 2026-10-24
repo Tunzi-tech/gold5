@@ -75,3 +75,31 @@ header.topbar > .mobile-home-space-row > .mobile-your-space-button.active,
     transition: flex-grow 180ms ease !important;
   }
 }
+
+
+/* Refine the Impact orbital mark: cool blue outer ring, violet inner ring, warm gold point. */
+header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-impact-orbit {
+  background: radial-gradient(circle, rgba(104, 181, 255, .30), rgba(158, 111, 255, .13) 48%, transparent 74%) !important;
+  box-shadow: 0 0 10px rgba(91, 174, 255, .24), 0 0 17px rgba(160, 105, 255, .14) !important;
+}
+header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-impact-orbit::before {
+  border-color: rgba(91, 183, 255, .98) !important;
+  box-shadow: 0 0 5px rgba(75, 164, 255, .48) !important;
+}
+header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-impact-orbit::after {
+  border-color: rgba(190, 133, 255, .97) !important;
+  box-shadow: 0 0 5px rgba(171, 103, 255, .42) !important;
+}
+header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-impact-orbit > span {
+  background: #ffdc83 !important;
+  box-shadow: 0 0 7px rgba(255, 211, 112, .92), 0 0 13px rgba(255, 199, 89, .48) !important;
+}
+
+/* Make the Home-page Explore switch feel more circular and pill-shaped, without restoring a border. */
+.home-view-switch > button,
+.home-view-switch > button.active,
+.home-view-switch > button.exploring-line-active {
+  border-radius: 999px !important;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
