@@ -232,3 +232,40 @@ header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-imp
     stroke-linecap: round !important;
   }
 }
+
+
+/* Cycle the Share something hint through its three supported creation actions. */
+@media screen and (max-width: 900px) {
+  header.topbar .mobile-issue-menu .share-post-mark + span .share-post-action-label {
+    display: block !important;
+    position: relative !important;
+    height: 1.2em !important;
+    min-width: 150px !important;
+    margin-top: 2px !important;
+    overflow: hidden !important;
+    color: inherit !important;
+    opacity: .72 !important;
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+  }
+  header.topbar .mobile-issue-menu .share-post-action-label > span {
+    display: block !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    white-space: nowrap !important;
+    opacity: 0 !important;
+    animation: shareActionLabelCycle 6s infinite !important;
+  }
+  header.topbar .mobile-issue-menu .share-post-action-label > span:nth-child(2) {
+    animation-delay: 2s !important;
+  }
+  header.topbar .mobile-issue-menu .share-post-action-label > span:nth-child(3) {
+    animation-delay: 4s !important;
+  }
+  @keyframes shareActionLabelCycle {
+    0%, 4% { opacity: 0; transform: translateY(4px); }
+    8%, 28% { opacity: 1; transform: translateY(0); }
+    33%, 100% { opacity: 0; transform: translateY(-3px); }
+  }
+}
