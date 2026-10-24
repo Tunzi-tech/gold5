@@ -40,3 +40,11 @@ header.topbar > .mobile-home-space-row > .mobile-your-space-button.active,
     box-shadow: none !important;
   }
 }
+
+/* When Live Flow is selected, keep the Home/Live Flow pair subtly darker on the right. */
+@media screen and (max-width: 760px) {
+  header.topbar > .mobile-home-space-row .mobile-home-nav-pair:has(.mobile-live-flow-button.active) {
+    background: linear-gradient(90deg, transparent 0%, rgba(9, 17, 29, .08) 48%, rgba(7, 13, 23, .42) 100%) !important;
+    box-shadow: none !important;
+  }
+}
