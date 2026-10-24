@@ -20104,11 +20104,11 @@ a { text-underline-offset: 3px; }
     position: absolute;
     left: 50%;
     bottom: -4px;
-    width: 100%;
-    height: 2px;
-    border-radius: 999px;
-    background: linear-gradient(90deg, rgba(103, 178, 255, .12), rgba(120, 165, 255, .95), rgba(190, 137, 255, .78), rgba(103, 178, 255, .12));
-    box-shadow: 0 0 7px rgba(111, 157, 255, .34);
+    width: 43px;
+    height: 1.5px;
+    border-radius: 0;
+    background: linear-gradient(90deg, #83bdff 0%, #5c9eff 48%, rgba(92,158,255,.12) 100%);
+    box-shadow: 0 0 7px rgba(91,157,255,.58), 0 0 16px rgba(91,157,255,.2);
     transform: translateX(-50%) scaleX(.18);
     transform-origin: center;
     animation: exploring-underline-flow 1.7s ease-in-out infinite;
