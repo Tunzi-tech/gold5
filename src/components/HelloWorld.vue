@@ -206,6 +206,7 @@ const homeDisplayMode = ref<'content' | 'feed'>('content')
 const homeHeroHidden = ref(false)
 const homeHeaderChatOpen = ref(false)
 const mobileMoreOpen = ref(false)
+const mobileSpace = ref<'menu' | 'flow' | 'people' | 'networkchat'>('menu')
 const mobileIssueMenuOpen = ref(false)
 const homeLocalWorldOpen = ref(false)
 const homeLocalWorldScope = ref<'local' | 'world'>('local')
@@ -5620,7 +5621,7 @@ onBeforeUnmount(() => {
       <!-- TOP BAR -->
       <header class="topbar" :class="{ 'impact-orbit-transferred': activeView === 'awareness' }">
 
-        <button type="button" class="mobile-menu-launch" :class="{ active: mobileMoreOpen }" @click="mobileMoreOpen = !mobileMoreOpen" :aria-expanded="mobileMoreOpen" aria-label="Open navigation drawer" title="Open navigation">
+        <button type="button" class="mobile-menu-launch" :class="{ active: mobileMoreOpen }" @click="mobileSpace = 'menu'; mobileMoreOpen = !mobileMoreOpen; homeHeaderChatOpen = false" :aria-expanded="mobileMoreOpen" aria-label="Open navigation drawer" title="Open navigation">
           <span></span><span></span><span></span>
         </button>
         <button type="button" class="desktop-menu-launch" :class="{ active: mobileMoreOpen }" @click="mobileMoreOpen = !mobileMoreOpen" :aria-expanded="mobileMoreOpen" aria-label="Open navigation drawer" title="Open navigation">
@@ -5765,9 +5766,9 @@ onBeforeUnmount(() => {
       <button
         type="button"
         class="mobile-network-launch"
-        :class="{ active: homeHeaderChatOpen }"
-        @click="homeHeaderChatOpen = !homeHeaderChatOpen; homeLocalWorldOpen = homeHeaderChatOpen"
-        :aria-expanded="homeHeaderChatOpen"
+        :class="{ active: mobileMoreOpen && mobileSpace === 'networkchat' }"
+        @click="mobileSpace = 'networkchat'; mobileMoreOpen = true; homeHeaderChatOpen = true; homeLocalWorldOpen = true"
+        :aria-expanded="mobileMoreOpen && mobileSpace === 'networkchat'"
         aria-label="Open NetworkChat Local and World"
         title="NetworkChat · Local · World"
       >
@@ -5775,53 +5776,77 @@ onBeforeUnmount(() => {
         <span class="mobile-network-launch-label">NETWORKCHAT</span>
       </button>
 
-      <div v-if="mobileMoreOpen" class="mobile-more-overlay" @click.self="mobileMoreOpen = false">
-        <aside class="mobile-more-drawer" role="dialog" aria-modal="true" aria-label="Additional navigation">
+      <div v-if="mobileMoreOpen" class="mobile-more-overlay shared-space-overlay" @click.self="mobileMoreOpen = false; homeHeaderChatOpen = false; homeLocalWorldOpen = false">
+        <aside class="mobile-more-drawer shared-space-drawer" role="dialog" aria-modal="true" :aria-label="mobileSpace === 'menu' ? 'Navigation and connected spaces' : mobileSpace === 'flow' ? 'Flow space' : mobileSpace === 'people' ? 'People Spark space' : 'NetworkChat space'">
           <div class="mobile-more-drawer-head">
-            <div><span class="home-connection-kicker">ANFAS · CONNECTED SPACES</span><h2>Your spaces.</h2><p>Flow, people and conversations — together in one drawer.</p></div>
-            <button type="button" class="mobile-network-drawer-close" @click="mobileMoreOpen = false" aria-label="Close navigation">×</button>
-          </div>
-          <div class="mobile-drawer-section-label">EXPLORE & CONNECT</div>
-          <button type="button" class="mobile-more-drawer-item" :class="{ active: ['pages', 'call', 'initiatives', 'entities', 'entity'].includes(activeView) }" @click="mobileMoreOpen = false; navigate('pages')"><span>▣</span><span><strong>Flow</strong><small>Calls, initiatives, Pages and entities</small></span><b>→</b></button>
-          <button type="button" class="mobile-more-drawer-item" :class="{ active: ['people', 'administration'].includes(activeView) }" @click="mobileMoreOpen = false; navigate('people')"><span>♧</span><span><strong>People · Sparks · Impact</strong><small>Find people and connect around shared interests</small></span><b>→</b></button>
-          <button type="button" class="mobile-more-drawer-item" :class="{ active: homeHeaderChatOpen }" @click="mobileMoreOpen = false; homeHeaderChatOpen = true; homeLocalWorldOpen = true"><span>◎</span><span><strong>NetworkChat</strong><small>Open Local and World conversations</small></span><b>→</b></button>
-        </aside>
-      </div>
-
-      <!-- Mobile NetworkChat is global: it is independent of the Home view and primary navigation. -->
-      <div v-if="homeHeaderChatOpen" class="mobile-network-overlay" @click.self="homeHeaderChatOpen = false; homeLocalWorldOpen = false">
-        <aside class="mobile-network-drawer" role="dialog" aria-modal="true" aria-label="NetworkChat Local and World">
-          <div class="mobile-network-drawer-head">
             <div>
-              <span class="home-connection-kicker">NETWORKCHAT · LIVE SPACE</span>
-              <h2>Connect beyond your feed.</h2>
-              <p>Choose a local conversation or explore the wider network.</p>
+              <span class="home-connection-kicker">ANFAS · CONNECTED SPACES</span>
+              <h2>{{ mobileSpace === 'menu' ? 'Your spaces.' : mobileSpace === 'flow' ? 'Flow' : mobileSpace === 'people' ? 'People · Sparks · Impact' : 'NetworkChat' }}</h2>
+              <p>{{ mobileSpace === 'menu' ? 'Choose a space to open it here.' : mobileSpace === 'flow' ? 'Calls, initiatives, Pages and entities — connected in one place.' : mobileSpace === 'people' ? 'Discover people and sparks around shared interests.' : 'Choose a local conversation or explore the wider network.' }}</p>
             </div>
-            <button type="button" class="mobile-network-drawer-close" @click="homeHeaderChatOpen = false; homeLocalWorldOpen = false" aria-label="Close NetworkChat">×</button>
+            <button type="button" class="mobile-network-drawer-close" @click="mobileMoreOpen = false; homeHeaderChatOpen = false; homeLocalWorldOpen = false" aria-label="Close space">×</button>
           </div>
-          <div class="home-local-world-tabs mobile-drawer-tabs" role="group" aria-label="Choose Local or World">
-            <button type="button" :class="{ active: homeLocalWorldScope === 'local' }" @click="homeLocalWorldScope = 'local'; joinHomeChannel('local')">◎ Local <span>Nearby</span></button>
-            <button type="button" :class="{ active: homeLocalWorldScope === 'world' }" @click="homeLocalWorldScope = 'world'; joinHomeChannel('world')">◌ World <span>Global</span></button>
+
+          <div class="shared-space-switcher" role="group" aria-label="Choose a space">
+            <button type="button" :class="{ active: mobileSpace === 'flow' }" @click="mobileSpace = 'flow'; homeHeaderChatOpen = false; homeLocalWorldOpen = false"><span>▣</span> Flow</button>
+            <button type="button" :class="{ active: mobileSpace === 'people' }" @click="mobileSpace = 'people'; homeHeaderChatOpen = false; homeLocalWorldOpen = false"><span>♧</span> People Spark</button>
+            <button type="button" :class="{ active: mobileSpace === 'networkchat' }" @click="mobileSpace = 'networkchat'; homeHeaderChatOpen = true; homeLocalWorldOpen = true"><span>◎</span> NetworkChat</button>
           </div>
-          <div class="mobile-network-drawer-stream" aria-live="polite">
-            <template v-if="homeLocalWorldScope === 'local'">
-              <article class="home-local-world-item"><span class="home-local-world-item-mark">↗</span><div><strong>Greener Tunis</strong><p>People are exploring greener streets, gardens and local spaces.</p><small>Local initiative · Explore opportunities</small></div></article>
-              <article class="home-local-world-item"><span class="home-local-world-item-mark">?</span><div><strong>Local question</strong><p>What nearby place could improve through one small shared action?</p><small>Conversation · Add your voice</small></div></article>
-            </template>
-            <template v-else>
-              <article class="home-local-world-item"><span class="home-local-world-item-mark">✧</span><div><strong>Ideas crossing borders</strong><p>Discover approaches people are sharing across different places.</p><small>Global network · Discover</small></div></article>
-              <article class="home-local-world-item"><span class="home-local-world-item-mark">◎</span><div><strong>Open invitation</strong><p>Meet people interested in learning, collaborating and acting together.</p><small>Opportunity · Connect</small></div></article>
-            </template>
-          </div>
-          <div class="mobile-network-drawer-rooms">
-            <span class="home-network-section-label">CONVERSATIONS TO JOIN</span>
-            <button v-for="room in homeChatRooms" :key="room.id" type="button" class="home-chat-room" :class="['chat-room-' + room.color, { active: homeActiveChatRoom === room.id }]" @click="joinHomeChatRoom(room.id)">
-              <span class="home-chat-room-mark" aria-hidden="true">{{ room.mark }}</span>
-              <span class="home-chat-room-copy"><strong>{{ room.name }}</strong><small>{{ room.topic }}</small><em>{{ room.members }}</em></span>
-              <span class="home-chat-room-join">{{ homeJoinedChatRooms.includes(room.id) ? (homeActiveChatRoom === room.id ? 'Open ✓' : 'Joined') : 'Join +' }}</span>
-            </button>
-          </div>
-          <p class="mobile-network-drawer-note">Activity previews are examples; live alerts need a connected activity source.</p>
+
+          <template v-if="mobileSpace === 'menu'">
+            <div class="mobile-drawer-section-label">EXPLORE & CONNECT</div>
+            <button type="button" class="mobile-more-drawer-item" @click="mobileSpace = 'flow'; homeHeaderChatOpen = false"><span>▣</span><span><strong>Flow</strong><small>Calls, initiatives, Pages and entities</small></span><b>→</b></button>
+            <button type="button" class="mobile-more-drawer-item" @click="mobileSpace = 'people'; homeHeaderChatOpen = false"><span>♧</span><span><strong>People · Sparks · Impact</strong><small>Find people and connect around shared interests</small></span><b>→</b></button>
+            <button type="button" class="mobile-more-drawer-item" @click="mobileSpace = 'networkchat'; homeHeaderChatOpen = true; homeLocalWorldOpen = true"><span>◎</span><span><strong>NetworkChat</strong><small>Open Local and World conversations</small></span><b>→</b></button>
+          </template>
+
+          <template v-else-if="mobileSpace === 'flow'">
+            <div class="shared-space-content">
+              <span class="home-network-section-label">EXPLORE FLOW</span>
+              <button type="button" class="mobile-more-drawer-item" @click="mobileMoreOpen = false; navigate('pages')"><span>▣</span><span><strong>Pages & entities</strong><small>Explore people, organizations and shared work</small></span><b>→</b></button>
+              <button type="button" class="mobile-more-drawer-item" @click="mobileMoreOpen = false; navigate('call')"><span>↗</span><span><strong>Calls & initiatives</strong><small>Find opportunities to participate and contribute</small></span><b>→</b></button>
+              <button type="button" class="mobile-more-drawer-item" @click="mobileMoreOpen = false; navigate('live-flow')"><span>⟳</span><span><strong>Live Flow</strong><small>See what is moving and connecting</small></span><b>→</b></button>
+              <p class="mobile-network-drawer-note">Choose an area to continue in the main workspace, or switch spaces above without closing this panel.</p>
+            </div>
+          </template>
+
+          <template v-else-if="mobileSpace === 'people'">
+            <div class="shared-space-content">
+              <span class="home-network-section-label">PEOPLE SPARK · CONNECTIONS</span>
+              <article v-for="person in people.slice(0, 4)" :key="person.id" class="home-local-world-item shared-space-person">
+                <span class="home-local-world-item-mark">♧</span>
+                <div><strong>{{ person.name }}</strong><p>{{ person.reason }}</p><small>{{ person.mutual }} shared connections</small></div>
+                <button type="button" class="shared-space-open-person" @click="mobileMoreOpen = false; openPerson(person)">View</button>
+              </article>
+              <button type="button" class="mobile-more-drawer-item" @click="mobileMoreOpen = false; navigate('people')"><span>♧</span><span><strong>Explore all people</strong><small>Open the full People Spark space</small></span><b>→</b></button>
+            </div>
+          </template>
+
+          <template v-else-if="mobileSpace === 'networkchat'">
+            <div class="home-local-world-tabs mobile-drawer-tabs" role="group" aria-label="Choose Local or World">
+              <button type="button" :class="{ active: homeLocalWorldScope === 'local' }" @click="homeLocalWorldScope = 'local'; joinHomeChannel('local')">◎ Local <span>Nearby</span></button>
+              <button type="button" :class="{ active: homeLocalWorldScope === 'world' }" @click="homeLocalWorldScope = 'world'; joinHomeChannel('world')">◌ World <span>Global</span></button>
+            </div>
+            <div class="mobile-network-drawer-stream" aria-live="polite">
+              <template v-if="homeLocalWorldScope === 'local'">
+                <article class="home-local-world-item"><span class="home-local-world-item-mark">↗</span><div><strong>Greener Tunis</strong><p>People are exploring greener streets, gardens and local spaces.</p><small>Local initiative · Explore opportunities</small></div></article>
+                <article class="home-local-world-item"><span class="home-local-world-item-mark">?</span><div><strong>Local question</strong><p>What nearby place could improve through one small shared action?</p><small>Conversation · Add your voice</small></div></article>
+              </template>
+              <template v-else>
+                <article class="home-local-world-item"><span class="home-local-world-item-mark">✧</span><div><strong>Ideas crossing borders</strong><p>Discover approaches people are sharing across different places.</p><small>Global network · Discover</small></div></article>
+                <article class="home-local-world-item"><span class="home-local-world-item-mark">◎</span><div><strong>Open invitation</strong><p>Meet people interested in learning, collaborating and acting together.</p><small>Opportunity · Connect</small></div></article>
+              </template>
+            </div>
+            <div class="mobile-network-drawer-rooms">
+              <span class="home-network-section-label">CONVERSATIONS TO JOIN</span>
+              <button v-for="room in homeChatRooms" :key="room.id" type="button" class="home-chat-room" :class="['chat-room-' + room.color, { active: homeActiveChatRoom === room.id }]" @click="joinHomeChatRoom(room.id)">
+                <span class="home-chat-room-mark" aria-hidden="true">{{ room.mark }}</span>
+                <span class="home-chat-room-copy"><strong>{{ room.name }}</strong><small>{{ room.topic }}</small><em>{{ room.members }}</em></span>
+                <span class="home-chat-room-join">{{ homeJoinedChatRooms.includes(room.id) ? (homeActiveChatRoom === room.id ? 'Open ✓' : 'Joined') : 'Join +' }}</span>
+              </button>
+            </div>
+            <p class="mobile-network-drawer-note">Activity previews are examples; live alerts need a connected activity source.</p>
+          </template>
         </aside>
       </div>
 
@@ -23799,5 +23824,23 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
     border-left: 0 !important;
     border-right: 1px solid rgba(111,145,193,.24) !important;
   }
+}
+</style>
+
+
+<style>
+/* One persistent drawer switches between Flow, People Spark and NetworkChat. */
+.shared-space-drawer { display:flex; flex-direction:column; gap:12px; overflow-y:auto; }
+.shared-space-switcher { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; padding:5px; border:1px solid rgba(126,157,201,.16); border-radius:14px; background:rgba(9,17,31,.62); }
+.shared-space-switcher button { display:flex; min-width:0; min-height:43px; flex-direction:column; align-items:center; justify-content:center; gap:3px; border:1px solid transparent; border-radius:10px; background:transparent; color:rgba(220,231,247,.72); font:inherit; font-size:10px; cursor:pointer; }
+.shared-space-switcher button span { font-size:16px; line-height:1; }
+.shared-space-switcher button.active { color:#f5f8ff; background:linear-gradient(135deg,rgba(67,119,191,.27),rgba(116,76,183,.22)); border-color:rgba(133,166,226,.28); box-shadow:inset 0 0 18px rgba(103,145,220,.08); }
+.shared-space-content { display:flex; flex-direction:column; gap:10px; min-width:0; }
+.shared-space-person { align-items:flex-start; }
+.shared-space-open-person { margin-left:auto; padding:5px 9px; border:1px solid rgba(126,157,201,.22); border-radius:8px; background:rgba(77,112,174,.14); color:inherit; cursor:pointer; }
+@media (max-width:760px) {
+  .shared-space-overlay { align-items:stretch !important; }
+  .shared-space-drawer { width:min(430px,94vw) !important; max-height:100dvh !important; padding-bottom:max(18px,env(safe-area-inset-bottom)) !important; }
+  .shared-space-switcher button { font-size:9px; }
 }
 </style>
