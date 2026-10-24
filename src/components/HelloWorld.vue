@@ -5635,7 +5635,7 @@ onBeforeUnmount(() => {
         <div class="home-view-switch" role="group" aria-label="Choose home view">
           <button
             type="button"
-            :class="{ active: homeDisplayMode === 'content' || homeHeroHidden }"
+            :class="{ active: homeDisplayMode === 'content' || homeHeroHidden, 'exploring-line-active': homeHeroHidden }"
             :aria-pressed="homeDisplayMode === 'content' || homeHeroHidden"
             @click.stop="openHomeExplore"
           >
@@ -20093,6 +20093,39 @@ a { text-underline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {
   .home-commons-content .home-view-switch > button { transition: none !important; }
 }
+
+/* A fine animated underline signals that Explore is active while the header is hidden. */
+@media screen and (max-width: 760px) {
+  .home-view-switch > button.exploring-line-active {
+    position: relative;
+  }
+  .home-view-switch > button.exploring-line-active::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
+    width: 100%;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(103, 178, 255, .12), rgba(120, 165, 255, .95), rgba(190, 137, 255, .78), rgba(103, 178, 255, .12));
+    box-shadow: 0 0 7px rgba(111, 157, 255, .34);
+    transform: translateX(-50%) scaleX(.18);
+    transform-origin: center;
+    animation: exploring-underline-flow 1.7s ease-in-out infinite;
+    pointer-events: none;
+  }
+}
+@keyframes exploring-underline-flow {
+  0%, 100% { transform: translateX(-50%) scaleX(.18); opacity: .55; }
+  50% { transform: translateX(-50%) scaleX(1); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-view-switch > button.exploring-line-active::after {
+    animation: none !important;
+    transform: translateX(-50%) scaleX(1);
+  }
+}
+
 </style>
 
 <style>
