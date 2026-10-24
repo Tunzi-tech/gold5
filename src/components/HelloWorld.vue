@@ -20094,7 +20094,7 @@ a { text-underline-offset: 3px; }
   .home-commons-content .home-view-switch > button { transition: none !important; }
 }
 
-/* A fine animated underline signals that Explore is active while the header is hidden. */
+/* Keep a simple, static underline directly beneath Exploring while the header is hidden. */
 @media screen and (max-width: 760px) {
   .home-view-switch > button.exploring-line-active {
     position: relative;
@@ -20104,25 +20104,12 @@ a { text-underline-offset: 3px; }
     position: absolute;
     left: 50%;
     bottom: -4px;
-    width: 43px;
-    height: 1.5px;
+    width: 68%;
+    height: 1px;
     border-radius: 0;
-    background: linear-gradient(90deg, #83bdff 0%, #5c9eff 48%, rgba(92,158,255,.12) 100%);
-    box-shadow: 0 0 7px rgba(91,157,255,.58), 0 0 16px rgba(91,157,255,.2);
-    transform: translateX(-50%) scaleX(.18);
-    transform-origin: center;
-    animation: exploring-underline-flow 1.7s ease-in-out infinite;
+    background: rgba(131, 189, 255, .8);
+    transform: translateX(-50%);
     pointer-events: none;
-  }
-}
-@keyframes exploring-underline-flow {
-  0%, 100% { transform: translateX(-50%) scaleX(.18); opacity: .55; }
-  50% { transform: translateX(-50%) scaleX(1); opacity: 1; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .home-view-switch > button.exploring-line-active::after {
-    animation: none !important;
-    transform: translateX(-50%) scaleX(1);
   }
 }
 
