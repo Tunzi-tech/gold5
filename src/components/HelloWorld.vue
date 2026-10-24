@@ -22848,6 +22848,79 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
     border-left: 1px solid rgba(140, 177, 224, .18) !important;
   }
 }
+
+/* One Impact orbit family: Home, Live Flow and Impact share the same rounded planetary language. */
+@media screen and (max-width: 760px) {
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button,
+  header.topbar > .mobile-home-space-row > .mobile-your-space-button {
+    position: relative !important;
+    isolation: isolate !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(127, 163, 219, .32) !important;
+    border-radius: 999px !important;
+    background:
+      radial-gradient(ellipse at 18% -35%, rgba(132, 158, 255, .20), transparent 68%),
+      linear-gradient(112deg, rgba(31, 44, 70, .94), rgba(15, 28, 46, .97)) !important;
+    color: #dce8fb !important;
+    box-shadow: inset 0 1px rgba(235, 242, 255, .07), 0 3px 11px rgba(0, 0, 0, .13) !important;
+    transition: border-color .2s ease, background .2s ease, box-shadow .2s ease, transform .2s ease !important;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button::before,
+  header.topbar > .mobile-home-space-row > .mobile-your-space-button::before {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    z-index: -1;
+    border: 1px solid rgba(156, 183, 232, .10);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button > span,
+  header.topbar > .mobile-home-space-row > .mobile-your-space-button > span,
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button > strong,
+  header.topbar > .mobile-home-space-row > .mobile-your-space-button > strong {
+    position: relative;
+    z-index: 1;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button > span {
+    color: #a9c5f5 !important;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button.active,
+  header.topbar > .mobile-home-space-row > .mobile-your-space-button.active {
+    border-color: rgba(159, 174, 255, .58) !important;
+    background:
+      radial-gradient(ellipse at 18% -25%, rgba(149, 145, 255, .27), transparent 70%),
+      linear-gradient(112deg, rgba(61, 69, 117, .88), rgba(25, 43, 70, .98)) !important;
+    box-shadow: inset 0 0 0 1px rgba(178, 190, 255, .10), 0 0 13px rgba(117, 135, 255, .13) !important;
+  }
+  header.topbar > .mobile-home-space-row > .mobile-your-space-button {
+    border-color: rgba(191, 166, 108, .36) !important;
+    background:
+      radial-gradient(ellipse at 18% -35%, rgba(224, 190, 112, .17), transparent 68%),
+      linear-gradient(112deg, rgba(43, 43, 52, .96), rgba(20, 29, 43, .98)) !important;
+  }
+  header.topbar > .mobile-home-space-row > .mobile-your-space-button.active {
+    border-color: rgba(235, 204, 124, .64) !important;
+    background:
+      radial-gradient(ellipse at 18% -25%, rgba(239, 203, 112, .23), transparent 70%),
+      linear-gradient(112deg, rgba(67, 59, 53, .94), rgba(27, 35, 47, .98)) !important;
+    box-shadow: inset 0 0 0 1px rgba(247, 220, 155, .10), 0 0 13px rgba(224, 184, 93, .12) !important;
+  }
+  header.topbar > .mobile-home-space-row > .mobile-your-space-button .mobile-home-bar-arrow {
+    color: #c4d5f0 !important;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:focus-visible,
+  header.topbar > .mobile-home-space-row > .mobile-your-space-button:focus-visible {
+    outline: 2px solid rgba(171, 195, 255, .72) !important;
+    outline-offset: 2px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button,
+  header.topbar > .mobile-home-space-row > .mobile-your-space-button {
+    transition: none !important;
+  }
+}
 </style>
 
 /* Calls shown directly inside the Local / World discovery choices. */
