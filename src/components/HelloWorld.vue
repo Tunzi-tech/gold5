@@ -5997,7 +5997,7 @@ onBeforeUnmount(() => {
       <section v-if="activeView === 'live-flow'" class="content live-engagement-content">
         <nav class="live-flow-space-nav" aria-label="Live Flow views">
           <button type="button" :class="{ active: liveFlowSpace === 'overview' }" :aria-pressed="liveFlowSpace === 'overview'" @click="liveFlowSpace = 'overview'">
-            <span aria-hidden="true">⟳</span> Live Flow
+            <svg class="live-flow-line-point-icon" viewBox="0 0 18 18" width="18" height="18" aria-hidden="true" focusable="false"><path d="M2 9H16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="9" cy="9" r="2.2" fill="currentColor"/></svg> Live Flow
           </button>
           <button type="button" :class="{ active: liveFlowSpace === 'feed' }" :aria-pressed="liveFlowSpace === 'feed'" @click="liveFlowSpace = 'feed'">
             <span aria-hidden="true">≋</span> Feed
@@ -23075,6 +23075,7 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
   cursor: pointer;
   transition: color .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
 }
+.live-flow-space-nav .live-flow-line-point-icon{display:block;flex:0 0 18px;width:18px;height:18px;color:currentColor;overflow:visible}
 .live-flow-space-nav button.active {
   color: #edf3ff;
   border-color: rgba(123, 157, 226, .38);
