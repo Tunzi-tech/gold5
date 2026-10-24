@@ -5302,7 +5302,7 @@ onMounted(() => {
   languageObserver = new MutationObserver(() => {
     if (language.value === 'ar' || language.value === 'fr') translatePage()
   })
-  languageObserver.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['placeholder', 'title', 'aria-label', 'aria-placeholder', 'alt'] })
+  languageObserver.observe(document.body, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['placeholder', 'title', 'aria-label', 'aria-placeholder', 'alt'] })
   liveMovingChatTimer = setInterval(pushLiveMovingSampleMessage, 12000)
   heroTimer = setInterval(() => {
     activeHero.value = (activeHero.value + 1) % heroes.length
