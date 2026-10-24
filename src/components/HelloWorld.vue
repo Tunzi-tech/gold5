@@ -4140,7 +4140,9 @@ function openAwarenessReport() {
 
 function openHomeExplore() {
   homeDisplayMode.value = 'content'
-  homeHeroHidden.value = false
+  // Explore is the compact Home view: hide the large rotating header and keep
+  // the Explore control available so the user can still switch views.
+  homeHeroHidden.value = true
   homeHeaderChatOpen.value = false
   nextTick(() => window.scrollTo({ top: 0, behavior: 'smooth' }))
 }
