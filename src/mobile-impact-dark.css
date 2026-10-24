@@ -29,3 +29,14 @@ header.topbar > .mobile-home-space-row > .mobile-your-space-button.active,
     filter: none !important;
   }
 }
+
+/* Lighten the purple accent on the mobile Home button without changing its layout. */
+@media screen and (max-width: 760px) {
+  header.topbar .mobile-home-button,
+  header.topbar .mobile-home-button.active {
+    background:
+      linear-gradient(112deg, rgba(190, 157, 255, .18), rgba(128, 157, 255, .12)) !important;
+    color: #e4d8ff !important;
+    box-shadow: none !important;
+  }
+}
