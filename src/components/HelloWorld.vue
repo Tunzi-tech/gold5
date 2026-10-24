@@ -4087,7 +4087,6 @@ const frenchDictionary: Record<string, string> = {
   'Disconnect':'Déconnexion',
   'Administration':'Administration',
   'System Design':'Conception du système',
-  'Home':'Accueil',
   'Live Flow':'Flux en direct',
   'Impact & Awareness':'Impact et sensibilisation',
   'Learn & Discover':'Apprendre et découvrir',
@@ -4095,9 +4094,7 @@ const frenchDictionary: Record<string, string> = {
   'Initiatives':'Initiatives',
   'Pages':'Pages',
   'Entities':'Entités',
-  'People':'Personnes',
   'Create':'Créer',
-  'More':'Plus'
 }
 
 const translations = {
@@ -4105,7 +4102,7 @@ const translations = {
     home:'Home', liveFlow:'Live Flow', impactAwareness:'Impact & Awareness', learnDiscover:'Learn & Discover',
     impact:'Impact', flow:'Flow', calls:'Calls', initiatives:'Initiatives', pages:'Pages', more:'More', entities:'Entities',
     people:'People', create:'Create', administration:'Administration', systemDesign:'System Design', systems:'Systems',
-    disconnect:'Disconnect', language:'Language', english:'English', arabic:'العربية', search:'Search people, pages, posts or zones...'
+    disconnect:'Disconnect', language:'Language', english:'English', arabic:'العربية', french:'French', search:'Search people, pages, posts or zones...'
   },
   ar: {
     home:'الرئيسية', liveFlow:'التدفق الحي', impactAwareness:'الأثر والوعي', learnDiscover:'تعلّم واكتشف',
