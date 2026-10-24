@@ -23327,22 +23327,23 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
 
 
 
-/* Selected mobile Impact shares Home/Live Flow's blue-slate palette while retaining a lively warm signal. */
+/* Selected mobile Impact: darker blue-slate to match Home and Live Flow, with a living warm signal. */
 @media screen and (max-width: 760px) {
   header.topbar > .mobile-home-space-row > .mobile-your-space-button.active {
     border: 0 !important;
     outline: none !important;
     background:
-      radial-gradient(ellipse at 18% -24%, rgba(255, 213, 125, .19), transparent 58%),
-      radial-gradient(ellipse at 86% 115%, rgba(130, 157, 238, .20), transparent 65%),
-      linear-gradient(112deg, rgba(43, 61, 88, .98), rgba(27, 43, 64, .99)) !important;
+      radial-gradient(ellipse at 18% -24%, rgba(255, 205, 105, .16), transparent 58%),
+      radial-gradient(ellipse at 86% 115%, rgba(105, 143, 218, .13), transparent 65%),
+      linear-gradient(112deg, rgba(28, 43, 64, .99), rgba(16, 29, 45, 1)) !important;
     box-shadow:
-      inset 0 1px 0 rgba(226, 237, 255, .07),
-      0 0 12px rgba(117, 153, 220, .12) !important;
+      inset 0 1px 0 rgba(226, 237, 255, .045),
+      0 0 11px rgba(91, 143, 220, .11) !important;
+    transition: background .2s ease, box-shadow .2s ease, color .2s ease;
   }
   header.topbar > .mobile-home-space-row > .mobile-your-space-button.active {
-    color: #ffe2a0 !important;
-    text-shadow: 0 0 12px rgba(255, 211, 119, .18) !important;
+    color: #ffdda0 !important;
+    text-shadow: 0 0 10px rgba(255, 205, 105, .2) !important;
   }
 }
 
