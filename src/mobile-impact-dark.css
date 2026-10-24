@@ -48,3 +48,25 @@ header.topbar > .mobile-home-space-row > .mobile-your-space-button.active,
     box-shadow: none !important;
   }
 }
+
+
+/* Give the selected mobile Home button more of the available Home/Live Flow row. */
+@media screen and (max-width: 760px) {
+  header.topbar > .mobile-home-space-row .mobile-home-nav-pair:has(.mobile-home-button.active) {
+    display: flex !important;
+    width: 100% !important;
+    gap: 6px !important;
+  }
+
+  header.topbar > .mobile-home-space-row .mobile-home-nav-pair:has(.mobile-home-button.active) .mobile-home-button.active {
+    flex: 1.6 1 0% !important;
+    min-width: 0 !important;
+    transition: flex-grow 180ms ease, background 180ms ease !important;
+  }
+
+  header.topbar > .mobile-home-space-row .mobile-home-nav-pair:has(.mobile-home-button.active) .mobile-live-flow-button {
+    flex: 1 1 0% !important;
+    min-width: 0 !important;
+    transition: flex-grow 180ms ease !important;
+  }
+}
