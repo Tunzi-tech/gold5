@@ -5635,11 +5635,11 @@ onBeforeUnmount(() => {
         <div class="home-view-switch" role="group" aria-label="Choose home view">
           <button
             type="button"
-            :class="{ active: homeDisplayMode === 'content' }"
-            :aria-pressed="homeDisplayMode === 'content'"
+            :class="{ active: homeDisplayMode === 'content' || homeHeroHidden }"
+            :aria-pressed="homeDisplayMode === 'content' || homeHeroHidden"
             @click.stop="openHomeExplore"
           >
-            <span aria-hidden="true">◈</span> Explore
+            <span aria-hidden="true" :class="{ 'exploring-icon-active': homeHeroHidden }">◈</span> {{ homeHeroHidden ? 'Exploring' : 'Explore' }}
           </button>
         </div>
 
@@ -23361,6 +23361,26 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
       radial-gradient(ellipse at 100% 0%, rgba(49, 79, 119, .07), transparent 48%),
       linear-gradient(125deg, rgba(11, 17, 27, .98), rgba(7, 11, 19, .99)) !important;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, .018), 0 7px 20px rgba(0, 0, 0, .12) !important;
+  }
+}
+
+
+
+/* Explore stays visibly on while the header is hidden, with a restrained moving icon. */
+@media screen and (max-width: 760px) {
+  .home-view-switch > button.active > span.exploring-icon-active {
+    display: inline-block;
+    transform-origin: center;
+    animation: exploring-orbit-pulse 1.8s ease-in-out infinite;
+  }
+}
+@keyframes exploring-orbit-pulse {
+  0%, 100% { transform: rotate(0deg) scale(1); opacity: .9; }
+  50% { transform: rotate(24deg) scale(1.13); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-view-switch > button.active > span.exploring-icon-active {
+    animation: none !important;
   }
 }
 
