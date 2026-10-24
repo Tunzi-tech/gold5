@@ -22681,6 +22681,55 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
   }
 }
 
+
+/* Final fix: make Home and Live Flow fill the full mobile bar, like Impact. */
+@media screen and (max-width: 760px) {
+  header.topbar {
+    grid-template-rows: 35px 36px 36px 36px !important;
+  }
+  header.topbar > .mobile-home-nav-pair {
+    display: flex !important;
+    grid-column: 1 / -1 !important;
+    grid-row: 3 !important;
+    position: relative !important;
+    inset: auto !important;
+    align-self: stretch !important;
+    justify-self: stretch !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 36px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 6px !important;
+    box-sizing: border-box !important;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button {
+    display: flex !important;
+    position: relative !important;
+    grid-column: auto !important;
+    grid-row: auto !important;
+    flex: 1 1 0 !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    justify-content: center !important;
+  }
+  header.topbar > .mobile-home-space-row {
+    grid-row: 4 !important;
+    width: 100% !important;
+  }
+  header.topbar > .mobile-home-space-row > .mobile-your-space-button {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    max-width: none !important;
+    justify-content: center !important;
+  }
+}
+
 /* Mobile primary pair: Home and Live Flow share the former Home-button position. */
 .mobile-home-nav-pair { display: none; }
 @media (max-width: 760px) {
