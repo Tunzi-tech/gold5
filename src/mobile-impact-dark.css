@@ -402,3 +402,18 @@ header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-imp
     background: linear-gradient(100deg, rgba(79, 129, 205, .13), rgba(109, 98, 183, .08)) !important;
   }
 }
+
+
+/* Selected Impact state: remove any green outline and use a gentle lift from its base tone. */
+@media screen and (max-width: 760px) {
+  header.topbar > .mobile-home-space-row > .mobile-your-space-button.active,
+  header.topbar > .mobile-home-space-row > .mobile-your-space-button.active:focus,
+  header.topbar > .mobile-home-space-row > .mobile-your-space-button.active:focus-visible {
+    border: 0 !important;
+    outline: 0 !important;
+    background:
+      radial-gradient(ellipse at 18% 0%, rgba(255, 207, 119, .09), transparent 62%),
+      linear-gradient(112deg, #202a38 0%, #131d2a 100%) !important;
+    box-shadow: inset 0 1px 0 rgba(235, 243, 255, .045), 0 0 10px rgba(111, 153, 218, .07) !important;
+  }
+}
