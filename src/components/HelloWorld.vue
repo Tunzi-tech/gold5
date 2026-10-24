@@ -251,6 +251,15 @@ function sendHomeHeaderChatMessage() {
 }
 const homeConnectionPanel = ref<'local' | 'world' | 'channels' | 'calls' | 'initiatives' | 'chat' | null>(null)
 const homeJoinedChannels = ref<string[]>(['local', 'world'])
+const homeScopeCalls = computed(() => {
+  const scope = homeConnectionPanel.value
+  if (scope !== 'local' && scope !== 'world') return []
+  const localTerms = ['tunis', 'ariana', 'la marsa', 'sidi bou said', 'tunisia']
+  return calls.value.filter(call => {
+    const isLocal = localTerms.some(term => call.location.toLowerCase().includes(term))
+    return scope === 'local' ? isLocal : !isLocal
+  })
+})
 const homeConnectionItems = [
   { id: 'local', label: 'Local', color: 'mint', detail: 'People and conversations around your Zones.', action: 'Explore nearby people', view: 'people' },
   { id: 'world', label: 'World', color: 'blue', detail: 'Connect with people and ideas beyond your local area.', action: 'Explore the network', view: 'discover' },
@@ -2502,6 +2511,42 @@ const calls = ref<CommunityCall[]>([
     ideas: 15,
     interactions: 76,
     location: 'La Marsa',
+    followed: false,
+    interactionsList: []
+  },
+  {
+    id: 5,
+    title: 'Shared Water Futures',
+    launchedBy: 'Open Climate Circle',
+    handle: '@openclimatecircle',
+    avatar: 'OC',
+    category: 'WORLD CALL',
+    status: 'OPEN',
+    time: 'Launched 3 days ago',
+    headline: 'How can communities share practical ways to protect water?',
+    description: 'An international invitation to exchange community-led ideas, lessons and small actions for healthier water systems.',
+    participants: 128,
+    ideas: 46,
+    interactions: 203,
+    location: 'Global',
+    followed: false,
+    interactionsList: []
+  },
+  {
+    id: 6,
+    title: 'Cities That Connect',
+    launchedBy: 'People First Network',
+    handle: '@peoplefirst',
+    avatar: 'PF',
+    category: 'WORLD CALL',
+    status: 'OPEN',
+    time: 'Launched 1 week ago',
+    headline: 'What can cities learn from one another to create more welcoming public spaces?',
+    description: 'Connect people across countries to exchange ideas about public space, accessibility, nature and neighborhood life.',
+    participants: 86,
+    ideas: 29,
+    interactions: 147,
+    location: 'International',
     followed: false,
     interactionsList: []
   }
@@ -5770,6 +5815,21 @@ onBeforeUnmount(() => {
               <div class="home-connection-panel-copy">
                 <span class="home-connection-kicker">{{ item.label }} · CONNECTION SPACE</span>
                 <p>{{ item.detail }}</p>
+              </div>
+              <div v-if="item.id === 'local' || item.id === 'world'" class="home-scope-calls" aria-live="polite">
+                <div class="home-scope-calls-heading">
+                  <strong>{{ item.id === 'local' ? 'Local calls' : 'World calls' }}</strong>
+                  <span>{{ homeScopeCalls.length }} open invitations</span>
+                </div>
+                <article v-for="call in homeScopeCalls" :key="call.id" class="home-scope-call-card">
+                  <div class="home-scope-call-copy">
+                    <span>{{ call.category }} · {{ call.location }}</span>
+                    <strong>{{ call.title }}</strong>
+                    <p>{{ call.headline }}</p>
+                  </div>
+                  <button type="button" @click="openCallSpace(call)">View call <span aria-hidden="true">→</span></button>
+                </article>
+                <p v-if="homeScopeCalls.length === 0" class="home-scope-calls-empty">No calls match this area yet.</p>
               </div>
               <div class="home-connection-panel-actions">
                 <button v-if="item.id === 'channels' || item.id === 'local' || item.id === 'world'" type="button" class="home-connection-join"
@@ -22612,6 +22672,22 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
   }
 }
 </style>
+
+/* Calls shown directly inside the Local / World discovery choices. */
+.home-scope-calls{display:grid;gap:8px;min-width:0;margin-top:14px}
+.home-scope-calls-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#e2edfc}
+.home-scope-calls-heading strong{font-size:12px;letter-spacing:.01em}
+.home-scope-calls-heading span{color:#8fa7c3;font-size:9px}
+.home-scope-call-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 12px;border:1px solid rgba(117,158,208,.18);border-radius:12px;background:linear-gradient(120deg,rgba(21,37,57,.82),rgba(10,19,32,.82));transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease}
+.home-scope-call-card:hover{border-color:rgba(121,171,238,.42);box-shadow:0 0 18px rgba(82,137,218,.09);transform:translateY(-1px)}
+.home-scope-call-copy{display:grid;gap:4px;min-width:0}
+.home-scope-call-copy>span{color:#8fb8ee;font-size:8px;font-weight:750;letter-spacing:.08em;text-transform:uppercase}
+.home-scope-call-copy strong{color:#e5efff;font-size:11px}
+.home-scope-call-copy p{margin:0;color:#9eafc5;font-size:10px;line-height:1.45}
+.home-scope-call-card>button{flex:0 0 auto;padding:7px 9px;border:1px solid rgba(113,163,230,.25);border-radius:8px;background:rgba(58,99,151,.16);color:#c9e0ff;font-size:9px;cursor:pointer}
+.home-scope-call-card>button:hover{border-color:rgba(135,184,246,.55);background:rgba(58,99,151,.3)}
+.home-scope-calls-empty{margin:0;color:#91a4bc;font-size:10px}
+@media(max-width:600px){.home-scope-call-card{align-items:flex-start;flex-direction:column}.home-scope-call-card>button{align-self:flex-start}}
 
 /* Exchange the accent colours of the Home discovery cards: Explore / People Doing ↔ What's Going On. */
 .initiative-flow-step.people-do {
