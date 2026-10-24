@@ -5387,9 +5387,6 @@ onBeforeUnmount(() => {
       </div>
 
       <nav class="mobile-nav" aria-label="Main navigation">
-        <button :class="{ active: activeView === 'live-flow' }" @click="navigate('live-flow')">
-          <span class="mobile-nav-icon">◎</span><span>Live Flow</span>
-        </button>
         <button :class="{ active: activeView === 'learn' }" @click="navigate('learn')">
           <span class="mobile-nav-icon">✦</span><span>Learn</span>
         </button>
@@ -5448,16 +5445,28 @@ onBeforeUnmount(() => {
         </div>
 
 
-        <button
-          type="button"
-          class="mobile-home-bar-button mobile-home-only mobile-home-under-search"
-          :class="{ active: activeView === 'home' }"
-          @click="navigate('home')"
-          aria-label="Go to Home"
-        >
-          <span aria-hidden="true">⌂</span>
-          <strong>Home</strong>
-        </button>
+        <div class="mobile-home-nav-pair" role="group" aria-label="Primary mobile navigation">
+          <button
+            type="button"
+            class="mobile-home-bar-button mobile-home-only mobile-home-under-search mobile-home-pair-button"
+            :class="{ active: activeView === 'home' }"
+            @click="navigate('home')"
+            aria-label="Go to Home"
+          >
+            <span aria-hidden="true">⌂</span>
+            <strong>Home</strong>
+          </button>
+          <button
+            type="button"
+            class="mobile-home-bar-button mobile-home-pair-button mobile-live-flow-button"
+            :class="{ active: activeView === 'live-flow' }"
+            @click="navigate('live-flow')"
+            aria-label="Open Live Flow"
+          >
+            <span aria-hidden="true">◎</span>
+            <strong>Live Flow</strong>
+          </button>
+        </div>
 
         <div class="mobile-home-space-row" aria-label="Impact">
           <button
@@ -22671,6 +22680,53 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
     animation: none;
   }
 }
+
+/* Mobile primary pair: Home and Live Flow share the former Home-button position. */
+.mobile-home-nav-pair { display: none; }
+@media (max-width: 760px) {
+  .mobile-home-nav-pair {
+    display: flex !important;
+    align-items: stretch;
+    gap: 6px;
+    width: 100%;
+    min-width: 0;
+    margin-top: 7px;
+  }
+  .mobile-home-nav-pair .mobile-home-pair-button {
+    position: relative;
+    display: flex !important;
+    flex: 1 1 0;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-width: 0;
+    min-height: 36px;
+    margin: 0;
+    padding: 7px 12px;
+    border: 1px solid rgba(133,164,195,.2);
+    border-radius: 10px;
+    color: rgba(233,238,248,.72);
+    background: linear-gradient(110deg,rgba(31,50,73,.68),rgba(20,32,48,.82));
+    font-size: 11px;
+    font-weight: 750;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .mobile-home-nav-pair .mobile-home-pair-button > span {
+    color: #9bbce7;
+    font-size: 15px;
+  }
+  .mobile-home-nav-pair .mobile-home-pair-button.active {
+    color: #edf4ff;
+    border-color: rgba(126,163,245,.42);
+    background: linear-gradient(110deg,rgba(65,91,145,.3),rgba(32,51,78,.88));
+    box-shadow: inset 0 0 0 1px rgba(143,160,255,.09), 0 0 12px rgba(112,153,255,.09);
+  }
+  .mobile-home-nav-pair .mobile-live-flow-button.active > span {
+    color: #a9d7ff;
+  }
+}
+
 </style>
 
 /* Calls shown directly inside the Local / World discovery choices. */
@@ -22726,4 +22782,3 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
   .sidebar .main-nav button.active,
   .primary-navigation-portal .primary-space-nav-button.active { transition: none !important; }
 }
-
