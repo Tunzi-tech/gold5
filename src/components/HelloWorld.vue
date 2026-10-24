@@ -5519,15 +5519,20 @@ onBeforeUnmount(() => {
           </button>
           <div v-if="mobileIssueMenuOpen" class="mobile-issue-menu" role="menu">
             <button type="button" role="menuitem" @click="mobileIssueMenuOpen = false; navigate('awareness')">
-              <span class="mobile-issue-menu-mark" aria-hidden="true">◎</span>
+              <span class="mobile-issue-menu-mark issue-target-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <circle class="target-ring target-ring-outer" cx="12" cy="12" r="9"></circle>
+                  <circle class="target-ring target-ring-inner" cx="12" cy="12" r="5"></circle>
+                </svg>
+              </span>
               <span><strong>Choose an issue</strong><small>Zone or interests</small></span>
             </button>
             <button type="button" role="menuitem" @click="mobileIssueMenuOpen = false; openAwarenessReport()">
-              <span class="mobile-issue-menu-mark" aria-hidden="true">＋</span>
+              <span class="mobile-issue-menu-mark report-issue-mark" aria-hidden="true">⚑</span>
               <span><strong>Report an issue</strong></span>
             </button>
             <button type="button" role="menuitem" @click="mobileIssueMenuOpen = false; showCreatePost = true">
-              <span class="mobile-issue-menu-mark" aria-hidden="true">✎</span>
+              <span class="mobile-issue-menu-mark share-post-mark" aria-hidden="true">+</span>
               <span><strong>Share something</strong><small>Create a post</small></span>
             </button>
           </div>
