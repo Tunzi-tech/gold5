@@ -4810,16 +4810,7 @@ onBeforeUnmount(() => {
       <span class="nfas-opening-wordmark">Nfas</span>
     </div>
 
-    <div v-if="showNavigationPortal" class="nfas-navigation-overlay" aria-hidden="true">
-      <div class="nfas-navigation-aura"></div>
-      <div class="nfas-navigation-portal">
-        <span class="nfas-navigation-item"><span class="nfas-navigation-icon nfas-navigation-people"><svg viewBox="0 0 24 24" fill="none"><path d="M16 20v-1.6a3.4 3.4 0 0 0-3.4-3.4H6.4A3.4 3.4 0 0 0 3 18.4V20M9.5 11.5a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM16 4.1a4 4 0 0 1 0 7.7M17.6 15h.1a3.4 3.4 0 0 1 3.3 3.4V20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="nfas-navigation-item-label nfas-navigation-people-label">People</span></span>
-        <span class="nfas-navigation-link"></span>
-        <span class="nfas-navigation-item"><span class="nfas-navigation-icon nfas-navigation-voices"><svg viewBox="0 0 24 24" fill="none"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2v-6.1a7.5 7.5 0 1 1 17-3.4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 10h.01M12 10h.01M16 10h.01" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span><span class="nfas-navigation-item-label nfas-navigation-voices-label">Voices</span></span>
-        <span class="nfas-navigation-link"></span>
-        <span class="nfas-navigation-item"><span class="nfas-navigation-icon nfas-navigation-impact"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="2.1" fill="currentColor"/><ellipse cx="12" cy="12" rx="9" ry="4.4" transform="rotate(-35 12 12)" stroke="currentColor" stroke-width="1.4"/><ellipse cx="12" cy="12" rx="9" ry="4.4" transform="rotate(42 12 12)" stroke="currentColor" stroke-width="1.1" opacity=".72"/></svg></span><span class="nfas-navigation-item-label nfas-navigation-impact-label">Impact</span></span>
-      </div>
-    </div>
+
 
     <main v-if="showCircleHome" class="platform-circles-stage" aria-label="Choose a platform">
       <div class="platform-circles-row">
@@ -4865,7 +4856,18 @@ onBeforeUnmount(() => {
     <!-- SIDEBAR -->
     <aside class="sidebar">
 
-      <div class="brand" @click="navigate('home')" role="button" tabindex="0" @keydown.enter="navigate('home')" aria-label="Nfas home">
+      <div class="brand" :class="{ 'brand-portal-active': showNavigationPortal }" @click="navigate('home')" role="button" tabindex="0" @keydown.enter="navigate('home')" aria-label="Nfas home">
+
+    <div v-if="showNavigationPortal" class="nfas-navigation-overlay" aria-hidden="true">
+      <div class="nfas-navigation-aura"></div>
+      <div class="nfas-navigation-portal">
+        <span class="nfas-navigation-item"><span class="nfas-navigation-icon nfas-navigation-people"><svg viewBox="0 0 24 24" fill="none"><path d="M16 20v-1.6a3.4 3.4 0 0 0-3.4-3.4H6.4A3.4 3.4 0 0 0 3 18.4V20M9.5 11.5a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM16 4.1a4 4 0 0 1 0 7.7M17.6 15h.1a3.4 3.4 0 0 1 3.3 3.4V20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="nfas-navigation-item-label nfas-navigation-people-label">People</span></span>
+        <span class="nfas-navigation-link"></span>
+        <span class="nfas-navigation-item"><span class="nfas-navigation-icon nfas-navigation-voices"><svg viewBox="0 0 24 24" fill="none"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2v-6.1a7.5 7.5 0 1 1 17-3.4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 10h.01M12 10h.01M16 10h.01" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span><span class="nfas-navigation-item-label nfas-navigation-voices-label">Voices</span></span>
+        <span class="nfas-navigation-link"></span>
+        <span class="nfas-navigation-item"><span class="nfas-navigation-icon nfas-navigation-impact"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="2.1" fill="currentColor"/><ellipse cx="12" cy="12" rx="9" ry="4.4" transform="rotate(-35 12 12)" stroke="currentColor" stroke-width="1.4"/><ellipse cx="12" cy="12" rx="9" ry="4.4" transform="rotate(42 12 12)" stroke="currentColor" stroke-width="1.1" opacity=".72"/></svg></span><span class="nfas-navigation-item-label nfas-navigation-impact-label">Impact</span></span>
+      </div>
+    </div>
         <div class="brand-orbit" aria-hidden="true">
           <span></span>
         </div>
@@ -19913,6 +19915,25 @@ a { text-underline-offset: 3px; }
   .mobile-more-drawer-item:focus-visible { border-color: rgba(126,163,213,.42) !important; background: linear-gradient(110deg,rgba(34,54,79,.94),rgba(16,29,46,.98)) !important; outline: none !important; }
   .mobile-more-drawer-item.active { border-color: rgba(121,173,237,.42) !important; background: linear-gradient(120deg,rgba(37,61,91,.94),rgba(16,31,51,.98)) !important; }
 }
+
+
+/* Navigation transition lives in the sidebar identity: the portal temporarily replaces the Nfas logo. */
+.sidebar .brand { position: relative !important; isolation: isolate; }
+.sidebar .brand .nfas-navigation-overlay { position:absolute !important; inset:-5px -2px !important; z-index:8 !important; width:auto !important; height:auto !important; display:flex !important; align-items:center !important; justify-content:center !important; overflow:visible !important; pointer-events:none !important; background:transparent !important; }
+.sidebar .brand .nfas-navigation-aura { width:100% !important; height:54px !important; filter:blur(5px) !important; background:radial-gradient(ellipse,rgba(76,139,255,.27),rgba(143,99,230,.14) 48%,transparent 74%) !important; }
+.sidebar .brand .nfas-navigation-portal { width:100% !important; max-width:260px !important; height:48px !important; min-height:48px !important; gap:9px !important; padding:2px 5px !important; border:0 !important; border-radius:50px !important; background:transparent !important; box-shadow:none !important; backdrop-filter:none !important; animation:nfas-sidebar-portal-in .82s cubic-bezier(.2,.75,.25,1) both !important; }
+.sidebar .brand .nfas-navigation-portal::before,.sidebar .brand .nfas-navigation-portal::after { inset:0 7px !important; border-radius:50px !important; border-color:rgba(104,159,245,.48) !important; }
+.sidebar .brand .nfas-navigation-portal::after { inset:-4px 18px !important; border-color:rgba(169,128,240,.35) !important; }
+.sidebar .brand .nfas-navigation-item { flex:0 0 42px !important; gap:3px !important; }
+.sidebar .brand .nfas-navigation-icon { flex:0 0 27px !important; width:27px !important; height:27px !important; border-radius:50% !important; position:relative !important; box-shadow:0 0 9px currentColor,0 0 17px rgba(91,157,255,.16) !important; }
+.sidebar .brand .nfas-navigation-icon::before,.sidebar .brand .nfas-navigation-icon::after { content:"" !important; position:absolute !important; inset:-4px !important; border:1px solid currentColor !important; border-radius:50% !important; opacity:.5 !important; pointer-events:none !important; }
+.sidebar .brand .nfas-navigation-icon::after { inset:-7px !important; opacity:.24 !important; }
+.sidebar .brand .nfas-navigation-icon svg { width:15px !important; height:15px !important; }
+.sidebar .brand .nfas-navigation-item-label { font-size:7px !important; line-height:1 !important; letter-spacing:.04em !important; }
+.sidebar .brand.brand-portal-active .brand-orbit,.sidebar .brand.brand-portal-active .brand-name,.sidebar .brand.brand-portal-active .brand-dimension-portal { opacity:0 !important; visibility:hidden !important; pointer-events:none !important; }
+@keyframes nfas-sidebar-portal-in { 0%{opacity:0;transform:scale(.82);filter:blur(3px)} 35%{opacity:1;filter:blur(0)} 100%{opacity:1;transform:scale(1);filter:blur(0)} }
+@media(max-width:760px) { .sidebar .brand .nfas-navigation-overlay{inset:-3px -4px !important}.sidebar .brand .nfas-navigation-portal{gap:5px !important;padding-inline:2px !important}.sidebar .brand .nfas-navigation-item{flex-basis:38px !important} }
+@media(prefers-reduced-motion:reduce) { .sidebar .brand .nfas-navigation-portal{animation:none !important} }
 
 </style>
 
