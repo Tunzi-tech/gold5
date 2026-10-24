@@ -1,0 +1,61 @@
+/* Nfas logo-inspired orbital line and light orb for selected sidebar destinations. */
+.sidebar .primary-space-nav-button.active,
+.sidebar .sidebar-network-toggle.active,
+.sidebar .sidebar-zones-main.active,
+.sidebar .zone-space-button.active,
+.sidebar .sidebar-flow-main.active,
+.sidebar .sidebar-subnav button.active,
+.sidebar .awareness-nav-button.active,
+.sidebar .sidebar-orbit-button.active,
+.sidebar .main-nav button:active {
+  position: relative;
+  isolation: isolate;
+  background-image:
+    radial-gradient(circle at calc(100% - 17px) 50%, rgba(205,229,255,.98) 0 1.5px, rgba(105,169,255,.78) 2px, rgba(105,169,255,.22) 5px, transparent 10px),
+    linear-gradient(90deg, transparent 0%, rgba(91,151,255,.025) 42%, rgba(103,164,255,.16) 88%, rgba(132,183,255,.24) 100%);
+  box-shadow: inset 0 0 0 1px rgba(121,171,255,.16), 0 0 12px rgba(86,145,255,.12);
+  animation: nfas-sidebar-orb-glow 2.8s ease-in-out infinite;
+}
+.sidebar .primary-space-nav-button.active::after,
+.sidebar .sidebar-network-toggle.active::after,
+.sidebar .sidebar-zones-main.active::after,
+.sidebar .zone-space-button.active::after,
+.sidebar .sidebar-flow-main.active::after,
+.sidebar .sidebar-subnav button.active::after,
+.sidebar .awareness-nav-button.active::after,
+.sidebar .sidebar-orbit-button.active::after,
+.sidebar .main-nav button:active::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 12px;
+  right: 18px;
+  top: 50%;
+  height: 1px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(126,177,255,.08) 30%, rgba(145,196,255,.72) 88%, rgba(198,224,255,.95));
+  box-shadow: 0 0 5px rgba(111,171,255,.55), 0 0 12px rgba(111,171,255,.2);
+  opacity: .8;
+}
+.sidebar .primary-space-nav-button.active .icon,
+.sidebar .sidebar-network-toggle.active > span:first-child,
+.sidebar .sidebar-zones-main.active > .icon,
+.sidebar .sidebar-flow-main.active > .icon {
+  filter: drop-shadow(0 0 5px currentColor);
+}
+@keyframes nfas-sidebar-orb-glow {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.13); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sidebar .primary-space-nav-button.active,
+  .sidebar .sidebar-network-toggle.active,
+  .sidebar .sidebar-zones-main.active,
+  .sidebar .zone-space-button.active,
+  .sidebar .sidebar-flow-main.active,
+  .sidebar .sidebar-subnav button.active,
+  .sidebar .awareness-nav-button.active,
+  .sidebar .sidebar-orbit-button.active,
+  .sidebar .main-nav button:active { animation: none; }
+}
