@@ -22778,6 +22778,47 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
   }
 }
 
+
+/* Home + Live Flow belong to one shared planet: a single continuous surface. */
+@media screen and (max-width: 760px) {
+  header.topbar > .mobile-home-nav-pair {
+    gap: 0 !important;
+    padding: 3px !important;
+    border: 1px solid rgba(126, 163, 213, .24) !important;
+    border-radius: 11px !important;
+    overflow: hidden !important;
+    background:
+      radial-gradient(ellipse at 18% 0%, rgba(91, 139, 206, .20), transparent 62%),
+      linear-gradient(110deg, rgba(24, 43, 65, .96), rgba(14, 27, 43, .98)) !important;
+    box-shadow: inset 0 1px rgba(230, 241, 255, .045), 0 3px 10px rgba(0, 0, 0, .12) !important;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button {
+    border: 0 !important;
+    border-radius: 7px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: rgba(225, 237, 252, .76) !important;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button + .mobile-home-pair-button {
+    border-left: 1px solid rgba(145, 178, 220, .17) !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:first-child {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button.active {
+    background: linear-gradient(115deg, rgba(100, 145, 204, .19), rgba(71, 111, 168, .10)) !important;
+    color: #f0f6ff !important;
+    box-shadow: inset 0 0 0 1px rgba(150, 190, 245, .10) !important;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button > span {
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+}
+
 </style>
 
 /* Calls shown directly inside the Local / World discovery choices. */
