@@ -22877,11 +22877,11 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
   }
   /* Impact's inner reflected/orbit line is green at rest and green when selected. */
   header.topbar > .mobile-home-space-row > .mobile-your-space-button::before {
-    border-color: rgba(111, 190, 130, .48) !important;
+    border-color: rgba(111, 190, 130, .20) !important;
   }
   header.topbar > .mobile-home-space-row > .mobile-your-space-button.active::before {
-    border-color: rgba(104, 224, 135, .92) !important;
-    box-shadow: inset 0 0 5px rgba(91, 210, 124, .10), 0 0 5px rgba(91, 210, 124, .12);
+    border-color: rgba(104, 224, 135, .72) !important;
+    box-shadow: inset 0 0 3px rgba(91, 210, 124, .06);
   }
   header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button > span,
   header.topbar > .mobile-home-space-row > .mobile-your-space-button > span,
@@ -22902,13 +22902,13 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
     box-shadow: inset 0 0 0 1px rgba(178, 190, 255, .10), 0 0 13px rgba(117, 135, 255, .13) !important;
   }
   header.topbar > .mobile-home-space-row > .mobile-your-space-button {
-    border-color: rgba(111, 190, 130, .72) !important;
+    border-color: rgba(111, 190, 130, .30) !important;
     background:
       radial-gradient(ellipse at 18% -35%, rgba(93, 190, 119, .14), transparent 68%),
       linear-gradient(112deg, rgba(43, 43, 52, .96), rgba(20, 29, 43, .98)) !important;
   }
   header.topbar > .mobile-home-space-row > .mobile-your-space-button.active {
-    border-color: rgba(245, 211, 88, .90) !important;
+    border-color: rgba(245, 211, 88, .72) !important;
     background:
       radial-gradient(ellipse at 18% -25%, rgba(239, 203, 112, .23), transparent 70%),
       linear-gradient(112deg, rgba(67, 59, 53, .94), rgba(27, 35, 47, .98)) !important;
