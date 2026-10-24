@@ -22963,6 +22963,60 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
     transform: scale(.985);
   }
 }
+
+/* Live Flow's internal view switch keeps Feed inside Live Flow instead of Home. */
+.live-flow-space-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 0 18px;
+  padding: 4px;
+  border: 1px solid rgba(133, 157, 205, .16);
+  border-radius: 999px;
+  background: rgba(13, 20, 33, .72);
+}
+.live-flow-space-nav button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 36px;
+  padding: 7px 15px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: var(--muted, #aab6ca);
+  background: transparent;
+  font: inherit;
+  font-size: .88rem;
+  cursor: pointer;
+  transition: color .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.live-flow-space-nav button.active {
+  color: #edf3ff;
+  border-color: rgba(123, 157, 226, .38);
+  background: linear-gradient(115deg, rgba(52, 76, 119, .56), rgba(42, 43, 81, .58));
+  box-shadow: inset 0 0 0 1px rgba(174, 194, 239, .05), 0 0 12px rgba(94, 126, 199, .08);
+}
+.live-flow-space-nav button:focus-visible {
+  outline: 2px solid rgba(153, 184, 255, .75);
+  outline-offset: 2px;
+}
+@media screen and (max-width: 760px) {
+  .live-flow-space-nav {
+    margin-bottom: 14px;
+  }
+  .live-flow-space-nav button {
+    min-height: 34px;
+    padding: 6px 13px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .live-flow-space-nav button {
+    transition: none;
+  }
+}
 </style>
 
 /* Calls shown directly inside the Local / World discovery choices. */
