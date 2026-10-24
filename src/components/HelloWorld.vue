@@ -5526,6 +5526,10 @@ onBeforeUnmount(() => {
               <span class="mobile-issue-menu-mark" aria-hidden="true">＋</span>
               <span><strong>Report an issue</strong></span>
             </button>
+            <button type="button" role="menuitem" @click="mobileIssueMenuOpen = false; showCreatePost = true">
+              <span class="mobile-issue-menu-mark" aria-hidden="true">✎</span>
+              <span><strong>Share something</strong><small>Create a post</small></span>
+            </button>
           </div>
           <button
             class="primary-btn"
