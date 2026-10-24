@@ -5478,7 +5478,7 @@ onBeforeUnmount(() => {
           >
             <span v-if="activeView === 'awareness'" class="brand-orbit impact-button-orbit mobile-impact-orbit" aria-hidden="true"><span></span></span>
             <strong>Impact</strong>
-            <span class="mobile-home-bar-arrow" aria-hidden="true">→</span>
+            <span v-if="activeView !== 'awareness'" class="mobile-home-bar-arrow" aria-hidden="true">→</span>
           </button>
         </div>
 
