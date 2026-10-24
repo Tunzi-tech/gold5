@@ -22819,6 +22819,35 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
   }
 }
 
+
+/* Give Home and Live Flow their own rounded capsule shape, not square-ended segments. */
+@media screen and (max-width: 760px) {
+  header.topbar > .mobile-home-nav-pair {
+    gap: 7px !important;
+    padding: 4px !important;
+    border-radius: 18px !important;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button,
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:first-child,
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button + .mobile-home-pair-button {
+    flex: 1 1 0 !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    border: 1px solid rgba(140, 177, 224, .18) !important;
+    border-radius: 999px !important;
+    background: linear-gradient(120deg, rgba(48, 70, 99, .52), rgba(25, 42, 62, .7)) !important;
+    box-shadow: inset 0 1px rgba(225, 239, 255, .035) !important;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button.active {
+    border-color: rgba(151, 190, 244, .36) !important;
+    border-radius: 999px !important;
+    background: linear-gradient(120deg, rgba(88, 128, 184, .35), rgba(49, 78, 116, .42)) !important;
+    box-shadow: inset 0 0 0 1px rgba(165, 201, 250, .08), 0 0 10px rgba(95, 147, 213, .08) !important;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button + .mobile-home-pair-button {
+    border-left: 1px solid rgba(140, 177, 224, .18) !important;
+  }
+}
 </style>
 
 /* Calls shown directly inside the Local / World discovery choices. */
