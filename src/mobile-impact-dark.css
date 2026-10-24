@@ -152,3 +152,22 @@ header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-imp
   line-height: 1.2 !important;
   font-weight: 600 !important;
 }
+
+
+/* Add a short accent line under the active Exploring label, matching the mobile navigation accents. */
+.home-view-switch > button.exploring-line-active {
+  position: relative !important;
+  padding-bottom: 7px !important;
+}
+.home-view-switch > button.exploring-line-active::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 24% !important;
+  right: 24% !important;
+  bottom: 3px !important;
+  height: 2px !important;
+  border-radius: 999px !important;
+  background: linear-gradient(90deg, rgba(104, 181, 255, .92), rgba(172, 126, 255, .98)) !important;
+  box-shadow: 0 0 6px rgba(131, 132, 255, .36) !important;
+  pointer-events: none !important;
+}
