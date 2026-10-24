@@ -5463,7 +5463,8 @@ onBeforeUnmount(() => {
             @click="navigate('live-flow')"
             aria-label="Open Live Flow"
           >
-            <span aria-hidden="true">⟳</span>
+            <span v-if="activeView === 'live-flow'" class="brand-orbit mobile-flow-orbit" aria-hidden="true"><span></span></span>
+            <span v-else aria-hidden="true">⟳</span>
             <strong>Live Flow</strong>
           </button>
         </div>
@@ -23010,4 +23011,67 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
 @media (prefers-reduced-motion: reduce) {
   .sidebar .main-nav button.active,
   .primary-navigation-portal .primary-space-nav-button.active { transition: none !important; }
+}
+
+/* Give selected Live Flow the same orbital icon treatment as Impact, with a cool blue signal. */
+@media screen and (max-width: 760px) {
+  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-orbit {
+    position: relative !important;
+    display: inline-block !important;
+    flex: 0 0 22px !important;
+    width: 22px !important;
+    height: 22px !important;
+    margin: 0 3px 0 0 !important;
+    overflow: visible !important;
+    border: 0 !important;
+    border-radius: 50% !important;
+    background: radial-gradient(circle, rgba(88,190,255,.34), rgba(79,125,255,.16) 48%, transparent 74%) !important;
+    box-shadow: 0 0 10px rgba(74,175,255,.25), 0 0 17px rgba(70,123,255,.16) !important;
+    animation: mobile-impact-orbit-in .48s cubic-bezier(.2,.75,.25,1) both, mobile-flow-orbit-pulse 1.8s ease-in-out .48s infinite alternate !important;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-orbit::before,
+  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-orbit::after {
+    content: "" !important;
+    position: absolute !important;
+    inset: 2px -3px !important;
+    display: block !important;
+    border: 1px solid rgba(93,194,255,.92) !important;
+    border-radius: 50% !important;
+    background: transparent !important;
+    box-shadow: 0 0 5px rgba(72,173,255,.28) !important;
+    transform: rotate(-35deg) scaleY(.62) !important;
+    transform-origin: center !important;
+    animation: mobile-impact-orbit-spin 2.1s linear infinite !important;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-orbit::after {
+    inset: 3px -4px !important;
+    border-color: rgba(108,225,218,.9) !important;
+    box-shadow: 0 0 5px rgba(86,211,216,.26) !important;
+    transform: rotate(48deg) scaleY(.72) !important;
+    animation-duration: 2.8s !important;
+    animation-direction: reverse !important;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-orbit > span {
+    position: absolute !important;
+    z-index: 2 !important;
+    left: 8px !important;
+    top: 8px !important;
+    display: block !important;
+    width: 6px !important;
+    height: 6px !important;
+    border-radius: 50% !important;
+    background: #8de7ff !important;
+    box-shadow: 0 0 7px rgba(108,218,255,.85), 0 0 13px rgba(78,171,255,.42) !important;
+  }
+}
+@keyframes mobile-flow-orbit-pulse {
+  from { filter: brightness(.95); box-shadow: 0 0 9px rgba(74,175,255,.2), 0 0 15px rgba(70,123,255,.12); }
+  to { filter: brightness(1.25); box-shadow: 0 0 16px rgba(74,175,255,.38), 0 0 23px rgba(70,123,255,.2); }
+}
+@media (prefers-reduced-motion: reduce) {
+  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-orbit,
+  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-orbit::before,
+  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-orbit::after {
+    animation: none !important;
+  }
 }
