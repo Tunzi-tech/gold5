@@ -171,3 +171,11 @@ header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-imp
   box-shadow: 0 0 6px rgba(131, 132, 255, .36) !important;
   pointer-events: none !important;
 }
+
+
+/* The mobile issue menu now contains Share something, so remove the separate create-post button beside it. */
+@media screen and (max-width: 900px) {
+  header.topbar > .top-actions > .primary-btn {
+    display: none !important;
+  }
+}
