@@ -10,3 +10,13 @@
     box-shadow: inset 0 1px 0 rgba(226, 237, 255, .025), 0 0 7px rgba(91, 143, 220, .045) !important;
   }
 }
+
+/* Keep the Impact and Explore controls clean: no button borders in either state. */
+header.topbar > .mobile-home-space-row > .mobile-your-space-button,
+header.topbar > .mobile-home-space-row > .mobile-your-space-button.active,
+.home-view-switch > button,
+.home-view-switch > button.active,
+.home-view-switch > button.exploring-line-active {
+  border: 0 !important;
+  outline: none !important;
+}
