@@ -5631,6 +5631,7 @@ onBeforeUnmount(() => {
            ================================================= -->
       <section v-if="activeView === 'home'" class="content home-commons-content" :class="{ 'home-hero-collapsed': homeHeroHidden }">
 
+        <section class="home-impact-discovery-section" aria-label="Home discovery and header">
         <div class="home-view-switch" role="group" aria-label="Choose home view">
           <button
             type="button"
@@ -5855,6 +5856,8 @@ onBeforeUnmount(() => {
               </div>
             </template>
           </div>
+        </section>
+
         </section>
 
         <div v-if="homeDisplayMode === 'content'" class="home-discovery-view">
@@ -20031,6 +20034,31 @@ a { text-underline-offset: 3px; }
 @keyframes nfas-sidebar-portal-in { 0%{opacity:0;transform:scale(.82);filter:blur(3px)} 35%{opacity:1;filter:blur(0)} 100%{opacity:1;transform:scale(1);filter:blur(0)} }
 @media(max-width:760px) { .sidebar .brand .nfas-navigation-overlay{inset:-3px -4px !important}.sidebar .brand .nfas-navigation-portal{gap:5px !important;padding-inline:2px !important}.sidebar .brand .nfas-navigation-item{flex-basis:38px !important} }
 @media(prefers-reduced-motion:reduce) { .sidebar .brand .nfas-navigation-portal{animation:none !important} }
+
+
+/* Blue-framed Home section groups Explore, the optional hero header, and the impact/calls discovery hub. */
+.home-commons-content > .home-impact-discovery-section {
+  position: relative;
+  margin: 0 0 18px;
+  padding: 12px;
+  border: 1px solid rgba(75, 153, 255, .68);
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(29, 75, 128, .075), rgba(12, 24, 42, .12));
+  box-shadow: inset 0 0 0 1px rgba(75, 153, 255, .08), 0 0 18px rgba(48, 126, 235, .07);
+}
+.home-commons-content > .home-impact-discovery-section > .home-view-switch,
+.home-commons-content > .home-impact-discovery-section > .home-hero-control {
+  position: relative;
+  z-index: 2;
+}
+@media (max-width: 760px) {
+  .home-commons-content > .home-impact-discovery-section {
+    margin-bottom: 14px;
+    padding: 9px;
+    border-color: rgba(75, 153, 255, .76);
+    border-radius: 13px;
+  }
+}
 
 </style>
 
