@@ -23281,4 +23281,28 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
     transition: none;
   }
 }
+
+
+/* Mobile Explore: an 80% soft-blue / 20% violet glass tint, keeping the existing icon and text colors vivid. */
+@media screen and (max-width: 760px) {
+  .mobile-edge-explore {
+    background:
+      linear-gradient(112deg, rgba(105, 166, 235, .80) 0%, rgba(133, 158, 235, .64) 68%, rgba(143, 116, 218, .48) 100%),
+      linear-gradient(180deg, rgba(24, 39, 61, .96), rgba(11, 20, 34, .98)) !important;
+    border-color: rgba(160, 205, 255, .62) !important;
+    color: #f1f7ff !important;
+    box-shadow: 0 0 13px rgba(91, 158, 236, .20), inset 0 1px 0 rgba(235, 245, 255, .20) !important;
+  }
+  .mobile-edge-explore .mobile-edge-action-icon {
+    color: #ffffff !important;
+  }
+  .mobile-edge-explore.active {
+    background:
+      linear-gradient(112deg, rgba(112, 179, 249, .88) 0%, rgba(139, 166, 244, .74) 68%, rgba(155, 128, 230, .62) 100%),
+      linear-gradient(180deg, rgba(24, 39, 61, .96), rgba(11, 20, 34, .98)) !important;
+    border-color: rgba(192, 222, 255, .9) !important;
+    box-shadow: 0 0 17px rgba(91, 158, 236, .30), inset 0 1px 0 rgba(245, 250, 255, .28) !important;
+  }
+}
+
 </style>
