@@ -5687,211 +5687,7 @@ onBeforeUnmount(() => {
             <p class="home-local-world-note">Activity examples are previews; live alerts need a connected activity source.</p>
           </section>
 
-      <section v-if="activeView === 'live-flow' && liveFlowSpace === 'feed'" class="content live-flow-feed-content">
-        <div class="section-heading">
-
-          <div>
-            <span class="eyebrow">LIVE FLOW</span>
-            <h2>From people you follow</h2>
-          </div>
-
-          <button class="ghost-btn" type="button" @click="liveFlowSpace = 'overview'">
-            Back to Live Flow →
-          </button>
-
-        </div>
-
-        <div class="feed-layout">
-
-          <div class="feed">
-
-            <article
-              v-for="post in filteredPosts"
-              :key="post.id"
-              class="post-card"
-            >
-
-              <div class="post-head">
-
-                <button
-                  class="avatar-button"
-                  type="button"
-                  @click="post.page ? openPageByName(post.page) : openPerson(people.find(person => person.name === post.author) || { name: post.author, username: post.handle, avatar: post.avatar, reason: 'From the Live Flow', mutual: 0, followed: false })"
-                >
-                  <span class="avatar blue">{{ post.avatar }}</span>
-                </button>
-
-                <button
-                  class="post-author post-author-button"
-                  type="button"
-                  @click="post.page ? openPageByName(post.page) : openPerson(people.find(person => person.name === post.author) || { name: post.author, username: post.handle, avatar: post.avatar, reason: 'From the Live Flow', mutual: 0, followed: false })"
-                >
-                  <strong>{{ post.author }}</strong>
-                  <span>
-                    {{ post.handle }}
-                    <i>•</i>
-                    {{ post.time }}
-                  </span>
-                </button>
-
-                <button class="more">•••</button>
-
-              </div>
-
-              <p class="post-content">
-                {{ post.content }}
-              </p>
-
-              <div
-                v-if="post.zone"
-                class="post-zone"
-                @click="
-                  openZone(
-                    zones.find(z => z.name === post.zone) || zones[0]
-                  )
-                "
-              >
-                <span>◉</span>
-                {{ post.zone }}
-              </div>
-
-              <div class="post-inspiration">
-                <div class="post-inspiration-heading">
-                  <span class="eyebrow">GET INSPIRED</span>
-                  <strong>What could this become?</strong>
-                </div>
-                <div class="post-inspiration-grid">
-                  <button
-                    v-for="inspiration in getPostInspirations(post)"
-                    :key="inspiration.label"
-                    type="button"
-                    class="post-inspiration-card"
-                    @click="openCreateChoice('call')"
-                  >
-                    <span>{{ inspiration.label }}</span>
-                    <strong>{{ inspiration.title }}</strong>
-                    <small>{{ inspiration.text }}</small>
-                  </button>
-                </div>
-              </div>
-
-              <div class="post-actions">
-
-                <button
-                  :class="{ liked: post.liked }"
-                  @click="likePost(post)"
-                >
-                  ♡ {{ post.likes }}
-                </button>
-
-                <button>
-                  ◌ {{ post.comments }}
-                </button>
-
-                <button>
-                  ↗ Share
-                </button>
-
-                <button class="save">
-                  ♢
-                </button>
-
-              </div>
-
-            </article>
-
-          </div>
-
-          <!-- RIGHT COLUMN -->
-          <aside class="right-column">
-
-            <div class="side-card">
-
-              <div class="card-heading">
-                <div>
-                  <span class="eyebrow">CONNECTED SOMEHOW</span>
-                  <h3>People you may know</h3>
-                </div>
-
-                <button>•••</button>
-              </div>
-
-              <div
-                v-for="person in people.slice(0, 3)"
-                :key="person.id"
-                class="person-row"
-              >
-
-                <button
-                  class="person-click-target"
-                  type="button"
-                  @click="openPerson(person)"
-                >
-                  <div class="avatar purple">{{ person.avatar }}</div>
-                  <div class="person-info">
-                    <strong>{{ person.name }}</strong>
-                    <span>{{ person.reason }}</span>
-                  </div>
-                </button>
-
-                <button
-                  class="follow-btn"
-                  :class="{ following: person.followed }"
-                  @click="togglePersonFollow(person)"
-                >
-                  {{ person.followed ? 'Following' : 'Follow' }}
-                </button>
-
-              </div>
-
-              <button
-                class="view-all"
-                @click="navigate('people')"
-              >
-                Explore people →
-              </button>
-
-            </div>
-
-            <div class="side-card zone-preview">
-
-              <div class="card-heading">
-                <div>
-                  <span class="eyebrow">YOUR ZONE</span>
-                  <h3>Tunis North</h3>
-                </div>
-              </div>
-
-              <div class="zone-stat-grid">
-                <div>
-                  <strong>284</strong>
-                  <span>Members</span>
-                </div>
-
-                <div>
-                  <strong>96</strong>
-                  <span>Participating</span>
-                </div>
-
-                <div>
-                  <strong>12</strong>
-                  <span>Suggestions</span>
-                </div>
-              </div>
-
-              <button
-                class="zone-open"
-                @click="openZone(zones[0])"
-              >
-                Enter zone →
-              </button>
-
-            </div>
-
-          </aside>
-
-        </div>
-        </section>
+      
 
       
           <div class="home-chat-rooms-heading">
@@ -6193,6 +5989,212 @@ onBeforeUnmount(() => {
         
 
       </section>
+
+      <section v-if="activeView === 'live-flow' && liveFlowSpace === 'feed'" class="content live-flow-feed-content">
+        <div class="section-heading">
+
+          <div>
+            <span class="eyebrow">LIVE FLOW</span>
+            <h2>From people you follow</h2>
+          </div>
+
+          <button class="ghost-btn" type="button" @click="liveFlowSpace = 'overview'">
+            Back to Live Flow →
+          </button>
+
+        </div>
+
+        <div class="feed-layout">
+
+          <div class="feed">
+
+            <article
+              v-for="post in filteredPosts"
+              :key="post.id"
+              class="post-card"
+            >
+
+              <div class="post-head">
+
+                <button
+                  class="avatar-button"
+                  type="button"
+                  @click="post.page ? openPageByName(post.page) : openPerson(people.find(person => person.name === post.author) || { name: post.author, username: post.handle, avatar: post.avatar, reason: 'From the Live Flow', mutual: 0, followed: false })"
+                >
+                  <span class="avatar blue">{{ post.avatar }}</span>
+                </button>
+
+                <button
+                  class="post-author post-author-button"
+                  type="button"
+                  @click="post.page ? openPageByName(post.page) : openPerson(people.find(person => person.name === post.author) || { name: post.author, username: post.handle, avatar: post.avatar, reason: 'From the Live Flow', mutual: 0, followed: false })"
+                >
+                  <strong>{{ post.author }}</strong>
+                  <span>
+                    {{ post.handle }}
+                    <i>•</i>
+                    {{ post.time }}
+                  </span>
+                </button>
+
+                <button class="more">•••</button>
+
+              </div>
+
+              <p class="post-content">
+                {{ post.content }}
+              </p>
+
+              <div
+                v-if="post.zone"
+                class="post-zone"
+                @click="
+                  openZone(
+                    zones.find(z => z.name === post.zone) || zones[0]
+                  )
+                "
+              >
+                <span>◉</span>
+                {{ post.zone }}
+              </div>
+
+              <div class="post-inspiration">
+                <div class="post-inspiration-heading">
+                  <span class="eyebrow">GET INSPIRED</span>
+                  <strong>What could this become?</strong>
+                </div>
+                <div class="post-inspiration-grid">
+                  <button
+                    v-for="inspiration in getPostInspirations(post)"
+                    :key="inspiration.label"
+                    type="button"
+                    class="post-inspiration-card"
+                    @click="openCreateChoice('call')"
+                  >
+                    <span>{{ inspiration.label }}</span>
+                    <strong>{{ inspiration.title }}</strong>
+                    <small>{{ inspiration.text }}</small>
+                  </button>
+                </div>
+              </div>
+
+              <div class="post-actions">
+
+                <button
+                  :class="{ liked: post.liked }"
+                  @click="likePost(post)"
+                >
+                  ♡ {{ post.likes }}
+                </button>
+
+                <button>
+                  ◌ {{ post.comments }}
+                </button>
+
+                <button>
+                  ↗ Share
+                </button>
+
+                <button class="save">
+                  ♢
+                </button>
+
+              </div>
+
+            </article>
+
+          </div>
+
+          <!-- RIGHT COLUMN -->
+          <aside class="right-column">
+
+            <div class="side-card">
+
+              <div class="card-heading">
+                <div>
+                  <span class="eyebrow">CONNECTED SOMEHOW</span>
+                  <h3>People you may know</h3>
+                </div>
+
+                <button>•••</button>
+              </div>
+
+              <div
+                v-for="person in people.slice(0, 3)"
+                :key="person.id"
+                class="person-row"
+              >
+
+                <button
+                  class="person-click-target"
+                  type="button"
+                  @click="openPerson(person)"
+                >
+                  <div class="avatar purple">{{ person.avatar }}</div>
+                  <div class="person-info">
+                    <strong>{{ person.name }}</strong>
+                    <span>{{ person.reason }}</span>
+                  </div>
+                </button>
+
+                <button
+                  class="follow-btn"
+                  :class="{ following: person.followed }"
+                  @click="togglePersonFollow(person)"
+                >
+                  {{ person.followed ? 'Following' : 'Follow' }}
+                </button>
+
+              </div>
+
+              <button
+                class="view-all"
+                @click="navigate('people')"
+              >
+                Explore people →
+              </button>
+
+            </div>
+
+            <div class="side-card zone-preview">
+
+              <div class="card-heading">
+                <div>
+                  <span class="eyebrow">YOUR ZONE</span>
+                  <h3>Tunis North</h3>
+                </div>
+              </div>
+
+              <div class="zone-stat-grid">
+                <div>
+                  <strong>284</strong>
+                  <span>Members</span>
+                </div>
+
+                <div>
+                  <strong>96</strong>
+                  <span>Participating</span>
+                </div>
+
+                <div>
+                  <strong>12</strong>
+                  <span>Suggestions</span>
+                </div>
+              </div>
+
+              <button
+                class="zone-open"
+                @click="openZone(zones[0])"
+              >
+                Enter zone →
+              </button>
+
+            </div>
+
+          </aside>
+
+        </div>
+        </section>
 
       <section v-if="activeView === 'live-flow'" class="content live-engagement-content">
         <div v-if="liveFlowSpace === 'overview'" class="live-network-content">
