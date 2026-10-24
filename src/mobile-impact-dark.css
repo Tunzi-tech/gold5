@@ -215,3 +215,20 @@ header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-imp
     font-weight: 400 !important;
   }
 }
+
+
+/* Report an issue uses a simple interrupted line instead of the flag glyph. */
+@media screen and (max-width: 900px) {
+  header.topbar .mobile-issue-menu .report-issue-mark svg {
+    display: block !important;
+    width: 19px !important;
+    height: 19px !important;
+    overflow: visible !important;
+  }
+  header.topbar .mobile-issue-menu .report-issue-mark svg path {
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 2 !important;
+    stroke-linecap: round !important;
+  }
+}
