@@ -19967,7 +19967,7 @@ a { text-underline-offset: 3px; }
 }
 @media screen and (max-width: 900px) {
   header.topbar > .desktop-menu-launch,
-  header.topbar  .desktop-impact-launch { display: none !important; }
+  header.topbar > .desktop-impact-launch { display: none !important; }
 }
 
 /* Desktop hamburger: the shared drawer was previously styled only for mobile,
