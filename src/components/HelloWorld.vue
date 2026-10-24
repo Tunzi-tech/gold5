@@ -3645,7 +3645,7 @@ function openAccountMenu() {
 const arabicDictionary: Record<string, string> = {
   'ADDED TO YOUR ZONES':'تمت الإضافة إلى مناطقك',
   'COMMONS':'كومنز',
-  'PEOPLE · IDEAS · IMPACT':'الأشخاص • الأفعال • الأصوات',
+  'PEOPLE · IDEAS · IMPACT':'الأشخاص • الأفكار • الأثر',
   'LEARN & DISCOVER':'تعلّم واكتشف',
   'Impacting':'التأثير',
   'Zones Around':'المناطق من حولك',
@@ -4144,7 +4144,7 @@ function translatePage() {
       const translated = dictionary[value]
       if (translated) {
         const current = textNode.textContent || ''
-        textNode.textContent = current.replace(value, translated)
+        textNode.textContent = original.replace(value, translated)
       }
     } else {
       textNode.textContent = original
