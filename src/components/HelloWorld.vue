@@ -277,7 +277,7 @@ function joinHomeChannel(id: string) {
   if (!homeJoinedChannels.value.includes(id)) homeJoinedChannels.value.push(id)
 }
 
-const liveFlowSpace = ref<'overview' | 'ideas'>('overview')
+const liveFlowSpace = ref<'overview' | 'ideas' | 'feed'>('overview')
 const liveFlowPrimarySpace = ref<'moving' | 'connecting'>('moving')
 const liveFlowSelectedObject = ref<string | null>(null)
 const liveFlowStreamPeriod = ref('today')
@@ -5631,14 +5631,6 @@ onBeforeUnmount(() => {
           >
             <span aria-hidden="true">◈</span> Explore
           </button>
-          <button
-            type="button"
-            :class="{ active: homeDisplayMode === 'feed' }"
-            :aria-pressed="homeDisplayMode === 'feed'"
-            @click="navigate('live-flow'); liveFlowSpace = 'feed'; homeHeroHidden = true"
-          >
-            <span aria-hidden="true">≋</span> Feed
-          </button>
         </div>
 
         <div class="home-hero-control">
@@ -6197,6 +6189,14 @@ onBeforeUnmount(() => {
         </section>
 
       <section v-if="activeView === 'live-flow'" class="content live-engagement-content">
+        <nav class="live-flow-space-nav" aria-label="Live Flow views">
+          <button type="button" :class="{ active: liveFlowSpace === 'overview' }" :aria-pressed="liveFlowSpace === 'overview'" @click="liveFlowSpace = 'overview'">
+            <span aria-hidden="true">⟳</span> Live Flow
+          </button>
+          <button type="button" :class="{ active: liveFlowSpace === 'feed' }" :aria-pressed="liveFlowSpace === 'feed'" @click="liveFlowSpace = 'feed'">
+            <span aria-hidden="true">≋</span> Feed
+          </button>
+        </nav>
         <div v-if="liveFlowSpace === 'overview'" class="live-network-content">
         <button class="live-flow-space-toggle" type="button" :aria-expanded="liveSongOpen" @click="liveSongOpen = !liveSongOpen">
           <span class="live-flow-space-toggle-icon" aria-hidden="true">▷</span>
