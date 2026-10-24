@@ -5627,7 +5627,7 @@ onBeforeUnmount(() => {
             type="button"
             :class="{ active: homeDisplayMode === 'content' }"
             :aria-pressed="homeDisplayMode === 'content'"
-            @click="homeDisplayMode = 'content'"
+            @click.stop="homeDisplayMode = 'content'"
           >
             <span aria-hidden="true">◈</span> Explore
           </button>
@@ -5982,7 +5982,16 @@ onBeforeUnmount(() => {
 
       </section>
 
-      <section v-if="activeView === 'live-flow' && liveFlowSpace === 'feed'" class="content live-flow-feed-content">
+      <section v-if="activeView === 'live-flow'" class="content live-engagement-content">
+        <nav class="live-flow-space-nav" aria-label="Live Flow views">
+          <button type="button" :class="{ active: liveFlowSpace === 'overview' }" :aria-pressed="liveFlowSpace === 'overview'" @click="liveFlowSpace = 'overview'">
+            <span aria-hidden="true">⟳</span> Live Flow
+          </button>
+          <button type="button" :class="{ active: liveFlowSpace === 'feed' }" :aria-pressed="liveFlowSpace === 'feed'" @click="liveFlowSpace = 'feed'">
+            <span aria-hidden="true">≋</span> Feed
+          </button>
+        </nav>
+      <section v-if="liveFlowSpace === 'feed'" class="content live-flow-feed-content">
         <div class="section-heading">
 
           <div>
@@ -6188,15 +6197,6 @@ onBeforeUnmount(() => {
         </div>
         </section>
 
-      <section v-if="activeView === 'live-flow'" class="content live-engagement-content">
-        <nav class="live-flow-space-nav" aria-label="Live Flow views">
-          <button type="button" :class="{ active: liveFlowSpace === 'overview' }" :aria-pressed="liveFlowSpace === 'overview'" @click="liveFlowSpace = 'overview'">
-            <span aria-hidden="true">⟳</span> Live Flow
-          </button>
-          <button type="button" :class="{ active: liveFlowSpace === 'feed' }" :aria-pressed="liveFlowSpace === 'feed'" @click="liveFlowSpace = 'feed'">
-            <span aria-hidden="true">≋</span> Feed
-          </button>
-        </nav>
         <div v-if="liveFlowSpace === 'overview'" class="live-network-content">
         <button class="live-flow-space-toggle" type="button" :aria-expanded="liveSongOpen" @click="liveSongOpen = !liveSongOpen">
           <span class="live-flow-space-toggle-icon" aria-hidden="true">▷</span>
@@ -19494,7 +19494,7 @@ a { text-underline-offset: 3px; }
 }
 .home-commons-content.home-hero-collapsed .home-hero-control {
   top: 25px;
-  right: 10px;
+  right: 4px;
 }
 .home-commons-content.home-hero-collapsed .home-hero-toggle {
   min-height: 90px;
@@ -19502,7 +19502,7 @@ a { text-underline-offset: 3px; }
 }
 .home-commons-content.home-hero-collapsed .home-view-switch {
   margin-top: 0;
-  padding-right: 40px;
+  padding-right: 48px;
 }
 .home-commons-content.home-hero-collapsed .home-connection-hub {
   margin-top: 8px;
@@ -19511,8 +19511,8 @@ a { text-underline-offset: 3px; }
   .home-hero-control { top: 30px; right: 5px; }
   .home-hero-toggle { min-height: 64px; width: 25px; font-size: 8px; }
   .home-commons-content:not(.home-hero-collapsed) .hero-stage { padding-right: 25px; }
-  .home-commons-content.home-hero-collapsed .home-hero-control { top: 20px; right: 4px; }
-  .home-commons-content.home-hero-collapsed .home-view-switch { padding-right: 34px; }
+  .home-commons-content.home-hero-collapsed .home-hero-control { top: 20px; right: 2px; }
+  .home-commons-content.home-hero-collapsed .home-view-switch { padding-right: 38px; }
 }
 
 
