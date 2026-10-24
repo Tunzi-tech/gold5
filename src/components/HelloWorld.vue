@@ -3649,6 +3649,7 @@ const arabicDictionary: Record<string, string> = {
   'PEOPLE · IDEAS · IMPACT':'الأشخاص • الأفكار • الأثر',
   'LEARN & DISCOVER':'تعلّم واكتشف',
   'Impacting':'التأثير',
+  'Zone Impacting':'التأثير في المناطق',
   'Zones Around':'المناطق من حولك',
   'Your Zones':'مناطقك',
   'Flow':'التدفق',
@@ -3908,6 +3909,7 @@ const frenchDictionary: Record<string, string> = {
   'PEOPLE · IDEAS · IMPACT':'PERSONNES · IDÉES · IMPACT',
   'LEARN & DISCOVER':'APPRENDRE ET DÉCOUVRIR',
   'Impacting':'Agir pour un impact',
+  'Zone Impacting':'Agir sur les zones',
   'Zones Around':'Zones autour de vous',
   'Your Zones':'Vos zones',
   'Flow':'Flux',
@@ -5213,7 +5215,7 @@ onBeforeUnmount(() => {
               @click="navigate('zones')"
             >
               <span class="icon">◉</span>
-              <span class="subnav-section-label impact-zone-label">Impacting</span>
+              <span class="subnav-section-label impact-zone-label">Zone Impacting</span>
               <span class="impacting-button-cue" aria-hidden="true">
                 <span class="impacting-cue-label">Explore</span>
                 <span class="impacting-cue-arrow">→</span>
