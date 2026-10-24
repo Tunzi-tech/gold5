@@ -50,21 +50,26 @@ header.topbar > .mobile-home-space-row > .mobile-your-space-button.active,
 }
 
 
-/* Give the selected mobile Home button more of the available Home/Live Flow row. */
+/* Expand the actual Home control (the first mobile-home-pair-button) when selected. */
 @media screen and (max-width: 760px) {
-  header.topbar > .mobile-home-space-row .mobile-home-nav-pair:has(.mobile-home-button.active) {
+  header.topbar > .mobile-home-nav-pair {
     display: flex !important;
     width: 100% !important;
+    min-width: 0 !important;
     gap: 6px !important;
   }
 
-  header.topbar > .mobile-home-space-row .mobile-home-nav-pair:has(.mobile-home-button.active) .mobile-home-button.active {
-    flex: 1.6 1 0% !important;
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:first-child {
+    flex: 1 1 0% !important;
     min-width: 0 !important;
     transition: flex-grow 180ms ease, background 180ms ease !important;
   }
 
-  header.topbar > .mobile-home-space-row .mobile-home-nav-pair:has(.mobile-home-button.active) .mobile-live-flow-button {
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:first-child.active {
+    flex: 1.6 1 0% !important;
+  }
+
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:nth-child(2) {
     flex: 1 1 0% !important;
     min-width: 0 !important;
     transition: flex-grow 180ms ease !important;
