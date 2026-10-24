@@ -191,7 +191,7 @@ function playNavigationPortal() {
     navigationPortalTimer = setTimeout(() => {
       showNavigationPortal.value = false
       navigationPortalTimer = null
-    }, 920)
+    }, 1020)
   })
 }
 const platformCircles = [
@@ -22572,4 +22572,39 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
 @keyframes nfas-navigation-aura-in{0%{opacity:0;transform:scale(.7)}45%{opacity:1}100%{opacity:.72;transform:scale(1)}}
 @media(max-width:600px){.nfas-navigation-portal{width:min(282px,calc(100vw - 36px));height:94px;gap:6px;padding:9px 13px 8px;border-radius:20px}.nfas-navigation-item{flex-basis:38px;gap:5px}.nfas-navigation-icon{flex-basis:29px;width:29px;height:29px;border-radius:9px}.nfas-navigation-icon svg{width:18px;height:18px}.nfas-navigation-item-label{font-size:8px;letter-spacing:.05em}.nfas-navigation-portal::before{border-radius:24px}.nfas-navigation-portal::after{border-radius:27px}}
 @media(prefers-reduced-motion:reduce){.nfas-navigation-overlay{display:none}.nfas-navigation-portal,.nfas-navigation-aura,.nfas-navigation-icon,.nfas-navigation-link,.nfas-navigation-portal::before,.nfas-navigation-portal::after{animation:none!important}}
+
+/* Keep the active navigation signal below the label, never across the text. */
+.primary-navigation-portal .primary-space-nav-button.active::before,
+.sidebar .sidebar-zones-main.active::before,
+.sidebar .sidebar-flow-main.active::before,
+.sidebar .sidebar-subnav button.active::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  right: auto;
+  top: auto;
+  bottom: 4px;
+  width: 28px;
+  height: 2px;
+  border: 0;
+  border-radius: 999px;
+  opacity: .95;
+  pointer-events: none;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, #a78bfa 28%, #79aaff 72%, transparent);
+  box-shadow: 0 0 6px rgba(137, 125, 255, .55), 0 0 12px rgba(91, 155, 255, .28);
+  animation: nav-label-underline-glow 2.4s ease-in-out infinite;
+}
+@keyframes nav-label-underline-glow {
+  0%, 100% { opacity: .55; filter: brightness(.85); }
+  50% { opacity: 1; filter: brightness(1.3); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .primary-navigation-portal .primary-space-nav-button.active::before,
+  .sidebar .sidebar-zones-main.active::before,
+  .sidebar .sidebar-flow-main.active::before,
+  .sidebar .sidebar-subnav button.active::before {
+    animation: none;
+  }
+}
 </style>
