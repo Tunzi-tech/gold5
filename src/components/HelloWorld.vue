@@ -4140,9 +4140,9 @@ function openAwarenessReport() {
 
 function openHomeExplore() {
   homeDisplayMode.value = 'content'
-  // Explore is the compact Home view: hide the large rotating header and keep
-  // the Explore control available so the user can still switch views.
-  homeHeroHidden.value = true
+  // Selecting Explore opens the full Home experience and restores its header.
+  // Header visibility is controlled only by the dedicated Show/Hide header button.
+  homeHeroHidden.value = false
   homeHeaderChatOpen.value = false
   nextTick(() => window.scrollTo({ top: 0, behavior: 'smooth' }))
 }
@@ -19498,6 +19498,18 @@ a { text-underline-offset: 3px; }
   box-shadow: 0 5px 18px rgba(0,0,0,.18);
 }
 .home-hero-toggle span { writing-mode: horizontal-tb; }
+
+.home-view-switch > button.active {
+  border-color: rgba(135, 164, 226, .62) !important;
+  background: linear-gradient(115deg, rgba(75, 101, 157, .28), rgba(32, 48, 76, .72)) !important;
+  color: #edf4ff !important;
+  box-shadow: inset 0 0 0 1px rgba(157, 176, 224, .12), 0 0 12px rgba(108, 137, 207, .12) !important;
+}
+.home-view-switch > button:focus-visible {
+  outline: 2px solid rgba(153, 184, 255, .75);
+  outline-offset: 2px;
+}
+
 .home-commons-content:not(.home-hero-collapsed) .hero-stage {
   padding-right: 30px;
 }
