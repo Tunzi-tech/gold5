@@ -22930,6 +22930,32 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
     transition: none !important;
   }
 }
+
+/* Make Home respond as a first-class navigation control, with a clear platform-matched selected state. */
+@media screen and (max-width: 760px) {
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button {
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button::before {
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button.active {
+    border-color: rgba(135, 164, 226, .58) !important;
+    background:
+      radial-gradient(ellipse at 18% -25%, rgba(117, 143, 216, .20), transparent 70%),
+      linear-gradient(112deg, rgba(38, 52, 82, .97), rgba(17, 30, 49, .99)) !important;
+    box-shadow: inset 0 0 0 1px rgba(157, 176, 224, .08), 0 0 10px rgba(108, 137, 207, .09) !important;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button.active::before {
+    border-color: rgba(139, 169, 231, .48) !important;
+    box-shadow: inset 0 0 3px rgba(108, 137, 207, .07);
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:active {
+    transform: scale(.985);
+  }
+}
 </style>
 
 /* Calls shown directly inside the Local / World discovery choices. */
