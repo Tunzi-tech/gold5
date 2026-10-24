@@ -22691,11 +22691,13 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
     width: 100%;
     min-width: 0;
     margin-top: 7px;
+    box-sizing: border-box;
   }
   .mobile-home-nav-pair .mobile-home-pair-button {
     position: relative;
     display: flex !important;
     flex: 1 1 0;
+    width: 50%;
     align-items: center;
     justify-content: center;
     gap: 7px;
