@@ -5528,7 +5528,7 @@ onBeforeUnmount(() => {
               <span><strong>Choose an issue</strong><small>Zone or interests</small></span>
             </button>
             <button type="button" role="menuitem" @click="mobileIssueMenuOpen = false; openAwarenessReport()">
-              <span class="mobile-issue-menu-mark report-issue-mark" aria-hidden="true">⚑</span>
+              <span class="mobile-issue-menu-mark report-issue-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 12h3 M10.5 12h3 M17 12h3" /></svg></span>
               <span><strong>Report an issue</strong></span>
             </button>
             <button type="button" role="menuitem" @click="mobileIssueMenuOpen = false; showCreatePost = true">
