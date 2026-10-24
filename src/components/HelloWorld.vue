@@ -23323,4 +23323,45 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
   }
 }
 
+
+
+/* Mobile: give the navigation/header its own darker surface, separate from the impact-discovery content. */
+@media screen and (max-width: 760px) {
+  header.topbar {
+    background:
+      linear-gradient(180deg, rgba(5, 10, 18, .995), rgba(7, 13, 23, .99)) !important;
+    border-bottom: 1px solid rgba(106, 139, 183, .18) !important;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, .34), inset 0 -1px 0 rgba(0, 0, 0, .42) !important;
+    position: relative;
+    z-index: 20;
+    padding-bottom: 8px !important;
+    margin-bottom: 12px !important;
+  }
+
+  header.topbar .mobile-edge-explore {
+    background:
+      linear-gradient(112deg, rgba(38, 66, 98, .94) 0%, rgba(38, 52, 82, .94) 80%, rgba(48, 38, 72, .95) 100%),
+      linear-gradient(180deg, rgba(10, 17, 29, .99), rgba(5, 10, 18, 1)) !important;
+    border-color: rgba(112, 151, 203, .38) !important;
+    box-shadow: 3px 5px 14px rgba(0, 0, 0, .34), inset 0 1px 0 rgba(190, 215, 246, .07) !important;
+  }
+
+  header.topbar .mobile-edge-explore.active {
+    background:
+      linear-gradient(112deg, rgba(48, 79, 116, .97) 0%, rgba(48, 62, 96, .97) 80%, rgba(59, 47, 83, .98) 100%),
+      linear-gradient(180deg, rgba(10, 17, 29, .99), rgba(5, 10, 18, 1)) !important;
+    border-color: rgba(145, 183, 231, .64) !important;
+    box-shadow: 3px 5px 14px rgba(0, 0, 0, .34), 0 0 9px rgba(89, 143, 206, .09) !important;
+  }
+
+  .home-connection-hub {
+    margin-top: 14px !important;
+    border-color: rgba(111, 145, 193, .14) !important;
+    background:
+      radial-gradient(ellipse at 100% 0%, rgba(49, 79, 119, .07), transparent 48%),
+      linear-gradient(125deg, rgba(11, 17, 27, .98), rgba(7, 11, 19, .99)) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .018), 0 7px 20px rgba(0, 0, 0, .12) !important;
+  }
+}
+
 </style>
