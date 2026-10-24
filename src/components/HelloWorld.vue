@@ -5448,7 +5448,7 @@ onBeforeUnmount(() => {
         <div class="mobile-home-nav-pair" role="group" aria-label="Primary mobile navigation">
           <button
             type="button"
-            class="mobile-home-bar-button mobile-home-only mobile-home-under-search mobile-home-pair-button"
+            class="mobile-home-bar-button mobile-home-pair-button"
             :class="{ active: activeView === 'home' }"
             @click="navigate('home')"
             aria-label="Go to Home"
