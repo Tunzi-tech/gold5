@@ -23262,4 +23262,23 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
     margin: 0 0 10px 6px !important;
   }
 }
+
+
+/* Give the Home glyph a subtle size increase only while Home is selected. */
+@media screen and (max-width: 760px) {
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:first-child > span {
+    display: inline-block;
+    transform: scale(1);
+    transform-origin: center;
+    transition: transform .18s ease;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:first-child.active > span {
+    transform: scale(1.14);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:first-child > span {
+    transition: none;
+  }
+}
 </style>
