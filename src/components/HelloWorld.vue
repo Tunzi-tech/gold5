@@ -176,6 +176,8 @@ function selectLearnTopic(topicId: string) {
   learnFeedFilter.value = 'ALL'
 }
 const showCircleHome = ref(false)
+const showPlatformOpening = ref(true)
+let platformOpeningTimer: ReturnType<typeof setTimeout> | null = null
 const platformCircles = [
   { id: 'main', name: 'COMMONS', mark: '◉', color: 'blue', view: 'home' },
   { id: 'flow', name: 'Live Flow', mark: '✳', color: 'blue', view: 'live-flow' },
@@ -4720,6 +4722,12 @@ function voteRoleProposal(proposal: RoleProposal, choice: 'yes' | 'no') {
   proposal.voted = true
 }
 onMounted(() => {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  platformOpeningTimer = setTimeout(() => {
+    showPlatformOpening.value = false
+    platformOpeningTimer = null
+  }, prefersReducedMotion ? 80 : 2550)
+
   const savedLiveSong = localStorage.getItem('commons-live-flow-song')
   if (savedLiveSong) loadLiveSong(savedLiveSong)
   const savedLiveQueue = localStorage.getItem('commons-live-flow-video-queue')
@@ -4741,6 +4749,10 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+  if (platformOpeningTimer) {
+    clearTimeout(platformOpeningTimer)
+    platformOpeningTimer = null
+  }
   window.removeEventListener('storage', handleLiveSongStorage)
   languageObserver?.disconnect()
   languageObserver = null
@@ -4758,6 +4770,18 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="app-shell" :class="{ 'rtl-mode': language === 'ar' }">
+    <div v-if="showPlatformOpening" class="nfas-opening-overlay" role="status" aria-label="Opening Nfas platform">
+      <div class="nfas-opening-aura" aria-hidden="true"></div>
+      <div class="nfas-opening-portal">
+        <span class="nfas-opening-icon nfas-opening-people" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M16 20v-1.6a3.4 3.4 0 0 0-3.4-3.4H6.4A3.4 3.4 0 0 0 3 18.4V20M9.5 11.5a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM16 4.1a4 4 0 0 1 0 7.7M17.6 15h.1a3.4 3.4 0 0 1 3.3 3.4V20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="nfas-opening-connector" aria-hidden="true"></span>
+        <span class="nfas-opening-icon nfas-opening-voices" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2v-6.1a7.5 7.5 0 1 1 17-3.4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 10h.01M12 10h.01M16 10h.01" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+        <span class="nfas-opening-connector" aria-hidden="true"></span>
+        <span class="nfas-opening-icon nfas-opening-impact" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="2.1" fill="currentColor"/><ellipse cx="12" cy="12" rx="9" ry="4.4" transform="rotate(-35 12 12)" stroke="currentColor" stroke-width="1.4"/><ellipse cx="12" cy="12" rx="9" ry="4.4" transform="rotate(42 12 12)" stroke="currentColor" stroke-width="1.1" opacity=".72"/></svg></span>
+        <span class="nfas-opening-label">PEOPLE <i>·</i> VOICES <i>·</i> IMPACT</span>
+      </div>
+      <span class="nfas-opening-wordmark">Nfas</span>
+    </div>
 
     <main v-if="showCircleHome" class="platform-circles-stage" aria-label="Choose a platform">
       <div class="platform-circles-row">
@@ -22445,3 +22469,31 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
   }
 }
 
+
+
+<style>
+/* Nfas first-load portal: a connected People · Voices · Impact bar. */
+.nfas-opening-overlay{position:fixed;inset:0;z-index:100000;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:24px;background:#080d18;isolation:isolate;animation:nfas-opening-exit .62s cubic-bezier(.22,.7,.2,1) 1.88s both}
+.nfas-opening-aura{position:absolute;z-index:-1;width:min(76vw,560px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(57,100,174,.19),rgba(77,65,146,.075) 38%,transparent 70%);filter:blur(8px);animation:nfas-opening-aura 2.1s ease-out both}
+.nfas-opening-portal{position:relative;display:flex;align-items:center;justify-content:center;gap:clamp(8px,2vw,18px);width:min(100%,440px);min-height:116px;padding:22px clamp(14px,4vw,28px) 38px;border:1px solid rgba(120,160,224,.32);border-radius:30px;background:linear-gradient(125deg,rgba(16,30,51,.97),rgba(15,22,41,.96) 55%,rgba(26,22,48,.96));box-shadow:0 0 0 1px rgba(181,204,255,.035),inset 0 1px 0 rgba(233,241,255,.08),0 18px 70px rgba(0,0,0,.36),0 0 42px rgba(70,115,206,.12);opacity:0;transform:translateY(24px) scale(.88);animation:nfas-opening-arrive .8s cubic-bezier(.18,.78,.25,1) .12s both}
+.nfas-opening-portal::before,.nfas-opening-portal::after{content:"";position:absolute;inset:-7px 12px;z-index:-1;border:1px solid rgba(104,159,245,.42);border-radius:34px;opacity:0;transform:scale(.92);animation:nfas-opening-rings 1.45s ease-out .45s both}
+.nfas-opening-portal::after{inset:-13px 26px;border-color:rgba(164,120,240,.3);animation-delay:.68s}
+.nfas-opening-icon{position:relative;z-index:1;display:grid;flex:0 0 clamp(42px,12vw,56px);width:clamp(42px,12vw,56px);height:clamp(42px,12vw,56px);place-items:center;border:1px solid currentColor;border-radius:18px;background:rgba(8,15,29,.86);box-shadow:inset 0 1px rgba(255,255,255,.07),0 0 20px currentColor;opacity:0;transform:translateY(10px) scale(.7);animation:nfas-opening-icon-in .55s cubic-bezier(.2,.8,.2,1) both}
+.nfas-opening-icon svg{display:block;width:27px;height:27px}
+.nfas-opening-people{color:#8fc4ff;border-color:rgba(103,177,255,.55);animation-delay:.48s}
+.nfas-opening-voices{color:#c1a2ff;border-color:rgba(173,133,255,.55);animation-delay:.66s}
+.nfas-opening-impact{color:#f0d18a;border-color:rgba(231,192,102,.58);animation-delay:.84s}
+.nfas-opening-connector{flex:1 1 12px;max-width:32px;height:1px;background:linear-gradient(90deg,rgba(112,176,255,.18),rgba(156,157,255,.82),rgba(233,202,126,.3));transform:scaleX(0);transform-origin:left center;animation:nfas-opening-connect .48s ease-out .88s both}
+.nfas-opening-label{position:absolute;right:8px;bottom:12px;left:8px;color:#9cacc8;font-size:9px;font-weight:650;letter-spacing:.23em;text-align:center;white-space:nowrap;opacity:0;animation:nfas-opening-label-in .4s ease-out 1.05s both}
+.nfas-opening-label i{color:#b4a3e9;font-style:normal;padding:0 3px}
+.nfas-opening-wordmark{margin-top:27px;color:#e6edfb;font-size:13px;font-weight:600;letter-spacing:.36em;text-indent:.36em;opacity:0;animation:nfas-opening-label-in .5s ease-out .55s both}
+@keyframes nfas-opening-arrive{0%{opacity:0;transform:translateY(24px) scale(.88);filter:blur(5px)}68%{opacity:1;transform:translateY(-2px) scale(1.025);filter:blur(0)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes nfas-opening-icon-in{0%{opacity:0;transform:translateY(10px) scale(.7)}75%{opacity:1;transform:translateY(-2px) scale(1.06)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes nfas-opening-connect{to{transform:scaleX(1)}}
+@keyframes nfas-opening-rings{0%{opacity:0;transform:scale(.92)}45%{opacity:.8}100%{opacity:.22;transform:scale(1.04)}}
+@keyframes nfas-opening-aura{0%{opacity:.15;transform:scale(.72)}55%{opacity:1;transform:scale(1.06)}100%{opacity:.7;transform:scale(1)}}
+@keyframes nfas-opening-label-in{to{opacity:1}}
+@keyframes nfas-opening-exit{0%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden;pointer-events:none}}
+@media(max-width:600px){.nfas-opening-overlay{padding:20px}.nfas-opening-portal{width:min(100%,360px);min-height:104px;padding:20px 15px 36px;border-radius:25px;gap:8px}.nfas-opening-portal::before{border-radius:29px}.nfas-opening-portal::after{border-radius:32px}.nfas-opening-icon{border-radius:15px}.nfas-opening-icon svg{width:24px;height:24px}.nfas-opening-label{font-size:8px;letter-spacing:.16em}.nfas-opening-wordmark{margin-top:24px}}
+@media(prefers-reduced-motion:reduce){.nfas-opening-overlay,.nfas-opening-aura,.nfas-opening-portal,.nfas-opening-portal::before,.nfas-opening-portal::after,.nfas-opening-icon,.nfas-opening-connector,.nfas-opening-label,.nfas-opening-wordmark{animation:none!important}.nfas-opening-portal,.nfas-opening-icon,.nfas-opening-label,.nfas-opening-wordmark{opacity:1;transform:none;filter:none}.nfas-opening-connector{transform:none}.nfas-opening-portal::before,.nfas-opening-portal::after{opacity:.25;transform:none}}
+</style>
