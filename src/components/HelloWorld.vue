@@ -20067,24 +20067,24 @@ a { text-underline-offset: 3px; }
   border: 1px solid rgba(105, 157, 255, .68) !important;
   background:
     radial-gradient(ellipse at 14% 0%, rgba(49, 158, 255, .30), transparent 72%),
-    linear-gradient(112deg, rgba(35, 82, 137, .66), rgba(72, 57, 124, .64)) !important;
-  box-shadow: inset 0 0 0 1px rgba(167, 204, 255, .10), 0 3px 12px rgba(59, 111, 205, .13) !important;
+    linear-gradient(112deg, rgba(39, 90, 151, .66), rgba(79, 62, 136, .64)) !important;
+  box-shadow: inset 0 0 0 1px rgba(167, 204, 255, .10), 0 3px 13px rgba(59, 111, 205, .14) !important;
   transition: background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease !important;
 }
 .home-commons-content .home-view-switch > button:hover {
   border-color: rgba(130, 184, 255, .88) !important;
   background:
     radial-gradient(ellipse at 14% 0%, rgba(65, 174, 255, .38), transparent 72%),
-    linear-gradient(112deg, rgba(39, 94, 153, .78), rgba(82, 62, 142, .74)) !important;
-  box-shadow: inset 0 0 0 1px rgba(184, 215, 255, .12), 0 4px 15px rgba(59, 111, 205, .18) !important;
+    linear-gradient(112deg, rgba(43, 103, 168, .78), rgba(90, 68, 156, .74)) !important;
+  box-shadow: inset 0 0 0 1px rgba(184, 215, 255, .12), 0 4px 16px rgba(59, 111, 205, .20) !important;
 }
 .home-commons-content .home-view-switch > button.active {
   color: #ffffff !important;
   border-color: rgba(129, 190, 255, .98) !important;
   background:
     radial-gradient(ellipse at 14% 0%, rgba(79, 187, 255, .48), transparent 75%),
-    linear-gradient(112deg, rgba(39, 99, 159, .92), rgba(86, 68, 145, .88)) !important;
-  box-shadow: inset 0 0 0 1px rgba(210, 232, 255, .17), 0 0 0 1px rgba(76, 151, 255, .20), 0 0 16px rgba(86, 112, 205, .18) !important;
+    linear-gradient(112deg, rgba(43, 109, 175, .92), rgba(95, 75, 159, .88)) !important;
+  box-shadow: inset 0 0 0 1px rgba(210, 232, 255, .17), 0 0 0 1px rgba(76, 151, 255, .20), 0 0 17px rgba(86, 112, 205, .20) !important;
 }
 .home-commons-content .home-view-switch > button:focus-visible {
   outline: 2px solid rgba(145, 199, 255, .9) !important;
