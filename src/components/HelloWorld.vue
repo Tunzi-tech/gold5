@@ -191,7 +191,7 @@ function playNavigationPortal() {
     navigationPortalTimer = setTimeout(() => {
       showNavigationPortal.value = false
       navigationPortalTimer = null
-    }, 1020)
+    }, 1120)
   })
 }
 const platformCircles = [
@@ -22612,3 +22612,42 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
   }
 }
 </style>
+
+/* Exchange the accent colours of the Home discovery cards: Explore / People Doing ↔ What's Going On. */
+.initiative-flow-step.people-do {
+  --home-flow-accent: #9f8fff !important;
+  background: radial-gradient(ellipse at 0% 0%,rgba(132,95,203,.15),transparent 62%),linear-gradient(145deg,rgba(29,26,47,.9),rgba(9,14,24,.96)) !important;
+  border-color: rgba(159,143,255,.2) !important;
+}
+.initiative-flow-step.people-do:hover,
+.initiative-flow-step.people-do:focus-within {
+  background: radial-gradient(ellipse at 0% 0%,rgba(132,95,203,.2),transparent 65%),linear-gradient(145deg,rgba(35,31,55,.94),rgba(9,14,24,.97)) !important;
+  border-color: rgba(159,143,255,.4) !important;
+}
+.initiative-flow-step.going-around {
+  --home-flow-accent: #73b9c9 !important;
+  background: radial-gradient(ellipse at 0% 0%,rgba(66,164,184,.13),transparent 62%),linear-gradient(145deg,rgba(16,36,47,.91),rgba(8,15,24,.95)) !important;
+  border-color: rgba(115,185,201,.2) !important;
+}
+.initiative-flow-step.going-around:hover,
+.initiative-flow-step.going-around:focus-within {
+  background: radial-gradient(ellipse at 0% 0%,rgba(66,164,184,.18),transparent 65%),linear-gradient(145deg,rgba(20,44,55,.94),rgba(9,16,25,.97)) !important;
+  border-color: rgba(115,185,201,.4) !important;
+}
+
+/* Keep the Nfas portal in the logo position for an extra 0.1 second before it disappears. */
+.sidebar .brand .nfas-navigation-portal {
+  animation-duration: 1.02s !important;
+}
+
+/* Carry the logo's subtle orbital light onto selected navigation buttons without crossing their text. */
+.sidebar .main-nav button.active,
+.primary-navigation-portal .primary-space-nav-button.active {
+  box-shadow: inset 0 0 0 1px rgba(143,160,255,.18), 0 0 12px rgba(112,153,255,.13) !important;
+  transition: box-shadow .2s ease, background .2s ease, border-color .2s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sidebar .main-nav button.active,
+  .primary-navigation-portal .primary-space-nav-button.active { transition: none !important; }
+}
+
