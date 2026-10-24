@@ -103,3 +103,31 @@ header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-imp
   overflow: hidden;
   -webkit-tap-highlight-color: transparent;
 }
+
+
+/* Animate the Live Flow logo rings only while Live Flow is selected. */
+header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active > .mobile-flow-orbit,
+header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active .mobile-flow-orbit {
+  animation: mobile-impact-orbit-in .48s cubic-bezier(.2,.75,.25,1) both,
+             mobile-flow-orbit-pulse 1.8s ease-in-out .48s infinite alternate !important;
+}
+header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active > .mobile-flow-orbit::before,
+header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active .mobile-flow-orbit::before {
+  animation: mobile-impact-orbit-spin 2.1s linear infinite !important;
+  transform-origin: center !important;
+}
+header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active > .mobile-flow-orbit::after,
+header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active .mobile-flow-orbit::after {
+  animation: mobile-impact-orbit-spin 2.8s linear infinite reverse !important;
+  transform-origin: center !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active > .mobile-flow-orbit,
+  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active .mobile-flow-orbit,
+  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active > .mobile-flow-orbit::before,
+  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active .mobile-flow-orbit::before,
+  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active > .mobile-flow-orbit::after,
+  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button.active .mobile-flow-orbit::after {
+    animation: none !important;
+  }
+}
