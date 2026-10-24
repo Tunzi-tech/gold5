@@ -191,7 +191,7 @@ function playNavigationPortal() {
     navigationPortalTimer = setTimeout(() => {
       showNavigationPortal.value = false
       navigationPortalTimer = null
-    }, 1220)
+    }, 1320)
   })
 }
 const platformCircles = [
@@ -3731,7 +3731,7 @@ const arabicDictionary: Record<string, string> = {
   'Everything is connected.':'كل شيء مترابط.',
   'People, Zones, Pages, Initiatives, Goals, Ideas, Entities and Calls are moving through the network.':'الأشخاص والمناطق والصفحات والمبادرات والأهداف والأفكار والكيانات والمكالمات تتحرك عبر الشبكة.',
   'active explorers':'مستكشفون نشطون',
-  'voices':'أصوات',
+  'sparks':'أصوات',
   'connected orbits':'مدارات متصلة',
   'new things to be explored':'أشياء جديدة للاستكشاف',
   'new connections':'اتصالات جديدة',
@@ -4848,7 +4848,7 @@ onBeforeUnmount(() => {
       <div class="nfas-opening-portal">
         <span class="nfas-opening-item"><span class="nfas-opening-icon nfas-opening-people" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M16 20v-1.6a3.4 3.4 0 0 0-3.4-3.4H6.4A3.4 3.4 0 0 0 3 18.4V20M9.5 11.5a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM16 4.1a4 4 0 0 1 0 7.7M17.6 15h.1a3.4 3.4 0 0 1 3.3 3.4V20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="nfas-opening-item-label nfas-opening-people-label">People</span></span>
         <span class="nfas-opening-connector" aria-hidden="true"></span>
-        <span class="nfas-opening-item"><span class="nfas-opening-icon nfas-opening-voices" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2v-6.1a7.5 7.5 0 1 1 17-3.4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 10h.01M12 10h.01M16 10h.01" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span><span class="nfas-opening-item-label nfas-opening-voices-label">Voices</span></span>
+        <span class="nfas-opening-item"><span class="nfas-opening-icon nfas-opening-sparks" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2.8 14.3 9.7 21.2 12 14.3 14.3 12 21.2 9.7 14.3 2.8 12 9.7 9.7 12 2.8Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m19 2 .7 2.3L22 5l-2.3.7L19 8l-.7-2.3L16 5l2.3-.7L19 2ZM5 16l.6 1.8L7.5 18.5l-1.9.6L5 21l-.6-1.9-1.9-.6 1.9-.7L5 16Z" fill="currentColor"/></svg></span><span class="nfas-opening-item-label nfas-opening-sparks-label">Sparks</span></span>
         <span class="nfas-opening-connector" aria-hidden="true"></span>
         <span class="nfas-opening-item"><span class="nfas-opening-icon nfas-opening-impact" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="2.1" fill="currentColor"/><ellipse cx="12" cy="12" rx="9" ry="4.4" transform="rotate(-35 12 12)" stroke="currentColor" stroke-width="1.4"/><ellipse cx="12" cy="12" rx="9" ry="4.4" transform="rotate(42 12 12)" stroke="currentColor" stroke-width="1.1" opacity=".72"/></svg></span><span class="nfas-opening-item-label nfas-opening-impact-label">Impact</span></span>
       </div>
@@ -4908,7 +4908,7 @@ onBeforeUnmount(() => {
       <div class="nfas-navigation-portal">
         <span class="nfas-navigation-item"><span class="nfas-navigation-icon nfas-navigation-people"><svg viewBox="0 0 24 24" fill="none"><path d="M16 20v-1.6a3.4 3.4 0 0 0-3.4-3.4H6.4A3.4 3.4 0 0 0 3 18.4V20M9.5 11.5a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM16 4.1a4 4 0 0 1 0 7.7M17.6 15h.1a3.4 3.4 0 0 1 3.3 3.4V20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="nfas-navigation-item-label nfas-navigation-people-label">People</span></span>
         <span class="nfas-navigation-link"></span>
-        <span class="nfas-navigation-item"><span class="nfas-navigation-icon nfas-navigation-voices"><svg viewBox="0 0 24 24" fill="none"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2v-6.1a7.5 7.5 0 1 1 17-3.4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 10h.01M12 10h.01M16 10h.01" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span><span class="nfas-navigation-item-label nfas-navigation-voices-label">Voices</span></span>
+        <span class="nfas-navigation-item"><span class="nfas-navigation-icon nfas-navigation-sparks"><<svg viewBox="0 0 24 24" fill="none"><path d="M12 2.8 14.3 9.7 21.2 12 14.3 14.3 12 21.2 9.7 14.3 2.8 12 9.7 9.7 12 2.8Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m19 2 .7 2.3L22 5l-2.3.7L19 8l-.7-2.3L16 5l2.3-.7L19 2ZM5 16l.6 1.8L7.5 18.5l-1.9.6L5 21l-.6-1.9-1.9-.6 1.9-.7L5 16Z" fill="currentColor"/></svg></span><span class="nfas-navigation-item-label nfas-navigation-sparks-label">Sparks</span></span>
         <span class="nfas-navigation-link"></span>
         <span class="nfas-navigation-item"><span class="nfas-navigation-icon nfas-navigation-impact"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="2.1" fill="currentColor"/><ellipse cx="12" cy="12" rx="9" ry="4.4" transform="rotate(-35 12 12)" stroke="currentColor" stroke-width="1.4"/><ellipse cx="12" cy="12" rx="9" ry="4.4" transform="rotate(42 12 12)" stroke="currentColor" stroke-width="1.1" opacity=".72"/></svg></span><span class="nfas-navigation-item-label nfas-navigation-impact-label">Impact</span></span>
       </div>
@@ -5539,7 +5539,7 @@ onBeforeUnmount(() => {
           </div>
           <div class="mobile-drawer-section-label">EXPLORE & CONNECT</div>
           <button type="button" class="mobile-more-drawer-item" :class="{ active: ['pages', 'call', 'initiatives', 'entities', 'entity'].includes(activeView) }" @click="mobileMoreOpen = false; navigate('pages')"><span>▣</span><span><strong>Flow</strong><small>Calls, initiatives, Pages and entities</small></span><b>→</b></button>
-          <button type="button" class="mobile-more-drawer-item" :class="{ active: ['people', 'administration'].includes(activeView) }" @click="mobileMoreOpen = false; navigate('people')"><span>♧</span><span><strong>People · Voices · Impact</strong><small>Find people and connect around shared interests</small></span><b>→</b></button>
+          <button type="button" class="mobile-more-drawer-item" :class="{ active: ['people', 'administration'].includes(activeView) }" @click="mobileMoreOpen = false; navigate('people')"><span>♧</span><span><strong>People · Sparks · Impact</strong><small>Find people and connect around shared interests</small></span><b>→</b></button>
           <button type="button" class="mobile-more-drawer-item" :class="{ active: homeHeaderChatOpen }" @click="mobileMoreOpen = false; homeHeaderChatOpen = true; homeLocalWorldOpen = true"><span>◎</span><span><strong>NetworkChat</strong><small>Open Local and World conversations</small></span><b>→</b></button>
         </aside>
       </div>
@@ -5924,7 +5924,7 @@ onBeforeUnmount(() => {
             <strong>See what is moving right now.</strong>
             <small>Choose a local signal or follow the Live Flow.</small>
             <div class="initiative-example-options" aria-label="Nearby activity examples">
-              <button type="button" @click="navigate('live-people')">Community voices</button>
+              <button type="button" @click="navigate('live-people')">Community sparks</button>
               <button type="button" @click="navigate('around-zones')">Nearby activity</button>
               <button type="button" @click="navigate('initiatives')">Actions forming</button>
             </div>
@@ -5962,7 +5962,7 @@ onBeforeUnmount(() => {
               <span class="initiative-flow-kicker">AROUND YOUR ZONE</span>
               <strong>Discover what is happening and where you could join in.</strong>
             </div>
-            <button type="button" class="initiative-hover-story-step story-idea" @click="navigate('live-people')" aria-label="See community voices"><span>01 · A VOICE</span><strong>A neighbor raises a need</strong><small>Cleaner streets or more green space.</small><span class="initiative-step-action">Hear voices →</span></button>
+            <button type="button" class="initiative-hover-story-step story-idea" @click="navigate('live-people')" aria-label="See community sparks"><span>01 · A VOICE</span><strong>A neighbor raises a need</strong><small>Cleaner streets or more green space.</small><span class="initiative-step-action">Hear sparks →</span></button>
             <button type="button" class="initiative-hover-story-step story-people" @click="navigate('people')" aria-label="Discover people responding"><span>02 · PEOPLE RESPOND</span><strong>Others join the conversation</strong><small>Residents share ideas and experience.</small><span class="initiative-step-action">Meet people →</span></button>
             <button type="button" class="initiative-hover-story-step story-place" @click="navigate('around-zones')" aria-label="Explore activity around your Zones"><span>03 · LOCAL SIGNAL</span><strong>Tunis North</strong><small>See which concerns are connected to your Zone.</small><span class="initiative-step-action">See nearby →</span></button>
             <button type="button" class="initiative-hover-story-step story-action" @click="navigate('initiatives')" aria-label="Explore opportunities"><span>04 · AN OPPORTUNITY</span><strong>An action starts forming</strong><small>Explore a call, initiative, or local activity.</small><span class="initiative-step-action">Explore actions →</span></button>
@@ -6574,7 +6574,7 @@ onBeforeUnmount(() => {
                 <div>
                   <strong>28</strong>
                   <span>active explorers</span>
-                  <span class="live-network-stat-detail stat-voices">28 voices</span>
+                  <span class="live-network-stat-detail stat-sparks">28 sparks</span>
                 </div>
                 <div>
                   <strong>16</strong>
@@ -6845,7 +6845,7 @@ onBeforeUnmount(() => {
                 <div>
                   <strong>28</strong>
                   <span>active explorers</span>
-                  <span class="live-network-stat-detail stat-voices">28 voices</span>
+                  <span class="live-network-stat-detail stat-sparks">28 sparks</span>
                 </div>
                 <div>
                   <strong>16</strong>
@@ -17679,7 +17679,7 @@ textarea:focus-visible {
 .live-network-stats strong{margin:0;font-size:16px}
 .live-network-stats span{display:block;margin-top:3px;color:#718096;font-size:7px}
 .live-network-stat-detail{display:block;margin-top:4px;font-size:7px;line-height:1.35;font-weight:600;letter-spacing:.02em}
-.live-network-stat-detail.stat-voices{color:#9aaab5}
+.live-network-stat-detail.stat-sparks{color:#9aaab5}
 .live-network-stat-detail.stat-explore{color:#a19faa}
 .live-network-stat-detail.stat-opportunities{color:#a99aa4}
 .live-network-stat-detail.stat-needs{color:#aaa28f}
@@ -22590,16 +22590,16 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
 }
 
 
-/* Nfas first-load portal: a connected People · Voices · Impact bar. */
+/* Nfas first-load portal: a connected People · Sparks · Impact bar. */
 .nfas-opening-overlay{position:fixed;inset:0;z-index:100000;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:24px;background:#080d18;isolation:isolate;animation:nfas-opening-exit .62s cubic-bezier(.22,.7,.2,1) 1.88s both}
 .nfas-opening-aura{position:absolute;z-index:-1;width:min(76vw,560px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(57,100,174,.19),rgba(77,65,146,.075) 38%,transparent 70%);filter:blur(8px);animation:nfas-opening-aura 2.1s ease-out both}
 .nfas-opening-portal{position:relative;display:flex;align-items:center;justify-content:center;gap:clamp(8px,2vw,18px);width:min(100%,440px);min-height:142px;padding:18px clamp(14px,4vw,28px) 16px;border:1px solid rgba(120,160,224,.32);border-radius:30px;background:linear-gradient(125deg,rgba(16,30,51,.97),rgba(15,22,41,.96) 55%,rgba(26,22,48,.96));box-shadow:0 0 0 1px rgba(181,204,255,.035),inset 0 1px 0 rgba(233,241,255,.08),0 18px 70px rgba(0,0,0,.36),0 0 42px rgba(70,115,206,.12);opacity:0;transform:translateY(24px) scale(.88);animation:nfas-opening-arrive .8s cubic-bezier(.18,.78,.25,1) .12s both}
 .nfas-opening-portal::before,.nfas-opening-portal::after{content:"";position:absolute;inset:-7px 12px;z-index:-1;border:1px solid rgba(104,159,245,.42);border-radius:34px;opacity:0;transform:scale(.92);animation:nfas-opening-rings 1.45s ease-out .45s both}
 .nfas-opening-portal::after{inset:-13px 26px;border-color:rgba(164,120,240,.3);animation-delay:.68s}
-.nfas-opening-item{position:relative;z-index:1;display:flex;flex:0 0 clamp(48px,12vw,62px);flex-direction:column;align-items:center;justify-content:center;gap:7px;min-width:0}.nfas-opening-icon{position:relative;display:grid;flex:0 0 clamp(42px,10vw,52px);width:clamp(42px,10vw,52px);height:clamp(42px,10vw,52px);place-items:center;border:1px solid currentColor;border-radius:50%;background:rgba(8,15,29,.9);box-shadow:inset 0 1px rgba(255,255,255,.07),0 0 16px currentColor;opacity:0;transform:translateY(10px) scale(.7);animation:nfas-opening-icon-in .55s cubic-bezier(.2,.8,.2,1) both}.nfas-opening-icon::before,.nfas-opening-icon::after{content:"";position:absolute;inset:-5px;border:1px solid currentColor;border-radius:50%;opacity:.5;pointer-events:none}.nfas-opening-icon::after{inset:-9px;border-color:rgba(178,157,255,.45);opacity:.42}.nfas-opening-item-label{font-size:10px;font-weight:650;letter-spacing:.08em;line-height:1;color:#c1cde3;text-transform:uppercase;white-space:nowrap;opacity:0;transform:translateY(4px);animation:nfas-opening-item-label-in .4s ease-out both}.nfas-opening-people-label{animation-delay:.56s;color:#a9d2ff}.nfas-opening-voices-label{animation-delay:.74s;color:#d1baff}.nfas-opening-impact-label{animation-delay:.92s;color:#f3d99b}
+.nfas-opening-item{position:relative;z-index:1;display:flex;flex:0 0 clamp(48px,12vw,62px);flex-direction:column;align-items:center;justify-content:center;gap:7px;min-width:0}.nfas-opening-icon{position:relative;display:grid;flex:0 0 clamp(42px,10vw,52px);width:clamp(42px,10vw,52px);height:clamp(42px,10vw,52px);place-items:center;border:1px solid currentColor;border-radius:50%;background:rgba(8,15,29,.9);box-shadow:inset 0 1px rgba(255,255,255,.07),0 0 16px currentColor;opacity:0;transform:translateY(10px) scale(.7);animation:nfas-opening-icon-in .55s cubic-bezier(.2,.8,.2,1) both}.nfas-opening-icon::before,.nfas-opening-icon::after{content:"";position:absolute;inset:-5px;border:1px solid currentColor;border-radius:50%;opacity:.5;pointer-events:none}.nfas-opening-icon::after{inset:-9px;border-color:rgba(178,157,255,.45);opacity:.42}.nfas-opening-item-label{font-size:10px;font-weight:650;letter-spacing:.08em;line-height:1;color:#c1cde3;text-transform:uppercase;white-space:nowrap;opacity:0;transform:translateY(4px);animation:nfas-opening-item-label-in .4s ease-out both}.nfas-opening-people-label{animation-delay:.56s;color:#a9d2ff}.nfas-opening-sparks-label{animation-delay:.74s;color:#d1baff}.nfas-opening-impact-label{animation-delay:.92s;color:#f3d99b}
 .nfas-opening-icon svg{display:block;width:27px;height:27px}
 .nfas-opening-people{color:#8fc4ff;border-color:rgba(103,177,255,.55);animation-delay:.48s}
-.nfas-opening-voices{color:#c1a2ff;border-color:rgba(173,133,255,.55);animation-delay:.66s}
+.nfas-opening-sparks{color:#c1a2ff;border-color:rgba(173,133,255,.55);animation-delay:.66s}
 .nfas-opening-impact{color:#f0d18a;border-color:rgba(231,192,102,.58);animation-delay:.84s}
 .nfas-opening-connector{position:relative;flex:0 0 25px;width:25px;height:25px;max-width:25px;border:1px solid rgba(156,157,255,.72);border-radius:50%;background:radial-gradient(circle,rgba(133,151,255,.2) 0 18%,rgba(16,25,48,.15) 45%,transparent 68%);box-shadow:0 0 9px rgba(112,153,255,.18);transform:scale(.2);transform-origin:center;animation:nfas-opening-connect .48s ease-out .88s both}.nfas-opening-connector::before,.nfas-opening-connector::after{content:"";position:absolute;inset:-5px;border:1px solid rgba(112,176,255,.38);border-radius:50%;pointer-events:none}.nfas-opening-connector::after{inset:-9px;border-color:rgba(190,143,255,.24)}
 .nfas-opening-wordmark{margin-top:22px;color:#e6edfb;font-size:13px;font-weight:600;letter-spacing:.36em;text-indent:.36em;opacity:0;animation:nfas-opening-label-in .5s ease-out .55s both}
@@ -22619,10 +22619,10 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
 .nfas-navigation-portal{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;width:min(312px,calc(100vw - 34px));height:104px;padding:12px 18px 10px;border:1px solid rgba(125,164,225,.3);border-radius:23px;background:linear-gradient(120deg,rgba(11,22,39,.84),rgba(17,23,42,.82) 58%,rgba(27,22,46,.84));box-shadow:inset 0 1px rgba(235,243,255,.07),0 8px 35px rgba(0,0,0,.2),0 0 24px rgba(78,122,207,.12);backdrop-filter:blur(5px);opacity:0;transform:translateY(9px) scale(.9);animation:nfas-navigation-portal-in .92s cubic-bezier(.2,.75,.25,1) both}
 .nfas-navigation-portal::before,.nfas-navigation-portal::after{content:"";position:absolute;inset:-5px 13px;border:1px solid rgba(105,162,244,.38);border-radius:27px;opacity:0;animation:nfas-navigation-ring .92s ease-out both}
 .nfas-navigation-portal::after{inset:-9px 26px;border-color:rgba(169,128,240,.3);animation-delay:.08s}
-.nfas-navigation-item{display:flex;flex:0 0 42px;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-width:0}.nfas-navigation-icon{position:relative;display:grid;place-items:center;flex:0 0 32px;width:32px;height:32px;border:1px solid currentColor;border-radius:50%;background:rgba(7,14,27,.9);box-shadow:0 0 12px rgba(143,160,255,.12);opacity:0;transform:scale(.7);animation:nfas-navigation-icon-in .42s cubic-bezier(.2,.8,.2,1) both}.nfas-navigation-icon::before,.nfas-navigation-icon::after{content:"";position:absolute;inset:-4px;border:1px solid currentColor;border-radius:50%;opacity:.46;pointer-events:none}.nfas-navigation-icon::after{inset:-7px;border-color:rgba(178,157,255,.42);opacity:.38}.nfas-navigation-item-label{font-size:9px;font-weight:650;letter-spacing:.08em;line-height:1;color:#c1cde3;text-transform:uppercase;white-space:nowrap;opacity:0;transform:translateY(3px);animation:nfas-navigation-item-label-in .3s ease-out both}.nfas-navigation-people-label{animation-delay:.12s;color:#a9d2ff}.nfas-navigation-voices-label{animation-delay:.23s;color:#d1baff}.nfas-navigation-impact-label{animation-delay:.34s;color:#f3d99b}
+.nfas-navigation-item{display:flex;flex:0 0 42px;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-width:0}.nfas-navigation-icon{position:relative;display:grid;place-items:center;flex:0 0 32px;width:32px;height:32px;border:1px solid currentColor;border-radius:50%;background:rgba(7,14,27,.9);box-shadow:0 0 12px rgba(143,160,255,.12);opacity:0;transform:scale(.7);animation:nfas-navigation-icon-in .42s cubic-bezier(.2,.8,.2,1) both}.nfas-navigation-icon::before,.nfas-navigation-icon::after{content:"";position:absolute;inset:-4px;border:1px solid currentColor;border-radius:50%;opacity:.46;pointer-events:none}.nfas-navigation-icon::after{inset:-7px;border-color:rgba(178,157,255,.42);opacity:.38}.nfas-navigation-item-label{font-size:9px;font-weight:650;letter-spacing:.08em;line-height:1;color:#c1cde3;text-transform:uppercase;white-space:nowrap;opacity:0;transform:translateY(3px);animation:nfas-navigation-item-label-in .3s ease-out both}.nfas-navigation-people-label{animation-delay:.12s;color:#a9d2ff}.nfas-navigation-sparks-label{animation-delay:.23s;color:#d1baff}.nfas-navigation-impact-label{animation-delay:.34s;color:#f3d99b}
 .nfas-navigation-icon svg{width:21px;height:21px;display:block}
 .nfas-navigation-people{color:#8fc4ff;border-color:rgba(103,177,255,.52);animation-delay:.05s}
-.nfas-navigation-voices{color:#c1a2ff;border-color:rgba(173,133,255,.52);animation-delay:.16s}
+.nfas-navigation-sparks{color:#c1a2ff;border-color:rgba(173,133,255,.52);animation-delay:.16s}
 .nfas-navigation-impact{color:#f0d18a;border-color:rgba(231,192,102,.55);animation-delay:.27s}
 .nfas-navigation-link{position:relative;flex:0 0 20px;width:20px;height:20px;max-width:20px;border:1px solid rgba(156,157,255,.72);border-radius:50%;background:radial-gradient(circle,rgba(133,151,255,.2) 0 18%,rgba(16,25,48,.15) 45%,transparent 68%);box-shadow:0 0 7px rgba(112,153,255,.16);transform:scale(.2);transform-origin:center;animation:nfas-navigation-link-in .35s ease-out .22s both}.nfas-navigation-link::before,.nfas-navigation-link::after{content:"";position:absolute;inset:-4px;border:1px solid rgba(112,176,255,.36);border-radius:50%;pointer-events:none}.nfas-navigation-link::after{inset:-7px;border-color:rgba(190,143,255,.24)}
 @keyframes nfas-navigation-portal-in{0%{opacity:0;transform:translateY(9px) scale(.9);filter:blur(3px)}30%{opacity:1;filter:blur(0)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
