@@ -22222,6 +22222,7 @@ header.topbar.impact-orbit-transferred .desktop-impact-launch .impact-button-orb
   opacity: 1 !important;
   visibility: visible !important;
 }
+header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit {
   outline: none !important;
   background: radial-gradient(circle, rgba(226,241,255,.2), transparent 72%) !important;
   box-shadow: 0 0 9px rgba(210,232,255,.2), inset 0 0 5px rgba(255,255,255,.12) !important;
@@ -22340,7 +22341,7 @@ header.topbar > .desktop-impact-launch > .desktop-impact-label {
 
 </style>
 
-
+<style>
 /* Mobile Impact orbit: animate the logo mark on the active Impact view only. */
 @keyframes mobile-impact-orbit-spin {
   from { transform: rotate(0deg); }
@@ -22470,8 +22471,6 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
 }
 
 
-
-<style>
 /* Nfas first-load portal: a connected People · Voices · Impact bar. */
 .nfas-opening-overlay{position:fixed;inset:0;z-index:100000;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:24px;background:#080d18;isolation:isolate;animation:nfas-opening-exit .62s cubic-bezier(.22,.7,.2,1) 1.88s both}
 .nfas-opening-aura{position:absolute;z-index:-1;width:min(76vw,560px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(57,100,174,.19),rgba(77,65,146,.075) 38%,transparent 70%);filter:blur(8px);animation:nfas-opening-aura 2.1s ease-out both}
