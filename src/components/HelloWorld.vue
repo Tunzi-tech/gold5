@@ -4086,6 +4086,13 @@ function openPlatformCircle(circle: { id: string; view: string }) {
   navigate(circle.view)
 }
 
+function openAwarenessReport() {
+  if (activeView.value !== 'awareness') playNavigationPortal()
+  activeView.value = 'awareness'
+  showRaiseAwareness.value = true
+  isReportingIssue.value = true
+}
+
 function navigate(view: string) {
   if (activeView.value !== view) playNavigationPortal()
   activeView.value = view
@@ -5388,7 +5395,7 @@ onBeforeUnmount(() => {
             <span>Choose an issue</span>
             <small>Zone or interests</small>
           </button>
-          <button type="button" class="top-impact-action top-impact-report" @click="activeView = 'awareness'; showRaiseAwareness = true; isReportingIssue = true">
+          <button type="button" class="top-impact-action top-impact-report" @click="openAwarenessReport()">
             <span aria-hidden="true">＋</span>
             <span>Report an issue</span>
           </button>
@@ -5450,7 +5457,7 @@ onBeforeUnmount(() => {
               <span class="mobile-issue-menu-mark" aria-hidden="true">◎</span>
               <span><strong>Choose an issue</strong><small>Zone or interests</small></span>
             </button>
-            <button type="button" role="menuitem" @click="mobileIssueMenuOpen = false; activeView = 'awareness'; showRaiseAwareness = true; isReportingIssue = true">
+            <button type="button" role="menuitem" @click="mobileIssueMenuOpen = false; openAwarenessReport()">
               <span class="mobile-issue-menu-mark" aria-hidden="true">＋</span>
               <span><strong>Report an issue</strong></span>
             </button>
