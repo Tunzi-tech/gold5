@@ -178,6 +178,22 @@ function selectLearnTopic(topicId: string) {
 const showCircleHome = ref(false)
 const showPlatformOpening = ref(true)
 let platformOpeningTimer: ReturnType<typeof setTimeout> | null = null
+const showNavigationPortal = ref(false)
+let navigationPortalTimer: ReturnType<typeof setTimeout> | null = null
+
+function playNavigationPortal() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+  showNavigationPortal.value = false
+  if (navigationPortalTimer) clearTimeout(navigationPortalTimer)
+  // Restart the brief portal animation even when users navigate quickly.
+  nextTick(() => {
+    showNavigationPortal.value = true
+    navigationPortalTimer = setTimeout(() => {
+      showNavigationPortal.value = false
+      navigationPortalTimer = null
+    }, 820)
+  })
+}
 const platformCircles = [
   { id: 'main', name: 'COMMONS', mark: '◉', color: 'blue', view: 'home' },
   { id: 'flow', name: 'Live Flow', mark: '✳', color: 'blue', view: 'live-flow' },
@@ -4071,6 +4087,7 @@ function openPlatformCircle(circle: { id: string; view: string }) {
 }
 
 function navigate(view: string) {
+  if (activeView.value !== view) playNavigationPortal()
   activeView.value = view
   liveFlowSpace.value = 'overview'
   selectedZone.value = null
@@ -4753,6 +4770,10 @@ onBeforeUnmount(() => {
     clearTimeout(platformOpeningTimer)
     platformOpeningTimer = null
   }
+  if (navigationPortalTimer) {
+    clearTimeout(navigationPortalTimer)
+    navigationPortalTimer = null
+  }
   window.removeEventListener('storage', handleLiveSongStorage)
   languageObserver?.disconnect()
   languageObserver = null
@@ -4781,6 +4802,17 @@ onBeforeUnmount(() => {
         <span class="nfas-opening-label">PEOPLE <i>·</i> VOICES <i>·</i> IMPACT</span>
       </div>
       <span class="nfas-opening-wordmark">Nfas</span>
+    </div>
+
+    <div v-if="showNavigationPortal" class="nfas-navigation-overlay" aria-hidden="true">
+      <div class="nfas-navigation-aura"></div>
+      <div class="nfas-navigation-portal">
+        <span class="nfas-navigation-icon nfas-navigation-people"><svg viewBox="0 0 24 24" fill="none"><path d="M16 20v-1.6a3.4 3.4 0 0 0-3.4-3.4H6.4A3.4 3.4 0 0 0 3 18.4V20M9.5 11.5a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM16 4.1a4 4 0 0 1 0 7.7M17.6 15h.1a3.4 3.4 0 0 1 3.3 3.4V20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="nfas-navigation-link"></span>
+        <span class="nfas-navigation-icon nfas-navigation-voices"><svg viewBox="0 0 24 24" fill="none"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2v-6.1a7.5 7.5 0 1 1 17-3.4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 10h.01M12 10h.01M16 10h.01" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+        <span class="nfas-navigation-link"></span>
+        <span class="nfas-navigation-icon nfas-navigation-impact"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="2.1" fill="currentColor"/><ellipse cx="12" cy="12" rx="9" ry="4.4" transform="rotate(-35 12 12)" stroke="currentColor" stroke-width="1.4"/><ellipse cx="12" cy="12" rx="9" ry="4.4" transform="rotate(42 12 12)" stroke="currentColor" stroke-width="1.1" opacity=".72"/></svg></span>
+      </div>
     </div>
 
     <main v-if="showCircleHome" class="platform-circles-stage" aria-label="Choose a platform">
@@ -22495,4 +22527,24 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
 @keyframes nfas-opening-exit{0%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden;pointer-events:none}}
 @media(max-width:600px){.nfas-opening-overlay{padding:20px}.nfas-opening-portal{width:min(100%,360px);min-height:104px;padding:20px 15px 36px;border-radius:25px;gap:8px}.nfas-opening-portal::before{border-radius:29px}.nfas-opening-portal::after{border-radius:32px}.nfas-opening-icon{border-radius:15px}.nfas-opening-icon svg{width:24px;height:24px}.nfas-opening-label{font-size:8px;letter-spacing:.16em}.nfas-opening-wordmark{margin-top:24px}}
 @media(prefers-reduced-motion:reduce){.nfas-opening-overlay,.nfas-opening-aura,.nfas-opening-portal,.nfas-opening-portal::before,.nfas-opening-portal::after,.nfas-opening-icon,.nfas-opening-connector,.nfas-opening-label,.nfas-opening-wordmark{animation:none!important}.nfas-opening-portal,.nfas-opening-icon,.nfas-opening-label,.nfas-opening-wordmark{opacity:1;transform:none;filter:none}.nfas-opening-connector{transform:none}.nfas-opening-portal::before,.nfas-opening-portal::after{opacity:.25;transform:none}}
+
+/* A compact navigation portal: only the small central motif animates, never the page backdrop. */
+.nfas-navigation-overlay{position:fixed;inset:0;z-index:99990;display:flex;align-items:center;justify-content:center;pointer-events:none;background:transparent;overflow:hidden}
+.nfas-navigation-aura{position:absolute;width:300px;height:160px;border-radius:50%;background:radial-gradient(ellipse,rgba(72,119,207,.16),rgba(110,81,179,.07) 42%,transparent 72%);filter:blur(7px);animation:nfas-navigation-aura-in .82s ease-out both}
+.nfas-navigation-portal{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;width:min(276px,calc(100vw - 42px));height:76px;padding:12px 18px;border:1px solid rgba(125,164,225,.3);border-radius:23px;background:linear-gradient(120deg,rgba(11,22,39,.84),rgba(17,23,42,.82) 58%,rgba(27,22,46,.84));box-shadow:inset 0 1px rgba(235,243,255,.07),0 8px 35px rgba(0,0,0,.2),0 0 24px rgba(78,122,207,.12);backdrop-filter:blur(5px);opacity:0;transform:translateY(9px) scale(.9);animation:nfas-navigation-portal-in .82s cubic-bezier(.2,.75,.25,1) both}
+.nfas-navigation-portal::before,.nfas-navigation-portal::after{content:"";position:absolute;inset:-5px 13px;border:1px solid rgba(105,162,244,.38);border-radius:27px;opacity:0;animation:nfas-navigation-ring .82s ease-out both}
+.nfas-navigation-portal::after{inset:-9px 26px;border-color:rgba(169,128,240,.3);animation-delay:.08s}
+.nfas-navigation-icon{display:grid;place-items:center;flex:0 0 36px;width:36px;height:36px;border:1px solid currentColor;border-radius:12px;background:rgba(7,14,27,.84);opacity:0;transform:scale(.7);animation:nfas-navigation-icon-in .42s cubic-bezier(.2,.8,.2,1) both}
+.nfas-navigation-icon svg{width:21px;height:21px;display:block}
+.nfas-navigation-people{color:#8fc4ff;border-color:rgba(103,177,255,.52);animation-delay:.05s}
+.nfas-navigation-voices{color:#c1a2ff;border-color:rgba(173,133,255,.52);animation-delay:.16s}
+.nfas-navigation-impact{color:#f0d18a;border-color:rgba(231,192,102,.55);animation-delay:.27s}
+.nfas-navigation-link{flex:1 1 10px;max-width:25px;height:1px;background:linear-gradient(90deg,rgba(112,176,255,.22),rgba(156,157,255,.8),rgba(233,202,126,.34));transform:scaleX(0);transform-origin:left;animation:nfas-navigation-link-in .35s ease-out .22s both}
+@keyframes nfas-navigation-portal-in{0%{opacity:0;transform:translateY(9px) scale(.9);filter:blur(3px)}30%{opacity:1;filter:blur(0)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes nfas-navigation-icon-in{to{opacity:1;transform:scale(1)}}
+@keyframes nfas-navigation-link-in{to{transform:scaleX(1)}}
+@keyframes nfas-navigation-ring{0%{opacity:0;transform:scale(.94)}45%{opacity:.62}100%{opacity:.1;transform:scale(1.04)}}
+@keyframes nfas-navigation-aura-in{0%{opacity:0;transform:scale(.7)}45%{opacity:1}100%{opacity:.72;transform:scale(1)}}
+@media(max-width:600px){.nfas-navigation-portal{width:min(252px,calc(100vw - 46px));height:68px;gap:6px;padding:10px 14px;border-radius:20px}.nfas-navigation-icon{flex-basis:32px;width:32px;height:32px;border-radius:10px}.nfas-navigation-icon svg{width:19px;height:19px}.nfas-navigation-portal::before{border-radius:24px}.nfas-navigation-portal::after{border-radius:27px}}
+@media(prefers-reduced-motion:reduce){.nfas-navigation-overlay{display:none}.nfas-navigation-portal,.nfas-navigation-aura,.nfas-navigation-icon,.nfas-navigation-link,.nfas-navigation-portal::before,.nfas-navigation-portal::after{animation:none!important}}
 </style>
