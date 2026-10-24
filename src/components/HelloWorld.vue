@@ -5421,10 +5421,21 @@ onBeforeUnmount(() => {
         <button type="button" class="desktop-menu-launch" :class="{ active: mobileMoreOpen }" @click="mobileMoreOpen = !mobileMoreOpen" :aria-expanded="mobileMoreOpen" aria-label="Open navigation drawer" title="Open navigation">
           <span></span><span></span><span></span>
         </button>
-        <button type="button" class="desktop-impact-launch" :class="{ active: activeView === 'awareness' }" @click="navigate('awareness')" aria-label="Impact and Awareness / Impact" title="Impact and Awareness / Impact">
-          <span v-if="activeView === 'awareness'" class="brand-orbit impact-button-orbit" aria-hidden="true"><span></span></span>
-          <span class="desktop-impact-label">Impact and Awareness / Impact</span>
-        </button>
+        <nav class="desktop-primary-nav" aria-label="Main navigation">
+          <button type="button" class="desktop-primary-nav-button" :class="{ active: activeView === 'home' }" @click="navigate('home')" aria-label="Home">
+            <span class="desktop-primary-nav-icon" aria-hidden="true">⌂</span><span>Home</span>
+          </button>
+          <button type="button" class="desktop-primary-nav-button" :class="{ active: activeView === 'learn' }" @click="navigate('learn')" :title="t('learnDiscover')">
+            <span class="desktop-primary-nav-icon" aria-hidden="true">✦</span><span>{{ t('learnDiscover') }}</span>
+          </button>
+          <button type="button" class="desktop-impact-launch desktop-primary-nav-button" :class="{ active: activeView === 'awareness' }" @click="navigate('awareness')" aria-label="Impact and Awareness / Impact" title="Impact and Awareness / Impact">
+            <span v-if="activeView === 'awareness'" class="brand-orbit impact-button-orbit" aria-hidden="true"><span></span></span>
+            <span class="desktop-impact-label">Impact</span>
+          </button>
+          <button type="button" class="desktop-primary-nav-button" :class="{ active: activeView === 'live-flow' }" @click="navigate('live-flow')" aria-label="Live Flow">
+            <span class="desktop-primary-nav-icon" aria-hidden="true">⟳</span><span>Live Flow</span>
+          </button>
+        </nav>
         <div class="mobile-brand" @click="navigate('home')" role="button" tabindex="0" @keydown.enter="navigate('home')" aria-label="Anfas home">
           <span class="brand-orbit mobile-brand-mark" aria-hidden="true"><span></span></span>
           <span class="brand-name mobile-brand-copy"><strong>Nfas</strong><small>PEOPLE · VOICES · IMPACT</small></span>
@@ -19917,7 +19928,7 @@ a { text-underline-offset: 3px; }
     background: #c9d9ee !important;
   }
   header.topbar > .desktop-menu-launch.active { border-color: rgba(126,163,213,.55) !important; background: rgba(82,130,190,.12) !important; }
-  header.topbar > .desktop-impact-launch {
+  header.topbar  .desktop-impact-launch {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -19937,10 +19948,10 @@ a { text-underline-offset: 3px; }
     white-space: nowrap !important;
     transition: border-color .18s ease, background .18s ease, color .18s ease !important;
   }
-  header.topbar > .desktop-impact-launch > span { color: #a9ceff !important; font-size: 16px !important; line-height: 1 !important; }
-  header.topbar > .desktop-impact-launch:hover { border-color: rgba(126,163,213,.48) !important; background: linear-gradient(105deg,rgba(47,72,101,.94),rgba(23,42,63,.98)) !important; }
-  header.topbar > .desktop-impact-launch.active { border-color: rgba(232,190,98,.58) !important; background: linear-gradient(105deg,rgba(96,73,35,.35),rgba(31,39,48,.98)) !important; color: #ffe2a0 !important; }
-  header.topbar > .desktop-impact-launch.active > span { color: #ffd36e !important; }
+  header.topbar  .desktop-impact-launch > span { color: #a9ceff !important; font-size: 16px !important; line-height: 1 !important; }
+  header.topbar  .desktop-impact-launch:hover { border-color: rgba(126,163,213,.48) !important; background: linear-gradient(105deg,rgba(47,72,101,.94),rgba(23,42,63,.98)) !important; }
+  header.topbar  .desktop-impact-launch.active { border-color: rgba(232,190,98,.58) !important; background: linear-gradient(105deg,rgba(96,73,35,.35),rgba(31,39,48,.98)) !important; color: #ffe2a0 !important; }
+  header.topbar  .desktop-impact-launch.active > span { color: #ffd36e !important; }
   header.topbar > .mobile-menu-launch { display: none !important; }
   header.topbar > .mobile-brand {
     grid-column: 2 !important;
@@ -19956,7 +19967,7 @@ a { text-underline-offset: 3px; }
 }
 @media screen and (max-width: 900px) {
   header.topbar > .desktop-menu-launch,
-  header.topbar > .desktop-impact-launch { display: none !important; }
+  header.topbar  .desktop-impact-launch { display: none !important; }
 }
 
 /* Desktop hamburger: the shared drawer was previously styled only for mobile,
@@ -22428,20 +22439,20 @@ header.topbar > .mobile-brand .mobile-brand-mark::before,
 header.topbar > .mobile-brand .mobile-brand-mark::after {
   transition: opacity .28s ease, transform .35s ease !important;
 }
-header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit {
+header.topbar.impact-orbit-transferred  .desktop-impact-launch > .impact-button-orbit {
   border: none !important;
   outline: none !important;
   background: radial-gradient(circle, rgba(117,177,255,.42) 0%, rgba(130,94,255,.24) 38%, rgba(255,218,128,.12) 58%, transparent 76%) !important;
   box-shadow: 0 0 16px rgba(102,157,255,.34), 0 0 26px rgba(143,91,255,.2) !important;
   animation: impact-orbit-arrives .55s cubic-bezier(.2,.75,.25,1) both, impact-button-light-pulse 1.8s ease-in-out .55s infinite alternate;
 }
-header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit::before,
-header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit::after {
+header.topbar.impact-orbit-transferred  .desktop-impact-launch > .impact-button-orbit::before,
+header.topbar.impact-orbit-transferred  .desktop-impact-launch > .impact-button-orbit::after {
   border: none !important;
   box-shadow: none !important;
   background: transparent !important;
 }
-header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit > span {
+header.topbar.impact-orbit-transferred  .desktop-impact-launch > .impact-button-orbit > span {
   background: #ffe08a !important;
   box-shadow: 0 0 7px rgba(255,210,105,.9), 0 0 13px rgba(255,210,105,.55) !important;
 }
@@ -22468,21 +22479,21 @@ header.topbar.impact-orbit-transferred .desktop-impact-launch .impact-button-orb
   opacity: 1 !important;
   visibility: visible !important;
 }
-header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit {
+header.topbar.impact-orbit-transferred  .desktop-impact-launch > .impact-button-orbit {
   outline: none !important;
   background: radial-gradient(circle, rgba(226,241,255,.2), transparent 72%) !important;
   box-shadow: 0 0 9px rgba(210,232,255,.2), inset 0 0 5px rgba(255,255,255,.12) !important;
   animation: impact-orbit-arrives .55s cubic-bezier(.2,.75,.25,1) both;
 }
-header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit::before {
+header.topbar.impact-orbit-transferred  .desktop-impact-launch > .impact-button-orbit::before {
   border-color: rgba(105,169,255,.98) !important;
   box-shadow: 0 0 5px rgba(80,150,255,.62) !important;
 }
-header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit::after {
+header.topbar.impact-orbit-transferred  .desktop-impact-launch > .impact-button-orbit::after {
   border-color: rgba(190,116,255,.95) !important;
   box-shadow: 0 0 5px rgba(171,103,255,.55) !important;
 }
-header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit > span {
+header.topbar.impact-orbit-transferred  .desktop-impact-launch > .impact-button-orbit > span {
   background: #ffe08a !important;
   box-shadow: 0 0 7px rgba(255,210,105,.9) !important;
 }
@@ -22490,35 +22501,35 @@ header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button
 
 /* Final Impact mark: no outlined button, orbital rings, or decorative borders.
    Keep only a soft light when the Impact view is selected. */
-header.topbar > .desktop-impact-launch,
-header.topbar > .desktop-impact-launch:hover,
-header.topbar > .desktop-impact-launch.active {
+header.topbar  .desktop-impact-launch,
+header.topbar  .desktop-impact-launch:hover,
+header.topbar  .desktop-impact-launch.active {
   border: 0 !important;
   outline: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
 }
-header.topbar > .desktop-impact-launch > .impact-button-orbit,
-header.topbar > .desktop-impact-launch > .impact-button-orbit::before,
-header.topbar > .desktop-impact-launch > .impact-button-orbit::after {
+header.topbar  .desktop-impact-launch > .impact-button-orbit,
+header.topbar  .desktop-impact-launch > .impact-button-orbit::before,
+header.topbar  .desktop-impact-launch > .impact-button-orbit::after {
   border: 0 !important;
   outline: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
 }
-header.topbar > .desktop-impact-launch > .impact-button-orbit::before,
-header.topbar > .desktop-impact-launch > .impact-button-orbit::after {
+header.topbar  .desktop-impact-launch > .impact-button-orbit::before,
+header.topbar  .desktop-impact-launch > .impact-button-orbit::after {
   content: none !important;
   display: none !important;
 }
-header.topbar:not(.impact-orbit-transferred) > .desktop-impact-launch > .impact-button-orbit,
-header.topbar:not(.impact-orbit-transferred) > .desktop-impact-launch > .impact-button-orbit > span {
+header.topbar:not(.impact-orbit-transferred)  .desktop-impact-launch > .impact-button-orbit,
+header.topbar:not(.impact-orbit-transferred)  .desktop-impact-launch > .impact-button-orbit > span {
   display: none !important;
   opacity: 0 !important;
   visibility: hidden !important;
   animation: none !important;
 }
-header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit {
+header.topbar.impact-orbit-transferred  .desktop-impact-launch > .impact-button-orbit {
   display: inline-block !important;
   width: 12px !important;
   height: 12px !important;
@@ -22530,7 +22541,7 @@ header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button
   box-shadow: 0 0 14px rgba(117,177,255,.34), 0 0 22px rgba(143,91,255,.18) !important;
   animation: impact-button-light-pulse 1.8s ease-in-out infinite alternate !important;
 }
-header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button-orbit > span {
+header.topbar.impact-orbit-transferred  .desktop-impact-launch > .impact-button-orbit > span {
   display: block !important;
   position: absolute !important;
   width: 4px !important;
@@ -22548,11 +22559,11 @@ header.topbar.impact-orbit-transferred > .desktop-impact-launch > .impact-button
 
 
 /* Strict inactive state: no icon, pseudo-element, or residual glow unless Impact is selected. */
-header.topbar > .desktop-impact-launch:not(.active)::before,
-header.topbar > .desktop-impact-launch:not(.active)::after,
-header.topbar > .desktop-impact-launch:not(.active) > .impact-button-orbit,
-header.topbar:not(.impact-orbit-transferred) > .desktop-impact-launch::before,
-header.topbar:not(.impact-orbit-transferred) > .desktop-impact-launch::after {
+header.topbar  .desktop-impact-launch:not(.active)::before,
+header.topbar  .desktop-impact-launch:not(.active)::after,
+header.topbar  .desktop-impact-launch:not(.active) > .impact-button-orbit,
+header.topbar:not(.impact-orbit-transferred)  .desktop-impact-launch::before,
+header.topbar:not(.impact-orbit-transferred)  .desktop-impact-launch::after {
   content: none !important;
   display: none !important;
   opacity: 0 !important;
@@ -22561,14 +22572,14 @@ header.topbar:not(.impact-orbit-transferred) > .desktop-impact-launch::after {
   box-shadow: none !important;
   filter: none !important;
 }
-header.topbar > .desktop-impact-launch:not(.active) {
+header.topbar  .desktop-impact-launch:not(.active) {
   background: transparent !important;
   box-shadow: none !important;
 }
 
 
 /* Make the Impact destination explicit in the desktop top bar. */
-header.topbar > .desktop-impact-launch > .desktop-impact-label {
+header.topbar  .desktop-impact-launch > .desktop-impact-label {
   display: inline !important;
   position: static !important;
   width: auto !important;
@@ -23417,4 +23428,126 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
   }
 }
 
+</style>
+<style>
+/* Desktop navigation: move the four primary destinations from the sidebar into one top-bar group. */
+@media (min-width: 761px) {
+  .main-nav .primary-spaces-cluster {
+    display: none !important;
+  }
+  header.topbar > .desktop-primary-nav {
+    order: 1;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    flex: 0 1 auto;
+    min-width: 0;
+    gap: clamp(2px, .45vw, 8px);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  header.topbar > .desktop-primary-nav > .desktop-primary-nav-button {
+    position: relative;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex: 0 1 auto;
+    min-width: 0;
+    min-height: 36px;
+    padding: 0 clamp(7px, .75vw, 12px);
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background: transparent;
+    color: #a9b8ce;
+    font-size: 11px;
+    font-weight: 650;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: color .18s ease, background .18s ease, border-color .18s ease;
+  }
+  header.topbar > .desktop-primary-nav > .desktop-primary-nav-button:hover {
+    color: #edf4ff;
+    background: rgba(115, 151, 211, .09);
+    border-color: rgba(115, 151, 211, .12);
+  }
+  header.topbar > .desktop-primary-nav > .desktop-primary-nav-button.active {
+    color: #edf4ff;
+    background: linear-gradient(135deg, rgba(63, 99, 151, .22), rgba(82, 64, 137, .14));
+    border-color: rgba(128, 164, 224, .2);
+    box-shadow: inset 0 1px 0 rgba(235, 243, 255, .04);
+  }
+  header.topbar > .desktop-primary-nav > .desktop-primary-nav-button > .desktop-primary-nav-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    flex: 0 0 16px;
+    color: #9dbcf0;
+    font-size: 16px;
+    line-height: 1;
+  }
+  header.topbar > .desktop-primary-nav > .desktop-primary-nav-button.active > .desktop-primary-nav-icon {
+    color: #d6e5ff;
+  }
+  header.topbar > .desktop-primary-nav > .desktop-impact-launch {
+    flex: 0 1 auto;
+    gap: 6px;
+    min-width: 0;
+    padding: 0 clamp(7px, .75vw, 12px);
+    color: #a9b8ce;
+    font-size: 11px !important;
+  }
+  header.topbar > .desktop-primary-nav > .desktop-impact-launch.active {
+    color: #ffdda0 !important;
+    background: linear-gradient(135deg, rgba(255, 205, 105, .09), rgba(105, 143, 218, .10)) !important;
+    border-color: rgba(255, 205, 105, .15) !important;
+    box-shadow: none !important;
+  }
+  header.topbar > .desktop-primary-nav .desktop-impact-label {
+    font-size: 11px !important;
+    font-weight: 650 !important;
+  }
+  header.topbar > .desktop-primary-nav .impact-button-orbit {
+    width: 17px !important;
+    height: 17px !important;
+    flex: 0 0 17px !important;
+    margin: 0 !important;
+  }
+  header.topbar > .desktop-menu-launch { order: 0; flex: 0 0 auto; }
+  header.topbar > .search-box {
+    order: 2;
+    flex: 1 1 190px;
+    width: auto;
+    min-width: 145px;
+    max-width: 360px;
+  }
+  header.topbar > .top-impact-actions { order: 3; }
+  header.topbar > .top-actions { order: 4; }
+  header.topbar > .mobile-brand,
+  header.topbar > .mobile-home-nav-pair,
+  header.topbar > .mobile-home-space-row { display: none !important; }
+}
+@media (min-width: 761px) and (max-width: 1120px) {
+  header.topbar > .desktop-primary-nav { gap: 1px; }
+  header.topbar > .desktop-primary-nav > .desktop-primary-nav-button {
+    gap: 4px;
+    padding-left: 6px;
+    padding-right: 6px;
+    font-size: 10px;
+  }
+  header.topbar > .desktop-primary-nav > .desktop-primary-nav-button > .desktop-primary-nav-icon {
+    width: 13px;
+    flex-basis: 13px;
+    font-size: 14px;
+  }
+  header.topbar > .search-box { min-width: 115px; }
+}
+@media (max-width: 760px) {
+  header.topbar > .desktop-primary-nav { display: none !important; }
+}
 </style>
