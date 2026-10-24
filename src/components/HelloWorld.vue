@@ -20060,6 +20060,40 @@ a { text-underline-offset: 3px; }
   }
 }
 
+
+/* Give the Home Explore control a stronger, clearly visible blue-violet surface. */
+.home-commons-content .home-view-switch > button {
+  color: #eaf3ff !important;
+  border: 1px solid rgba(104, 166, 255, .58) !important;
+  background:
+    radial-gradient(ellipse at 18% 0%, rgba(81, 157, 255, .24), transparent 72%),
+    linear-gradient(115deg, rgba(39, 83, 139, .58), rgba(52, 49, 101, .54)) !important;
+  box-shadow: inset 0 0 0 1px rgba(167, 204, 255, .09), 0 3px 14px rgba(48, 119, 219, .16) !important;
+  transition: background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease !important;
+}
+.home-commons-content .home-view-switch > button:hover {
+  border-color: rgba(130, 190, 255, .82) !important;
+  background:
+    radial-gradient(ellipse at 18% 0%, rgba(94, 174, 255, .32), transparent 72%),
+    linear-gradient(115deg, rgba(48, 101, 166, .70), rgba(65, 58, 126, .66)) !important;
+  box-shadow: inset 0 0 0 1px rgba(184, 215, 255, .12), 0 4px 18px rgba(48, 119, 219, .24) !important;
+}
+.home-commons-content .home-view-switch > button.active {
+  color: #f4f9ff !important;
+  border-color: rgba(126, 190, 255, .96) !important;
+  background:
+    radial-gradient(ellipse at 16% 0%, rgba(106, 190, 255, .42), transparent 75%),
+    linear-gradient(112deg, rgba(43, 111, 184, .88), rgba(78, 67, 151, .82)) !important;
+  box-shadow: inset 0 0 0 1px rgba(210, 232, 255, .16), 0 0 0 1px rgba(76, 151, 255, .18), 0 0 20px rgba(58, 132, 237, .25) !important;
+}
+.home-commons-content .home-view-switch > button:focus-visible {
+  outline: 2px solid rgba(145, 199, 255, .9) !important;
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-commons-content .home-view-switch > button { transition: none !important; }
+}
+
 </style>
 
 <style>
