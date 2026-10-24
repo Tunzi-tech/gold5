@@ -4140,9 +4140,9 @@ function openAwarenessReport() {
 
 function openHomeExplore() {
   homeDisplayMode.value = 'content'
-  // Selecting Explore opens the full Home experience and restores its header.
-  // Header visibility is controlled only by the dedicated Show/Hide header button.
-  homeHeroHidden.value = false
+  // On mobile, Explore opens the content with the header collapsed so the
+  // Explore and Show header controls stay visible in the available space.
+  homeHeroHidden.value = window.matchMedia('(max-width: 760px)').matches
   homeHeaderChatOpen.value = false
   nextTick(() => window.scrollTo({ top: 0, behavior: 'smooth' }))
 }
