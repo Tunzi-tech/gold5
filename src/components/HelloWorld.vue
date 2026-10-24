@@ -191,7 +191,7 @@ function playNavigationPortal() {
     navigationPortalTimer = setTimeout(() => {
       showNavigationPortal.value = false
       navigationPortalTimer = null
-    }, 1120)
+    }, 1220)
   })
 }
 const platformCircles = [
