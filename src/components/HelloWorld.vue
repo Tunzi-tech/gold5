@@ -196,7 +196,7 @@ function playNavigationPortal() {
 }
 const platformCircles = [
   { id: 'main', name: 'COMMONS', mark: '◉', color: 'blue', view: 'home' },
-  { id: 'flow', name: 'Live Flow', mark: '✳', color: 'blue', view: 'live-flow' },
+  { id: 'flow', name: 'Live Flow', mark: '⟳', color: 'blue', view: 'live-flow' },
   { id: 'ideas', name: 'Ideas Lab', mark: '✧', color: 'violet', view: 'learn' },
   { id: 'studio', name: 'Creative Studio', mark: '✦', color: 'violet', view: 'initiatives' },
   { id: 'connect', name: 'Connections', mark: '∞', color: 'gold', view: 'people' },
@@ -4976,7 +4976,7 @@ onBeforeUnmount(() => {
             :class="{ active: activeView === 'live-flow' }"
             @click="navigate('live-flow')"
           >
-            <span class="icon">◎</span>
+            <span class="icon">⟳</span>
             Live Flow
           </button>
         </div>
@@ -5463,7 +5463,7 @@ onBeforeUnmount(() => {
             @click="navigate('live-flow')"
             aria-label="Open Live Flow"
           >
-            <span aria-hidden="true">◎</span>
+            <span aria-hidden="true">⟳</span>
             <strong>Live Flow</strong>
           </button>
         </div>
