@@ -122,3 +122,20 @@ header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-imp
     rotate: 0deg !important;
   }
 }
+
+
+/* Hide the main logo orb while Impact is selected, without hiding Impact's own button icon. */
+@media screen and (max-width: 760px) {
+  header.topbar:has(.mobile-your-space-button.active) .brand-orbit:not(.mobile-impact-orbit):not(.mobile-flow-orbit)::before,
+  header.topbar:has(.mobile-your-space-button.active) .brand-orbit:not(.mobile-impact-orbit):not(.mobile-flow-orbit)::after {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    animation: none !important;
+  }
+
+  header.topbar:has(.mobile-your-space-button.active) .brand-orbit:not(.mobile-impact-orbit):not(.mobile-flow-orbit) {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    animation: none !important;
+  }
+}
