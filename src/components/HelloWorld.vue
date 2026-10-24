@@ -22908,11 +22908,12 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
       linear-gradient(112deg, rgba(43, 43, 52, .96), rgba(20, 29, 43, .98)) !important;
   }
   header.topbar > .mobile-home-space-row > .mobile-your-space-button.active {
-    border-color: rgba(245, 211, 88, .72) !important;
+    /* Selected Impact keeps the platform's dark blue-violet surface; accents show selection. */
+    border-color: rgba(235, 205, 104, .72) !important;
     background:
-      radial-gradient(ellipse at 18% -25%, rgba(239, 203, 112, .23), transparent 70%),
-      linear-gradient(112deg, rgba(67, 59, 53, .94), rgba(27, 35, 47, .98)) !important;
-    box-shadow: inset 0 0 0 1px rgba(247, 220, 155, .10), 0 0 13px rgba(224, 184, 93, .12) !important;
+      radial-gradient(ellipse at 18% -25%, rgba(117, 137, 202, .16), transparent 70%),
+      linear-gradient(112deg, rgba(35, 47, 72, .97), rgba(17, 30, 47, .99)) !important;
+    box-shadow: inset 0 0 0 1px rgba(157, 176, 224, .08), 0 0 10px rgba(108, 137, 207, .09) !important;
   }
   header.topbar > .mobile-home-space-row > .mobile-your-space-button .mobile-home-bar-arrow {
     color: #c4d5f0 !important;
