@@ -179,3 +179,39 @@ header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-imp
     display: none !important;
   }
 }
+
+
+/* Clear, distinct symbols for the three actions in the mobile issue menu. */
+@media screen and (max-width: 900px) {
+  header.topbar .mobile-issue-menu .issue-target-mark svg {
+    display: block !important;
+    width: 19px !important;
+    height: 19px !important;
+    overflow: visible !important;
+  }
+  header.topbar .mobile-issue-menu .issue-target-mark .target-ring {
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 1.7 !important;
+    stroke-linecap: round !important;
+  }
+  header.topbar .mobile-issue-menu .issue-target-mark .target-ring-outer {
+    stroke-dasharray: 8 3.5 !important;
+    transform: rotate(-22deg);
+    transform-origin: 12px 12px;
+  }
+  header.topbar .mobile-issue-menu .issue-target-mark .target-ring-inner {
+    stroke-dasharray: 5 3 !important;
+    transform: rotate(24deg);
+    transform-origin: 12px 12px;
+  }
+  header.topbar .mobile-issue-menu .report-issue-mark {
+    font-size: 19px !important;
+    font-weight: 700 !important;
+  }
+  header.topbar .mobile-issue-menu .share-post-mark {
+    font-size: 24px !important;
+    line-height: 16px !important;
+    font-weight: 400 !important;
+  }
+}
