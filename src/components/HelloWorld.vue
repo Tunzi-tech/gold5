@@ -22524,7 +22524,7 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
 .nfas-opening-wordmark{margin-top:22px;color:#e6edfb;font-size:13px;font-weight:600;letter-spacing:.36em;text-indent:.36em;opacity:0;animation:nfas-opening-label-in .5s ease-out .55s both}
 @keyframes nfas-opening-arrive{0%{opacity:0;transform:translateY(24px) scale(.88);filter:blur(5px)}68%{opacity:1;transform:translateY(-2px) scale(1.025);filter:blur(0)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
 @keyframes nfas-opening-icon-in{0%{opacity:0;transform:translateY(10px) scale(.7)}75%{opacity:1;transform:translateY(-2px) scale(1.06)}100%{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes nfas-opening-connect{to{transform:scaleX(1)}}
+@keyframes nfas-opening-connect{to{transform:scale(1)}}
 @keyframes nfas-opening-rings{0%{opacity:0;transform:scale(.92)}45%{opacity:.8}100%{opacity:.22;transform:scale(1.04)}}
 @keyframes nfas-opening-aura{0%{opacity:.15;transform:scale(.72)}55%{opacity:1;transform:scale(1.06)}100%{opacity:.7;transform:scale(1)}}
 @keyframes nfas-opening-label-in{to{opacity:1}}@keyframes nfas-opening-item-label-in{to{opacity:1;transform:translateY(0)}}
@@ -22546,7 +22546,7 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
 .nfas-navigation-link{position:relative;flex:0 0 20px;width:20px;height:20px;max-width:20px;border:1px solid rgba(156,157,255,.72);border-radius:50%;background:radial-gradient(circle,rgba(133,151,255,.2) 0 18%,rgba(16,25,48,.15) 45%,transparent 68%);box-shadow:0 0 7px rgba(112,153,255,.16);transform:scale(.2);transform-origin:center;animation:nfas-navigation-link-in .35s ease-out .22s both}.nfas-navigation-link::before,.nfas-navigation-link::after{content:"";position:absolute;inset:-4px;border:1px solid rgba(112,176,255,.36);border-radius:50%;pointer-events:none}.nfas-navigation-link::after{inset:-7px;border-color:rgba(190,143,255,.24)}
 @keyframes nfas-navigation-portal-in{0%{opacity:0;transform:translateY(9px) scale(.9);filter:blur(3px)}30%{opacity:1;filter:blur(0)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
 @keyframes nfas-navigation-icon-in{to{opacity:1;transform:scale(1)}}@keyframes nfas-navigation-item-label-in{to{opacity:1;transform:translateY(0)}}
-@keyframes nfas-navigation-link-in{to{transform:scaleX(1)}}
+@keyframes nfas-navigation-link-in{to{transform:scale(1)}}
 @keyframes nfas-navigation-ring{0%{opacity:0;transform:scale(.94)}45%{opacity:.62}100%{opacity:.1;transform:scale(1.04)}}
 @keyframes nfas-navigation-aura-in{0%{opacity:0;transform:scale(.7)}45%{opacity:1}100%{opacity:.72;transform:scale(1)}}
 @media(max-width:600px){.nfas-navigation-portal{width:min(282px,calc(100vw - 36px));height:94px;gap:6px;padding:9px 13px 8px;border-radius:20px}.nfas-navigation-item{flex-basis:38px;gap:5px}.nfas-navigation-icon{flex-basis:29px;width:29px;height:29px;border-radius:9px}.nfas-navigation-icon svg{width:18px;height:18px}.nfas-navigation-item-label{font-size:8px;letter-spacing:.05em}.nfas-navigation-portal::before{border-radius:24px}.nfas-navigation-portal::after{border-radius:27px}}
