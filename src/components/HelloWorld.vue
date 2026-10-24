@@ -932,7 +932,7 @@ const showCallsSubnav = ref(true)
 const showPagesMoreSubnav = ref(false)
 const sidebarSpace = ref<'zones' | 'networks' | 'connections'>('networks')
 const showAccountMenu = ref(false)
-const language = ref<'en' | 'ar'>('en')
+const language = ref<'en' | 'ar' | 'fr'>('en')
 const showLanguageMenu = ref(false)
 const showWhatsGoingOn = ref(false)
 const showZonesAroundNetworkFlow = ref(false)
@@ -3900,6 +3900,206 @@ const arabicDictionary: Record<string, string> = {
   'Just joined a local mobility discussion.':'انضممت للتو إلى نقاش محلي حول التنقل.'
 }
 
+
+const frenchDictionary: Record<string, string> = {
+  'ADDED TO YOUR ZONES':'AJOUTÉ À VOS ZONES',
+  'COMMONS':'ESPACE COMMUN',
+  'PEOPLE · IDEAS · IMPACT':'PERSONNES · IDÉES · IMPACT',
+  'LEARN & DISCOVER':'APPRENDRE ET DÉCOUVRIR',
+  'Impacting':'Agir pour un impact',
+  'Zones Around':'Zones autour de vous',
+  'Your Zones':'Vos zones',
+  'Flow':'Flux',
+  'Within the Flow':'Au cœur du flux',
+  'More':'Plus',
+  'Keep exploring your places.':'Continuez à explorer vos lieux.',
+  'Places connected to your Zones, your activity and the things happening around them.':'Des lieux liés à vos zones, à votre activité et à ce qui s’y passe.',
+  'My Networks are yours to build.':'À vous de construire vos réseaux.',
+  'Create an organisation, community or initiative and grow its connections.':'Créez une organisation, une communauté ou une initiative et développez ses liens.',
+  'See what your activity connects you to.':'Découvrez les liens créés par votre activité.',
+  'People, networks, Calls and places can gather here as your Commons grows.':'Les personnes, réseaux, appels et lieux se retrouvent ici à mesure que votre espace commun grandit.',
+  'You':'Vous',
+  'My Zones':'Mes zones',
+  'Home':'Accueil',
+  'Circles':'Cercles',
+  'Commons':'Espace commun',
+  'Zones':'Zones',
+  'Calls & Commons':'Appels et espace commun',
+  'People':'Personnes',
+  'YOUR PARTICIPATION':'VOTRE PARTICIPATION',
+  'My Events':'Mes événements',
+  'Events and community calls you are participating in, all in one place.':'Retrouvez ici les événements et appels communautaires auxquels vous participez.',
+  'View event':'Voir l’événement',
+  'ZONE':'ZONE',
+  'LIVE FLOW':'FLUX EN DIRECT',
+  'From people you follow':'Des personnes que vous suivez',
+  'GET INSPIRED':'TROUVEZ L’INSPIRATION',
+  'What could this become?':'Que pourrait devenir cette idée ?',
+  'CONNECTED SOMEHOW':'LIÉ D’UNE FAÇON OU D’UNE AUTRE',
+  'People you may know':'Personnes que vous connaissez peut-être',
+  'YOUR ZONE':'VOTRE ZONE',
+  'Members':'Membres',
+  'Participating':'Participants',
+  'Suggestions':'Suggestions',
+  "What's happening across the network.":'Ce qui se passe dans le réseau.',
+  'GLOBAL':'MONDIAL',
+  'LOCAL':'LOCAL',
+  'NORTH TUNISIA':'NORD DE LA TUNISIE',
+  'CENTRAL TUNISIA':'CENTRE DE LA TUNISIE',
+  'SOUTH TUNISIA':'SUD DE LA TUNISIE',
+  'TUNIS':'TUNIS',
+  'LA MARSA':'LA MARSA',
+  'TUNIS NORTH':'TUNIS NORD',
+  'joined':'a rejoint',
+  'INITIATIVE':'INITIATIVE',
+  'started a new initiative for more green public spaces.':'a lancé une initiative pour créer davantage d’espaces verts publics.',
+  'PARTICIPATION':'PARTICIPATION',
+  'participated in the':'a participé à l’objectif',
+  'goal.':'.',
+  'CONNECTION':'CONNEXION',
+  'connected with people working on mobility.':'a rencontré des personnes qui travaillent sur la mobilité.',
+  'NEW ZONE':'NOUVELLE ZONE',
+  'was created as a new local Zone.':'a été créée comme nouvelle zone locale.',
+  'SUPPORT':'SOUTIEN',
+  'supported an idea about community gardens.':'a soutenu une idée de jardins partagés.',
+  'IDEA':'IDÉE',
+  'received a new suggestion from a Zone member.':'a reçu une nouvelle suggestion d’un membre de la zone.',
+  'FOLLOW':'ABONNEMENT',
+  'gained a new follower.':'a gagné un nouvel abonné.',
+  'ENTITY':'ENTITÉ',
+  'was identified by a member as a place connected to Tunis North.':'a été identifiée par un membre comme un lieu lié à Tunis Nord.',
+  'PAGE':'PAGE',
+  'published a new update for its community.':'a publié une mise à jour pour sa communauté.',
+  'GOAL':'OBJECTIF',
+  'moved from 60% to 62% participation.':'est passé de 60 % à 62 % de participation.',
+  'DISCOVERY':'DÉCOUVERTE',
+  'discovered a connection between a local business and a community initiative.':'a découvert un lien entre une entreprise locale et une initiative communautaire.',
+  'POST':'PUBLICATION',
+  'shared a new perspective about safer streets.':'a partagé un nouveau point de vue sur la sécurité des rues.',
+  'CALL':'APPEL',
+  'opened a Call for people interested in walking and cycling.':'a lancé un appel aux personnes intéressées par la marche et le vélo.',
+  'JOIN':'REJOINDRE',
+  'joined the Urban Mobility Call and became a participant.':'a rejoint l’appel sur la mobilité urbaine et y participe.',
+  'ACHIEVEMENT':'RÉALISATION',
+  'documented an act that helped improve a shared public space.':'a documenté une action ayant amélioré un espace public partagé.',
+  'NETWORK':'RÉSEAU',
+  'are now connected through a shared interest in community gardens.':'sont désormais liés par leur intérêt commun pour les jardins partagés.',
+  'QUESTION':'QUESTION',
+  'asked a question about how to make local participation easier.':'a posé une question sur la manière de faciliter la participation locale.',
+  'RIGHT NOW':'EN CE MOMENT',
+  'Everything is connected.':'Tout est lié.',
+  'People, Zones, Pages, Initiatives, Goals, Ideas, Entities and Calls are moving through the network.':'Les personnes, zones, pages, initiatives, objectifs, idées, entités et appels évoluent au sein du réseau.',
+  'active explorers':'explorateurs actifs',
+  'sparks':'idées émergentes',
+  'connected orbits':'orbites connectées',
+  'new things to be explored':'nouveautés à explorer',
+  'new connections':'nouvelles connexions',
+  'opportunities for someone':'possibilités pour quelqu’un',
+  'active Calls':'appels actifs',
+  'Someone right there needs us':'Quelqu’un près de nous a besoin de nous',
+  'FOLLOW THE FLOW':'SUIVRE LE FLUX',
+  'IMPACT & AWARENESS':'IMPACT ET SENSIBILISATION',
+  'See what matters. Understand the impact.':'Voyez ce qui compte. Comprenez son impact.',
+  'ALL':'TOUT',
+  'IF NOTHING CHANGES':'SI RIEN NE CHANGE',
+  'WHAT WE CAN DO':'CE QUE NOUS POUVONS FAIRE',
+  'POSSIBLE FUTURES':'AVENIRS POSSIBLES',
+  'LIVE':'EN DIRECT',
+  'Shared green spaces are becoming a local concern.':'Les espaces verts partagés deviennent une préoccupation locale.',
+  'residents':'habitants',
+  'Zone participants':'participants de la zone',
+  'EXPLORE THE ZONE →':'EXPLORER LA ZONE →',
+  'What can this affect over time?':'Quelles conséquences cela peut-il avoir avec le temps ?',
+  'Less usable green space':'Moins d’espaces verts utilisables',
+  'Less shade & comfort':'Moins d’ombre et de confort',
+  'Less everyday use':'Moins d’usage au quotidien',
+  'More pressure on remaining spaces':'Davantage de pression sur les espaces restants',
+  'Turn awareness into a possibility.':'Transformez la prise de conscience en possibilité.',
+  'Protect a place that already works.':'Protégez un lieu qui fonctionne déjà.',
+  'Join people already working on it.':'Rejoignez les personnes déjà mobilisées.',
+  'Bring the issue into a local Call.':'Portez le sujet dans un appel local.',
+  'Start one small action and learn from it.':'Lancez une petite action et tirez-en des enseignements.',
+  'FIND A CALL →':'TROUVER UN APPEL →',
+  'Why do cities need trees beyond aesthetics?':'Pourquoi les villes ont-elles besoin d’arbres au-delà de l’esthétique ?',
+  'KNOWLEDGE · URBAN NATURE · 6 MIN':'CONNAISSANCES · NATURE EN VILLE · 6 MIN',
+  'READ ARTICLE →':'LIRE L’ARTICLE →',
+  'What could this place become?':'Que pourrait devenir ce lieu ?',
+  'TODAY':'AUJOURD’HUI',
+  'POSSIBILITY':'POSSIBILITÉ',
+  'THE FLOW':'LE FLUX',
+  'SEE':'VOIR',
+  'UNDERSTAND':'COMPRENDRE',
+  'REALIZE':'PRENDRE CONSCIENCE',
+  'IMAGINE':'IMAGINER',
+  'CHOOSE':'CHOISIR',
+  'ACT':'AGIR',
+  'Open a door. Follow your curiosity.':'Ouvrez une porte. Suivez votre curiosité.',
+  'NOTICE':'OBSERVER',
+  'Start with what catches your attention.':'Commencez par ce qui attire votre attention.',
+  'EXPLORE':'EXPLORER',
+  'Look beyond the first explanation.':'Allez au-delà de la première explication.',
+  'CONNECT':'RELIER',
+  'Find relationships between ideas.':'Trouvez des liens entre les idées.',
+  'DISCOVER':'DÉCOUVRIR',
+  'Leave with a new possibility.':'Repartez avec une nouvelle possibilité.',
+  'START HERE':'COMMENCEZ ICI',
+  'Why does a local issue become a bigger system?':'Comment un problème local devient-il un système plus vaste ?',
+  'SYSTEMS':'SYSTÈMES',
+  'CONNECTIONS':'CONNEXIONS',
+  'EXPLORE THE CONNECTIONS →':'EXPLORER LES CONNEXIONS →',
+  'SCIENCE':'SCIENCE',
+  'How does an ecosystem stay in balance?':'Comment un écosystème maintient-il son équilibre ?',
+  'FOUNDATIONS · 8 MIN':'FONDAMENTAUX · 8 MIN',
+  'OPEN DISCOVERY →':'OUVRIR LA DÉCOUVERTE →',
+  'CITIES':'VILLES',
+  'What makes a place feel alive?':'Qu’est-ce qui rend un lieu vivant ?',
+  'PLACE · 6 MIN':'LIEU · 6 MIN',
+  'EXPLORE PLACES →':'EXPLORER LES LIEUX →',
+  'FUTURES':'AVENIRS',
+  'How do we imagine a future before building it?':'Comment imaginer un avenir avant de le construire ?',
+  'POSSIBILITIES · 7 MIN':'POSSIBILITÉS · 7 MIN',
+  'SEE POSSIBLE FUTURES →':'VOIR LES AVENIRS POSSIBLES →',
+  'A QUESTION TO FOLLOW':'UNE QUESTION À EXPLORER',
+  'What feels wrong enough to make you curious?':'Qu’est-ce qui vous interpelle au point d’éveiller votre curiosité ?',
+  'OBSERVE':'OBSERVER',
+  'ASK':'QUESTIONNER',
+  'LEARN':'APPRENDRE',
+  'LEARN FROM A ZONE':'APPRENDRE D’UNE ZONE',
+  'Knowledge is also where people live it.':'Le savoir se construit aussi dans l’expérience vécue.',
+  'DISCOVER ZONES AROUND →':'DÉCOUVRIR LES ZONES AUTOUR →',
+  'KEEP EXPLORING':'CONTINUER À EXPLORER',
+  'One discovery can reconnect scattered parts.':'Une découverte peut reconnecter des éléments dispersés.',
+  'Learn from what works, learn from what fails, and let new questions open the next door.':'Apprenez de ce qui fonctionne comme de ce qui échoue, et laissez de nouvelles questions ouvrir la prochaine porte.',
+  'Back to people':'Retour aux personnes',
+  'PROFILE':'PROFIL',
+  'Back to Live Flow':'Retour au flux en direct',
+  'CONNECTED THROUGH':'CONNECTÉ PAR',
+  'How this profile connects to the Commons':'Comment ce profil est lié à l’espace commun',
+  'Back to Zones Around':'Retour aux zones autour de vous',
+  'PEOPLE ARE TALKING · LIVE':'LES PERSONNES ÉCHANGENT · EN DIRECT',
+  'Join a conversation':'Rejoignez une conversation',
+  'already happening.':'déjà en cours.',
+  'Start with a real question, see who is here, and add your voice. This is where local curiosity becomes connection.':'Partez d’une vraie question, découvrez qui est présent et faites entendre votre voix. Ici, la curiosité locale devient connexion.',
+  'JOIN CONVERSATION':'REJOINDRE LA CONVERSATION',
+  'OPEN TUNIS NORTH':'OUVRIR TUNIS NORD',
+  'CONNECTED CONTEXT':'CONTEXTE CONNECTÉ',
+  'Language':'Langue',
+  'Disconnect':'Déconnexion',
+  'Administration':'Administration',
+  'System Design':'Conception du système',
+  'Home':'Accueil',
+  'Live Flow':'Flux en direct',
+  'Impact & Awareness':'Impact et sensibilisation',
+  'Learn & Discover':'Apprendre et découvrir',
+  'Calls':'Appels',
+  'Initiatives':'Initiatives',
+  'Pages':'Pages',
+  'Entities':'Entités',
+  'People':'Personnes',
+  'Create':'Créer',
+  'More':'Plus'
+}
+
 const translations = {
   en: {
     home:'Home', liveFlow:'Live Flow', impactAwareness:'Impact & Awareness', learnDiscover:'Learn & Discover',
@@ -3911,7 +4111,13 @@ const translations = {
     home:'الرئيسية', liveFlow:'التدفق الحي', impactAwareness:'الأثر والوعي', learnDiscover:'تعلّم واكتشف',
     impact:'التأثير', flow:'التدفق', calls:'المكالمات', initiatives:'المبادرات', pages:'الصفحات', more:'المزيد', entities:'الكيانات',
     people:'الأشخاص', create:'إنشاء', administration:'الإدارة', systemDesign:'تصميم النظام', systems:'الأنظمة',
-    disconnect:'قطع الاتصال', language:'اللغة', english:'English', arabic:'العربية', search:'ابحث عن أشخاص أو صفحات أو منشورات أو مناطق...'
+    disconnect:'تسجيل الخروج', language:'اللغة', english:'الإنجليزية', arabic:'العربية', french:'الفرنسية', search:'ابحث عن أشخاص أو صفحات أو منشورات أو مناطق...'
+  },
+  fr: {
+    home:'Accueil', liveFlow:'Flux en direct', impactAwareness:'Impact et sensibilisation', learnDiscover:'Apprendre et découvrir',
+    impact:'Impact', flow:'Flux', calls:'Appels', initiatives:'Initiatives', pages:'Pages', more:'Plus', entities:'Entités',
+    people:'Personnes', create:'Créer', administration:'Administration', systemDesign:'Conception du système', systems:'Systèmes',
+    disconnect:'Déconnexion', language:'Langue', english:'Anglais', arabic:'Arabe', french:'Français', search:'Rechercher des personnes, pages, publications ou zones...'
   }
 } as const
 
@@ -3936,8 +4142,9 @@ function translatePage() {
     const value = original.replace(/\\s+/g, ' ').trim()
     if (!value) return
 
-    if (language.value === 'ar') {
-      const translated = arabicDictionary[value]
+    if (language.value === 'ar' || language.value === 'fr') {
+      const dictionary = language.value === 'ar' ? arabicDictionary : frenchDictionary
+      const translated = dictionary[value]
       if (translated) {
         const current = textNode.textContent || ''
         textNode.textContent = current.replace(value, translated)
@@ -3949,7 +4156,7 @@ function translatePage() {
 }
 
 
-function setLanguage(value: 'en' | 'ar') {
+function setLanguage(value: 'en' | 'ar' | 'fr') {
   language.value = value
   translatePage()
   showLanguageMenu.value = false
@@ -4812,7 +5019,7 @@ onMounted(() => {
   if (savedLiveQueue) loadLiveQueue(savedLiveQueue)
   window.addEventListener('storage', handleLiveSongStorage)
   const savedLanguage = localStorage.getItem('commons-language')
-  if (savedLanguage === 'ar' || savedLanguage === 'en') language.value = savedLanguage
+  if (savedLanguage === 'ar' || savedLanguage === 'en' || savedLanguage === 'fr') language.value = savedLanguage
   document.documentElement.lang = language.value
   document.documentElement.dir = language.value === 'ar' ? 'rtl' : 'ltr'
   translatePage()
@@ -5360,11 +5567,12 @@ onBeforeUnmount(() => {
               <button type="button" class="profile-menu-language" @click="showLanguageMenu = !showLanguageMenu">
                 <span class="profile-menu-dot"></span>
                 {{ t('language') }}
-                <span class="profile-menu-chevron">{{ language === 'en' ? 'EN' : 'AR' }}⌄</span>
+                <span class="profile-menu-chevron">{{ language.toUpperCase() }}⌄</span>
               </button>
               <div v-if="showLanguageMenu" class="language-options">
                 <button type="button" :class="{ active: language === 'en' }" @click="setLanguage('en')">{{ t('english') }}</button>
                 <button type="button" :class="{ active: language === 'ar' }" @click="setLanguage('ar')">{{ t('arabic') }}</button>
+                <button type="button" :class="{ active: language === 'fr' }" @click="setLanguage('fr')">{{ t('french') }}</button>
               </div>
               <div class="profile-menu-divider"></div>
               <button type="button" class="profile-menu-disconnect" @click="disconnect">
@@ -23549,5 +23757,50 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
 }
 @media (max-width: 760px) {
   header.topbar > .desktop-primary-nav { display: none !important; }
+}
+</style>
+
+<style>
+/* Arabic RTL layout: anchor the desktop sidebar on the right and reserve space on that side. */
+.app-shell.rtl-mode { direction: rtl; }
+.app-shell.rtl-mode > .sidebar {
+  left: auto !important;
+  right: 0 !important;
+  border-right: 0 !important;
+  border-left: 1px solid rgba(145,169,204,.13) !important;
+  box-shadow: -10px 0 34px rgba(0,0,0,.07) !important;
+}
+.app-shell.rtl-mode > .main {
+  margin-left: 0 !important;
+  margin-right: var(--commons-sidebar-width, 244px) !important;
+  width: calc(100% - var(--commons-sidebar-width, 244px)) !important;
+}
+.app-shell.rtl-mode .main-nav button,
+.app-shell.rtl-mode .awareness-nav-button { text-align: right; }
+.app-shell.rtl-mode .main-nav button.active { box-shadow: inset -2px 0 0 rgba(112,168,255,.72); }
+.app-shell.rtl-mode .sidebar .main-nav { direction: rtl; }
+.app-shell.rtl-mode .sidebar .brand { flex-direction: row; }
+.app-shell.rtl-mode .profile-menu { right: auto; left: 0; }
+.app-shell.rtl-mode .profile-menu-chevron { margin-left: 0; margin-right: auto; }
+.app-shell.rtl-mode .language-options { direction: rtl; }
+@media (max-width: 900px) and (min-width: 761px) {
+  .app-shell.rtl-mode > .main {
+    margin-right: var(--commons-sidebar-width, 218px) !important;
+    margin-left: 0 !important;
+    width: calc(100% - var(--commons-sidebar-width, 218px)) !important;
+  }
+}
+@media (max-width: 760px) {
+  .app-shell.rtl-mode > .main {
+    margin: 0 !important;
+    width: 100% !important;
+  }
+  .app-shell.rtl-mode .mobile-more-overlay { justify-content: flex-start !important; }
+  .app-shell.rtl-mode .mobile-more-drawer {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    border-left: 0 !important;
+    border-right: 1px solid rgba(111,145,193,.24) !important;
+  }
 }
 </style>
