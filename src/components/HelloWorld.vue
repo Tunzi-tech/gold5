@@ -23222,10 +23222,12 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
   display: none !important;
 }
 .home-commons-content .home-view-switch button.active {
-  border: 1px solid rgba(115, 185, 201, .72) !important;
-  color: #e7fbff !important;
-  background: linear-gradient(110deg, rgba(115,185,201,.20), rgba(159,143,255,.16)) !important;
-  box-shadow: inset 0 0 0 1px rgba(115,185,201,.12), 0 0 12px rgba(115,185,201,.12) !important;
+  border: 1px solid rgba(129, 190, 255, .98) !important;
+  color: #ffffff !important;
+  background:
+    radial-gradient(ellipse at 14% 0%, rgba(79, 187, 255, .48), transparent 75%),
+    linear-gradient(112deg, rgba(32, 127, 213, .92), rgba(104, 72, 185, .88)) !important;
+  box-shadow: inset 0 0 0 1px rgba(210, 232, 255, .17), 0 0 0 1px rgba(76, 151, 255, .20), 0 0 20px rgba(86, 112, 245, .26) !important;
 }
 .home-commons-content.home-hero-collapsed > .home-view-switch {
   display: inline-flex !important;
