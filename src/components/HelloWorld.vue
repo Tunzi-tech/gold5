@@ -3663,9 +3663,9 @@ const arabicDictionary: Record<string, string> = {
   'My Zones':'مناطقي',
   'Home':'الرئيسية',
   'Circles':'الدوائر',
-  'Commons':'كومنز',
+  'Commons':'المساحة المشتركة',
   'Zones':'المناطق',
-  'Calls & Commons':'المكالمات وكومنز',
+  'Calls & Commons':'المكالمات والمساحة المشتركة',
   'People':'الأشخاص',
   'YOUR PARTICIPATION':'مشاركتك',
   'My Events':'فعالياتي',
@@ -5021,7 +5021,7 @@ onMounted(() => {
   document.documentElement.dir = language.value === 'ar' ? 'rtl' : 'ltr'
   translatePage()
   languageObserver = new MutationObserver(() => {
-    if (language.value === 'ar') translatePage()
+    if (language.value === 'ar' || language.value === 'fr') translatePage()
   })
   languageObserver.observe(document.body, { childList: true, subtree: true })
   liveMovingChatTimer = setInterval(pushLiveMovingSampleMessage, 12000)
