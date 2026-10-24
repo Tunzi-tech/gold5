@@ -5533,7 +5533,7 @@ onBeforeUnmount(() => {
             </button>
             <button type="button" role="menuitem" @click="mobileIssueMenuOpen = false; showCreatePost = true">
               <span class="mobile-issue-menu-mark share-post-mark" aria-hidden="true">+</span>
-              <span><strong>Share something</strong><small>Create a post</small></span>
+              <span><strong>Share something</strong><small class="share-post-action-label">Create a post</small></span>
             </button>
           </div>
           <button
