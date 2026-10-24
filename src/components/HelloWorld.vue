@@ -3900,6 +3900,149 @@ const arabicDictionary: Record<string, string> = {
   'Looking for people interested in greener streets.':'أبحث عن أشخاص مهتمين بشوارع أكثر خضرة.',
   'Anyone working on safer walking routes?':'هل يعمل أحد على مسارات مشي أكثر أمانًا؟',
   'Just joined a local mobility discussion.':'انضممت للتو إلى نقاش محلي حول التنقل.'
+  "Explore": "استكشف",
+  "Exploring": "جارٍ الاستكشاف",
+  "Zone Impacting": "التأثير في المناطق",
+  "Impact": "الأثر",
+  "Impacting": "التأثير",
+  "Network Chat": "محادثة الشبكة",
+  "People Spark": "شرارة الأشخاص",
+  "Network": "الشبكة",
+  "Chat": "المحادثة",
+  "Search": "بحث",
+  "Explore the Commons": "استكشف المساحة المشتركة",
+  "Find calls, people & more": "اعثر على مكالمات وأشخاص والمزيد",
+  "What would you like to make an impact on?": "ما الذي تود إحداث أثر فيه؟",
+  "Ideas become": "تتحول الأفكار إلى",
+  "Your Zone, a place for change.": "منطقتك، مساحة للتغيير.",
+  "impacting where you are": "إحداث أثر حيث أنت",
+  "Local": "محلي",
+  "World": "العالم",
+  "World Calls": "مكالمات عالمية",
+  "Local Calls": "مكالمات محلية",
+  "Calls": "المكالمات",
+  "Feed": "التغذية",
+  "Home": "الرئيسية",
+  "Live Flow": "التدفق الحي",
+  "People": "الأشخاص",
+  "Actions": "الأفعال",
+  "Voices": "الأصوات",
+  "Pages": "الصفحات",
+  "Entities": "الكيانات",
+  "My Networks": "شبكاتي",
+  "My Connexion": "اتصالاتي",
+  "Your Zones": "مناطقك",
+  "Zones Around": "المناطق من حولك",
+  "Within the Flow": "داخل التدفق",
+  "More Flow": "المزيد من التدفق",
+  "Anfas": "أنفاس",
+  "Notifications": "الإشعارات",
+  "Messages": "الرسائل",
+  "Settings": "الإعدادات",
+  "Profile": "الملف الشخصي",
+  "Account": "الحساب",
+  "Language": "اللغة",
+  "English": "الإنجليزية",
+  "Arabic": "العربية",
+  "French": "الفرنسية",
+  "Disconnect": "تسجيل الخروج",
+  "Cancel": "إلغاء",
+  "Save": "حفظ",
+  "Create": "إنشاء",
+  "Edit": "تعديل",
+  "Delete": "حذف",
+  "Close": "إغلاق",
+  "Back": "رجوع",
+  "Next": "التالي",
+  "Continue": "متابعة",
+  "Submit": "إرسال",
+  "Send": "إرسال",
+  "Share": "مشاركة",
+  "Join": "انضمام",
+  "Participate": "شارك",
+  "Follow": "متابعة",
+  "Following": "تتابع",
+  "Like": "أعجبني",
+  "Comment": "تعليق",
+  "Comments": "التعليقات",
+  "View all": "عرض الكل",
+  "See more": "عرض المزيد",
+  "Show more": "إظهار المزيد",
+  "Learn more": "اعرف المزيد",
+  "Search people, pages, posts or zones...": "ابحث عن أشخاص أو صفحات أو منشورات أو مناطق...",
+  "Search calls, questions, places...": "ابحث عن مكالمات أو أسئلة أو أماكن...",
+  "Search pages, communities, projects...": "ابحث عن صفحات أو مجتمعات أو مشاريع...",
+  "Search topics, questions or sources…": "ابحث عن مواضيع أو أسئلة أو مصادر…",
+  "Search articles": "ابحث في المقالات",
+  "Enter password": "أدخل كلمة المرور",
+  "System name": "اسم النظام",
+  "Purpose (optional)": "الغرض (اختياري)",
+  "Search architecture...": "ابحث في الهندسة...",
+  "Add to selected system": "أضف إلى النظام المحدد",
+  "Create a new system from this": "أنشئ نظامًا جديدًا من هذا",
+  "Duplicate": "نسخ",
+  "Remove": "إزالة",
+  "Folder name": "اسم المجلد",
+  "Purpose or description": "الغرض أو الوصف",
+  "People to include": "الأشخاص المراد إضافتهم",
+  "First connection": "أول اتصال",
+  "First note or proposal": "أول ملاحظة أو مقترح",
+  "Add a person by name": "أضف شخصًا بالاسم",
+  "Share a note, question or proposal...": "شارك ملاحظة أو سؤالًا أو مقترحًا...",
+  "Share what you know, experienced or verified about this entity...": "شارك ما تعرفه أو عايشته أو تحققت منه بشأن هذا الكيان...",
+  "Choose a country": "اختر بلدًا",
+  "Choose a Tunisia region": "اختر منطقة في تونس",
+  "Filter Your Zones by connection": "صفِّ مناطقك حسب الاتصال",
+  "What are you thinking about, observing or discovering?": "بماذا تفكر أو ماذا تلاحظ أو تكتشف؟",
+  "City, neighborhood or area": "المدينة أو الحي أو المنطقة",
+  "Describe what people could care about together...": "صف ما يمكن أن يهتم به الناس معًا...",
+  "What should this zone consider?": "ما الذي ينبغي لهذه المنطقة أن تأخذه بعين الاعتبار؟",
+  "What positive possibility could people work toward?": "ما الإمكانية الإيجابية التي يمكن للناس العمل من أجلها؟",
+  "Possible next steps, conversations or actions.": "خطوات أو محادثات أو أفعال ممكنة تالية.",
+  "Describe plausible consequences without presenting uncertainty as fact.": "صف النتائج المحتملة دون عرض الأمور غير المؤكدة كحقائق.",
+  "Add a source, report, link title or note": "أضف مصدرًا أو تقريرًا أو عنوان رابط أو ملاحظة",
+  "What does this Page bring into the Commons?": "ما الذي تضيفه هذه الصفحة إلى المساحة المشتركة؟",
+  "Ask the question, describe the possibility or explain what needs attention...": "اطرح السؤال أو صف الإمكانية أو وضّح ما يحتاج إلى الاهتمام...",
+  "Add to the conversation...": "أضف إلى المحادثة...",
+  "What is this entity?": "ما هذا الكيان؟",
+  "Community, Environment, Innovation...": "المجتمع، البيئة، الابتكار...",
+  "Names separated by commas": "أسماء مفصولة بفواصل",
+  "A person, Zone, Page, idea or project": "شخص أو منطقة أو صفحة أو فكرة أو مشروع",
+  "What do you want to explore or build together?": "ما الذي تريدون استكشافه أو بناءه معًا؟",
+  "What should the group consider first?": "ما الذي ينبغي للمجموعة التفكير فيه أولًا؟",
+  "e.g. Safer streets in Tunis North": "مثال: شوارع أكثر أمانًا في شمال تونس",
+  "Example: Green Horizon": "مثال: الأفق الأخضر",
+  "Example: Last Hope": "مثال: الأمل الأخير",
+  "Tunis North, La Marsa, online...": "شمال تونس، المرسى، عبر الإنترنت...",
+  "Example: Tunis North": "مثال: شمال تونس",
+  "e.g. Community Garden": "مثال: حديقة مجتمعية",
+  "e.g. I have a personal history here": "مثال: لدي تجربة شخصية هنا",
+  "Example: Vice President": "مثال: نائب الرئيس",
+  "What should this Official Member be responsible for?": "ما المسؤوليات التي ينبغي أن يتولاها هذا العضو الرسمي؟",
+  "What can we do?": "ماذا يمكننا أن نفعل؟",
+  "What is happening?": "ما الذي يحدث؟",
+  "If nothing changes": "إذا لم يتغير شيء",
+  "Possible futures": "المستقبلات الممكنة",
+  "Your participation": "مشاركتك",
+  "No results found": "لم يتم العثور على نتائج",
+  "Nothing here yet": "لا يوجد شيء هنا بعد",
+  "Loading...": "جارٍ التحميل...",
+  "Coming soon": "قريبًا",
+  "People around you": "الأشخاص من حولك",
+  "Connected topics": "مواضيع مترابطة",
+  "Explore connected topics": "استكشف المواضيع المترابطة",
+  "Filter articles": "تصفية المقالات",
+  "Guide to making an impact": "دليل إحداث الأثر",
+  "How impact can grow": "كيف يمكن للأثر أن ينمو",
+  "Impact context": "سياق الأثر",
+  "Zones context": "سياق المناطق",
+  "People to interest to idea to Zone to action": "من الأشخاص إلى الاهتمام فالفكرة فالمنطقة فالعمل",
+  "Share what you noticed, an idea or a question about ": "شارك ما لاحظته أو فكرة أو سؤالًا حول ",
+  "Join conversation": "انضم إلى المحادثة",
+  "Start a conversation": "ابدأ محادثة",
+  "Open": "فتح",
+  "Open menu": "فتح القائمة",
+  "Menu": "القائمة",
 }
 
 
@@ -4098,6 +4241,130 @@ const frenchDictionary: Record<string, string> = {
   'Pages':'Pages',
   'Entities':'Entités',
   'Create':'Créer',
+  "Explore": "Explorer",
+  "Exploring": "Exploration",
+  "Zone Impacting": "Agir sur les zones",
+  "Impact": "Impact",
+  "Network Chat": "Discussion du réseau",
+  "People Spark": "Étincelle humaine",
+  "Network": "Réseau",
+  "Chat": "Discussion",
+  "Search": "Rechercher",
+  "Explore the Commons": "Explorer l’espace commun",
+  "Find calls, people & more": "Trouver des appels, des personnes et plus",
+  "What would you like to make an impact on?": "Sur quoi souhaitez-vous agir ?",
+  "Ideas become": "Les idées deviennent",
+  "Your Zone, a place for change.": "Votre zone, un espace de changement.",
+  "impacting where you are": "Agir là où vous êtes",
+  "Local": "Local",
+  "World": "Monde",
+  "World Calls": "Appels mondiaux",
+  "Local Calls": "Appels locaux",
+  "Feed": "Fil",
+  "Actions": "Actions",
+  "Voices": "Voix",
+  "My Networks": "Mes réseaux",
+  "My Connexion": "Mes connexions",
+  "More Flow": "Plus de flux",
+  "Notifications": "Notifications",
+  "Messages": "Messages",
+  "Settings": "Paramètres",
+  "Profile": "Profil",
+  "Account": "Compte",
+  "English": "Anglais",
+  "Arabic": "Arabe",
+  "French": "Français",
+  "Cancel": "Annuler",
+  "Save": "Enregistrer",
+  "Edit": "Modifier",
+  "Delete": "Supprimer",
+  "Close": "Fermer",
+  "Back": "Retour",
+  "Next": "Suivant",
+  "Continue": "Continuer",
+  "Submit": "Envoyer",
+  "Send": "Envoyer",
+  "Share": "Partager",
+  "Join": "Rejoindre",
+  "Participate": "Participer",
+  "Following": "Abonnements",
+  "Like": "J’aime",
+  "Comment": "Commenter",
+  "Comments": "Commentaires",
+  "View all": "Tout afficher",
+  "See more": "Voir plus",
+  "Show more": "Afficher plus",
+  "Learn more": "En savoir plus",
+  "Search calls, questions, places...": "Rechercher des appels, questions ou lieux...",
+  "Search pages, communities, projects...": "Rechercher des pages, communautés ou projets...",
+  "Search topics, questions or sources…": "Rechercher des sujets, questions ou sources…",
+  "Search articles": "Rechercher des articles",
+  "Enter password": "Saisissez le mot de passe",
+  "System name": "Nom du système",
+  "Purpose (optional)": "Objectif (facultatif)",
+  "Search architecture...": "Rechercher dans l’architecture...",
+  "Add to selected system": "Ajouter au système sélectionné",
+  "Create a new system from this": "Créer un système à partir de cet élément",
+  "Duplicate": "Dupliquer",
+  "Remove": "Retirer",
+  "Folder name": "Nom du dossier",
+  "Purpose or description": "Objectif ou description",
+  "People to include": "Personnes à inclure",
+  "First connection": "Premier lien",
+  "First note or proposal": "Première note ou proposition",
+  "Add a person by name": "Ajouter une personne par son nom",
+  "Share a note, question or proposal...": "Partager une note, une question ou une proposition...",
+  "Share what you know, experienced or verified about this entity...": "Partagez ce que vous savez, avez vécu ou vérifié au sujet de cette entité...",
+  "Choose a country": "Choisir un pays",
+  "Choose a Tunisia region": "Choisir une région de Tunisie",
+  "Filter Your Zones by connection": "Filtrer vos zones par lien",
+  "What are you thinking about, observing or discovering?": "À quoi pensez-vous, qu’observez-vous ou découvrez-vous ?",
+  "City, neighborhood or area": "Ville, quartier ou région",
+  "Describe what people could care about together...": "Décrivez ce qui pourrait rassembler les préoccupations des personnes...",
+  "What should this zone consider?": "Sur quoi cette zone devrait-elle se pencher ?",
+  "What positive possibility could people work toward?": "Quelle possibilité positive les personnes pourraient-elles concrétiser ?",
+  "Possible next steps, conversations or actions.": "Prochaines étapes, conversations ou actions possibles.",
+  "Describe plausible consequences without presenting uncertainty as fact.": "Décrivez les conséquences plausibles sans présenter l’incertitude comme un fait.",
+  "Add a source, report, link title or note": "Ajouter une source, un rapport, un titre de lien ou une note",
+  "What does this Page bring into the Commons?": "Qu’apporte cette page à l’espace commun ?",
+  "Ask the question, describe the possibility or explain what needs attention...": "Posez la question, décrivez la possibilité ou expliquez ce qui mérite attention...",
+  "Add to the conversation...": "Ajouter à la conversation...",
+  "What is this entity?": "Qu’est-ce que cette entité ?",
+  "Community, Environment, Innovation...": "Communauté, environnement, innovation...",
+  "Names separated by commas": "Noms séparés par des virgules",
+  "A person, Zone, Page, idea or project": "Une personne, une zone, une page, une idée ou un projet",
+  "What do you want to explore or build together?": "Que souhaitez-vous explorer ou construire ensemble ?",
+  "What should the group consider first?": "Quel point le groupe devrait-il examiner en premier ?",
+  "e.g. Safer streets in Tunis North": "Ex. : des rues plus sûres à Tunis Nord",
+  "Example: Green Horizon": "Exemple : Horizon vert",
+  "Example: Last Hope": "Exemple : Dernier espoir",
+  "Tunis North, La Marsa, online...": "Tunis Nord, La Marsa, en ligne...",
+  "Example: Tunis North": "Exemple : Tunis Nord",
+  "e.g. Community Garden": "Ex. : jardin communautaire",
+  "e.g. I have a personal history here": "Ex. : j’ai une histoire personnelle ici",
+  "Example: Vice President": "Exemple : vice-président",
+  "What should this Official Member be responsible for?": "Quelles responsabilités ce membre officiel devrait-il assumer ?",
+  "What can we do?": "Que pouvons-nous faire ?",
+  "What is happening?": "Que se passe-t-il ?",
+  "If nothing changes": "Si rien ne change",
+  "Possible futures": "Avenirs possibles",
+  "No results found": "Aucun résultat",
+  "Nothing here yet": "Rien ici pour le moment",
+  "Loading...": "Chargement...",
+  "Coming soon": "Bientôt disponible",
+  "People around you": "Les personnes autour de vous",
+  "Connected topics": "Sujets liés",
+  "Explore connected topics": "Explorer les sujets liés",
+  "Filter articles": "Filtrer les articles",
+  "Guide to making an impact": "Guide pour agir",
+  "How impact can grow": "Comment l’impact peut grandir",
+  "Impact context": "Contexte de l’impact",
+  "Zones context": "Contexte des zones",
+  "Share what you noticed, an idea or a question about ": "Partagez une observation, une idée ou une question sur ",
+  "Join conversation": "Rejoindre la conversation",
+  "Start a conversation": "Démarrer une conversation",
+  "Open menu": "Ouvrir le menu",
+  "Menu": "Menu",
 }
 
 const translations = {
@@ -4125,33 +4392,42 @@ function t(key: keyof typeof translations.en) {
   return translations[language.value][key]
 }
 
-const originalTextNodes = new Map<Text, string>()
+const originalTextNodes = new WeakMap<Text, string>()
+const originalAttributeValues = new WeakMap<Element, Map<string, string>>()
+const translatableAttributes = ['placeholder', 'title', 'aria-label', 'aria-placeholder', 'alt'] as const
 
 function translatePage() {
+  const dictionary = language.value === 'ar' ? arabicDictionary : language.value === 'fr' ? frenchDictionary : null
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
   const nodes: Text[] = []
   let node: Node | null
   while ((node = walker.nextNode())) nodes.push(node as Text)
 
   nodes.forEach((textNode) => {
-    if (!originalTextNodes.has(textNode)) {
-      originalTextNodes.set(textNode, textNode.textContent || '')
-    }
-
+    if (!originalTextNodes.has(textNode)) originalTextNodes.set(textNode, textNode.data || '')
     const original = originalTextNodes.get(textNode) || ''
     const value = original.replace(/\\s+/g, ' ').trim()
     if (!value) return
+    const translated = dictionary?.[value]
+    const nextValue = translated ? original.replace(value, translated) : original
+    if (textNode.data !== nextValue) textNode.data = nextValue
+  })
 
-    if (language.value === 'ar' || language.value === 'fr') {
-      const dictionary = language.value === 'ar' ? arabicDictionary : frenchDictionary
-      const translated = dictionary[value]
-      if (translated) {
-        const current = textNode.textContent || ''
-        textNode.textContent = original.replace(value, translated)
-      }
-    } else {
-      textNode.textContent = original
+  document.querySelectorAll<HTMLElement>('*').forEach((element) => {
+    let originals = originalAttributeValues.get(element)
+    if (!originals) {
+      originals = new Map<string, string>()
+      originalAttributeValues.set(element, originals)
     }
+    translatableAttributes.forEach((attribute) => {
+      if (!element.hasAttribute(attribute)) return
+      if (!originals!.has(attribute)) originals!.set(attribute, element.getAttribute(attribute) || '')
+      const original = originals!.get(attribute) || ''
+      const value = original.replace(/\\s+/g, ' ').trim()
+      const translated = dictionary?.[value]
+      const nextValue = translated ? original.replace(value, translated) : original
+      if (element.getAttribute(attribute) !== nextValue) element.setAttribute(attribute, nextValue)
+    })
   })
 }
 
@@ -5026,7 +5302,7 @@ onMounted(() => {
   languageObserver = new MutationObserver(() => {
     if (language.value === 'ar' || language.value === 'fr') translatePage()
   })
-  languageObserver.observe(document.body, { childList: true, subtree: true })
+  languageObserver.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['placeholder', 'title', 'aria-label', 'aria-placeholder', 'alt'] })
   liveMovingChatTimer = setInterval(pushLiveMovingSampleMessage, 12000)
   heroTimer = setInterval(() => {
     activeHero.value = (activeHero.value + 1) % heroes.length
