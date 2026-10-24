@@ -6000,7 +6000,7 @@ onBeforeUnmount(() => {
             <svg class="live-flow-line-point-icon" viewBox="0 0 18 18" width="18" height="18" aria-hidden="true" focusable="false"><path d="M2 9H16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="9" cy="9" r="2.2" fill="currentColor"/></svg> Live Flow
           </button>
           <button type="button" :class="{ active: liveFlowSpace === 'feed' }" :aria-pressed="liveFlowSpace === 'feed'" @click="liveFlowSpace = 'feed'">
-            <span aria-hidden="true">≋</span> Feed
+            <svg class="live-flow-feed-lines-icon" viewBox="0 0 18 18" width="18" height="18" aria-hidden="true" focusable="false"><path d="M2 4H16M2 9H16M2 14H16" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/><circle cx="6" cy="4" r="1.7" fill="currentColor"/><circle cx="11.5" cy="9" r="1.7" fill="currentColor"/><circle cx="8" cy="14" r="1.7" fill="currentColor"/></svg> Feed
           </button>
         </nav>
       <section v-if="liveFlowSpace === 'feed'" class="content live-flow-feed-content">
@@ -23075,6 +23075,7 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
   cursor: pointer;
   transition: color .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
 }
+.live-flow-space-nav .live-flow-feed-lines-icon{display:block;flex:0 0 18px;width:18px;height:18px;color:currentColor;overflow:visible}
 .live-flow-space-nav .live-flow-line-point-icon{display:block;flex:0 0 18px;width:18px;height:18px;color:currentColor;overflow:visible}
 .live-flow-space-nav button.active {
   color: #edf3ff;
