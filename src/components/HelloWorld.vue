@@ -23305,4 +23305,22 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
   }
 }
 
+
+
+/* Darken the mobile Impact button while preserving its green orbit and selected-state accents. */
+@media screen and (max-width: 760px) {
+  header.topbar > .mobile-home-space-row > .mobile-your-space-button {
+    background:
+      radial-gradient(ellipse at 18% -35%, rgba(69, 135, 88, .09), transparent 68%),
+      linear-gradient(112deg, rgba(25, 29, 37, .98), rgba(10, 18, 29, .99)) !important;
+    box-shadow: inset 0 1px rgba(235, 242, 255, .035), 0 3px 11px rgba(0, 0, 0, .20) !important;
+  }
+  header.topbar > .mobile-home-space-row > .mobile-your-space-button.active {
+    background:
+      radial-gradient(ellipse at 18% -25%, rgba(85, 104, 156, .10), transparent 70%),
+      linear-gradient(112deg, rgba(24, 34, 53, .99), rgba(10, 19, 31, 1)) !important;
+    box-shadow: inset 0 0 0 1px rgba(157, 176, 224, .06), 0 0 8px rgba(108, 137, 207, .06) !important;
+  }
+}
+
 </style>
