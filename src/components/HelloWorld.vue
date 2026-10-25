@@ -20813,6 +20813,30 @@ a { text-underline-offset: 3px; }
   }
 }
 
+/* On Impact, keep the original orbital logo visible and center the complete Nfas wordmark at the top bar's horizontal center. */
+header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark,
+header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::before,
+header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+@media (max-width: 760px) {
+  header.topbar.impact-orbit-transferred > .mobile-brand {
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px !important;
+    width: max-content !important;
+    max-width: calc(100% - 112px) !important;
+    margin: 0 !important;
+    z-index: 8 !important;
+  }
+}
+
 </style>
 
 <style>
@@ -23138,8 +23162,10 @@ a { text-underline-offset: 3px; }
 }
 header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::before,
 header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after {
-  opacity: 0 !important;
-  transform: scale(.55) rotate(-35deg) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: rotate(-35deg) scaleY(.68) !important;
+  filter: none !important;
 }
 header.topbar > .mobile-brand .mobile-brand-mark::before,
 header.topbar > .mobile-brand .mobile-brand-mark::after {
