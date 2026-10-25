@@ -23397,6 +23397,46 @@ header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-imp
   animation-duration: 2.8s !important;
   animation-direction: reverse !important;
 }
+/* Color travels from the outer rim toward the center, illuminating both orbital rings. */
+@keyframes mobile-impact-color-in {
+  0% {
+    background: radial-gradient(circle, transparent 0 8%, rgba(117,177,255,.02) 20%, rgba(130,94,255,.12) 38%, rgba(130,94,255,.48) 66%, rgba(117,177,255,.58) 78%, transparent 82%) !important;
+    box-shadow: 0 0 3px rgba(102,157,255,.12), 0 0 5px rgba(143,91,255,.08) !important;
+  }
+  48% {
+    background: radial-gradient(circle, transparent 0 8%, rgba(117,177,255,.12) 20%, rgba(130,94,255,.28) 38%, rgba(130,94,255,.38) 55%, rgba(117,177,255,.4) 66%, transparent 78%) !important;
+    box-shadow: 0 0 8px rgba(102,157,255,.28), 0 0 12px rgba(143,91,255,.18) !important;
+  }
+  100% {
+    background: radial-gradient(circle, rgba(117,177,255,.35), rgba(130,94,255,.15) 48%, transparent 74%) !important;
+    box-shadow: 0 0 10px rgba(102,157,255,.28), 0 0 17px rgba(143,91,255,.16) !important;
+  }
+}
+header.topbar > .mobile-home-space-row > .mobile-impact-ring-button > .mobile-impact-orbit {
+  animation: mobile-impact-orbit-in .48s cubic-bezier(.2,.75,.25,1) both, mobile-impact-color-in .9s ease-out both, impact-button-light-pulse 1.8s ease-in-out .9s infinite alternate !important;
+}
+header.topbar > .mobile-home-space-row > .mobile-impact-ring-button > .mobile-impact-orbit::before {
+  animation: mobile-impact-orbit-spin 2.1s linear infinite, mobile-impact-ring-color-in .9s ease-out both !important;
+}
+header.topbar > .mobile-home-space-row > .mobile-impact-ring-button > .mobile-impact-orbit::after {
+  animation: mobile-impact-orbit-spin 2.8s linear infinite reverse, mobile-impact-ring-color-in .9s ease-out both !important;
+}
+@keyframes mobile-impact-ring-color-in {
+  0% { border-color: rgba(105,169,255,.12) !important; box-shadow: 0 0 1px rgba(80,150,255,.04) !important; }
+  55% { border-color: rgba(105,169,255,.68) !important; box-shadow: 0 0 4px rgba(80,150,255,.24) !important; }
+  100% { border-color: rgba(105,169,255,.95) !important; box-shadow: 0 0 5px rgba(80,150,255,.32) !important; }
+}
+header.topbar > .mobile-home-space-row > .mobile-impact-ring-button > .mobile-impact-orbit::after {
+  animation-name: mobile-impact-orbit-spin, mobile-impact-ring-color-in !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  header.topbar > .mobile-home-space-row > .mobile-impact-ring-button > .mobile-impact-orbit,
+  header.topbar > .mobile-home-space-row > .mobile-impact-ring-button > .mobile-impact-orbit::before,
+  header.topbar > .mobile-home-space-row > .mobile-impact-ring-button > .mobile-impact-orbit::after {
+    animation: none !important;
+  }
+}
+
 header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-impact-orbit > span {
   position: absolute !important;
   z-index: 2 !important;
