@@ -6093,14 +6093,13 @@ onBeforeUnmount(() => {
           </button>
           <button
             type="button"
-            class="mobile-home-bar-button mobile-your-space-button"
+            class="mobile-home-bar-button mobile-your-space-button mobile-impact-ring-button"
             :class="{ active: activeView === 'awareness' }"
             @click="navigate('awareness')"
-            aria-label="Open Impact"
+            aria-label="Open Impact and Awareness"
+            title="Impact and Awareness"
           >
-            <span v-if="activeView === 'awareness'" class="brand-orbit impact-button-orbit mobile-impact-orbit" aria-hidden="true"><span></span></span>
-            <strong>Impact</strong>
-            <span v-if="activeView !== 'awareness'" class="mobile-home-bar-arrow" aria-hidden="true">→</span>
+            <span class="brand-orbit impact-button-orbit mobile-impact-orbit" aria-hidden="true"><span></span></span>
           </button>
         </div>
 
@@ -23305,6 +23304,44 @@ header.topbar  .desktop-impact-launch > .desktop-impact-label {
 </style>
 
 <style>
+/* Mobile Impact is represented by a clickable orbital ring, not a text button. */
+@media (max-width: 760px) {
+  header.topbar > .mobile-home-space-row > .mobile-impact-ring-button {
+    flex: 0 0 40px !important;
+    width: 40px !important;
+    min-width: 40px !important;
+    max-width: 40px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 1px solid transparent !important;
+    border-radius: 50% !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: transparent !important;
+    overflow: visible !important;
+    cursor: pointer !important;
+  }
+  header.topbar > .mobile-home-space-row > .mobile-impact-ring-button.active {
+    border-color: rgba(117,177,255,.28) !important;
+    background: radial-gradient(circle, rgba(87,110,181,.12), transparent 72%) !important;
+  }
+  header.topbar > .mobile-home-space-row > .mobile-impact-ring-button > .mobile-impact-orbit {
+    flex: 0 0 25px !important;
+    width: 25px !important;
+    height: 25px !important;
+    margin: 0 !important;
+    opacity: 1 !important;
+  }
+  header.topbar > .mobile-home-space-row > .mobile-impact-ring-button:focus-visible {
+    outline: 2px solid rgba(145,185,255,.75) !important;
+    outline-offset: 2px !important;
+  }
+}
+
 /* Mobile Impact orbit: animate the logo mark on the active Impact view only. */
 @keyframes mobile-impact-orbit-spin {
   from { transform: rotate(0deg); }
