@@ -5965,6 +5965,18 @@ onBeforeUnmount(() => {
           </button>
         </div>
 
+        <button
+          type="button"
+          class="top-learn-discover-button"
+          :class="{ active: activeView === 'learn' }"
+          @click="navigate('learn')"
+          :aria-label="t('learnDiscover')"
+          :title="t('learnDiscover')"
+        >
+          <span aria-hidden="true">✦</span>
+          <span>{{ t('learnDiscover') }}</span>
+        </button>
+
         <div class="mobile-home-space-row" aria-label="Impact">
           <button
             type="button"
@@ -24224,6 +24236,42 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
   }
 }
 
+
+/* Restore Learn & Discover as a first-class desktop top-bar destination. */
+.top-learn-discover-button { display: none; }
+@media screen and (min-width: 761px) {
+  header.topbar > .top-learn-discover-button {
+    order: 2 !important;
+    display: inline-flex !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    min-height: 34px !important;
+    margin: 0 0 0 2px !important;
+    padding: 0 13px !important;
+    border: 1px solid rgba(126,163,213,.24) !important;
+    border-radius: 999px !important;
+    background: linear-gradient(120deg,rgba(22,36,55,.94),rgba(16,27,43,.96)) !important;
+    color: #c8d9ef !important;
+    font: inherit !important;
+    font-size: 11px !important;
+    font-weight: 750 !important;
+    white-space: nowrap !important;
+    cursor: pointer !important;
+  }
+  header.topbar > .top-learn-discover-button > span:first-child {
+    color: #b9a5ff !important;
+    font-size: 15px !important;
+  }
+  header.topbar > .top-learn-discover-button.active {
+    border-color: rgba(164,145,244,.48) !important;
+    background: linear-gradient(120deg,rgba(67,53,106,.38),rgba(31,39,65,.96)) !important;
+    color: #f0eaff !important;
+    box-shadow: inset 0 0 0 1px rgba(164,145,244,.07),0 0 10px rgba(130,105,218,.08) !important;
+  }
+  header.topbar > .mobile-home-space-row { order: 3 !important; }
+}
 
 /* Desktop and mobile share one Impact-options button for issue actions. */
 @media screen and (min-width: 761px) {
