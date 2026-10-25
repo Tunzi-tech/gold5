@@ -25435,4 +25435,29 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
 }
 .home-commons-content .impact-category-toggle-icon { color: #e8df91 !important; }
 
+
+/* Make the bridge between the Home impact intro and the three-step rail feel continuous,
+   rather than like a transparent empty panel above the cards. */
+@media (min-width: 1000px) {
+  .home-commons-content .initiative-flow-path::before {
+    top: -95px !important;
+    height: 95px !important;
+    border-left: 1px solid rgba(117, 143, 224, .24) !important;
+    border-right: 1px solid rgba(117, 143, 224, .24) !important;
+    border-top: 1px solid rgba(117, 143, 224, .2) !important;
+    border-bottom: 0 !important;
+    border-radius: 16px 16px 0 0 !important;
+    background:
+      radial-gradient(ellipse at 12% 0%, rgba(83, 133, 232, .2), transparent 66%),
+      linear-gradient(180deg, rgba(24, 37, 65, .84) 0%, rgba(20, 32, 54, .92) 55%, rgba(22, 34, 57, .98) 100%) !important;
+    opacity: 1 !important;
+  }
+  .home-commons-content > .home-impact-page-intro::after {
+    bottom: -27px !important;
+    height: 27px !important;
+    width: 2px !important;
+    background: linear-gradient(180deg, rgba(118, 155, 255, .74), rgba(118, 155, 255, .34)) !important;
+    box-shadow: 0 0 7px rgba(104, 145, 255, .12) !important;
+  }
+}
 </style>
