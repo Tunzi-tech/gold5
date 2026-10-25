@@ -360,3 +360,20 @@ header.topbar .nfas-impact-orbit-target[aria-current="page"]::after {
   letter-spacing: 0;
   direction: rtl;
 }
+
+
+/* Touch-first wording: never ask mobile users to hover. */
+@media (max-width: 640px), (hover: none) {
+  .nfas-impact-discovery-title::after {
+    content: "↗  TAP TO DISCOVER";
+  }
+  .nfas-impact-discovery-title[data-impact-language="fr"]::after {
+    content: "↗  TOUCHEZ POUR DÉCOUVRIR";
+    letter-spacing: .04em;
+  }
+  .nfas-impact-discovery-title[data-impact-language="ar"]::after {
+    content: "↗  اضغط لاكتشاف المزيد";
+    letter-spacing: 0;
+    direction: rtl;
+  }
+}
