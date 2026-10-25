@@ -24227,20 +24227,86 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
 
 /* Desktop and mobile share one Impact-options button for issue actions. */
 @media screen and (min-width: 761px) {
-  header.topbar > .top-impact-actions {
-    display: none !important;
+  /* Force the mobile Home + Live Flow pair to remain one capsule on desktop. */
+  header.topbar > .desktop-primary-nav { display: none !important; }
+  header.topbar > .mobile-home-nav-pair {
+    order: 1 !important;
+    grid-column: auto !important;
+    grid-row: auto !important;
+    display: flex !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    width: auto !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 4px !important;
+    border: 1px solid rgba(126,163,213,.24) !important;
+    border-radius: 999px !important;
+    background: linear-gradient(120deg,rgba(11,20,33,.94),rgba(20,32,49,.96)) !important;
+    box-shadow: inset 0 1px rgba(230,241,255,.035),0 3px 10px rgba(0,0,0,.12) !important;
   }
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button {
+    display: inline-flex !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    width: auto !important;
+    min-width: 88px !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    margin: 0 !important;
+    padding: 0 12px !important;
+    border: 1px solid rgba(140,177,224,.18) !important;
+    border-radius: 999px !important;
+    background: linear-gradient(120deg,rgba(48,70,99,.52),rgba(25,42,62,.7)) !important;
+    color: #c9d9ee !important;
+    box-shadow: inset 0 1px rgba(225,239,255,.035) !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    white-space: nowrap !important;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button.active {
+    border-color: rgba(151,190,244,.42) !important;
+    background: linear-gradient(120deg,rgba(88,128,184,.35),rgba(49,78,116,.42)) !important;
+    color: #f0f6ff !important;
+    box-shadow: inset 0 0 0 1px rgba(165,201,250,.08),0 0 10px rgba(95,147,213,.08) !important;
+  }
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button > span,
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button > strong {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 11px !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+  }
+  header.topbar > .mobile-home-space-row {
+    order: 2 !important;
+    grid-column: auto !important;
+    grid-row: auto !important;
+    display: flex !important;
+    width: auto !important;
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+  }
+  header.topbar > .top-impact-actions { display: none !important; }
   header.topbar > .top-actions {
+    order: 4 !important;
     position: relative !important;
     overflow: visible !important;
+    margin-left: 0 !important;
   }
+  /* Override older desktop rules that hid this menu at wider breakpoints. */
   header.topbar .mobile-issue-menu-trigger {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    flex: 0 0 30px !important;
-    width: 30px !important;
-    min-width: 30px !important;
+    flex: 0 0 32px !important;
+    width: 32px !important;
+    min-width: 32px !important;
     height: 32px !important;
     margin: 0 0 0 4px !important;
     padding: 0 !important;
