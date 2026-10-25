@@ -25478,4 +25478,40 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
     height: 40px !important;
   }
 }
+
+/* Align the three-step discovery list with the left edge of its intro section,
+   so the list reads as part of that section instead of a separate rail far to the left. */
+@media (min-width: 1000px) {
+  .home-commons-content .initiative-flow-path {
+    left: 0 !important;
+    width: min(100%, 100%) !important;
+    box-sizing: border-box !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    padding: 12px !important;
+    border-radius: 14px !important;
+  }
+  .home-commons-content .initiative-flow-path::before,
+  .home-commons-content .initiative-flow-path::after {
+    display: none !important;
+  }
+  .home-commons-content .initiative-flow-path > .initiative-flow-step {
+    min-width: 0 !important;
+  }
+  .home-commons-content > .home-impact-discovery-section,
+  .home-commons-content > .home-discovery-view {
+    margin-left: 0 !important;
+  }
+  .home-commons-content .initiative-flow-path > .initiative-hover-story {
+    left: 0 !important;
+    top: calc(100% + 10px) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+@media (min-width: 1000px) and (max-width: 1250px) {
+  .home-commons-content .initiative-flow-path {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
 </style>
