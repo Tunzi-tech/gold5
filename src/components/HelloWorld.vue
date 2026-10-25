@@ -6104,13 +6104,7 @@ onBeforeUnmount(() => {
           </button>
         </div>
 
-        <nav class="header-quick-rail" aria-label="Local, World, Calls, Initiatives and Chat">
-          <button type="button" :class="{ active: homeLocalWorldScope === 'local' && homeHeaderChatOpen }" @click="homeLocalWorldScope = 'local'; joinHomeChannel('local'); mobileSpace = 'networkchat'; mobileMoreOpen = true; homeHeaderChatOpen = true; homeLocalWorldOpen = true" aria-label="Open Local channel">Local</button>
-          <button type="button" :class="{ active: homeLocalWorldScope === 'world' && homeHeaderChatOpen }" @click="homeLocalWorldScope = 'world'; joinHomeChannel('world'); mobileSpace = 'networkchat'; mobileMoreOpen = true; homeHeaderChatOpen = true; homeLocalWorldOpen = true" aria-label="Open World channel">World</button>
-          <button type="button" :class="{ active: activeView === 'call' }" @click="navigate('call')">Calls</button>
-          <button type="button" :class="{ active: activeView === 'initiatives' }" @click="navigate('initiatives')">Initiatives</button>
-          <button type="button" :class="{ active: mobileMoreOpen && mobileSpace === 'networkchat' }" @click="mobileSpace = 'networkchat'; mobileMoreOpen = true; homeHeaderChatOpen = true; homeLocalWorldOpen = true">Chat</button>
-        </nav>
+
 
         <div class="top-actions">
           
@@ -6338,6 +6332,14 @@ onBeforeUnmount(() => {
            HOME
            ================================================= -->
       <section v-if="activeView === 'home'" class="content home-commons-content" :class="{ 'home-hero-collapsed': homeHeroHidden }">
+
+                  <nav v-if="activeView === 'home'" class="header-quick-rail" aria-label="Local, World, Calls, Initiatives and Chat">
+            <button type="button" :class="{ active: homeLocalWorldScope === 'local' && homeHeaderChatOpen }" @click="homeLocalWorldScope = 'local'; joinHomeChannel('local'); mobileSpace = 'networkchat'; mobileMoreOpen = true; homeHeaderChatOpen = true; homeLocalWorldOpen = true" aria-label="Open Local channel">Local</button>
+            <button type="button" :class="{ active: homeLocalWorldScope === 'world' && homeHeaderChatOpen }" @click="homeLocalWorldScope = 'world'; joinHomeChannel('world'); mobileSpace = 'networkchat'; mobileMoreOpen = true; homeHeaderChatOpen = true; homeLocalWorldOpen = true" aria-label="Open World channel">World</button>
+            <button type="button" :class="{ active: activeView === 'call' }" @click="navigate('call')">Calls</button>
+            <button type="button" :class="{ active: activeView === 'initiatives' }" @click="navigate('initiatives')">Initiatives</button>
+            <button type="button" :class="{ active: mobileMoreOpen && mobileSpace === 'networkchat' }" @click="mobileSpace = 'networkchat'; mobileMoreOpen = true; homeHeaderChatOpen = true; homeLocalWorldOpen = true">Chat</button>
+          </nav>
 
         <section class="home-impact-discovery-section" aria-label="Home discovery and header">
         <div class="home-view-switch" role="group" aria-label="Choose home view">
