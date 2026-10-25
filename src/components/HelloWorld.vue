@@ -6454,14 +6454,17 @@ onBeforeUnmount(() => {
                   {{ heroes[activeHero].label }}
                 </span>
 
-                <h1>
-                  <span v-if="activeHero === 0" class="hero-heading-white-home"><span class="hero-heading-ideas-gradient">Ideas</span> <span class="hero-heading-white-shadow">become</span></span>
-                  <span v-else class="hero-zone-title">{{ customZoneTitle }}</span>
-                  <button v-if="activeHero !== 0 && !editingZoneTitle" type="button" class="hero-zone-title-edit" aria-label="Edit your Zone title" title="Change your Zone title" @click="startEditingZoneTitle">✎</button>
-                  <form v-if="activeHero !== 0 && editingZoneTitle" class="hero-zone-title-editor" @submit.prevent="saveZoneTitle">
+                <div v-if="activeHero !== 0" class="hero-zone-label">
+                  <span v-if="!editingZoneTitle" class="hero-zone-label-text">{{ customZoneTitle.replace(/,$/, '') }}</span>
+                  <form v-if="editingZoneTitle" class="hero-zone-title-editor" @submit.prevent="saveZoneTitle">
                     <input v-model="zoneTitleDraft" maxlength="36" aria-label="Your Zone title" autofocus />
                     <button type="submit" aria-label="Save Zone title">✓</button>
                   </form>
+                  <button v-if="!editingZoneTitle" type="button" class="hero-zone-title-edit" aria-label="Edit your Zone title" title="Change your Zone title" @click="startEditingZoneTitle">✎</button>
+                </div>
+
+                <h1>
+                  <span v-if="activeHero === 0" class="hero-heading-white-home"><span class="hero-heading-ideas-gradient">Ideas</span> <span class="hero-heading-white-shadow">become</span></span>
                   <br v-if="activeHero === 0" />
                   <span
                     v-if="activeHero === 0"
@@ -6469,7 +6472,7 @@ onBeforeUnmount(() => {
                   >
                     {{ heroes[activeHero].titleAccent }}
                   </span>
-                  <span v-else class="hero-place-change"> a place for change.</span>
+                  <span v-else class="hero-place-change">a place for change.</span>
                   <br v-if="activeHero !== 0" />
                   <template v-if="heroes[activeHero].titleAfter">
                     <span class="hero-accent-impact">{{ heroes[activeHero].titleAfter }}</span>
@@ -20336,6 +20339,21 @@ a { text-underline-offset: 3px; }
   background: rgba(93,62,145,.3);
   cursor: pointer;
 }
+.hero-zone-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 7px;
+  min-height: 24px;
+}
+.hero-zone-label-text {
+  color: #d4c1ff;
+  font-size: clamp(14px, 1.25vw, 18px);
+  font-weight: 650;
+  letter-spacing: .045em;
+  text-shadow: 0 0 14px rgba(160, 118, 255, .22);
+}
+.hero-zone-label .hero-zone-title-edit { margin-left: 0; }
 .hero-zone-title-edit { margin-left: 5px; padding: 2px 6px; font-size: 12px; vertical-align: middle; }
 .hero-zone-title-editor { display: inline-flex; gap: 5px; vertical-align: middle; }
 .hero-zone-title-editor input { width: min(230px, 48vw); padding: 4px 7px; border: 1px solid rgba(182,148,255,.45); border-radius: 6px; background: rgba(13,12,27,.92); color: #f1eaff; font: inherit; }
