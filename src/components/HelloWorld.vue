@@ -24867,7 +24867,7 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
   header.topbar.impact-orbit-transferred > .mobile-brand {
     position: absolute !important;
     left: 50% !important;
-    top: -30px !important;
+    top: 8px !important;
     transform: translateX(-50%) !important;
     grid-column: auto !important;
     grid-row: auto !important;
