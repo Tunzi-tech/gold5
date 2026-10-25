@@ -30,20 +30,21 @@ function markDesktopTopbarButtons() {
   if (!topbar) return
 
   const labels = [
-    /^(home|accueil|الرئيسية)$/i,
-    /^(live flow|flux en direct|التدفق المباشر)$/i,
-    /^(learn|apprendre|تعلّم|تعلم)$/i,
-    /^(discover|découvrir|decouvrir|اكتشف)$/i,
+    /^(home|accueil|الرئيسية)(\\s|$)/i,
+    /^(live flow|flux en direct|التدفق المباشر)(\\s|$)/i,
+    /^(learn|apprendre|تعلّم|تعلم)(\\s|$)/i,
+    /^(discover|découvrir|decouvrir|اكتشف)(\\s|$)/i,
   ]
   const controls = Array.from(topbar.querySelectorAll('button, [role="button"], a'))
+    .filter((element) => element.getClientRects().length > 0)
   const matched = labels.map((pattern) => controls.find((element) => {
-    const label = [
+    const values = [
       element.textContent ?? '',
       element.getAttribute('aria-label') ?? '',
       element.getAttribute('title') ?? '',
       element.getAttribute('data-view') ?? '',
-    ].join(' ').replace(/\\s+/g, ' ').trim()
-    return pattern.test(label)
+    ].map((value) => value.replace(/\\s+/g, ' ').trim())
+    return values.some((value) => pattern.test(value))
   }))
 
   controls.forEach((element) => {
