@@ -328,3 +328,18 @@ header.topbar .nfas-impact-orbit-target[aria-current="page"]::after {
     animation: none;
   }
 }
+
+
+/* Keep the hint below the heading so it never competes with the main sentence. */
+.nfas-impact-discovery-title::after {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  margin: 9px 0 0;
+  vertical-align: initial;
+}
+@media (max-width: 640px) {
+  .nfas-impact-discovery-title::after {
+    margin: 8px 0 0;
+  }
+}
