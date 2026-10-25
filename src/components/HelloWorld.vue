@@ -11,6 +11,9 @@ const updateImpactDiscoveryLayout = () => {
 const handleImpactDiscoveryLayoutChange = (event: MediaQueryListEvent) => {
   mobileDiscoveryLayout.value = event.matches
 }
+const toggleImpactDiscovery = () => {
+  if (mobileDiscoveryLayout.value) impactDiscoveryOpen.value = !impactDiscoveryOpen.value
+}
 
 type Page = {
   id: number
@@ -6347,10 +6350,10 @@ onBeforeUnmount(() => {
            HOME
            ================================================= -->
       <section v-if="activeView === 'home'" class="content home-commons-content" :class="{ 'home-hero-collapsed': homeHeroHidden, 'impact-discovery-open': impactDiscoveryOpen }">
-        <div v-if="homeDisplayMode === 'content'" class="initiative-home-intro home-impact-page-intro" :class="{ 'is-discovery-open': impactDiscoveryOpen }" @click="if (mobileDiscoveryLayout) impactDiscoveryOpen = !impactDiscoveryOpen" @keydown.enter.prevent="if (mobileDiscoveryLayout) impactDiscoveryOpen = !impactDiscoveryOpen" @keydown.space.prevent="if (mobileDiscoveryLayout) impactDiscoveryOpen = !impactDiscoveryOpen" :tabindex="mobileDiscoveryLayout ? 0 : undefined">
+        <div v-if="homeDisplayMode === 'content'" class="initiative-home-intro home-impact-page-intro" :class="{ 'is-discovery-open': impactDiscoveryOpen }" @click="toggleImpactDiscovery" @keydown.enter.prevent="toggleImpactDiscovery" @keydown.space.prevent="toggleImpactDiscovery" :tabindex="mobileDiscoveryLayout ? 0 : undefined">
           <span class="initiative-flow-kicker">FIND YOUR WAY TO MAKE AN IMPACT</span>
           <p>Explore what people are doing, discover ways to take part, or choose an issue that matters to you.</p>
-          <button type="button" class="home-impact-discovery-trigger" :aria-expanded="impactDiscoveryOpen" @click.stop="impactDiscoveryOpen = !impactDiscoveryOpen">{{ impactDiscoveryOpen ? 'Hide discovery paths' : 'Tap to discover' }} <span aria-hidden="true">{{ impactDiscoveryOpen ? '−' : '↗' }}</span></button>
+          <button type="button" class="home-impact-discovery-trigger" :aria-expanded="impactDiscoveryOpen" @click.stop="toggleImpactDiscovery">{{ impactDiscoveryOpen ? 'Hide discovery paths' : 'Tap to discover' }} <span aria-hidden="true">{{ impactDiscoveryOpen ? '−' : '↗' }}</span></button>
         </div>
 
 
@@ -25622,6 +25625,6 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
   .home-commons-content > .home-impact-page-intro .initiative-flow-path::before {
     display: none !important;
   }
-  .home-impact-discovery-trigger { display: none !important; }
+  .home-impact-discovery-trigger { display: inline-flex !important; }
 }
 </style>
