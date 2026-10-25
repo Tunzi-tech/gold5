@@ -5979,6 +5979,17 @@ onBeforeUnmount(() => {
 
         <div class="mobile-home-space-row" aria-label="Impact">
           <button
+            v-if="activeView === 'awareness'"
+            type="button"
+            class="mobile-impact-back-button"
+            @click="navigate('home')"
+            aria-label="Back to Home"
+            title="Back to Home"
+          >
+            <span aria-hidden="true">←</span>
+            <span>Back</span>
+          </button>
+          <button
             type="button"
             class="mobile-home-bar-button mobile-your-space-button"
             :class="{ active: activeView === 'awareness' }"
@@ -22273,6 +22284,7 @@ a { text-underline-offset: 3px; }
     grid-template-rows:35px 36px 36px !important;
   }
   .topbar .mobile-home-space-row {
+    position:relative;
     grid-column:1 / -1;
     grid-row:3;
     display:flex;
@@ -22281,6 +22293,29 @@ a { text-underline-offset: 3px; }
     gap:8px;
     width:100%;
     min-width:0;
+  }
+  .topbar .mobile-home-space-row .mobile-impact-back-button {
+    position:absolute !important;
+    left:0 !important;
+    top:-24px !important;
+    z-index:8 !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:5px !important;
+    height:22px !important;
+    padding:0 8px !important;
+    border:1px solid rgba(126,163,213,.2) !important;
+    border-radius:999px !important;
+    background:rgba(17,31,49,.94) !important;
+    color:#c9d9ee !important;
+    font-size:10px !important;
+    font-weight:700 !important;
+    line-height:1 !important;
+    cursor:pointer !important;
+  }
+  .topbar .mobile-home-space-row .mobile-impact-back-button span:first-child {
+    font-size:13px !important;
   }
   .topbar .mobile-home-space-row .mobile-home-bar-button {
     display:flex !important;
