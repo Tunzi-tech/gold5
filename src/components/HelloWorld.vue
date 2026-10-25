@@ -24887,6 +24887,36 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
   }
 }
 
+/* Mobile Impact: paired orbital lines run from the rings toward Nfas and continue out to the right.
+   The strokes have no endpoint dots. */
+@media (max-width: 760px) {
+  header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-copy strong {
+    position: relative !important;
+    display: inline-block !important;
+  }
+  header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-copy strong::before,
+  header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-copy strong::after {
+    content: "" !important;
+    position: absolute !important;
+    top: 50% !important;
+    width: 42px !important;
+    height: 12px !important;
+    transform: translateY(-50%) !important;
+    pointer-events: none !important;
+    background:
+      linear-gradient(90deg, rgba(102,111,255,0), rgba(87,137,255,.92)) 0 3px / 100% 1.5px no-repeat,
+      linear-gradient(90deg, rgba(91,137,255,0), rgba(53,220,255,.92)) 0 8px / 100% 1.5px no-repeat !important;
+    filter: drop-shadow(0 0 3px rgba(67,156,255,.45)) !important;
+  }
+  header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-copy strong::before {
+    right: calc(100% + 7px) !important;
+  }
+  header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-copy strong::after {
+    left: calc(100% + 7px) !important;
+    transform: translateY(-50%) scaleX(-1) !important;
+  }
+}
+
 </style>
 
 /* Keep the logo's own orbital icon visible when Impact is selected.
