@@ -24223,7 +24223,6 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
     font-size: 10px !important;
   }
 }
-</style>
 
 
 /* Desktop and mobile share one Impact-options button for issue actions. */
@@ -24307,3 +24306,4 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
     font-size: 10px !important;
   }
 }
+</style>
