@@ -2268,26 +2268,6 @@ const heroes = [
   },
 ]
 
-const customZoneTitle = ref('Your Zone,')
-try {
-  const savedZoneTitle = localStorage.getItem('gold5-custom-zone-title')
-  if (savedZoneTitle) customZoneTitle.value = savedZoneTitle
-} catch {}
-const editingZoneTitle = ref(false)
-const zoneTitleDraft = ref('Your Zone,')
-function startEditingZoneTitle() {
-  zoneTitleDraft.value = customZoneTitle.value
-  editingZoneTitle.value = true
-}
-function saveZoneTitle() {
-  const nextTitle = zoneTitleDraft.value.trim()
-  if (nextTitle) {
-    customZoneTitle.value = nextTitle.endsWith(',') ? nextTitle : nextTitle + ','
-    try { localStorage.setItem('gold5-custom-zone-title', customZoneTitle.value) } catch {}
-  }
-  editingZoneTitle.value = false
-}
-
 let heroTimer: ReturnType<typeof setInterval> | null = null
 let liveMovingChatTimer: ReturnType<typeof setInterval> | null = null
 let languageObserver: MutationObserver | null = null
@@ -6455,12 +6435,7 @@ onBeforeUnmount(() => {
                 </span>
 
                 <div v-if="activeHero !== 0" class="hero-zone-label">
-                  <span v-if="!editingZoneTitle" class="hero-zone-label-text">{{ customZoneTitle.replace(/,$/, '') }}</span>
-                  <form v-if="editingZoneTitle" class="hero-zone-title-editor" @submit.prevent="saveZoneTitle">
-                    <input v-model="zoneTitleDraft" maxlength="36" aria-label="Your Zone title" autofocus />
-                    <button type="submit" aria-label="Save Zone title">✓</button>
-                  </form>
-                  <button v-if="!editingZoneTitle" type="button" class="hero-zone-title-edit" aria-label="Edit your Zone title" title="Change your Zone title" @click="startEditingZoneTitle">✎</button>
+                  <span class="hero-zone-label-text">Your Zone</span>
                 </div>
 
                 <h1>
@@ -20353,11 +20328,7 @@ a { text-underline-offset: 3px; }
   letter-spacing: .045em;
   text-shadow: 0 0 14px rgba(160, 118, 255, .22);
 }
-.hero-zone-label .hero-zone-title-edit { margin-left: 0; }
-.hero-zone-title-edit { margin-left: 5px; padding: 2px 6px; font-size: 12px; vertical-align: middle; }
-.hero-zone-title-editor { display: inline-flex; gap: 5px; vertical-align: middle; }
-.hero-zone-title-editor input { width: min(230px, 48vw); padding: 4px 7px; border: 1px solid rgba(182,148,255,.45); border-radius: 6px; background: rgba(13,12,27,.92); color: #f1eaff; font: inherit; }
-.hero-zone-title-editor button { padding: 3px 8px; }
+
 @media (max-width: 760px) {
   .hero-stage::before { width: 82vw; right: -22%; top: 43%; opacity: .25; }
 }
