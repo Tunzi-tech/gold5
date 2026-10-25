@@ -6332,6 +6332,10 @@ onBeforeUnmount(() => {
            HOME
            ================================================= -->
       <section v-if="activeView === 'home'" class="content home-commons-content" :class="{ 'home-hero-collapsed': homeHeroHidden }">
+        <div v-if="homeDisplayMode === 'content'" class="initiative-home-intro home-impact-page-intro">
+          <span class="initiative-flow-kicker">FIND YOUR WAY TO MAKE AN IMPACT</span>
+          <p>Explore what people are doing, discover ways to take part, or choose an issue that matters to you.</p>
+        </div>
 
 
 
@@ -6585,11 +6589,6 @@ onBeforeUnmount(() => {
         </section>
 
         <div v-if="homeDisplayMode === 'content'" class="home-discovery-view">
-        <div class="initiative-home-intro">
-          <span class="initiative-flow-kicker">FIND YOUR WAY TO MAKE AN IMPACT</span>
-          <p>Explore what people are doing, discover ways to take part, or choose an issue that matters to you.</p>
-        </div>
-
         <div class="initiative-flow-path" aria-label="From what people do to impact">
           <section class="initiative-flow-step people-do" aria-label="Explore what people are doing">
             <span class="initiative-flow-kicker">EXPLORE</span>
@@ -25188,3 +25187,17 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
     opacity: .2;
   }
 }
+
+<style>
+/* Keep the impact discovery title at the very top of the Home page, before the hero/header. */
+.home-commons-content > .home-impact-page-intro {
+  margin: 0 0 8px;
+  padding: 4px 16px 2px;
+}
+@media (max-width: 760px) {
+  .home-commons-content > .home-impact-page-intro {
+    margin-bottom: 6px;
+    padding: 2px 8px;
+  }
+}
+</style>
