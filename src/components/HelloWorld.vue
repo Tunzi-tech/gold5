@@ -22305,12 +22305,14 @@ a { text-underline-offset: 3px; }
     gap:5px !important;
     height:22px !important;
     padding:0 8px !important;
-    border:1px solid rgba(126,163,213,.2) !important;
+    border:1px solid rgba(139,177,237,.58) !important;
     border-radius:999px !important;
-    background:rgba(17,31,49,.94) !important;
-    color:#c9d9ee !important;
+    background:linear-gradient(135deg,rgba(43,76,119,.99),rgba(27,48,78,.99)) !important;
+    color:#ffffff !important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 3px 12px rgba(0,0,0,.38),0 0 0 1px rgba(85,143,220,.16) !important;
+    text-shadow:0 1px 2px rgba(0,0,0,.35) !important;
     font-size:10px !important;
-    font-weight:700 !important;
+    font-weight:800 !important;
     line-height:1 !important;
     cursor:pointer !important;
   }
