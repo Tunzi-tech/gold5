@@ -25145,3 +25145,48 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
   transform: none !important;
   filter: none !important;
 }
+
+
+/* Let the violet Earth atmosphere visually continue into the top bar. */
+.main:has(.home-commons-content) > .topbar {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 78% 145%, rgba(119, 79, 183, .34) 0%, rgba(83, 56, 132, .22) 27%, rgba(35, 27, 58, .12) 48%, transparent 68%),
+    rgba(8, 13, 22, .84);
+  border-bottom-color: rgba(164, 126, 226, .2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .08), inset 0 -1px 0 rgba(133, 91, 196, .08);
+}
+.main:has(.home-commons-content) > .topbar::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: -1;
+  width: min(58vw, 620px);
+  aspect-ratio: 1;
+  right: 4%;
+  top: 28px;
+  border-radius: 50%;
+  opacity: .28;
+  background:
+    radial-gradient(ellipse at 34% 31%, rgba(190,164,255,.48) 0 5%, transparent 22%),
+    radial-gradient(ellipse at 64% 43%, rgba(122,86,190,.55) 0 9%, transparent 25%),
+    radial-gradient(ellipse at 42% 64%, rgba(91,62,148,.8) 0 11%, transparent 29%),
+    radial-gradient(circle at 35% 30%, #554477 0%, #292142 44%, #100f20 68%, transparent 70%);
+  box-shadow: inset -22px -14px 42px rgba(4,5,16,.8), 0 0 55px rgba(135,83,214,.2);
+  border: 1px solid rgba(188,158,255,.22);
+  mask-image: radial-gradient(circle, #000 0 68%, transparent 72%);
+}
+@media (max-width: 760px) {
+  .main:has(.home-commons-content) > .topbar {
+    background:
+      radial-gradient(ellipse at 78% 145%, rgba(119, 79, 183, .3) 0%, rgba(83, 56, 132, .17) 30%, transparent 68%),
+      rgba(8, 13, 22, .84);
+  }
+  .main:has(.home-commons-content) > .topbar::after {
+    width: 82vw;
+    right: -22%;
+    top: 46px;
+    opacity: .2;
+  }
+}
