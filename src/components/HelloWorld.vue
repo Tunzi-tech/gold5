@@ -6333,15 +6333,16 @@ onBeforeUnmount(() => {
            ================================================= -->
       <section v-if="activeView === 'home'" class="content home-commons-content" :class="{ 'home-hero-collapsed': homeHeroHidden }">
 
-                  <nav v-if="activeView === 'home'" class="header-quick-rail" aria-label="Local, World, Calls, Initiatives and Chat">
+
+
+        <section class="home-impact-discovery-section" aria-label="Home discovery and header">
+                          <nav v-if="activeView === 'home'" class="header-quick-rail" aria-label="Local, World, Calls, Initiatives and Chat">
             <button type="button" :class="{ active: homeConnectionPanel === 'local' && homeHeaderChatOpen }" @click="homeConnectionPanel = 'local'; homeLocalWorldScope = 'local'; joinHomeChannel('local'); homeHeaderChatOpen = true; homeLocalWorldOpen = true" aria-label="Open Local conversations">Local</button>
             <button type="button" :class="{ active: homeConnectionPanel === 'world' && homeHeaderChatOpen }" @click="homeConnectionPanel = 'world'; homeLocalWorldScope = 'world'; joinHomeChannel('world'); homeHeaderChatOpen = true; homeLocalWorldOpen = true" aria-label="Open World conversations">World</button>
             <button type="button" :class="{ active: homeConnectionPanel === 'calls' && homeHeaderChatOpen }" @click="homeConnectionPanel = 'calls'; homeHeaderChatOpen = true; homeLocalWorldOpen = false" aria-label="Open calls">Calls</button>
             <button type="button" :class="{ active: homeConnectionPanel === 'initiatives' && homeHeaderChatOpen }" @click="homeConnectionPanel = 'initiatives'; homeHeaderChatOpen = true; homeLocalWorldOpen = false" aria-label="Open initiative conversations">Initiatives</button>
             <button type="button" :class="{ active: homeConnectionPanel === 'chat' && homeHeaderChatOpen }" @click="homeConnectionPanel = 'chat'; homeHeaderChatOpen = true; homeLocalWorldOpen = true" aria-label="Open chats">Chat</button>
           </nav>
-
-        <section class="home-impact-discovery-section" aria-label="Home discovery and header">
         <div class="home-view-switch" role="group" aria-label="Choose home view">
           <button
             type="button"
@@ -11998,10 +11999,16 @@ textarea:focus-visible {
   z-index: 15;
 }
 
-/* Compact vertical shortcuts aligned to the right side of the header on all screen sizes. */
+/* Keep the vertical shortcuts inside the same framed Home section as the header. */
 @media (min-width: 761px) {
   .home-commons-content > .home-impact-discovery-section {
-    margin-right: 112px;
+    padding-right: 112px;
+  }
+  .home-commons-content > .home-impact-discovery-section > .header-quick-rail {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 5;
   }
 }
 .home-initiative-chat-list {
