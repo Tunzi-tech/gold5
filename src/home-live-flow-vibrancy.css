@@ -124,3 +124,18 @@ header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:first-child.act
     filter: none;
   }
 }
+
+
+/* Home's gradient should travel in the opposite direction from Live Flow. */
+header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:first-child {
+  background-position: 100% 50% !important;
+}
+header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:first-child:hover {
+  background-position: 0% 50% !important;
+}
+header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:first-child.active {
+  background-position: 100% 50% !important;
+}
+header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:first-child.active:hover {
+  background-position: 0% 50% !important;
+}
