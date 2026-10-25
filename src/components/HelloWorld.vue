@@ -6334,11 +6334,11 @@ onBeforeUnmount(() => {
       <section v-if="activeView === 'home'" class="content home-commons-content" :class="{ 'home-hero-collapsed': homeHeroHidden }">
 
                   <nav v-if="activeView === 'home'" class="header-quick-rail" aria-label="Local, World, Calls, Initiatives and Chat">
-            <button type="button" :class="{ active: homeLocalWorldScope === 'local' && homeHeaderChatOpen }" @click="homeLocalWorldScope = 'local'; joinHomeChannel('local'); mobileSpace = 'networkchat'; mobileMoreOpen = true; homeHeaderChatOpen = true; homeLocalWorldOpen = true" aria-label="Open Local channel">Local</button>
-            <button type="button" :class="{ active: homeLocalWorldScope === 'world' && homeHeaderChatOpen }" @click="homeLocalWorldScope = 'world'; joinHomeChannel('world'); mobileSpace = 'networkchat'; mobileMoreOpen = true; homeHeaderChatOpen = true; homeLocalWorldOpen = true" aria-label="Open World channel">World</button>
-            <button type="button" :class="{ active: activeView === 'call' }" @click="navigate('call')">Calls</button>
-            <button type="button" :class="{ active: activeView === 'initiatives' }" @click="navigate('initiatives')">Initiatives</button>
-            <button type="button" :class="{ active: mobileMoreOpen && mobileSpace === 'networkchat' }" @click="mobileSpace = 'networkchat'; mobileMoreOpen = true; homeHeaderChatOpen = true; homeLocalWorldOpen = true">Chat</button>
+            <button type="button" :class="{ active: homeConnectionPanel === 'local' && homeHeaderChatOpen }" @click="homeConnectionPanel = 'local'; homeLocalWorldScope = 'local'; joinHomeChannel('local'); homeHeaderChatOpen = true; homeLocalWorldOpen = true" aria-label="Open Local conversations">Local</button>
+            <button type="button" :class="{ active: homeConnectionPanel === 'world' && homeHeaderChatOpen }" @click="homeConnectionPanel = 'world'; homeLocalWorldScope = 'world'; joinHomeChannel('world'); homeHeaderChatOpen = true; homeLocalWorldOpen = true" aria-label="Open World conversations">World</button>
+            <button type="button" :class="{ active: homeConnectionPanel === 'calls' && homeHeaderChatOpen }" @click="homeConnectionPanel = 'calls'; homeHeaderChatOpen = true; homeLocalWorldOpen = false" aria-label="Open calls">Calls</button>
+            <button type="button" :class="{ active: homeConnectionPanel === 'initiatives' && homeHeaderChatOpen }" @click="homeConnectionPanel = 'initiatives'; homeHeaderChatOpen = true; homeLocalWorldOpen = false" aria-label="Open initiative conversations">Initiatives</button>
+            <button type="button" :class="{ active: homeConnectionPanel === 'chat' && homeHeaderChatOpen }" @click="homeConnectionPanel = 'chat'; homeHeaderChatOpen = true; homeLocalWorldOpen = true" aria-label="Open chats">Chat</button>
           </nav>
 
         <section class="home-impact-discovery-section" aria-label="Home discovery and header">
@@ -6363,13 +6363,13 @@ onBeforeUnmount(() => {
           <div class="home-header-chat-heading home-network-heading">
             <button class="mobile-network-close" type="button" @click="homeHeaderChatOpen = false; homeLocalWorldOpen = false" aria-label="Close network sidebar">×</button>
             <div>
-              <span class="home-connection-kicker">YOUR NETWORK · LIVE SPACE</span>
-              <h2>Conversations and updates, connected.</h2>
-              <p>Follow what’s happening nearby or across the network, then join the conversation.</p>
+              <span class="home-connection-kicker">{{ homeConnectionPanel === 'initiatives' ? 'INITIATIVES · CONVERSATIONS' : homeConnectionPanel === 'calls' ? 'OPEN CALLS · OPPORTUNITIES' : homeConnectionPanel === 'channels' ? 'CHANNELS · TOPIC SPACES' : homeConnectionPanel === 'local' ? 'LOCAL · YOUR ZONES' : homeConnectionPanel === 'world' ? 'WORLD · WIDER NETWORK' : 'YOUR NETWORK · LIVE SPACE' }}</span>
+              <h2>{{ homeConnectionPanel === 'initiatives' ? 'Initiatives taking shape, together.' : homeConnectionPanel === 'calls' ? 'Find a call to take part in.' : homeConnectionPanel === 'channels' ? 'Conversations around shared interests.' : homeConnectionPanel === 'local' ? 'Conversations around your Zones.' : homeConnectionPanel === 'world' ? 'Ideas and people across the network.' : 'Conversations and updates, connected.' }}</h2>
+              <p>{{ homeConnectionPanel === 'initiatives' ? 'Open an initiative conversation, share an idea, or find a way to contribute.' : homeConnectionPanel === 'calls' ? 'Explore invitations from people and organizations looking for contributors.' : 'Follow what’s happening nearby or across the network, then join the conversation.' }}</p>
             </div>
             <span class="home-header-chat-orbit" aria-hidden="true">✳</span>
           </div>
-          <section class="home-network-activity" aria-label="Local and world updates">
+          <section v-if="homeConnectionPanel !== 'initiatives' && homeConnectionPanel !== 'calls'" class="home-network-activity" aria-label="Local and world updates">
             <div class="home-network-activity-top">
               <div>
                 <span class="home-network-section-label">ACTIVITY STREAM</span>
@@ -6403,10 +6403,18 @@ onBeforeUnmount(() => {
 
       
           <div class="home-chat-rooms-heading">
-            <span>CONVERSATIONS TO JOIN</span><small>Choose a space to explore</small>
+            <span>{{ homeConnectionPanel === 'initiatives' ? 'INITIATIVE CHATS' : 'CONVERSATIONS TO JOIN' }}</span><small>{{ homeConnectionPanel === 'initiatives' ? 'Join a project conversation' : 'Choose a space to explore' }}</small>
+          </div>
+          <div v-if="homeConnectionPanel === 'calls'" class="home-initiative-chat-list">
+            <article v-for="call in calls.slice(0, 4)" :key="call.id" class="home-initiative-chat-card">
+              <span class="home-chat-room-mark" aria-hidden="true">↗</span>
+              <span class="home-chat-room-copy"><strong>{{ call.title }}</strong><small>{{ call.category }} · {{ call.location }}</small><em>{{ call.headline }}</em></span>
+              <button type="button" class="home-connection-open" @click="openCallSpace(call)">View call →</button>
+            </article>
+            <p v-if="calls.length === 0" class="home-chat-select-prompt">No open calls are available here yet.</p>
           </div>
           <div class="home-chat-rooms" aria-label="Example conversations">
-            <button v-for="room in homeChatRooms" :key="room.id" type="button"
+            <button v-for="room in (homeConnectionPanel === 'initiatives' ? homeChatRooms.filter(room => ['tunis-green', 'local-possibilities', 'ideas-lab'].includes(room.id)) : homeChatRooms)" :key="room.id" type="button"
               class="home-chat-room" :class="['chat-room-' + room.color, { active: homeActiveChatRoom === room.id }]"
               @click="joinHomeChatRoom(room.id)">
               <span class="home-chat-room-mark" aria-hidden="true">{{ room.mark }}</span>
@@ -11991,6 +11999,36 @@ textarea:focus-visible {
 }
 
 /* Compact vertical shortcuts aligned to the right side of the header on all screen sizes. */
+@media (min-width: 761px) {
+  .home-commons-content > .home-impact-discovery-section {
+    margin-right: 112px;
+  }
+}
+.home-initiative-chat-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0 0 10px;
+}
+.home-initiative-chat-card {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid rgba(128, 159, 194, .18);
+  border-radius: 10px;
+  background: rgba(22, 35, 53, .62);
+}
+.home-initiative-chat-card .home-chat-room-copy { flex: 1; min-width: 0; }
+.home-initiative-chat-card .home-chat-room-copy strong,
+.home-initiative-chat-card .home-chat-room-copy small,
+.home-initiative-chat-card .home-chat-room-copy em { display: block; }
+.home-initiative-chat-card .home-chat-room-copy small,
+.home-initiative-chat-card .home-chat-room-copy em { margin-top: 3px; color: #9eafc5; font-size: 10px; line-height: 1.4; }
+@media (max-width: 760px) {
+  .home-initiative-chat-list { grid-template-columns: minmax(0, 1fr); }
+}
 .header-quick-rail {
   position: fixed;
   z-index: 14;
