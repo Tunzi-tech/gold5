@@ -3899,7 +3899,7 @@ const arabicDictionary: Record<string, string> = {
   'Live conversations nearby':'محادثات مباشرة قريبة',
   'Looking for people interested in greener streets.':'أبحث عن أشخاص مهتمين بشوارع أكثر خضرة.',
   'Anyone working on safer walking routes?':'هل يعمل أحد على مسارات مشي أكثر أمانًا؟',
-  'Just joined a local mobility discussion.':'انضممت للتو إلى نقاش محلي حول التنقل.'
+  'Just joined a local mobility discussion.':'انضممت للتو إلى نقاش محلي حول التنقل.',
   "Explore": "استكشف",
   "Exploring": "جارٍ الاستكشاف",
   "Impact": "الأثر",
