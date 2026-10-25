@@ -6076,6 +6076,10 @@ onBeforeUnmount(() => {
           </div>
 
           <template v-if="mobileSpace === 'menu'">
+            <div class="mobile-drawer-section-label">MAIN DESTINATIONS</div>
+            <button type="button" class="mobile-more-drawer-item mobile-main-destination-item" @click="mobileMoreOpen = false; navigate('home')"><span>⌂</span><span><strong>Home</strong><small>Return to your home space</small></span><b>→</b></button>
+            <button type="button" class="mobile-more-drawer-item mobile-main-destination-item" @click="mobileMoreOpen = false; navigate('live-flow')"><span>⟳</span><span><strong>Live Flow</strong><small>See what is moving and connecting</small></span><b>→</b></button>
+            <button type="button" class="mobile-more-drawer-item mobile-main-destination-item" @click="mobileMoreOpen = false; navigate('learn')"><span>✦</span><span><strong>{{ t('learnDiscover') }}</strong><small>Learn, discover and explore new ideas</small></span><b>→</b></button>
             <div class="mobile-drawer-section-label">EXPLORE & CONNECT</div>
             <button type="button" class="mobile-more-drawer-item" @click="mobileSpace = 'flow'; homeHeaderChatOpen = false"><span>▣</span><span><strong>Flow</strong><small>Calls, initiatives, Pages and entities</small></span><b>→</b></button>
             <button type="button" class="mobile-more-drawer-item" @click="mobileSpace = 'people'; homeHeaderChatOpen = false"><span>♧</span><span><strong>People · Sparks · Impact</strong><small>Find people and connect around shared interests</small></span><b>→</b></button>
@@ -24234,6 +24238,24 @@ header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-
   }
 }
 
+
+/* Keep Home, Live Flow and Learn & Discover inside the mobile three-line drawer. */
+@media screen and (max-width: 760px) {
+  header.topbar > .mobile-home-nav-pair {
+    display: none !important;
+  }
+  header.topbar > .top-learn-discover-button {
+    display: none !important;
+  }
+}
+
+/* Style the primary destinations inside the mobile navigation drawer. */
+.mobile-main-destination-item {
+  border-color: rgba(122, 157, 216, .2) !important;
+}
+.mobile-main-destination-item > span:first-child {
+  color: #9bbaff !important;
+}
 
 /* Restore Learn & Discover as a first-class desktop top-bar destination. */
 .top-learn-discover-button { display: none; }
