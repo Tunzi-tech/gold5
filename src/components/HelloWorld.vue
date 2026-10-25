@@ -25514,4 +25514,36 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 }
+/* Show the Home discovery list when hovering the impact intro. */
+@media (min-width: 1000px) {
+  .home-commons-content .initiative-flow-path {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(-6px) !important;
+    transition: opacity .2s ease, transform .2s ease, visibility .2s ease !important;
+  }
+  .home-commons-content:has(> .home-impact-page-intro:hover) .initiative-flow-path,
+  .home-commons-content:has(> .home-impact-page-intro:focus-within) .initiative-flow-path,
+  .home-commons-content:has(.initiative-flow-path:hover) .initiative-flow-path,
+  .home-commons-content:has(.initiative-flow-path:focus-within) .initiative-flow-path {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateY(0) !important;
+  }
+  .home-commons-content > .home-impact-page-intro::after {
+    left: 0 !important;
+    bottom: -66px !important;
+    width: 286px !important;
+    height: 66px !important;
+    background: linear-gradient(90deg, transparent 23px, rgba(118,155,255,.56) 24px, rgba(118,155,255,.56) 26px, transparent 27px) !important;
+    pointer-events: auto !important;
+    z-index: 5 !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-commons-content .initiative-flow-path { transition: none !important; transform: none !important; }
+}
+
 </style>
