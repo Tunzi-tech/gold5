@@ -25339,4 +25339,55 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
   }
 }
 
+
+/* Refine the Home discovery path into one intentional, continuous visual system. */
+@media (min-width: 1000px) {
+  .home-commons-content > .home-impact-page-intro {
+    border-color: rgba(117, 143, 224, .24) !important;
+    background: radial-gradient(ellipse at 7% 0%, rgba(83, 133, 232, .2), transparent 52%), linear-gradient(105deg, rgba(24, 37, 65, .94), rgba(14, 22, 39, .88) 64%, rgba(33, 28, 57, .74)) !important;
+    box-shadow: inset 0 1px 0 rgba(220, 230, 255, .055), 0 10px 28px rgba(0, 0, 0, .1) !important;
+  }
+  .home-commons-content > .home-impact-page-intro::after {
+    left: 24px !important; bottom: -27px !important; width: 2px !important; height: 27px !important;
+    background: linear-gradient(180deg, rgba(118, 155, 255, .7), rgba(118, 155, 255, .12)) !important;
+  }
+  .home-commons-content .initiative-flow-path {
+    top: 94px !important; padding: 12px !important; border-color: rgba(117, 143, 224, .24) !important;
+    border-radius: 0 0 16px 16px !important;
+    background: linear-gradient(180deg, rgba(22, 34, 57, .98), rgba(12, 19, 32, .97)) !important;
+    box-shadow: inset 0 1px 0 rgba(208, 220, 255, .045), 0 16px 34px rgba(0, 0, 0, .17) !important;
+  }
+  .home-commons-content .initiative-flow-path::before {
+    top: -95px !important; height: 95px !important; border-color: rgba(117, 143, 224, .2) !important;
+    border-radius: 16px 16px 0 0 !important;
+    background: linear-gradient(180deg, rgba(37, 48, 81, .12), rgba(24, 35, 59, .18)) !important;
+  }
+  .home-commons-content .initiative-flow-path::after {
+    content: ""; position: absolute; z-index: 3; left: 20px; top: 24px; bottom: 24px; width: 1px;
+    background: linear-gradient(180deg, rgba(114, 160, 255, .48), rgba(139, 129, 235, .32) 55%, rgba(96, 181, 195, .42));
+    pointer-events: none;
+  }
+  .home-commons-content .initiative-flow-step {
+    padding: 14px 13px 14px 20px !important; border-color: rgba(129, 151, 207, .14) !important;
+    border-radius: 10px !important; background: linear-gradient(110deg, rgba(24, 37, 59, .93), rgba(14, 22, 35, .9)) !important;
+    box-shadow: inset 2px 0 0 rgba(115, 153, 239, .22), inset 0 1px 0 rgba(255, 255, 255, .025) !important;
+  }
+  .home-commons-content .initiative-flow-step::before {
+    left: 0 !important; right: auto !important; top: 21px !important; width: 7px !important; height: 7px !important;
+    border: 2px solid rgba(145, 171, 255, .82) !important; border-radius: 50% !important; background: #17243b !important;
+    box-shadow: 0 0 0 3px rgba(108, 139, 222, .09) !important; opacity: 1 !important;
+  }
+  .home-commons-content .initiative-flow-step::after { display: none !important; }
+  .home-commons-content .initiative-flow-step:hover,
+  .home-commons-content .initiative-flow-step:focus-within {
+    border-color: rgba(129, 165, 255, .34) !important;
+    background: linear-gradient(110deg, rgba(29, 46, 75, .97), rgba(16, 25, 41, .95)) !important;
+    box-shadow: inset 2px 0 0 rgba(128, 164, 255, .72), 0 7px 18px rgba(0, 0, 0, .12) !important;
+  }
+  .home-commons-content .initiative-flow-step:hover::before,
+  .home-commons-content .initiative-flow-step:focus-within::before {
+    border-color: rgba(163, 191, 255, .98) !important; box-shadow: 0 0 0 4px rgba(108, 139, 222, .15) !important;
+  }
+}
+
 </style>
