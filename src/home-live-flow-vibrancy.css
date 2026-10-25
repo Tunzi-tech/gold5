@@ -359,7 +359,7 @@ header.topbar .nfas-impact-orbit-target[aria-current="page"]::after {
 
 /* Mobile Impact is an always-available right-side space, not a hover-only hint. */
 .nfas-impact-discovery-trigger {
-  display: inline-flex;
+  display: none;
   align-items: center;
   justify-content: center;
   gap: 9px;
@@ -435,7 +435,7 @@ body.nfas-impact-drawer-open { overflow:hidden; }
 @media (max-width: 760px) {
   .nfas-impact-edge-handle { display:flex; }
   .nfas-impact-discovery-title::after { display:none !important; content:none !important; }
-  .nfas-impact-discovery-trigger { min-height:40px; padding:10px 14px; font-size:.8rem; touch-action:manipulation; }
+  .nfas-impact-discovery-trigger { display:inline-flex; min-height:40px; padding:10px 14px; font-size:.8rem; touch-action:manipulation; }
   .nfas-impact-mobile-drawer { padding-bottom: max(16px, env(safe-area-inset-bottom)); }
 }
 @media (min-width: 761px) {
