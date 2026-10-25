@@ -19849,16 +19849,16 @@ textarea:focus-visible {
 .home-connection-heading h1{margin:3px 0 3px;color:#e5edf8;font-size:19px;line-height:1.2;letter-spacing:-.035em;font-weight:750}
 .home-connection-heading p{margin:0;max-width:520px;color:#8190a5;font-size:10px;line-height:1.5}
 .home-connection-kicker{display:block;color:#8da9cf;font-size:8px;font-weight:850;letter-spacing:.15em}
-.home-impact-discovery-link{display:flex;align-items:center;gap:10px;flex:0 0 auto;max-width:245px;min-width:190px;padding:10px 12px;border:1px solid rgba(153,133,255,.72);border-radius:11px;background:linear-gradient(120deg,rgba(73,61,139,.78) 0%,rgba(44,61,112,.72) 58%,rgba(20,35,58,.86) 100%);box-shadow:inset 0 1px 0 rgba(224,221,255,.16),0 0 18px rgba(112,104,230,.13);color:#f5f4ff;text-align:left;font:inherit;cursor:pointer;transition:border-color .2s ease,background .2s ease,transform .2s ease,box-shadow .2s ease}
-.home-impact-discovery-link:hover{border-color:rgba(185,174,255,.98);background:linear-gradient(120deg,rgba(94,76,171,.9) 0%,rgba(54,78,143,.84) 58%,rgba(26,47,77,.94) 100%);box-shadow:inset 0 1px 0 rgba(235,232,255,.22),0 0 22px rgba(112,104,230,.22);transform:translateY(-2px)}
+.home-impact-discovery-link{display:flex;align-items:center;gap:10px;flex:0 0 auto;max-width:245px;min-width:190px;padding:10px 12px;border:1px solid rgba(111,119,169,.42);border-radius:11px;background:linear-gradient(120deg,rgba(37,38,68,.96) 0%,rgba(29,40,63,.97) 58%,rgba(17,29,43,.98) 100%);box-shadow:inset 0 1px 0 rgba(210,216,255,.045),0 5px 14px rgba(0,0,0,.12);color:#edf0fb;text-align:left;font:inherit;cursor:pointer;transition:border-color .2s ease,background .2s ease,transform .2s ease,box-shadow .2s ease}
+.home-impact-discovery-link:hover{border-color:rgba(137,145,202,.62);background:linear-gradient(120deg,rgba(45,45,79,.98) 0%,rgba(34,48,73,.98) 58%,rgba(20,33,48,.99) 100%);box-shadow:inset 0 1px 0 rgba(220,224,255,.07),0 6px 16px rgba(0,0,0,.16);transform:translateY(-1px)}
 .home-impact-discovery-link:focus-visible{outline:2px solid rgba(255,220,132,.95);outline-offset:3px}
-.home-impact-discovery-icon{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border:1px solid rgba(181,169,255,.7);border-radius:10px;background:linear-gradient(145deg,rgba(145,126,255,.34),rgba(65,112,173,.24));color:#e8e4ff;text-shadow:0 0 10px rgba(171,159,255,.24);box-shadow:inset 0 0 14px rgba(174,164,255,.1)}
-.home-impact-discovery-icon{display:grid;place-items:center;flex:0 0 31px;width:31px;height:31px;border:1px solid rgba(181,169,255,.62);border-radius:9px;background:rgba(145,126,255,.22);color:#e8e4ff;font-size:19px}
+.home-impact-discovery-icon{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border:1px solid rgba(132,139,187,.42);border-radius:10px;background:linear-gradient(145deg,rgba(91,87,137,.22),rgba(44,76,106,.2));color:#d9d9f2;text-shadow:none;box-shadow:inset 0 0 8px rgba(174,164,255,.035)}
+.home-impact-discovery-icon{display:grid;place-items:center;flex:0 0 31px;width:31px;height:31px;border:1px solid rgba(132,139,187,.38);border-radius:9px;background:rgba(91,87,137,.18);color:#d9d9f2;font-size:19px}
 .home-impact-discovery-copy{display:flex;flex-direction:column;gap:3px;min-width:0}
-.home-impact-discovery-copy .home-connection-kicker{color:#c5baff;font-size:7px}
+.home-impact-discovery-copy .home-connection-kicker{color:#b2b3d6;font-size:7px}
 .home-impact-discovery-copy strong{font-size:11px;line-height:1.3;font-weight:800}
-.home-impact-discovery-copy small{color:#c4cce6;font-size:9px;line-height:1.3}
-.home-impact-discovery-copy small span{color:#ddd6ff}
+.home-impact-discovery-copy small{color:#aeb8cd;font-size:9px;line-height:1.3}
+.home-impact-discovery-copy small span{color:#c6c8e8}
 .home-connection-orbit{position:relative;flex:0 0 40px;width:40px;height:40px;border:1px solid rgba(115,185,201,.26);border-radius:50%;background:radial-gradient(circle,rgba(115,185,201,.16),rgba(111,117,212,.05) 60%,transparent 70%)}
 .home-connection-orbit:before,.home-connection-orbit:after{content:'';position:absolute;inset:6px;border:1px solid rgba(159,143,255,.36);border-radius:50%;transform:rotate(38deg) scaleX(.58)}
 .home-connection-orbit:after{transform:rotate(-38deg) scaleX(.58);border-color:rgba(115,185,201,.35)}
