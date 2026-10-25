@@ -224,6 +224,14 @@ const selectedMobileSidebarDestinationId = ref('')
 const mobileSidebarAvailable = computed(() => mobileSidebarDestinations.filter(
   destination => !mobileSidebarShortcuts.value.some(shortcut => shortcut.id === destination.id)
 ))
+const mobileSidebarDestinationGroups = computed(() => [
+  { id: 'explore', label: 'EXPLORE', note: 'Places to discover and follow', ids: ['home', 'live-flow', 'learn'] },
+  { id: 'connect', label: 'CONNECT', note: 'People and opportunities to join', ids: ['people', 'calls'] },
+  { id: 'build', label: 'BUILD & CONTRIBUTE', note: 'Spaces for shared work and impact', ids: ['impact', 'pages', 'entities', 'initiatives'] },
+].map(group => ({
+  ...group,
+  destinations: mobileSidebarAvailable.value.filter(destination => group.ids.includes(destination.id))
+})).filter(group => group.destinations.length))
 const selectedMobileSidebarDestination = computed(() =>
   mobileSidebarAvailable.value.find(destination => destination.id === selectedMobileSidebarDestinationId.value) || null
 )
@@ -6176,29 +6184,26 @@ onBeforeUnmount(() => {
                 <div v-for="shortcut in mobileSidebarShortcuts" :key="'saved-shortcut-' + shortcut.id" class="mobile-sidebar-shortcut-row">
                   <span class="mobile-sidebar-shortcut-mark">{{ shortcut.mark }}</span>
                   <span class="mobile-sidebar-shortcut-label">{{ shortcut.label }}</span>
-                  <button type="button" @click="removeMobileSidebarShortcut(shortcut.id)" :aria-label="'Remove ' + shortcut.label + ' from sidebar">Remove</button>
+                  <button type="button" @click="removeMobileSidebarShortcut(shortcut.id)" :aria-label="'Remove ' + shortcut.label + ' from sidebar'">Remove</button>
                 </div>
               </div>
               <p v-else class="mobile-sidebar-personalizer-empty">No custom buttons yet. Add a destination below to make it available in your mobile navigation bar.</p>
-              <div class="mobile-drawer-section-label mobile-sidebar-add-label">ADD A BUTTON TO YOUR BAR</div>
-              <p class="mobile-sidebar-instruction">1. Select a destination. 2. Press “Add to bar”.</p>
-              <div v-if="mobileSidebarAvailable.length" class="mobile-sidebar-add-form">
-                <label class="mobile-sidebar-select-label" for="mobile-sidebar-destination-select">Choose a destination</label>
-                <select id="mobile-sidebar-destination-select" v-model="selectedMobileSidebarDestinationId" class="mobile-sidebar-destination-select">
-                  <option value="" disabled>Select a button to add…</option>
-                  <option v-for="destination in mobileSidebarAvailable" :key="'select-shortcut-' + destination.id" :value="destination.id">{{ destination.mark }} {{ destination.label }}</option>
-                </select>
-                <button type="button" class="mobile-sidebar-add-button" :disabled="!selectedMobileSidebarDestination" @click="addSelectedMobileSidebarShortcut">
-                  <span>+</span> Add to bar
-                </button>
-                <p class="mobile-sidebar-or">Or tap a destination below to add it immediately</p>
-                <div class="mobile-sidebar-destination-grid">
-                  <button v-for="destination in mobileSidebarAvailable" :key="'available-shortcut-' + destination.id" type="button" class="mobile-sidebar-destination-option" @click="addMobileSidebarShortcut(destination)">
-                    <span>{{ destination.mark }}</span>
-                    <strong>{{ destination.label }}</strong>
-                    <b>Add +</b>
-                  </button>
-                </div>
+              <div class="mobile-drawer-section-label mobile-sidebar-add-label">PERSONALIZE YOUR NAVIGATION</div>
+              <p class="mobile-sidebar-instruction">Choose from these grouped destination cards. They are organized by purpose instead of repeating the main menu.</p>
+              <div v-if="mobileSidebarAvailable.length" class="mobile-sidebar-category-list">
+                <section v-for="group in mobileSidebarDestinationGroups" :key="'shortcut-group-' + group.id" class="mobile-sidebar-category">
+                  <div class="mobile-sidebar-category-heading">
+                    <strong>{{ group.label }}</strong>
+                    <span>{{ group.note }}</span>
+                  </div>
+                  <div class="mobile-sidebar-destination-grid">
+                    <button v-for="destination in group.destinations" :key="'available-shortcut-' + destination.id" type="button" class="mobile-sidebar-destination-option" @click="addMobileSidebarShortcut(destination)">
+                      <span class="mobile-sidebar-option-mark">{{ destination.mark }}</span>
+                      <strong>{{ destination.label }}</strong>
+                      <b><span aria-hidden="true">+</span> Add</b>
+                    </button>
+                  </div>
+                </section>
               </div>
               <p v-else class="mobile-sidebar-personalizer-empty">All available destinations have been added to your bar. Remove one above to make it available again.</p>
             </div>
@@ -24629,24 +24634,11 @@ header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-
   }
   .mobile-sidebar-personalizer { padding: 4px 0 18px; }
   .mobile-sidebar-instruction { margin: 6px 0 12px; color: #d2def3; font-size: 12px; line-height: 1.5; }
-  .mobile-sidebar-add-form { display: grid; gap: 9px; }
-  .mobile-sidebar-select-label { color: #dce7fa; font-size: 12px; font-weight: 600; }
-  .mobile-sidebar-destination-select {
-    width: 100%; min-height: 46px; padding: 0 12px; border-radius: 10px;
-    border: 1px solid rgba(151, 174, 220, .42); background: #17243a;
-    color: #f0f5ff; font-size: 14px; color-scheme: dark;
-  }
-  .mobile-sidebar-add-button {
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    width: 100%; min-height: 46px; border-radius: 10px;
-    border: 1px solid rgba(143, 128, 255, .65);
-    background: linear-gradient(110deg, rgba(101, 76, 191, .6), rgba(42, 115, 153, .55));
-    color: #fff; font-size: 14px; font-weight: 700;
-  }
-  .mobile-sidebar-add-button:disabled { opacity: .42; }
-  .mobile-sidebar-add-button > span { font-size: 20px; }
-  .mobile-sidebar-or { margin: 5px 0 0; color: #91a4c2; font-size: 11px; }
-
+  .mobile-sidebar-category-list { display: grid; gap: 18px; }
+  .mobile-sidebar-category { padding: 12px; border: 1px solid rgba(129, 157, 207, .18); border-radius: 15px; background: linear-gradient(145deg, rgba(32, 47, 74, .42), rgba(15, 24, 40, .5)); }
+  .mobile-sidebar-category-heading { display: grid; gap: 3px; margin-bottom: 11px; }
+  .mobile-sidebar-category-heading strong { color: #c9d9ff; font-size: 10px; letter-spacing: .14em; }
+  .mobile-sidebar-category-heading span { color: #879bb9; font-size: 11px; line-height: 1.4; }
   .mobile-sidebar-shortcut-list { display: grid; gap: 8px; }
   .mobile-sidebar-shortcut-row {
     display: flex; align-items: center; gap: 10px; padding: 10px 12px;
@@ -24663,13 +24655,15 @@ header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-
   .mobile-sidebar-add-label { margin-top: 20px; }
   .mobile-sidebar-destination-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .mobile-sidebar-destination-option {
-    min-width: 0; display: flex; align-items: center; gap: 8px; padding: 12px 10px;
+    min-width: 0; min-height: 76px; display: grid; grid-template-columns: 26px minmax(0, 1fr); grid-template-rows: auto auto;
+    align-items: center; column-gap: 7px; row-gap: 6px; padding: 11px 10px;
     border: 1px solid rgba(133, 164, 205, .2); border-radius: 12px;
-    background: linear-gradient(120deg, rgba(41, 61, 91, .46), rgba(24, 36, 57, .62));
-    color: #dce7fa; text-align: left;
+    background: linear-gradient(145deg, rgba(41, 61, 91, .52), rgba(24, 36, 57, .72));
+    color: #dce7fa; text-align: left; transition: border-color .18s ease, transform .18s ease, background .18s ease;
   }
-  .mobile-sidebar-destination-option > span { color: #b7c9ff; font-size: 17px; }
-  .mobile-sidebar-destination-option > strong { flex: 1; font-size: 12px; font-weight: 600; }
-  .mobile-sidebar-destination-option > b { color: #9edfcf; font-size: 11px; white-space: nowrap; }
+  .mobile-sidebar-destination-option:active { transform: scale(.98); border-color: rgba(151, 139, 255, .72); }
+  .mobile-sidebar-option-mark { grid-row: 1; color: #b7c9ff; font-size: 20px; text-align: center; }
+  .mobile-sidebar-destination-option > strong { min-width: 0; font-size: 12px; line-height: 1.25; font-weight: 600; }
+  .mobile-sidebar-destination-option > b { grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: 4px; color: #9edfcf; font-size: 11px; font-weight: 600; }
 }
 </style>
