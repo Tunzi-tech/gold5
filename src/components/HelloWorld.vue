@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onBeforeUnmount, ref } from 'vue'
 
+const impactDiscoveryOpen = ref(false)
+
 type Page = {
   id: number
   name: string
@@ -6331,8 +6333,8 @@ onBeforeUnmount(() => {
       <!-- =================================================
            HOME
            ================================================= -->
-      <section v-if="activeView === 'home'" class="content home-commons-content" :class="{ 'home-hero-collapsed': homeHeroHidden }">
-        <div v-if="homeDisplayMode === 'content'" class="initiative-home-intro home-impact-page-intro">
+      <section v-if="activeView === 'home'" class="content home-commons-content" :class="{ 'home-hero-collapsed': homeHeroHidden, 'impact-discovery-open': impactDiscoveryOpen }">
+        <div v-if="homeDisplayMode === 'content'" class="initiative-home-intro home-impact-page-intro" role="button" tabindex="0" :aria-expanded="impactDiscoveryOpen" @click="impactDiscoveryOpen = !impactDiscoveryOpen" @keydown.enter.prevent="impactDiscoveryOpen = !impactDiscoveryOpen" @keydown.space.prevent="impactDiscoveryOpen = !impactDiscoveryOpen">
           <span class="initiative-flow-kicker">FIND YOUR WAY TO MAKE AN IMPACT</span>
           <p>Explore what people are doing, discover ways to take part, or choose an issue that matters to you.</p>
         </div>
@@ -25546,4 +25548,25 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
   .home-commons-content .initiative-flow-path { transition: none !important; transform: none !important; }
 }
 
+
+
+/* Touch-first Home discovery: tapping the intro reveals the three paths. */
+@media (hover: none), (max-width: 999px) {
+  .home-commons-content > .home-impact-page-intro {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .home-commons-content.impact-discovery-open .initiative-flow-path {
+    display: grid !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateY(0) !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-commons-content.impact-discovery-open .initiative-flow-path {
+    transition: none !important;
+  }
+}
 </style>
