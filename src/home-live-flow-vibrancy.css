@@ -92,3 +92,35 @@ header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:last-child.acti
     filter: none;
   }
 }
+
+
+/* Give the selected Home button a stronger, unmistakable active state. */
+header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:first-child.active {
+  background:
+    radial-gradient(130% 170% at 9% 0%, rgba(151, 204, 255, .44), transparent 55%),
+    linear-gradient(118deg, rgba(48, 112, 174, .99), rgba(37, 76, 133, .99) 57%, rgba(79, 61, 135, .97)) !important;
+  border-color: rgba(157, 205, 255, .9) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(248, 252, 255, .25),
+    inset 0 0 22px rgba(116, 174, 255, .15),
+    0 0 0 1px rgba(92, 157, 245, .14),
+    0 0 20px rgba(67, 133, 224, .3) !important;
+  filter: saturate(1.12);
+}
+header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:first-child.active:hover {
+  background:
+    radial-gradient(130% 170% at 9% 0%, rgba(174, 218, 255, .52), transparent 55%),
+    linear-gradient(118deg, rgba(59, 128, 194, 1), rgba(47, 91, 153, 1) 57%, rgba(91, 72, 151, .99)) !important;
+  border-color: rgba(183, 221, 255, .98) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .3),
+    inset 0 0 24px rgba(132, 190, 255, .2),
+    0 0 0 1px rgba(111, 175, 255, .2),
+    0 0 23px rgba(74, 145, 238, .38) !important;
+  filter: brightness(1.08) saturate(1.16);
+}
+@media (prefers-reduced-motion: reduce) {
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:first-child.active {
+    filter: none;
+  }
+}
