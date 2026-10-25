@@ -24668,11 +24668,15 @@ header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-
   .mobile-sidebar-shortcut-row {
     display: flex; align-items: center; gap: 10px; padding: 10px 12px;
     border: 1px solid rgba(133, 164, 205, .18); border-radius: 12px;
-    background: rgba(32, 47, 73, .38);
+    background: rgba(32, 47, 73, .38); cursor: pointer; transition: background .18s ease, border-color .18s ease;
+  }
+  .mobile-sidebar-shortcut-row:hover,
+  .mobile-sidebar-shortcut-row:focus-visible {
+    outline: none; border-color: rgba(177, 147, 255, .48); background: rgba(67, 63, 111, .34);
   }
   .mobile-sidebar-shortcut-mark { width: 28px; text-align: center; color: #b9caff; font-size: 18px; }
   .mobile-sidebar-shortcut-label { flex: 1; color: #e6edfb; font-size: 13px; }
-  .mobile-sidebar-shortcut-row button {
+  .mobile-sidebar-shortcut-remove-hint {
     border: 1px solid rgba(226, 137, 155, .25); border-radius: 8px;
     padding: 6px 9px; background: rgba(139, 53, 79, .16); color: #f0b7c5; font-size: 11px;
   }
