@@ -6430,8 +6430,12 @@ onBeforeUnmount(() => {
             <div :key="activeHero" class="hero hero-rotating">
               <div class="hero-copy">
                 <span class="hero-label hero-initiatives-label">INITIATIVES · ACTION</span>
-                <span class="hero-label">
-                  {{ heroes[activeHero].label }}
+                <span class="hero-label hero-community-tagline" aria-label="Your place, your people, your voice">
+                  <span class="hero-tag-place">YOUR PLACE</span>
+                  <span class="hero-tag-separator"> · </span>
+                  <span class="hero-tag-people">YOUR PEOPLE</span>
+                  <span class="hero-tag-separator"> · </span>
+                  <span class="hero-tag-voice">YOUR VOICE</span>
                 </span>
 
                 <div v-if="activeHero !== 0" class="hero-zone-label">
@@ -12183,6 +12187,27 @@ textarea:focus-visible {
   font-size: 8px;
   font-weight: 800;
   letter-spacing: .19em;
+}
+
+/* Give the community tagline a distinct color for each idea. */
+.hero-community-tagline {
+  color: inherit;
+  line-height: 1.8;
+}
+.hero-tag-place {
+  color: #7fc8ff;
+  text-shadow: 0 0 12px rgba(91, 174, 255, .16);
+}
+.hero-tag-people {
+  color: #c4a0ff;
+  text-shadow: 0 0 12px rgba(166, 112, 255, .16);
+}
+.hero-tag-voice {
+  color: #f0c879;
+  text-shadow: 0 0 12px rgba(240, 190, 91, .13);
+}
+.hero-tag-separator {
+  color: rgba(188, 198, 222, .5);
 }
 
 .hero h1 {
