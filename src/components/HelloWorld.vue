@@ -6104,6 +6104,14 @@ onBeforeUnmount(() => {
           </button>
         </div>
 
+        <nav class="header-quick-rail" aria-label="Local, World, Calls, Initiatives and Chat">
+          <button type="button" :class="{ active: homeLocalWorldScope === 'local' && homeHeaderChatOpen }" @click="homeLocalWorldScope = 'local'; joinHomeChannel('local'); mobileSpace = 'networkchat'; mobileMoreOpen = true; homeHeaderChatOpen = true; homeLocalWorldOpen = true" aria-label="Open Local channel">Local</button>
+          <button type="button" :class="{ active: homeLocalWorldScope === 'world' && homeHeaderChatOpen }" @click="homeLocalWorldScope = 'world'; joinHomeChannel('world'); mobileSpace = 'networkchat'; mobileMoreOpen = true; homeHeaderChatOpen = true; homeLocalWorldOpen = true" aria-label="Open World channel">World</button>
+          <button type="button" :class="{ active: activeView === 'call' }" @click="navigate('call')">Calls</button>
+          <button type="button" :class="{ active: activeView === 'initiatives' }" @click="navigate('initiatives')">Initiatives</button>
+          <button type="button" :class="{ active: mobileMoreOpen && mobileSpace === 'networkchat' }" @click="mobileSpace = 'networkchat'; mobileMoreOpen = true; homeHeaderChatOpen = true; homeLocalWorldOpen = true">Chat</button>
+        </nav>
+
         <div class="top-actions">
           
           <button class="top-icon" title="Notifications" aria-label="Notifications">◌</button>
@@ -11978,6 +11986,65 @@ textarea:focus-visible {
   position: sticky;
   top: 0;
   z-index: 15;
+}
+
+/* Compact vertical shortcuts aligned to the right side of the header on all screen sizes. */
+.header-quick-rail {
+  position: fixed;
+  z-index: 14;
+  top: 82px;
+  right: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 5px;
+  width: 88px;
+  padding: 7px;
+  border: 1px solid rgba(132, 157, 198, .2);
+  border-radius: 12px;
+  background: rgba(9, 14, 27, .88);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, .22);
+}
+.header-quick-rail button {
+  min-height: 30px;
+  padding: 6px 5px;
+  border: 1px solid rgba(132, 157, 198, .12);
+  border-radius: 7px;
+  color: #b9c7dc;
+  background: rgba(255,255,255,.025);
+  font: inherit;
+  font-size: 10px;
+  font-weight: 650;
+  text-align: center;
+  cursor: pointer;
+  transition: color .18s ease, background .18s ease, border-color .18s ease;
+}
+.header-quick-rail button:nth-child(1) { color: #8dcfff; }
+.header-quick-rail button:nth-child(2) { color: #c8a6ff; }
+.header-quick-rail button:nth-child(3) { color: #f0c879; }
+.header-quick-rail button:nth-child(4) { color: #82d9b4; }
+.header-quick-rail button:nth-child(5) { color: #f2a6d1; }
+.header-quick-rail button:hover,
+.header-quick-rail button.active {
+  border-color: rgba(160, 178, 221, .4);
+  background: rgba(112, 132, 190, .15);
+  color: #f4f6ff;
+}
+@media (max-width: 760px) {
+  .header-quick-rail {
+    top: 126px;
+    right: 7px;
+    width: 74px;
+    gap: 4px;
+    padding: 5px;
+    border-radius: 10px;
+  }
+  .header-quick-rail button {
+    min-height: 29px;
+    padding: 5px 2px;
+    font-size: 9px;
+  }
 }
 
 .search-box {
