@@ -25460,4 +25460,22 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
     box-shadow: 0 0 7px rgba(104, 145, 255, .12) !important;
   }
 }
+
+/* Put the Home impact heading and its description clearly above the three-step rail. */
+@media (min-width: 1000px) {
+  .home-commons-content .initiative-flow-path {
+    top: 132px !important;
+  }
+  .home-commons-content .initiative-flow-path::before {
+    top: -40px !important;
+    height: 40px !important;
+    border-radius: 0 !important;
+    border-top: 0 !important;
+    background: linear-gradient(180deg, rgba(20, 32, 54, .88), rgba(22, 34, 57, .98)) !important;
+  }
+  .home-commons-content > .home-impact-page-intro::after {
+    bottom: -40px !important;
+    height: 40px !important;
+  }
+}
 </style>
