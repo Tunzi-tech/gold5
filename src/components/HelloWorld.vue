@@ -2268,6 +2268,22 @@ const heroes = [
   },
 ]
 
+const customZoneTitle = ref('Your Zone,')
+const editingZoneTitle = ref(false)
+const zoneTitleDraft = ref('Your Zone,')
+function startEditingZoneTitle() {
+  zoneTitleDraft.value = customZoneTitle.value
+  editingZoneTitle.value = true
+}
+function saveZoneTitle() {
+  const nextTitle = zoneTitleDraft.value.trim()
+  if (nextTitle) {
+    customZoneTitle.value = nextTitle.endsWith(',') ? nextTitle : nextTitle + ','
+    try { localStorage.setItem('gold5-custom-zone-title', customZoneTitle.value) } catch {}
+  }
+  editingZoneTitle.value = false
+}
+
 let heroTimer: ReturnType<typeof setInterval> | null = null
 let liveMovingChatTimer: ReturnType<typeof setInterval> | null = null
 let languageObserver: MutationObserver | null = null
@@ -6436,7 +6452,12 @@ onBeforeUnmount(() => {
 
                 <h1>
                   <span v-if="activeHero === 0" class="hero-heading-white-home"><span class="hero-heading-ideas-gradient">Ideas</span> <span class="hero-heading-white-shadow">become</span></span>
-                  <span v-else class="hero-zone-title">{{ heroes[activeHero].titleBefore }}</span>
+                  <span v-else class="hero-zone-title">{{ customZoneTitle }}</span>
+                  <button v-if="activeHero !== 0 && !editingZoneTitle" type="button" class="hero-zone-title-edit" aria-label="Edit your Zone title" title="Change your Zone title" @click="startEditingZoneTitle">✎</button>
+                  <form v-if="activeHero !== 0 && editingZoneTitle" class="hero-zone-title-editor" @submit.prevent="saveZoneTitle">
+                    <input v-model="zoneTitleDraft" maxlength="36" aria-label="Your Zone title" autofocus />
+                    <button type="submit" aria-label="Save Zone title">✓</button>
+                  </form>
                   <br v-if="activeHero === 0" />
                   <span
                     v-if="activeHero === 0"
@@ -20262,6 +20283,61 @@ a { text-underline-offset: 3px; }
 .hero .hero-zone-title {
   color: #f0edf8;
   text-shadow: 0 0 8px rgba(255, 255, 255, .07);
+}
+
+/* Purple-tinted Earth atmosphere behind the Zone hero. */
+.hero-stage {
+  position: relative;
+  isolation: isolate;
+}
+.hero-stage::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  width: min(58vw, 620px);
+  aspect-ratio: 1;
+  right: 4%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  opacity: .34;
+  background:
+    radial-gradient(ellipse at 34% 31%, rgba(190,164,255,.48) 0 5%, transparent 22%),
+    radial-gradient(ellipse at 64% 43%, rgba(122,86,190,.55) 0 9%, transparent 25%),
+    radial-gradient(ellipse at 42% 64%, rgba(91,62,148,.8) 0 11%, transparent 29%),
+    radial-gradient(circle at 35% 30%, #554477 0%, #292142 44%, #100f20 68%, transparent 70%);
+  box-shadow: inset -22px -14px 42px rgba(4,5,16,.8), 0 0 55px rgba(135,83,214,.2);
+  border: 1px solid rgba(188,158,255,.22);
+  mask-image: radial-gradient(circle, #000 0 68%, transparent 72%);
+}
+.hero .hero-zone-title {
+  color: #f1eaff;
+  text-shadow: 0 0 14px rgba(157,111,255,.24);
+}
+.hero .hero-accent-impact,
+.hero .hero-where-you-are {
+  color: #c7a7ff;
+  text-shadow: 0 0 12px rgba(155,105,255,.23);
+}
+.hero .hero-place-change {
+  background: linear-gradient(105deg, #f0e7ff 0%, #c8a7ff 38%, #a783f4 68%, #e1d0ff 100%);
+  background-size: 220% 100%;
+}
+.hero-zone-title-edit,
+.hero-zone-title-editor button {
+  border: 1px solid rgba(182,148,255,.35);
+  border-radius: 7px;
+  color: #e9dcff;
+  background: rgba(93,62,145,.3);
+  cursor: pointer;
+}
+.hero-zone-title-edit { margin-left: 5px; padding: 2px 6px; font-size: 12px; vertical-align: middle; }
+.hero-zone-title-editor { display: inline-flex; gap: 5px; vertical-align: middle; }
+.hero-zone-title-editor input { width: min(230px, 48vw); padding: 4px 7px; border: 1px solid rgba(182,148,255,.45); border-radius: 6px; background: rgba(13,12,27,.92); color: #f1eaff; font: inherit; }
+.hero-zone-title-editor button { padding: 3px 8px; }
+@media (max-width: 760px) {
+  .hero-stage::before { width: 82vw; right: -22%; top: 43%; opacity: .25; }
 }
 
 /* Add subtle motion only to “a place for change.” */
