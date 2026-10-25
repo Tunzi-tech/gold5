@@ -2,6 +2,15 @@
 import { computed, nextTick, onMounted, onBeforeUnmount, ref } from 'vue'
 
 const impactDiscoveryOpen = ref(false)
+const mobileDiscoveryLayout = ref(false)
+let impactDiscoveryMediaQuery: MediaQueryList | null = null
+const updateImpactDiscoveryLayout = () => {
+  impactDiscoveryMediaQuery = window.matchMedia('(max-width: 999px), (hover: none)')
+  mobileDiscoveryLayout.value = impactDiscoveryMediaQuery.matches
+}
+const handleImpactDiscoveryLayoutChange = (event: MediaQueryListEvent) => {
+  mobileDiscoveryLayout.value = event.matches
+}
 
 type Page = {
   id: number
@@ -5349,6 +5358,8 @@ function voteRoleProposal(proposal: RoleProposal, choice: 'yes' | 'no') {
   proposal.voted = true
 }
 onMounted(() => {
+  updateImpactDiscoveryLayout()
+  impactDiscoveryMediaQuery?.addEventListener('change', handleImpactDiscoveryLayoutChange)
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   platformOpeningTimer = setTimeout(() => {
     showPlatformOpening.value = false
@@ -5389,6 +5400,8 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+  impactDiscoveryMediaQuery?.removeEventListener('change', handleImpactDiscoveryLayoutChange)
+  impactDiscoveryMediaQuery = null
   if (platformOpeningTimer) {
     clearTimeout(platformOpeningTimer)
     platformOpeningTimer = null
@@ -6334,7 +6347,7 @@ onBeforeUnmount(() => {
            HOME
            ================================================= -->
       <section v-if="activeView === 'home'" class="content home-commons-content" :class="{ 'home-hero-collapsed': homeHeroHidden, 'impact-discovery-open': impactDiscoveryOpen }">
-        <div v-if="homeDisplayMode === 'content'" class="initiative-home-intro home-impact-page-intro">
+        <div v-if="homeDisplayMode === 'content'" class="initiative-home-intro home-impact-page-intro" :class="{ 'is-discovery-open': impactDiscoveryOpen }" @click="if (mobileDiscoveryLayout) impactDiscoveryOpen = !impactDiscoveryOpen" @keydown.enter.prevent="if (mobileDiscoveryLayout) impactDiscoveryOpen = !impactDiscoveryOpen" @keydown.space.prevent="if (mobileDiscoveryLayout) impactDiscoveryOpen = !impactDiscoveryOpen" :tabindex="mobileDiscoveryLayout ? 0 : undefined">
           <span class="initiative-flow-kicker">FIND YOUR WAY TO MAKE AN IMPACT</span>
           <p>Explore what people are doing, discover ways to take part, or choose an issue that matters to you.</p>
           <button type="button" class="home-impact-discovery-trigger" :aria-expanded="impactDiscoveryOpen" @click.stop="impactDiscoveryOpen = !impactDiscoveryOpen">{{ impactDiscoveryOpen ? 'Hide discovery paths' : 'Tap to discover' }} <span aria-hidden="true">{{ impactDiscoveryOpen ? '−' : '↗' }}</span></button>
@@ -6592,6 +6605,7 @@ onBeforeUnmount(() => {
         </section>
 
         <div v-if="homeDisplayMode === 'content'" class="home-discovery-view">
+        <Teleport to=".home-impact-page-intro" :disabled="!mobileDiscoveryLayout">
         <div class="initiative-flow-path" aria-label="From what people do to impact">
           <section class="initiative-flow-step people-do" aria-label="Explore what people are doing">
             <span class="initiative-flow-kicker">EXPLORE</span>
@@ -6713,6 +6727,7 @@ onBeforeUnmount(() => {
             <button type="button" class="initiative-hover-story-step story-impact" @click="navigate('live-flow')" aria-label="Join the Live Flow"><span>05 · JOIN THE FLOW</span><strong>Find your way to contribute</strong><small>Follow along or take part when you're ready.</small><span class="initiative-step-action">Open Live Flow →</span></button>
           </div>
         </div>
+        </Teleport>
 
         </div>
 
@@ -25572,21 +25587,41 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
 }
 
 
-/* A clear, native touch target for opening Home discovery. */
-.home-impact-discovery-trigger { display: none; }
+/* Mobile discovery is teleported directly into the intro, so the paths open beneath the tapped heading. */
 @media (hover: none), (max-width: 999px) {
-  .home-commons-content > .home-impact-page-intro { cursor: default; }
-  .home-impact-discovery-trigger {
-    display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; padding: 8px 11px;
-    border: 1px solid rgba(115, 185, 201, .28); border-radius: 999px;
-    background: linear-gradient(110deg, rgba(53, 103, 158, .22), rgba(102, 76, 150, .16));
-    color: #c5e0ee; font: inherit; font-size: 11px; font-weight: 750; cursor: pointer;
+  .home-commons-content > .home-impact-page-intro {
+    cursor: pointer;
     -webkit-tap-highlight-color: transparent;
   }
-  .home-impact-discovery-trigger:focus-visible { outline: 2px solid rgba(115, 185, 201, .7); outline-offset: 3px; }
-  .home-commons-content.impact-discovery-open .initiative-flow-path {
-    display: grid !important; opacity: 1 !important; visibility: visible !important;
-    pointer-events: auto !important; transform: translateY(0) !important;
+  .home-commons-content > .home-impact-page-intro:focus-visible {
+    outline: 2px solid rgba(115, 185, 201, .65);
+    outline-offset: 3px;
   }
+  .home-commons-content > .home-impact-page-intro .initiative-flow-path {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+    margin: 12px 0 0 !important;
+    padding: 10px !important;
+    display: none !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition: opacity .18s ease, transform .18s ease;
+  }
+  .home-commons-content.impact-discovery-open > .home-impact-page-intro .initiative-flow-path {
+    display: grid !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateY(0) !important;
+  }
+  .home-commons-content > .home-impact-page-intro .initiative-flow-path::before {
+    display: none !important;
+  }
+  .home-impact-discovery-trigger { display: none !important; }
 }
 </style>
