@@ -25390,4 +25390,49 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
   }
 }
 
+
+/* Restore the distinct teal, gold and violet identities of the three Home discovery cards. */
+.home-commons-content .initiative-flow-step.people-do {
+  --home-flow-accent: #73cbd2 !important;
+  border-color: rgba(91, 199, 211, .34) !important;
+  background: radial-gradient(ellipse at 0% 0%, rgba(40, 177, 193, .2), transparent 64%), linear-gradient(145deg, rgba(16, 43, 54, .97), rgba(9, 17, 28, .98)) !important;
+}
+.home-commons-content .initiative-flow-step.make-impact {
+  --home-flow-accent: #e2d77b !important;
+  border-color: rgba(226, 215, 123, .34) !important;
+  background: radial-gradient(ellipse at 0% 0%, rgba(190, 173, 63, .19), transparent 64%), linear-gradient(145deg, rgba(43, 42, 32, .97), rgba(12, 18, 28, .98)) !important;
+}
+.home-commons-content .initiative-flow-step.going-around {
+  --home-flow-accent: #ae9aff !important;
+  border-color: rgba(174, 154, 255, .34) !important;
+  background: radial-gradient(ellipse at 0% 0%, rgba(135, 98, 221, .2), transparent 64%), linear-gradient(145deg, rgba(34, 29, 55, .97), rgba(10, 16, 29, .98)) !important;
+}
+.home-commons-content .initiative-flow-step.people-do .initiative-flow-kicker { color: #83dce1 !important; }
+.home-commons-content .initiative-flow-step.make-impact .initiative-flow-kicker { color: #e8df91 !important; }
+.home-commons-content .initiative-flow-step.going-around .initiative-flow-kicker { color: #c0b3ff !important; }
+.home-commons-content .initiative-flow-step.people-do > strong { color: #e0fbfc !important; }
+.home-commons-content .initiative-flow-step.make-impact > strong { color: #fff7d5 !important; }
+.home-commons-content .initiative-flow-step.going-around > strong { color: #eee8ff !important; }
+.home-commons-content .initiative-flow-step.people-do > small { color: #a8cbd2 !important; }
+.home-commons-content .initiative-flow-step.make-impact > small { color: #c9c4a5 !important; }
+.home-commons-content .initiative-flow-step.going-around > small { color: #c0b5dc !important; }
+.home-commons-content .initiative-flow-step.people-do .initiative-example-options button { border-color: rgba(95, 204, 214, .28) !important; background: rgba(50, 163, 177, .1) !important; color: #bcecf0 !important; }
+.home-commons-content .initiative-flow-step.make-impact .initiative-example-options button { border-color: rgba(226, 215, 123, .28) !important; background: rgba(190, 173, 63, .09) !important; color: #eee5aa !important; }
+.home-commons-content .initiative-flow-step.going-around .initiative-example-options button { border-color: rgba(174, 154, 255, .28) !important; background: rgba(135, 98, 221, .1) !important; color: #d6ccff !important; }
+.home-commons-content .initiative-flow-step.people-do .initiative-card-action { color: #83dce1 !important; border-top-color: rgba(95, 204, 214, .2) !important; }
+.home-commons-content .initiative-flow-step.make-impact .initiative-card-action { color: #e8df91 !important; border-top-color: rgba(226, 215, 123, .2) !important; }
+.home-commons-content .initiative-flow-step.going-around .initiative-card-action { color: #c0b3ff !important; border-top-color: rgba(174, 154, 255, .2) !important; }
+.home-commons-content .initiative-flow-step.people-do:hover,
+.home-commons-content .initiative-flow-step.people-do:focus-within { border-color: rgba(95, 204, 214, .58) !important; }
+.home-commons-content .initiative-flow-step.make-impact:hover,
+.home-commons-content .initiative-flow-step.make-impact:focus-within { border-color: rgba(226, 215, 123, .58) !important; }
+.home-commons-content .initiative-flow-step.going-around:hover,
+.home-commons-content .initiative-flow-step.going-around:focus-within { border-color: rgba(174, 154, 255, .58) !important; }
+.home-commons-content .impact-category-toggle {
+  border-color: rgba(226, 215, 123, .28) !important;
+  background: linear-gradient(100deg, rgba(190, 173, 63, .11), rgba(135, 98, 221, .08)) !important;
+  color: #f0e7ac !important;
+}
+.home-commons-content .impact-category-toggle-icon { color: #e8df91 !important; }
+
 </style>
