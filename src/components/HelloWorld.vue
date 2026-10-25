@@ -211,6 +211,9 @@ type MobileSidebarShortcut = { id: string; label: string; mark: string; view: st
 const mobileSidebarDestinations: MobileSidebarShortcut[] = [
   { id: 'home', label: 'Home', mark: '⌂', view: 'home' },
   { id: 'live-flow', label: 'Live Flow', mark: '⟳', view: 'live-flow' },
+  { id: 'flow-space', label: 'Flow', mark: '▣', view: 'flow-space' },
+  { id: 'people-spark', label: 'People Spark', mark: '♧', view: 'people-spark' },
+  { id: 'networkchat', label: 'NetworkChat', mark: '◎', view: 'networkchat' },
   { id: 'learn', label: 'Learn & Discover', mark: '✦', view: 'learn' },
   { id: 'impact', label: 'Impact', mark: '↗', view: 'awareness' },
   { id: 'people', label: 'People', mark: '♧', view: 'people' },
@@ -226,6 +229,7 @@ const mobileSidebarAvailable = computed(() => mobileSidebarDestinations.filter(
 ))
 const mobileSidebarDestinationGroups = computed(() => [
   { id: 'explore', label: 'EXPLORE', note: 'Places to discover and follow', ids: ['home', 'live-flow', 'learn'] },
+  { id: 'spaces', label: 'YOUR SPACES', note: 'Open a dedicated navigation space', ids: ['flow-space', 'people-spark', 'networkchat'] },
   { id: 'connect', label: 'CONNECT', note: 'People and opportunities to join', ids: ['people', 'calls'] },
   { id: 'build', label: 'BUILD & CONTRIBUTE', note: 'Spaces for shared work and impact', ids: ['impact', 'pages', 'entities', 'initiatives'] },
 ].map(group => ({
@@ -252,6 +256,13 @@ function removeMobileSidebarShortcut(id: string) {
   saveMobileSidebarShortcuts()
 }
 function openMobileSidebarShortcut(shortcut: MobileSidebarShortcut) {
+  if (shortcut.id === 'flow-space' || shortcut.id === 'people-spark' || shortcut.id === 'networkchat') {
+    mobileSpace.value = shortcut.id === 'flow-space' ? 'flow' : shortcut.id === 'people-spark' ? 'people' : 'networkchat'
+    mobileMoreOpen.value = true
+    homeHeaderChatOpen.value = shortcut.id === 'networkchat'
+    homeLocalWorldOpen.value = shortcut.id === 'networkchat'
+    return
+  }
   mobileMoreOpen.value = false
   homeHeaderChatOpen.value = false
   homeLocalWorldOpen.value = false
@@ -5943,7 +5954,7 @@ onBeforeUnmount(() => {
           :key="'mobile-shortcut-' + shortcut.id"
           type="button"
           class="mobile-custom-nav-button"
-          :class="{ active: activeView === shortcut.view || (shortcut.view === 'pages' && ['pages', 'page'].includes(activeView)) || (shortcut.view === 'entities' && ['entities', 'entity'].includes(activeView)) }"
+          :class="{ active: activeView === shortcut.view || (shortcut.view === 'pages' && ['pages', 'page'].includes(activeView)) || (shortcut.view === 'entities' && ['entities', 'entity'].includes(activeView)) || (shortcut.id === 'flow-space' && mobileMoreOpen && mobileSpace === 'flow') || (shortcut.id === 'people-spark' && mobileMoreOpen && mobileSpace === 'people') || (shortcut.id === 'networkchat' && mobileMoreOpen && mobileSpace === 'networkchat') }"
           @click="openMobileSidebarShortcut(shortcut)"
           :title="shortcut.label"
         >
