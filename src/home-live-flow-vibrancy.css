@@ -139,3 +139,66 @@ header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:first-child.act
 header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:first-child.active:hover {
   background-position: 0% 50% !important;
 }
+
+
+/* A restrained green orbit around the Impact control: a small, soft signal of impact. */
+:where(
+  button.impact-button,
+  .impact-button,
+  button[aria-label*="impact" i],
+  [role="button"][aria-label*="impact" i],
+  button[title*="impact" i],
+  [role="button"][title*="impact" i]
+) {
+  position: relative;
+  isolation: isolate;
+}
+:where(
+  button.impact-button,
+  .impact-button,
+  button[aria-label*="impact" i],
+  [role="button"][aria-label*="impact" i],
+  button[title*="impact" i],
+  [role="button"][title*="impact" i]
+)::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border: 1px solid rgba(107, 220, 151, 0);
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(.96);
+  transition: opacity .28s ease, transform .42s ease, border-color .28s ease;
+}
+:where(
+  button.impact-button:hover,
+  .impact-button:hover,
+  button[aria-label*="impact" i]:hover,
+  [role="button"][aria-label*="impact" i]:hover,
+  button[title*="impact" i]:hover,
+  [role="button"][title*="impact" i]:hover,
+  button.impact-button.active,
+  .impact-button.active,
+  button[aria-label*="impact" i].active,
+  [role="button"][aria-label*="impact" i].active,
+  button[title*="impact" i].active,
+  [role="button"][title*="impact" i].active
+)::after {
+  opacity: 1;
+  border-color: rgba(107, 220, 151, .52);
+  transform: scale(1);
+  box-shadow: 0 0 9px rgba(64, 197, 119, .10), inset 0 0 5px rgba(64, 197, 119, .035);
+}
+@media (prefers-reduced-motion: reduce) {
+  :where(
+    button.impact-button,
+    .impact-button,
+    button[aria-label*="impact" i],
+    [role="button"][aria-label*="impact" i],
+    button[title*="impact" i],
+    [role="button"][title*="impact" i]
+  )::after {
+    transition: none;
+  }
+}
