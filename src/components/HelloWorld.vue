@@ -24863,11 +24863,12 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
   filter: none !important;
 }
 @media (max-width: 760px) {
+  /* Impact selected: keep the Nfas wordmark at the top-middle of the mobile screen. */
   header.topbar.impact-orbit-transferred > .mobile-brand {
     position: absolute !important;
     left: 50% !important;
-    top: 50% !important;
-    transform: translate(-50%, -50%) !important;
+    top: 8px !important;
+    transform: translateX(-50%) !important;
     grid-column: auto !important;
     grid-row: auto !important;
     justify-self: auto !important;
