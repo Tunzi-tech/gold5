@@ -252,7 +252,10 @@ function addSelectedMobileSidebarShortcut() {
   if (selectedMobileSidebarDestination.value) addMobileSidebarShortcut(selectedMobileSidebarDestination.value)
 }
 function removeMobileSidebarShortcut(id: string) {
-  mobileSidebarShortcuts.value = mobileSidebarShortcuts.value.filter(shortcut => shortcut.id !== id)
+  const shortcut = mobileSidebarShortcuts.value.find(item => item.id === id)
+  if (!shortcut) return
+  if (!window.confirm(`Are you sure you want to remove “${shortcut.label}” from your sidebar?`)) return
+  mobileSidebarShortcuts.value = mobileSidebarShortcuts.value.filter(item => item.id !== id)
   saveMobileSidebarShortcuts()
 }
 function openMobileSidebarShortcut(shortcut: MobileSidebarShortcut) {
@@ -6191,12 +6194,22 @@ onBeforeUnmount(() => {
           <template v-else-if="mobileSpace === 'personalize'">
             <div class="mobile-sidebar-personalizer">
               <div class="mobile-drawer-section-label">YOUR SIDEBAR SHORTCUTS</div>
-              <p class="mobile-sidebar-help-copy">These are your personal quick links in the navigation bar. Tap a shortcut to open that space; choose Remove to take it off your bar.</p>
+              <p class="mobile-sidebar-help-copy">Tap anywhere on a shortcut row to remove it. You'll be asked to confirm first, so it won't disappear by accident.</p>
               <div v-if="mobileSidebarShortcuts.length" class="mobile-sidebar-shortcut-list">
-                <div v-for="shortcut in mobileSidebarShortcuts" :key="'saved-shortcut-' + shortcut.id" class="mobile-sidebar-shortcut-row">
+                <div
+                  v-for="shortcut in mobileSidebarShortcuts"
+                  :key="'saved-shortcut-' + shortcut.id"
+                  class="mobile-sidebar-shortcut-row"
+                  role="button"
+                  tabindex="0"
+                  @click="removeMobileSidebarShortcut(shortcut.id)"
+                  @keydown.enter.prevent="removeMobileSidebarShortcut(shortcut.id)"
+                  @keydown.space.prevent="removeMobileSidebarShortcut(shortcut.id)"
+                  :aria-label="'Remove ' + shortcut.label + ' from sidebar'"
+                >
                   <span class="mobile-sidebar-shortcut-mark">{{ shortcut.mark }}</span>
                   <span class="mobile-sidebar-shortcut-label">{{ shortcut.label }}</span>
-                  <button type="button" @click="removeMobileSidebarShortcut(shortcut.id)" :aria-label="'Remove ' + shortcut.label + ' from sidebar'">Remove</button>
+                  <span class="mobile-sidebar-shortcut-remove-hint">Remove</span>
                 </div>
               </div>
               <p v-else class="mobile-sidebar-personalizer-empty">No custom buttons yet. Add a destination below to make it available in your mobile navigation bar.</p>
