@@ -24239,6 +24239,7 @@ header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-
 .top-learn-discover-button { display: none; }
 @media screen and (min-width: 761px) {
   header.topbar > .top-learn-discover-button {
+    position: relative !important;
     order: 2 !important;
     display: inline-flex !important;
     flex: 0 0 auto !important;
@@ -24246,7 +24247,7 @@ header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-
     justify-content: center !important;
     gap: 8px !important;
     min-height: 34px !important;
-    margin: 0 0 0 2px !important;
+    margin: 0 0 0 22px !important;
     padding: 0 13px !important;
     border: 1px solid rgba(126,163,213,.24) !important;
     border-radius: 999px !important;
@@ -24257,6 +24258,17 @@ header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-
     font-weight: 750 !important;
     white-space: nowrap !important;
     cursor: pointer !important;
+  }
+  header.topbar > .top-learn-discover-button::before {
+    content: "" !important;
+    position: absolute !important;
+    width: 14px !important;
+    height: 1px !important;
+    left: -20px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    background: linear-gradient(90deg,rgba(115,145,205,0),rgba(137,164,224,.72)) !important;
+    pointer-events: none !important;
   }
   header.topbar > .top-learn-discover-button > span:first-child {
     color: #b9a5ff !important;
