@@ -25301,4 +25301,42 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
   }
 }
 
+
+/* On desktop, hover stories expand horizontally beside the vertical Home discovery rail. */
+@media (min-width: 1000px) {
+  .home-commons-content .initiative-flow-path > .initiative-hover-story {
+    position: absolute !important;
+    left: calc(100% + 12px) !important;
+    right: auto !important;
+    width: min(700px, calc(100vw - 640px)) !important;
+    max-width: 700px !important;
+    box-sizing: border-box !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    align-content: start !important;
+    gap: 8px !important;
+    z-index: 20 !important;
+    margin: 0 !important;
+    box-shadow: 0 16px 36px rgba(0,0,0,.25), inset 0 1px 0 rgba(220,230,255,.035) !important;
+  }
+  .home-commons-content .initiative-flow-path:has(.people-do:hover, .people-do:focus-within) > .story-people-do {
+    top: 0 !important;
+  }
+  .home-commons-content .initiative-flow-path:has(.make-impact:hover, .make-impact:focus-within) > .story-make-impact {
+    top: 33.333% !important;
+  }
+  .home-commons-content .initiative-flow-path:has(.going-around:hover, .going-around:focus-within) > .story-going-around {
+    top: 66.666% !important;
+  }
+  .home-commons-content .initiative-hover-story-step {
+    height: 100%;
+    box-sizing: border-box;
+  }
+}
+@media (min-width: 1000px) and (max-width: 1250px) {
+  .home-commons-content .initiative-flow-path > .initiative-hover-story {
+    width: min(590px, calc(100vw - 570px)) !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
 </style>
