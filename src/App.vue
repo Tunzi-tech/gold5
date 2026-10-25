@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted } from 'vue'
 import './home-live-flow-vibrancy.css'
+import './desktop-topbar-connected-buttons.css'
 import HelloWorld from './components/HelloWorld.vue'
 
 let impactButtonObserver: MutationObserver | undefined
@@ -21,6 +22,41 @@ function markTopbarImpactButton() {
     if (/\bimpact\b/i.test(label)) {
       element.classList.add('nfas-impact-orbit-target')
     }
+  })
+}
+
+function markDesktopTopbarButtons() {
+  const topbar = document.querySelector('header.topbar')
+  if (!topbar) return
+
+  const labels = [
+    /^(home|accueil|الرئيسية)(\s|$)/i,
+    /^(live flow|flux en direct|التدفق المباشر)(\s|$)/i,
+    /^(learn|apprendre|تعلّم|تعلم)(\s|$)/i,
+    /^(discover|découvrir|decouvrir|اكتشف)(\s|$)/i,
+  ]
+  const controls = Array.from(topbar.querySelectorAll('button, [role="button"], a'))
+    .filter((element) => element.getClientRects().length > 0)
+  const matched = labels.map((pattern) => controls.find((element) => {
+    const values = [
+      element.textContent ?? '',
+      element.getAttribute('aria-label') ?? '',
+      element.getAttribute('title') ?? '',
+      element.getAttribute('data-view') ?? '',
+    ].map((value) => value.replace(/\s+/g, ' ').trim())
+    return values.some((value) => pattern.test(value))
+  }))
+
+  controls.forEach((element) => {
+    element.classList.remove('nfas-desktop-connected-topbar-button')
+    for (let index = 1; index <= 4; index += 1) {
+      element.classList.remove(`nfas-desktop-connected-topbar-button-${index}`)
+    }
+  })
+
+  matched.forEach((element, index) => {
+    if (!element || matched.indexOf(element) !== index) return
+    element.classList.add('nfas-desktop-connected-topbar-button', `nfas-desktop-connected-topbar-button-${index + 1}`)
   })
 }
 
@@ -119,6 +155,7 @@ function markImpactDiscoveryCue() {
 }
 
 function refreshImpactCues() {
+  markDesktopTopbarButtons()
   markTopbarImpactButton()
   markImpactDiscoveryCue()
 }
