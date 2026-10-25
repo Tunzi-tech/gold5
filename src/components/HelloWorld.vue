@@ -1468,7 +1468,7 @@ const adminFolderSeed: AdminCollabFolder[] = [
 function loadAdminCollabFolders(): AdminCollabFolder[] {
   try {
     if (typeof window !== 'undefined') {
-      const saved = window.readStoredValue('commons-admin-collab-folders')
+      const saved = readStoredValue('commons-admin-collab-folders')
       if (saved) return JSON.parse(saved) as AdminCollabFolder[]
     }
   } catch { /* Keep the starter workspace available if browser storage is blocked. */ }
@@ -1486,7 +1486,7 @@ const adminFolderFormOpen = ref(false)
 const adminFolderFeedback = ref('')
 
 function saveAdminCollabFolders() {
-  try { window.writeStoredValue('commons-admin-collab-folders', JSON.stringify(adminCollabFolders.value)) } catch { /* Local demo mode can continue without persistence. */ }
+  try { writeStoredValue('commons-admin-collab-folders', JSON.stringify(adminCollabFolders.value)) } catch { /* Local demo mode can continue without persistence. */ }
 }
 
 function createAdminCollabFolder() {
