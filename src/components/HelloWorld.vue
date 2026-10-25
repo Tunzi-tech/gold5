@@ -251,12 +251,20 @@ function addMobileSidebarShortcut(destination: MobileSidebarShortcut) {
 function addSelectedMobileSidebarShortcut() {
   if (selectedMobileSidebarDestination.value) addMobileSidebarShortcut(selectedMobileSidebarDestination.value)
 }
-function removeMobileSidebarShortcut(id: string) {
+const pendingMobileSidebarRemoval = ref<MobileSidebarShortcut | null>(null)
+function requestRemoveMobileSidebarShortcut(id: string) {
   const shortcut = mobileSidebarShortcuts.value.find(item => item.id === id)
+  if (shortcut) pendingMobileSidebarRemoval.value = shortcut
+}
+function confirmRemoveMobileSidebarShortcut() {
+  const shortcut = pendingMobileSidebarRemoval.value
   if (!shortcut) return
-  if (!window.confirm(`Are you sure you want to remove “${shortcut.label}” from your sidebar?`)) return
-  mobileSidebarShortcuts.value = mobileSidebarShortcuts.value.filter(item => item.id !== id)
+  mobileSidebarShortcuts.value = mobileSidebarShortcuts.value.filter(item => item.id !== shortcut.id)
   saveMobileSidebarShortcuts()
+  pendingMobileSidebarRemoval.value = null
+}
+function cancelRemoveMobileSidebarShortcut() {
+  pendingMobileSidebarRemoval.value = null
 }
 function openMobileSidebarShortcut(shortcut: MobileSidebarShortcut) {
   if (shortcut.id === 'flow-space' || shortcut.id === 'people-spark' || shortcut.id === 'networkchat') {
@@ -6202,9 +6210,9 @@ onBeforeUnmount(() => {
                   class="mobile-sidebar-shortcut-row"
                   role="button"
                   tabindex="0"
-                  @click="removeMobileSidebarShortcut(shortcut.id)"
-                  @keydown.enter.prevent="removeMobileSidebarShortcut(shortcut.id)"
-                  @keydown.space.prevent="removeMobileSidebarShortcut(shortcut.id)"
+                  @click="requestRemoveMobileSidebarShortcut(shortcut.id)"
+                  @keydown.enter.prevent="requestRemoveMobileSidebarShortcut(shortcut.id)"
+                  @keydown.space.prevent="requestRemoveMobileSidebarShortcut(shortcut.id)"
                   :aria-label="'Remove ' + shortcut.label + ' from sidebar'"
                 >
                   <span class="mobile-sidebar-shortcut-mark">{{ shortcut.mark }}</span>
@@ -6213,6 +6221,14 @@ onBeforeUnmount(() => {
                 </div>
               </div>
               <p v-else class="mobile-sidebar-personalizer-empty">No custom buttons yet. Add a destination below to make it available in your mobile navigation bar.</p>
+              <div v-if="pendingMobileSidebarRemoval" class="mobile-sidebar-remove-confirm" role="dialog" aria-modal="true" :aria-label="'Confirm removal of ' + pendingMobileSidebarRemoval.label">
+                <strong>Remove {{ pendingMobileSidebarRemoval.label }}?</strong>
+                <p>This will remove the shortcut from your sidebar. You can add it again later.</p>
+                <div class="mobile-sidebar-remove-confirm-actions">
+                  <button type="button" class="mobile-sidebar-remove-cancel" @click="cancelRemoveMobileSidebarShortcut">Cancel</button>
+                  <button type="button" class="mobile-sidebar-remove-confirm-button" @click="confirmRemoveMobileSidebarShortcut">Yes, remove</button>
+                </div>
+              </div>
               <div class="mobile-drawer-section-label mobile-sidebar-add-label">ADD QUICK LINKS</div>
               <p class="mobile-sidebar-instruction">Choose a card and tap “+ Add”. It will appear in your navigation bar for quicker access. You can remove it any time.</p>
               <div v-if="mobileSidebarAvailable.length" class="mobile-sidebar-category-list">
@@ -24680,6 +24696,19 @@ header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-
     border: 1px solid rgba(226, 137, 155, .25); border-radius: 8px;
     padding: 6px 9px; background: rgba(139, 53, 79, .16); color: #f0b7c5; font-size: 11px;
   }
+  .mobile-sidebar-remove-confirm {
+    margin: 12px 0 16px; padding: 15px; border: 1px solid rgba(177, 147, 255, .42);
+    border-radius: 14px; background: linear-gradient(145deg, rgba(53, 53, 88, .72), rgba(24, 35, 56, .96));
+    color: #eaf0ff; box-shadow: 0 12px 28px rgba(0, 0, 0, .2);
+  }
+  .mobile-sidebar-remove-confirm strong { display: block; font-size: 14px; }
+  .mobile-sidebar-remove-confirm p { margin: 7px 0 13px; color: #b8c5df; font-size: 12px; line-height: 1.5; }
+  .mobile-sidebar-remove-confirm-actions { display: flex; justify-content: flex-end; gap: 8px; }
+  .mobile-sidebar-remove-confirm-actions button {
+    min-height: 34px; padding: 7px 12px; border-radius: 9px; cursor: pointer; font-size: 12px;
+  }
+  .mobile-sidebar-remove-cancel { border: 1px solid rgba(158, 179, 211, .28); background: rgba(36, 50, 73, .65); color: #e1eafa; }
+  .mobile-sidebar-remove-confirm-button { border: 1px solid rgba(238, 143, 163, .38); background: rgba(139, 53, 79, .42); color: #ffdbe4; }
   .mobile-sidebar-personalizer-empty { margin: 8px 0 16px; color: #98a9c5; font-size: 12px; line-height: 1.55; }
   .mobile-sidebar-add-label { margin-top: 20px; }
   .mobile-sidebar-destination-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
