@@ -23708,8 +23708,7 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
 }
 
 /* Give selected Live Flow the same orbital icon treatment as Impact, on mobile and desktop. */
-{
-  header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-orbit {
+header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-orbit {
     position: relative !important;
     display: inline-block !important;
     flex: 0 0 22px !important;
@@ -23757,7 +23756,6 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
     background: #8de7ff !important;
     box-shadow: 0 0 8px rgba(108,218,255,.94), 0 0 14px rgba(78,171,255,.46) !important;
   }
-}
 @keyframes mobile-flow-orbit-pulse {
   from { filter: brightness(.95); box-shadow: 0 0 10px rgba(74,175,255,.22), 0 0 16px rgba(70,123,255,.13); }
   to { filter: brightness(1.25); box-shadow: 0 0 17px rgba(74,175,255,.42), 0 0 24px rgba(70,123,255,.22); }
