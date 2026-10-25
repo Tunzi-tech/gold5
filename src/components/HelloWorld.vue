@@ -206,7 +206,38 @@ const homeDisplayMode = ref<'content' | 'feed'>('content')
 const homeHeroHidden = ref(false)
 const homeHeaderChatOpen = ref(false)
 const mobileMoreOpen = ref(false)
-const mobileSpace = ref<'menu' | 'flow' | 'people' | 'networkchat'>('menu')
+const mobileSpace = ref<'menu' | 'flow' | 'people' | 'networkchat' | 'personalize'>('menu')
+type MobileSidebarShortcut = { id: string; label: string; mark: string; view: string }
+const mobileSidebarDestinations: MobileSidebarShortcut[] = [
+  { id: 'home', label: 'Home', mark: '⌂', view: 'home' },
+  { id: 'live-flow', label: 'Live Flow', mark: '⟳', view: 'live-flow' },
+  { id: 'learn', label: 'Learn & Discover', mark: '✦', view: 'learn' },
+  { id: 'impact', label: 'Impact', mark: '↗', view: 'awareness' },
+  { id: 'people', label: 'People', mark: '♧', view: 'people' },
+  { id: 'calls', label: 'Calls', mark: '↗', view: 'call' },
+  { id: 'pages', label: 'Pages', mark: '▣', view: 'pages' },
+  { id: 'entities', label: 'Entities', mark: '◇', view: 'entities' },
+  { id: 'initiatives', label: 'Initiatives', mark: '✧', view: 'initiatives' },
+]
+const mobileSidebarShortcuts = ref<MobileSidebarShortcut[]>([])
+const mobileSidebarAvailable = computed(() => mobileSidebarDestinations.filter(
+  destination => !mobileSidebarShortcuts.value.some(shortcut => shortcut.id === destination.id)
+))
+function addMobileSidebarShortcut(destination: MobileSidebarShortcut) {
+  if (mobileSidebarShortcuts.value.some(shortcut => shortcut.id === destination.id)) return
+  mobileSidebarShortcuts.value.push({ ...destination })
+  try { localStorage.setItem('commons-mobile-sidebar-shortcuts', JSON.stringify(mobileSidebarShortcuts.value)) } catch { /* Keep the current session working if storage is unavailable. */ }
+}
+function removeMobileSidebarShortcut(id: string) {
+  mobileSidebarShortcuts.value = mobileSidebarShortcuts.value.filter(shortcut => shortcut.id !== id)
+  try { localStorage.setItem('commons-mobile-sidebar-shortcuts', JSON.stringify(mobileSidebarShortcuts.value)) } catch { /* Keep the current session working if storage is unavailable. */ }
+}
+function openMobileSidebarShortcut(shortcut: MobileSidebarShortcut) {
+  mobileMoreOpen.value = false
+  homeHeaderChatOpen.value = false
+  homeLocalWorldOpen.value = false
+  navigate(shortcut.view)
+}
 const mobileIssueMenuOpen = ref(false)
 const homeLocalWorldOpen = ref(false)
 const homeLocalWorldScope = ref<'local' | 'world'>('local')
@@ -5281,6 +5312,19 @@ onMounted(() => {
     platformOpeningTimer = null
   }, prefersReducedMotion ? 80 : 2550)
 
+  const savedSidebarShortcuts = localStorage.getItem('commons-mobile-sidebar-shortcuts')
+  if (savedSidebarShortcuts) {
+    try {
+      const parsed = JSON.parse(savedSidebarShortcuts)
+      if (Array.isArray(parsed)) {
+        mobileSidebarShortcuts.value = parsed.filter((item): item is MobileSidebarShortcut =>
+          !!item && typeof item.id === 'string' && typeof item.label === 'string' &&
+          typeof item.mark === 'string' && typeof item.view === 'string' &&
+          mobileSidebarDestinations.some(destination => destination.id === item.id && destination.view === item.view)
+        )
+      }
+    } catch { /* Ignore invalid saved shortcut data and keep the default navigation. */ }
+  }
   const savedLiveSong = localStorage.getItem('commons-live-flow-song')
   if (savedLiveSong) loadLiveSong(savedLiveSong)
   const savedLiveQueue = localStorage.getItem('commons-live-flow-video-queue')
@@ -5876,11 +5920,24 @@ onBeforeUnmount(() => {
           <span class="mobile-nav-icon">◉</span><span>Zones</span>
         </button>
         <button
+          v-for="shortcut in mobileSidebarShortcuts"
+          :key="'mobile-shortcut-' + shortcut.id"
+          type="button"
+          class="mobile-custom-nav-button"
+          :class="{ active: activeView === shortcut.view || (shortcut.view === 'pages' && ['pages', 'page'].includes(activeView)) || (shortcut.view === 'entities' && ['entities', 'entity'].includes(activeView)) }"
+          @click="openMobileSidebarShortcut(shortcut)"
+          :title="shortcut.label"
+        >
+          <span class="mobile-nav-icon" aria-hidden="true">{{ shortcut.mark }}</span>
+          <span>{{ shortcut.label }}</span>
+        </button>
+        <button
           type="button"
           class="mobile-nav-personalize"
+          :class="{ active: mobileMoreOpen && mobileSpace === 'personalize' }"
           aria-label="Personalize sidebar"
           title="Personalize sidebar"
-          @click="mobileSpace = 'menu'; mobileMoreOpen = !mobileMoreOpen"
+          @click="mobileSpace = 'personalize'; mobileMoreOpen = true; homeHeaderChatOpen = false; homeLocalWorldOpen = false"
         >
           <span class="mobile-nav-icon" aria-hidden="true">☷</span>
           <span>Personalize</span>
@@ -6078,8 +6135,8 @@ onBeforeUnmount(() => {
           <div class="mobile-more-drawer-head">
             <div>
               <span class="home-connection-kicker">ANFAS · CONNECTED SPACES</span>
-              <h2>{{ mobileSpace === 'menu' ? 'Your spaces.' : mobileSpace === 'flow' ? 'Flow' : mobileSpace === 'people' ? 'People · Sparks · Impact' : 'NetworkChat' }}</h2>
-              <p>{{ mobileSpace === 'menu' ? 'Choose a space to open it here.' : mobileSpace === 'flow' ? 'Calls, initiatives, Pages and entities — connected in one place.' : mobileSpace === 'people' ? 'Discover people and sparks around shared interests.' : 'Choose a local conversation or explore the wider network.' }}</p>
+              <h2>{{ mobileSpace === 'menu' ? 'Your spaces.' : mobileSpace === 'flow' ? 'Flow' : mobileSpace === 'people' ? 'People · Sparks · Impact' : mobileSpace === 'personalize' ? 'Personalize your sidebar' : 'NetworkChat' }}</h2>
+              <p>{{ mobileSpace === 'menu' ? 'Choose a space to open it here.' : mobileSpace === 'flow' ? 'Calls, initiatives, Pages and entities — connected in one place.' : mobileSpace === 'people' ? 'Discover people and sparks around shared interests.' : mobileSpace === 'personalize' ? 'Add the destinations you use most. Your shortcuts stay saved on this device.' : 'Choose a local conversation or explore the wider network.' }}</p>
             </div>
             <button type="button" class="mobile-network-drawer-close" @click="mobileMoreOpen = false; homeHeaderChatOpen = false; homeLocalWorldOpen = false" aria-label="Close space">×</button>
           </div>
@@ -6099,6 +6156,29 @@ onBeforeUnmount(() => {
             <button type="button" class="mobile-more-drawer-item" @click="mobileSpace = 'flow'; homeHeaderChatOpen = false"><span>▣</span><span><strong>Flow</strong><small>Calls, initiatives, Pages and entities</small></span><b>→</b></button>
             <button type="button" class="mobile-more-drawer-item" @click="mobileSpace = 'people'; homeHeaderChatOpen = false"><span>♧</span><span><strong>People · Sparks · Impact</strong><small>Find people and connect around shared interests</small></span><b>→</b></button>
             <button type="button" class="mobile-more-drawer-item" @click="mobileSpace = 'networkchat'; homeHeaderChatOpen = true; homeLocalWorldOpen = true"><span>◎</span><span><strong>NetworkChat</strong><small>Open Local and World conversations</small></span><b>→</b></button>
+          </template>
+
+          <template v-else-if="mobileSpace === 'personalize'">
+            <div class="mobile-sidebar-personalizer">
+              <div class="mobile-drawer-section-label">YOUR SIDEBAR SHORTCUTS</div>
+              <div v-if="mobileSidebarShortcuts.length" class="mobile-sidebar-shortcut-list">
+                <div v-for="shortcut in mobileSidebarShortcuts" :key="'saved-shortcut-' + shortcut.id" class="mobile-sidebar-shortcut-row">
+                  <span class="mobile-sidebar-shortcut-mark">{{ shortcut.mark }}</span>
+                  <span class="mobile-sidebar-shortcut-label">{{ shortcut.label }}</span>
+                  <button type="button" @click="removeMobileSidebarShortcut(shortcut.id)" :aria-label="'Remove ' + shortcut.label + ' from sidebar">Remove</button>
+                </div>
+              </div>
+              <p v-else class="mobile-sidebar-personalizer-empty">No custom buttons yet. Add a destination below to make it available in your mobile navigation bar.</p>
+              <div class="mobile-drawer-section-label mobile-sidebar-add-label">ADD A BUTTON</div>
+              <div v-if="mobileSidebarAvailable.length" class="mobile-sidebar-destination-grid">
+                <button v-for="destination in mobileSidebarAvailable" :key="'available-shortcut-' + destination.id" type="button" class="mobile-sidebar-destination-option" @click="addMobileSidebarShortcut(destination)">
+                  <span>{{ destination.mark }}</span>
+                  <strong>{{ destination.label }}</strong>
+                  <b>+</b>
+                </button>
+              </div>
+              <p v-else class="mobile-sidebar-personalizer-empty">All available destinations have been added.</p>
+            </div>
           </template>
 
           <template v-else-if="mobileSpace === 'flow'">
@@ -24494,10 +24574,20 @@ header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-
   }
 }
 
-/* Mobile sidebar: keep only Zones and the sidebar-personalization control. */
+/* User-personalizable mobile navigation shortcuts. */
 @media screen and (max-width: 760px) {
-  .mobile-nav > button { min-width: 0; }
-  .mobile-nav > .mobile-nav-personalize {
+  .mobile-nav {
+    overflow-x: auto;
+    justify-content: flex-start;
+    scrollbar-width: none;
+  }
+  .mobile-nav::-webkit-scrollbar { display: none; }
+  .mobile-nav > button {
+    min-width: 66px;
+    flex: 0 0 auto;
+  }
+  .mobile-nav > .mobile-nav-personalize,
+  .mobile-nav > .mobile-custom-nav-button {
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
@@ -24506,6 +24596,38 @@ header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-
     border-radius: 9px;
     background: linear-gradient(110deg, rgba(49, 75, 112, .28), rgba(32, 43, 68, .4));
     color: #c9d8f1;
+    padding-inline: 12px;
   }
+  .mobile-nav > .mobile-custom-nav-button.active,
+  .mobile-nav > .mobile-nav-personalize.active {
+    border-color: rgba(145, 121, 255, .62);
+    background: linear-gradient(115deg, rgba(101, 76, 191, .34), rgba(48, 105, 151, .28));
+    color: #f1edff;
+  }
+  .mobile-sidebar-personalizer { padding: 4px 0 18px; }
+  .mobile-sidebar-shortcut-list { display: grid; gap: 8px; }
+  .mobile-sidebar-shortcut-row {
+    display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+    border: 1px solid rgba(133, 164, 205, .18); border-radius: 12px;
+    background: rgba(32, 47, 73, .38);
+  }
+  .mobile-sidebar-shortcut-mark { width: 28px; text-align: center; color: #b9caff; font-size: 18px; }
+  .mobile-sidebar-shortcut-label { flex: 1; color: #e6edfb; font-size: 13px; }
+  .mobile-sidebar-shortcut-row button {
+    border: 1px solid rgba(226, 137, 155, .25); border-radius: 8px;
+    padding: 6px 9px; background: rgba(139, 53, 79, .16); color: #f0b7c5; font-size: 11px;
+  }
+  .mobile-sidebar-personalizer-empty { margin: 8px 0 16px; color: #98a9c5; font-size: 12px; line-height: 1.55; }
+  .mobile-sidebar-add-label { margin-top: 20px; }
+  .mobile-sidebar-destination-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .mobile-sidebar-destination-option {
+    min-width: 0; display: flex; align-items: center; gap: 8px; padding: 12px 10px;
+    border: 1px solid rgba(133, 164, 205, .2); border-radius: 12px;
+    background: linear-gradient(120deg, rgba(41, 61, 91, .46), rgba(24, 36, 57, .62));
+    color: #dce7fa; text-align: left;
+  }
+  .mobile-sidebar-destination-option > span { color: #b7c9ff; font-size: 17px; }
+  .mobile-sidebar-destination-option > strong { flex: 1; font-size: 12px; font-weight: 600; }
+  .mobile-sidebar-destination-option > b { color: #9edfcf; font-size: 17px; }
 }
 </style>
