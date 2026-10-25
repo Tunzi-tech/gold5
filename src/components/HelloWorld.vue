@@ -1,6 +1,26 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onBeforeUnmount, ref } from 'vue'
 
+/**
+ * Browser storage can be unavailable or throw in restricted browser profiles.
+ * Treat it as optional persistence so a storage problem cannot block startup.
+ */
+function readStoredValue(key: string): string | null {
+  try {
+    return window.localStorage.getItem(key)
+  } catch {
+    return null
+  }
+}
+
+function writeStoredValue(key: string, value: string): void {
+  try {
+    window.localStorage.setItem(key, value)
+  } catch {
+    // The app should remain usable even when browser storage is unavailable.
+  }
+}
+
 const impactDiscoveryOpen = ref(false)
 const mobileDiscoveryLayout = ref(false)
 let impactDiscoveryMediaQuery: MediaQueryList | null = null
@@ -254,7 +274,7 @@ const selectedMobileSidebarDestination = computed(() =>
   mobileSidebarAvailable.value.find(destination => destination.id === selectedMobileSidebarDestinationId.value) || null
 )
 function saveMobileSidebarShortcuts() {
-  try { localStorage.setItem('commons-mobile-sidebar-shortcuts', JSON.stringify(mobileSidebarShortcuts.value)) } catch { /* Keep the current session working if storage is unavailable. */ }
+  try { writeStoredValue('commons-mobile-sidebar-shortcuts', JSON.stringify(mobileSidebarShortcuts.value)) } catch { /* Keep the current session working if storage is unavailable. */ }
 }
 function addMobileSidebarShortcut(destination: MobileSidebarShortcut) {
   if (mobileSidebarShortcuts.value.some(shortcut => shortcut.id === destination.id)) return
@@ -444,7 +464,7 @@ function loadLiveSong(value: string) {
 
 function persistLiveQueue() {
   try {
-    localStorage.setItem('commons-live-flow-video-queue', JSON.stringify(liveVideoQueue.value))
+    writeStoredValue('commons-live-flow-video-queue', JSON.stringify(liveVideoQueue.value))
   } catch {
     // Keep queue voting usable for this browser session if storage is unavailable.
   }
@@ -492,7 +512,7 @@ function playNextLiveVideo() {
   liveSongUpdatedAt.value = new Date().toISOString()
   liveSongError.value = ''
   try {
-    localStorage.setItem('commons-live-flow-song', JSON.stringify({
+    writeStoredValue('commons-live-flow-song', JSON.stringify({
       url: selected.url,
       videoId: selected.videoId,
       updatedAt: liveSongUpdatedAt.value
@@ -1448,7 +1468,7 @@ const adminFolderSeed: AdminCollabFolder[] = [
 function loadAdminCollabFolders(): AdminCollabFolder[] {
   try {
     if (typeof window !== 'undefined') {
-      const saved = window.localStorage.getItem('commons-admin-collab-folders')
+      const saved = window.readStoredValue('commons-admin-collab-folders')
       if (saved) return JSON.parse(saved) as AdminCollabFolder[]
     }
   } catch { /* Keep the starter workspace available if browser storage is blocked. */ }
@@ -1466,7 +1486,7 @@ const adminFolderFormOpen = ref(false)
 const adminFolderFeedback = ref('')
 
 function saveAdminCollabFolders() {
-  try { window.localStorage.setItem('commons-admin-collab-folders', JSON.stringify(adminCollabFolders.value)) } catch { /* Local demo mode can continue without persistence. */ }
+  try { window.writeStoredValue('commons-admin-collab-folders', JSON.stringify(adminCollabFolders.value)) } catch { /* Local demo mode can continue without persistence. */ }
 }
 
 function createAdminCollabFolder() {
@@ -4517,7 +4537,7 @@ function setLanguage(value: 'en' | 'ar' | 'fr') {
   showAccountMenu.value = false
   document.documentElement.lang = value
   document.documentElement.dir = value === 'ar' ? 'rtl' : 'ltr'
-  localStorage.setItem('commons-language', value)
+  writeStoredValue('commons-language', value)
 }
 
 function disconnect() {
@@ -5369,7 +5389,7 @@ onMounted(() => {
     platformOpeningTimer = null
   }, prefersReducedMotion ? 80 : 2550)
 
-  const savedSidebarShortcuts = localStorage.getItem('commons-mobile-sidebar-shortcuts')
+  const savedSidebarShortcuts = readStoredValue('commons-mobile-sidebar-shortcuts')
   if (savedSidebarShortcuts) {
     try {
       const parsed = JSON.parse(savedSidebarShortcuts)
@@ -5382,12 +5402,12 @@ onMounted(() => {
       }
     } catch { /* Ignore invalid saved shortcut data and keep the default navigation. */ }
   }
-  const savedLiveSong = localStorage.getItem('commons-live-flow-song')
+  const savedLiveSong = readStoredValue('commons-live-flow-song')
   if (savedLiveSong) loadLiveSong(savedLiveSong)
-  const savedLiveQueue = localStorage.getItem('commons-live-flow-video-queue')
+  const savedLiveQueue = readStoredValue('commons-live-flow-video-queue')
   if (savedLiveQueue) loadLiveQueue(savedLiveQueue)
   window.addEventListener('storage', handleLiveSongStorage)
-  const savedLanguage = localStorage.getItem('commons-language')
+  const savedLanguage = readStoredValue('commons-language')
   if (savedLanguage === 'ar' || savedLanguage === 'en' || savedLanguage === 'fr') language.value = savedLanguage
   document.documentElement.lang = language.value
   document.documentElement.dir = language.value === 'ar' ? 'rtl' : 'ltr'
