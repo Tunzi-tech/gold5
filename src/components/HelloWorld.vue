@@ -23707,8 +23707,8 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
   .primary-navigation-portal .primary-space-nav-button.active { transition: none !important; }
 }
 
-/* Give selected Live Flow the same orbital icon treatment as Impact, with a cool blue signal. */
-@media screen and (max-width: 760px) {
+/* Give selected Live Flow the same orbital icon treatment as Impact, on mobile and desktop. */
+{
   header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-orbit {
     position: relative !important;
     display: inline-block !important;
