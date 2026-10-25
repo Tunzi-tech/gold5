@@ -83,10 +83,11 @@ function markImpactDiscoveryCue() {
 
   heading.classList.add('nfas-impact-discovery-title')
   heading.setAttribute('data-nfas-impact-heading', '')
+  heading.setAttribute('data-impact-language', language)
   const firstTextNode = Array.from(heading.childNodes).find((node) => node.nodeType === Node.TEXT_NODE && (node.textContent ?? '').trim())
-  if (firstTextNode) {
+  if (firstTextNode && firstTextNode.textContent?.trim() !== copy.title) {
     firstTextNode.textContent = copy.title
-  } else if (!heading.querySelector('.nfas-impact-cue-orbs')) {
+  } else if (!firstTextNode && !heading.querySelector('.nfas-impact-cue-orbs')) {
     heading.insertBefore(document.createTextNode(copy.title), heading.firstChild)
   }
 
@@ -99,9 +100,10 @@ function markImpactDiscoveryCue() {
     description.setAttribute('data-nfas-impact-description', '')
   }
   if (description) {
-    description.textContent = copy.description
-    description.setAttribute('lang', language)
-    description.setAttribute('dir', language === 'ar' ? 'rtl' : 'auto')
+    if (description.textContent?.trim() !== copy.description) description.textContent = copy.description
+    if (description.getAttribute('lang') !== language) description.setAttribute('lang', language)
+    const direction = language === 'ar' ? 'rtl' : 'auto'
+    if (description.getAttribute('dir') !== direction) description.setAttribute('dir', direction)
   }
 
   if (heading.querySelector('.nfas-impact-cue-orbs')) return
