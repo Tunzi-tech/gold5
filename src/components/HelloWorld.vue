@@ -24827,6 +24827,32 @@ header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-
   .live-flow-tab-copy strong { font-size: 8px; }
   .live-flow-tab-copy small { font-size: 8px; }
 }
+
+/* Keep the original Nfas logo rings visible on Impact; center the full wordmark while Impact is active. */
+header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::before,
+header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: rotate(-35deg) scaleY(.68) !important;
+  filter: none !important;
+}
+@media (max-width: 760px) {
+  header.topbar.impact-orbit-transferred > .mobile-brand {
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    grid-column: auto !important;
+    grid-row: auto !important;
+    justify-self: auto !important;
+    width: max-content !important;
+    max-width: calc(100% - 112px) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 4 !important;
+  }
+}
+
 </style>
 
 /* Keep the logo's own orbital icon visible when Impact is selected.
