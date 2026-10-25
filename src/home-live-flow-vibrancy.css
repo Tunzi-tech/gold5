@@ -55,3 +55,40 @@ header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:last-child.acti
     transition: none !important;
   }
 }
+
+
+/* Live Flow needs a clearly visible hover response, including while selected. */
+header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:last-child:hover {
+  background:
+    radial-gradient(130% 170% at 12% 0%, rgba(132, 224, 255, .48), transparent 54%),
+    linear-gradient(118deg, rgba(38, 145, 207, .98), rgba(47, 102, 184, .99) 52%, rgba(103, 70, 181, .97)) !important;
+  background-position: 100% 50% !important;
+  border-color: rgba(155, 224, 255, .92) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(248, 253, 255, .25),
+    inset 0 0 22px rgba(117, 207, 255, .17),
+    0 0 0 1px rgba(83, 172, 255, .16),
+    0 0 22px rgba(46, 145, 237, .34) !important;
+  filter: brightness(1.12) saturate(1.12);
+  transform: translateY(-1px);
+}
+header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:last-child.active:hover {
+  background:
+    radial-gradient(130% 170% at 12% 0%, rgba(151, 231, 255, .52), transparent 54%),
+    linear-gradient(118deg, rgba(45, 157, 218, 1), rgba(54, 113, 199, 1) 52%, rgba(112, 79, 192, .99)) !important;
+  border-color: rgba(173, 232, 255, .98) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .3),
+    inset 0 0 24px rgba(132, 218, 255, .2),
+    0 0 0 1px rgba(91, 184, 255, .2),
+    0 0 25px rgba(46, 155, 245, .4) !important;
+  filter: brightness(1.14) saturate(1.14);
+  transform: translateY(-1px);
+}
+@media (prefers-reduced-motion: reduce) {
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:last-child:hover,
+  header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button:last-child.active:hover {
+    transform: none;
+    filter: none;
+  }
+}
