@@ -25200,4 +25200,105 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
     padding: 2px 8px;
   }
 }
+
+/* Connect the three Home discovery steps into a vertical left rail beside the header.
+   The rail shares the intro's dark blue-violet atmosphere; mobile keeps the natural stacked layout. */
+@media (min-width: 1000px) {
+  .home-commons-content {
+    position: relative !important;
+    isolation: isolate;
+  }
+  .home-commons-content > .home-impact-page-intro {
+    position: relative;
+    z-index: 1;
+    min-height: 66px;
+    margin: 0 0 12px !important;
+    padding: 13px 18px 12px !important;
+    border: 1px solid rgba(130, 145, 220, .18);
+    border-radius: 16px;
+    background:
+      radial-gradient(ellipse at 8% 0%, rgba(79, 116, 204, .18), transparent 55%),
+      linear-gradient(105deg, rgba(25, 34, 59, .82), rgba(13, 20, 34, .7) 62%, rgba(39, 28, 62, .46));
+    box-shadow: inset 0 1px 0 rgba(210, 220, 255, .035);
+  }
+  .home-commons-content > .home-impact-page-intro::after {
+    content: "";
+    position: absolute;
+    left: 24px;
+    bottom: -14px;
+    width: 1px;
+    height: 14px;
+    background: linear-gradient(180deg, rgba(132, 151, 237, .42), rgba(132, 151, 237, .04));
+    pointer-events: none;
+  }
+  .home-commons-content > .home-impact-discovery-section,
+  .home-commons-content > .home-discovery-view {
+    margin-left: 304px !important;
+  }
+  .home-commons-content > .home-impact-discovery-section {
+    min-width: 0;
+  }
+  .home-commons-content .initiative-flow-path {
+    position: absolute !important;
+    z-index: 3;
+    top: 94px;
+    left: 0;
+    width: 286px;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 8px !important;
+    margin: 0 !important;
+    padding: 12px;
+    border: 1px solid rgba(127, 142, 220, .2);
+    border-radius: 16px;
+    background:
+      radial-gradient(ellipse at 0% 0%, rgba(85, 112, 197, .16), transparent 58%),
+      linear-gradient(180deg, rgba(19, 28, 47, .96), rgba(10, 17, 29, .96));
+    box-shadow: inset 0 1px 0 rgba(210, 220, 255, .035), 0 14px 32px rgba(0, 0, 0, .16);
+  }
+  .home-commons-content .initiative-flow-path::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: -95px;
+    left: -1px;
+    right: -1px;
+    height: 96px;
+    border: 1px solid rgba(127, 142, 220, .12);
+    border-bottom: 0;
+    border-radius: 16px 16px 0 0;
+    background: linear-gradient(180deg, rgba(44, 49, 86, .12), rgba(44, 49, 86, .04));
+    pointer-events: none;
+  }
+  .home-commons-content .initiative-flow-step {
+    padding: 13px 14px !important;
+    border-radius: 11px !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.025) !important;
+  }
+  .home-commons-content .initiative-flow-step > strong {
+    display: block;
+    margin: 5px 0;
+    line-height: 1.45;
+  }
+  .home-commons-content .initiative-flow-step > small {
+    display: block;
+    line-height: 1.5;
+  }
+}
+@media (max-width: 999px) {
+  .home-commons-content > .home-impact-page-intro {
+    background:
+      radial-gradient(ellipse at 0% 0%, rgba(79, 116, 204, .12), transparent 60%),
+      linear-gradient(105deg, rgba(25, 34, 59, .5), rgba(13, 20, 34, .3));
+    border: 1px solid rgba(130, 145, 220, .13);
+    border-radius: 13px;
+  }
+}
+@media (max-width: 760px) {
+  .home-commons-content > .home-impact-discovery-section,
+  .home-commons-content > .home-discovery-view {
+    margin-left: 0 !important;
+  }
+}
+
 </style>
