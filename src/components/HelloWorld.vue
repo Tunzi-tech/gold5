@@ -2269,6 +2269,10 @@ const heroes = [
 ]
 
 const customZoneTitle = ref('Your Zone,')
+try {
+  const savedZoneTitle = localStorage.getItem('gold5-custom-zone-title')
+  if (savedZoneTitle) customZoneTitle.value = savedZoneTitle
+} catch {}
 const editingZoneTitle = ref(false)
 const zoneTitleDraft = ref('Your Zone,')
 function startEditingZoneTitle() {
