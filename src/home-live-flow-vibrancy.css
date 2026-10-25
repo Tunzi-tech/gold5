@@ -343,3 +343,15 @@ header.topbar .nfas-impact-orbit-target[aria-current="page"]::after {
     margin: 8px 0 0;
   }
 }
+
+
+/* Localize the discovery hint with the same language as its heading. */
+.nfas-impact-discovery-title[data-impact-language="fr"]::after {
+  content: "↗  SURVOLEZ POUR DÉCOUVRIR";
+  letter-spacing: .07em;
+}
+.nfas-impact-discovery-title[data-impact-language="ar"]::after {
+  content: "↗  مرّر لاكتشاف المزيد";
+  letter-spacing: 0;
+  direction: rtl;
+}
