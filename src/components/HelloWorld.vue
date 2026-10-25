@@ -25590,6 +25590,64 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
 }
 
 
+/* Restore the Tap to discover control styling and make its open state unmistakable. */
+.home-impact-discovery-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 12px;
+  padding: 9px 14px;
+  border: 1px solid rgba(112, 185, 219, .52);
+  border-radius: 999px;
+  background: linear-gradient(115deg, rgba(50, 126, 184, .22), rgba(111, 79, 174, .16));
+  color: var(--text-primary, #eaf3ff);
+  font: inherit;
+  font-size: .82rem;
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: .015em;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), 0 4px 14px rgba(12, 39, 72, .12);
+  transition: background .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+.home-impact-discovery-trigger > span {
+  display: inline-grid;
+  place-items: center;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: rgba(103, 179, 218, .18);
+  color: #a9e2ff;
+  font-size: 1rem;
+}
+.home-impact-discovery-trigger:hover {
+  border-color: rgba(139, 210, 241, .82);
+  background: linear-gradient(115deg, rgba(50, 139, 204, .32), rgba(111, 79, 174, .24));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .09), 0 5px 16px rgba(12, 39, 72, .18);
+}
+.home-impact-discovery-trigger:active { transform: translateY(1px); }
+.home-impact-discovery-trigger:focus-visible {
+  outline: 2px solid rgba(139, 210, 241, .9);
+  outline-offset: 3px;
+}
+@media (max-width: 999px), (hover: none) {
+  .home-impact-discovery-trigger { display: inline-flex !important; }
+  #home-impact-discovery-target > .initiative-flow-path {
+    display: none !important;
+  }
+  .home-commons-content.impact-discovery-open #home-impact-discovery-target > .initiative-flow-path {
+    display: grid !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateY(0) !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-impact-discovery-trigger { transition: none !important; }
+}
+
 /* Mobile discovery is teleported directly into the intro, so the paths open beneath the tapped heading. */
 @media (hover: none), (max-width: 999px) {
   .home-commons-content > .home-impact-page-intro {
