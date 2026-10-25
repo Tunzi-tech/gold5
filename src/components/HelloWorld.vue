@@ -6350,10 +6350,10 @@ onBeforeUnmount(() => {
            HOME
            ================================================= -->
       <section v-if="activeView === 'home'" class="content home-commons-content" :class="{ 'home-hero-collapsed': homeHeroHidden, 'impact-discovery-open': impactDiscoveryOpen }">
-        <div v-if="homeDisplayMode === 'content'" class="initiative-home-intro home-impact-page-intro" :class="{ 'is-discovery-open': impactDiscoveryOpen }" @click="toggleImpactDiscovery" @keydown.enter.prevent="toggleImpactDiscovery" @keydown.space.prevent="toggleImpactDiscovery" :tabindex="mobileDiscoveryLayout ? 0 : undefined">
+        <div id="home-impact-discovery-target" v-if="homeDisplayMode === 'content'" class="initiative-home-intro home-impact-page-intro" :class="{ 'is-discovery-open': impactDiscoveryOpen }" @click="toggleImpactDiscovery" @keydown.enter.prevent="toggleImpactDiscovery" @keydown.space.prevent="toggleImpactDiscovery" :tabindex="mobileDiscoveryLayout ? 0 : undefined">
           <span class="initiative-flow-kicker">FIND YOUR WAY TO MAKE AN IMPACT</span>
           <p>Explore what people are doing, discover ways to take part, or choose an issue that matters to you.</p>
-          <button type="button" class="home-impact-discovery-trigger" :aria-expanded="impactDiscoveryOpen" @click.stop="toggleImpactDiscovery">{{ impactDiscoveryOpen ? 'Hide discovery paths' : 'Tap to discover' }} <span aria-hidden="true">{{ impactDiscoveryOpen ? '−' : '↗' }}</span></button>
+          <button type="button" class="home-impact-discovery-trigger" :aria-expanded="impactDiscoveryOpen" @click.stop="impactDiscoveryOpen = !impactDiscoveryOpen">{{ impactDiscoveryOpen ? 'Hide discovery paths' : 'Tap to discover' }} <span aria-hidden="true">{{ impactDiscoveryOpen ? '−' : '↗' }}</span></button>
         </div>
 
 
@@ -6608,7 +6608,7 @@ onBeforeUnmount(() => {
         </section>
 
         <div v-if="homeDisplayMode === 'content'" class="home-discovery-view">
-        <Teleport to=".home-impact-page-intro" :disabled="!mobileDiscoveryLayout">
+        <Teleport to="#home-impact-discovery-target" :disabled="!mobileDiscoveryLayout">
         <div class="initiative-flow-path" aria-label="From what people do to impact">
           <section class="initiative-flow-step people-do" aria-label="Explore what people are doing">
             <span class="initiative-flow-kicker">EXPLORE</span>
