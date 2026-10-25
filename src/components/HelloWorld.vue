@@ -6334,9 +6334,10 @@ onBeforeUnmount(() => {
            HOME
            ================================================= -->
       <section v-if="activeView === 'home'" class="content home-commons-content" :class="{ 'home-hero-collapsed': homeHeroHidden, 'impact-discovery-open': impactDiscoveryOpen }">
-        <div v-if="homeDisplayMode === 'content'" class="initiative-home-intro home-impact-page-intro" role="button" tabindex="0" :aria-expanded="impactDiscoveryOpen" @click="impactDiscoveryOpen = !impactDiscoveryOpen" @keydown.enter.prevent="impactDiscoveryOpen = !impactDiscoveryOpen" @keydown.space.prevent="impactDiscoveryOpen = !impactDiscoveryOpen">
+        <div v-if="homeDisplayMode === 'content'" class="initiative-home-intro home-impact-page-intro">
           <span class="initiative-flow-kicker">FIND YOUR WAY TO MAKE AN IMPACT</span>
           <p>Explore what people are doing, discover ways to take part, or choose an issue that matters to you.</p>
+          <button type="button" class="home-impact-discovery-trigger" :aria-expanded="impactDiscoveryOpen" @click.stop="impactDiscoveryOpen = !impactDiscoveryOpen">{{ impactDiscoveryOpen ? 'Hide discovery paths' : 'Tap to discover' }} <span aria-hidden="true">{{ impactDiscoveryOpen ? '−' : '↗' }}</span></button>
         </div>
 
 
@@ -25567,6 +25568,25 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
 @media (prefers-reduced-motion: reduce) {
   .home-commons-content.impact-discovery-open .initiative-flow-path {
     transition: none !important;
+  }
+}
+
+
+/* A clear, native touch target for opening Home discovery. */
+.home-impact-discovery-trigger { display: none; }
+@media (hover: none), (max-width: 999px) {
+  .home-commons-content > .home-impact-page-intro { cursor: default; }
+  .home-impact-discovery-trigger {
+    display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; padding: 8px 11px;
+    border: 1px solid rgba(115, 185, 201, .28); border-radius: 999px;
+    background: linear-gradient(110deg, rgba(53, 103, 158, .22), rgba(102, 76, 150, .16));
+    color: #c5e0ee; font: inherit; font-size: 11px; font-weight: 750; cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .home-impact-discovery-trigger:focus-visible { outline: 2px solid rgba(115, 185, 201, .7); outline-offset: 3px; }
+  .home-commons-content.impact-discovery-open .initiative-flow-path {
+    display: grid !important; opacity: 1 !important; visibility: visible !important;
+    pointer-events: auto !important; transform: translateY(0) !important;
   }
 }
 </style>
