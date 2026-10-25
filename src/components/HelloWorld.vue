@@ -6171,7 +6171,7 @@ onBeforeUnmount(() => {
             <button type="button" class="mobile-network-drawer-close" @click="mobileMoreOpen = false; homeHeaderChatOpen = false; homeLocalWorldOpen = false" aria-label="Close space">×</button>
           </div>
 
-          <div class="shared-space-switcher" role="group" aria-label="Choose a space">
+          <div v-if="mobileSpace !== 'personalize'" class="shared-space-switcher" role="group" aria-label="Choose a space">
             <button type="button" :class="{ active: mobileSpace === 'flow' }" @click="mobileSpace = 'flow'; homeHeaderChatOpen = false; homeLocalWorldOpen = false"><span>▣</span> Flow</button>
             <button type="button" :class="{ active: mobileSpace === 'people' }" @click="mobileSpace = 'people'; homeHeaderChatOpen = false; homeLocalWorldOpen = false"><span>♧</span> People Spark</button>
             <button type="button" :class="{ active: mobileSpace === 'networkchat' }" @click="mobileSpace = 'networkchat'; homeHeaderChatOpen = true; homeLocalWorldOpen = true"><span>◎</span> NetworkChat</button>
