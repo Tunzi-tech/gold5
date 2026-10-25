@@ -12006,7 +12006,7 @@ textarea:focus-visible {
   }
   .home-commons-content > .home-impact-discovery-section > .header-quick-rail {
     position: absolute;
-    top: 12px;
+    top: 58px;
     right: 12px;
     z-index: 5;
   }
@@ -12080,7 +12080,7 @@ textarea:focus-visible {
 }
 @media (max-width: 760px) {
   .header-quick-rail {
-    top: 126px;
+    top: 166px;
     right: 7px;
     width: 74px;
     gap: 4px;
