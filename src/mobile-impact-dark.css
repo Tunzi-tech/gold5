@@ -417,3 +417,64 @@ header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-imp
     box-shadow: inset 0 1px 0 rgba(235, 243, 255, .045), 0 0 10px rgba(111, 153, 218, .07) !important;
   }
 }
+
+
+/* Mobile discovery paths: key visibility to the intro's own Vue state.
+   This avoids the surrounding Home layout's older hidden/absolute positioning rules. */
+@media (max-width: 999px), (hover: none) {
+  #home-impact-discovery-target {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    position: relative !important;
+    overflow: visible !important;
+  }
+
+  #home-impact-discovery-target > .initiative-flow-path {
+    display: none !important;
+    position: relative !important;
+    inset: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    margin: 14px 0 0 !important;
+    padding: 0 !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 10px !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(6px) !important;
+    overflow: visible !important;
+  }
+
+  #home-impact-discovery-target.is-discovery-open > .initiative-flow-path,
+  .home-commons-content.impact-discovery-open #home-impact-discovery-target > .initiative-flow-path {
+    display: grid !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateY(0) !important;
+  }
+
+  #home-impact-discovery-target > .home-impact-discovery-trigger {
+    position: relative !important;
+    z-index: 5 !important;
+    display: inline-flex !important;
+    pointer-events: auto !important;
+  }
+
+  #home-impact-discovery-target > .initiative-flow-path > * {
+    display: flex !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+}
