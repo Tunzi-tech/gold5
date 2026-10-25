@@ -24224,3 +24224,86 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
   }
 }
 </style>
+
+
+/* Desktop and mobile share one Impact-options button for issue actions. */
+@media screen and (min-width: 761px) {
+  header.topbar > .top-impact-actions {
+    display: none !important;
+  }
+  header.topbar > .top-actions {
+    position: relative !important;
+    overflow: visible !important;
+  }
+  header.topbar .mobile-issue-menu-trigger {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 30px !important;
+    width: 30px !important;
+    min-width: 30px !important;
+    height: 32px !important;
+    margin: 0 0 0 4px !important;
+    padding: 0 !important;
+    border: 1px solid rgba(115,164,229,.38) !important;
+    border-radius: 9px !important;
+    background: linear-gradient(145deg,rgba(37,63,96,.95),rgba(25,39,62,.98)) !important;
+    color: #b9d9ff !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    cursor: pointer !important;
+  }
+  header.topbar .mobile-issue-menu-trigger.active {
+    border-color: rgba(160,190,255,.8) !important;
+    color: #fff !important;
+    box-shadow: 0 0 0 2px rgba(103,151,222,.1) !important;
+  }
+  header.topbar .mobile-issue-menu {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 5px !important;
+    position: absolute !important;
+    z-index: 10000 !important;
+    top: calc(100% + 8px) !important;
+    right: 0 !important;
+    width: 220px !important;
+    max-width: calc(100vw - 24px) !important;
+    padding: 7px !important;
+    border: 1px solid rgba(126,163,213,.28) !important;
+    border-radius: 12px !important;
+    background: #101c2c !important;
+    box-shadow: 0 14px 36px rgba(0,0,0,.34) !important;
+  }
+  header.topbar .mobile-issue-menu > button {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 10px !important;
+    border: 1px solid transparent !important;
+    border-radius: 8px !important;
+    background: transparent !important;
+    color: #e5edf8 !important;
+    text-align: left !important;
+    cursor: pointer !important;
+  }
+  header.topbar .mobile-issue-menu > button:hover,
+  header.topbar .mobile-issue-menu > button:focus-visible {
+    border-color: rgba(115,164,229,.24) !important;
+    background: rgba(75,111,158,.16) !important;
+    outline: none !important;
+  }
+  header.topbar .mobile-issue-menu > button > span:last-child {
+    display: flex !important;
+    flex-direction: column !important;
+    min-width: 0 !important;
+  }
+  header.topbar .mobile-issue-menu strong { font-size: 12px !important; }
+  header.topbar .mobile-issue-menu small {
+    display: block !important;
+    margin-top: 2px !important;
+    color: #9fb1ca !important;
+    font-size: 10px !important;
+  }
+}
