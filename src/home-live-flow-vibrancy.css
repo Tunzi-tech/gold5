@@ -189,3 +189,69 @@ header.topbar .nfas-impact-orbit-target[aria-current="page"]::after {
     animation: none !important;
   }
 }
+
+
+/* Three small drifting orbs hint that “Find your way to make an impact” is interactive. */
+.nfas-impact-discovery-title {
+  position: relative;
+}
+.nfas-impact-cue-orbs {
+  position: absolute;
+  z-index: 2;
+  top: -9px;
+  right: -13px;
+  width: 32px;
+  height: 23px;
+  display: block;
+  pointer-events: none;
+  overflow: visible;
+}
+.nfas-impact-cue-orb {
+  position: absolute;
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  opacity: .88;
+  box-shadow: 0 0 7px currentColor;
+  animation: nfasImpactCueDrift 2.7s ease-in-out infinite;
+}
+.nfas-impact-cue-orb-1 {
+  left: 2px;
+  top: 10px;
+  color: #74e6ad;
+  background: currentColor;
+  animation-delay: 0s;
+}
+.nfas-impact-cue-orb-2 {
+  left: 13px;
+  top: 3px;
+  width: 5px;
+  height: 5px;
+  color: #79d9ff;
+  background: currentColor;
+  animation-delay: -.8s;
+}
+.nfas-impact-cue-orb-3 {
+  left: 22px;
+  top: 13px;
+  width: 4px;
+  height: 4px;
+  color: #b49aff;
+  background: currentColor;
+  animation-delay: -1.6s;
+}
+.nfas-impact-discovery-title:hover .nfas-impact-cue-orbs,
+.nfas-impact-discovery-title:focus-within .nfas-impact-cue-orbs {
+  opacity: .35;
+  transition: opacity .2s ease;
+}
+@keyframes nfasImpactCueDrift {
+  0%, 100% { transform: translate(0, 0) scale(.88); opacity: .65; }
+  50% { transform: translate(2px, -4px) scale(1.12); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nfas-impact-cue-orb {
+    animation: none;
+  }
+}
