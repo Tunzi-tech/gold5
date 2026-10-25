@@ -2251,14 +2251,14 @@ const activeHero = ref(0)
 
 const heroes = [
   {
-    label: 'YOUR PLACE · YOUR PEOPLE · YOUR VOICE',
+    label: 'YOUR PLACE · YOUR PEOPLE · YOUR IMPACT',
     titleBefore: 'Ideas become',
     titleAccent: 'something people do.',
     description:
       'Discover initiatives already moving around your Zones — and find a place where your interest can become participation, action and experience.',
   },
   {
-    label: 'YOUR PLACE · YOUR PEOPLE · YOUR VOICE',
+    label: 'YOUR PLACE · YOUR PEOPLE · YOUR IMPACT',
     titleBefore: 'Your Zone,',
     titleAccent: 'a place for change.',
     titleAfter: 'Impacting',
@@ -6430,12 +6430,12 @@ onBeforeUnmount(() => {
             <div :key="activeHero" class="hero hero-rotating">
               <div class="hero-copy">
                 <span class="hero-label hero-initiatives-label">INITIATIVES · ACTION</span>
-                <span class="hero-label hero-community-tagline" aria-label="Your place, your people, your voice">
+                <span class="hero-label hero-community-tagline" aria-label="Your place, your people, your impact">
                   <span class="hero-tag-place">YOUR PLACE</span>
                   <span class="hero-tag-separator"> · </span>
                   <span class="hero-tag-people">YOUR PEOPLE</span>
                   <span class="hero-tag-separator"> · </span>
-                  <span class="hero-tag-voice">YOUR VOICE</span>
+                  <span class="hero-tag-voice">YOUR IMPACT</span>
                 </span>
 
                 <div v-if="activeHero !== 0" class="hero-zone-label">
