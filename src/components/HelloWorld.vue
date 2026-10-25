@@ -6180,6 +6180,7 @@ onBeforeUnmount(() => {
           <template v-else-if="mobileSpace === 'personalize'">
             <div class="mobile-sidebar-personalizer">
               <div class="mobile-drawer-section-label">YOUR SIDEBAR SHORTCUTS</div>
+              <p class="mobile-sidebar-help-copy">These are your personal quick links in the navigation bar. Tap a shortcut to open that space; choose Remove to take it off your bar.</p>
               <div v-if="mobileSidebarShortcuts.length" class="mobile-sidebar-shortcut-list">
                 <div v-for="shortcut in mobileSidebarShortcuts" :key="'saved-shortcut-' + shortcut.id" class="mobile-sidebar-shortcut-row">
                   <span class="mobile-sidebar-shortcut-mark">{{ shortcut.mark }}</span>
@@ -6188,8 +6189,8 @@ onBeforeUnmount(() => {
                 </div>
               </div>
               <p v-else class="mobile-sidebar-personalizer-empty">No custom buttons yet. Add a destination below to make it available in your mobile navigation bar.</p>
-              <div class="mobile-drawer-section-label mobile-sidebar-add-label">PERSONALIZE YOUR NAVIGATION</div>
-              <p class="mobile-sidebar-instruction">Choose from these grouped destination cards. They are organized by purpose instead of repeating the main menu.</p>
+              <div class="mobile-drawer-section-label mobile-sidebar-add-label">ADD QUICK LINKS</div>
+              <p class="mobile-sidebar-instruction">Choose a card and tap “+ Add”. It will appear in your navigation bar for quicker access. You can remove it any time.</p>
               <div v-if="mobileSidebarAvailable.length" class="mobile-sidebar-category-list">
                 <section v-for="group in mobileSidebarDestinationGroups" :key="'shortcut-group-' + group.id" class="mobile-sidebar-category">
                   <div class="mobile-sidebar-category-heading">
@@ -6997,11 +6998,11 @@ onBeforeUnmount(() => {
         <div class="live-network-layout">
           <div class="live-network-feed">
             <div class="live-flow-space-pair" :class="{ 'is-connecting': liveFlowPrimarySpace === 'connecting' }">
-              <button v-if="liveFlowPrimarySpace === 'moving'" type="button" class="live-flow-connecting-tab" @click="liveFlowPrimarySpace = 'connecting'" aria-label="Open What's Connecting">
-                <span aria-hidden="true">⌁</span><strong>WHAT'S<br />CONNECTING</strong><span class="live-flow-connecting-tab-arrow" aria-hidden="true">→</span>
+              <button v-if="liveFlowPrimarySpace === 'moving'" type="button" class="live-flow-connecting-tab" @click="liveFlowPrimarySpace = 'connecting'" aria-label="What's Connecting: explore links between people, ideas and activity">
+                <span aria-hidden="true">⌁</span><span class="live-flow-tab-copy"><strong>WHAT'S CONNECTING?</strong><small>See how activity is linked</small></span><span class="live-flow-connecting-tab-arrow" aria-hidden="true">→</span>
               </button>
-              <button v-else type="button" class="live-flow-connecting-tab live-flow-connecting-tab-back" @click="liveFlowPrimarySpace = 'moving'" aria-label="Return to What's Moving">
-                <span aria-hidden="true">◎</span><strong>WHAT'S<br />MOVING</strong><span class="live-flow-connecting-tab-arrow" aria-hidden="true">→</span>
+              <button v-else type="button" class="live-flow-connecting-tab live-flow-connecting-tab-back" @click="liveFlowPrimarySpace = 'moving'" aria-label="What's Moving: return to the activity stream">
+                <span aria-hidden="true">◎</span><span class="live-flow-tab-copy"><strong>WHAT'S MOVING?</strong><small>Back to recent activity</small></span><span class="live-flow-connecting-tab-arrow" aria-hidden="true">→</span>
               </button>
               <div class="live-flow-space-pair-content">
                         <section v-if="liveFlowPrimarySpace === 'connecting'" id="live-flow-connections" class="live-flow-personal-connections" aria-label="Detected connections between platform activities">
@@ -7035,9 +7036,9 @@ onBeforeUnmount(() => {
 
               <div class="live-moving-showcase-head">
                 <div>
-                  <span class="eyebrow">WHAT'S MOVING · COMMUNITY FLOW</span>
-                  <h2>See who's moving. Follow their color.</h2>
-                  <p>Every club, association, collective and initiative keeps a recognizable identity color wherever it appears.</p>
+                  <span class="eyebrow">WHAT'S MOVING · COMMUNITY ACTIVITY</span>
+                  <h2>What's happening across communities?</h2>
+                  <p>Browse activity shared by clubs, associations, collectives, initiatives and communities. Choose a location or type to narrow the stream, then open an item to explore it.</p>
                 </div>
                 <span class="live-moving-pulse"><i></i> FLOW IN MOTION</span>
               </div>
@@ -24665,5 +24666,21 @@ header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-
   .mobile-sidebar-option-mark { grid-row: 1; color: #b7c9ff; font-size: 20px; text-align: center; }
   .mobile-sidebar-destination-option > strong { min-width: 0; font-size: 12px; line-height: 1.25; font-weight: 600; }
   .mobile-sidebar-destination-option > b { grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: 4px; color: #9edfcf; font-size: 11px; font-weight: 600; }
+}
+
+/* Clearer labels and helper copy for navigation shortcuts and Live Flow. */
+.mobile-sidebar-help-copy {
+  margin: 5px 0 12px;
+  max-width: 52ch;
+  color: #9fb1cc;
+  font-size: 12px;
+  line-height: 1.55;
+}
+.live-flow-tab-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; min-width: 0; text-align: left; }
+.live-flow-tab-copy strong { font-size: 10px; line-height: 1.3; letter-spacing: .04em; }
+.live-flow-tab-copy small { color: #a5b7d1; font-size: 9px; line-height: 1.4; font-weight: 400; }
+@media(max-width:700px) {
+  .live-flow-tab-copy strong { font-size: 8px; }
+  .live-flow-tab-copy small { font-size: 8px; }
 }
 </style>
