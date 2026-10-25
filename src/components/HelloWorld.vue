@@ -24863,11 +24863,11 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
   filter: none !important;
 }
 @media (max-width: 760px) {
-  /* Impact selected: keep the Nfas wordmark at the top-middle of the mobile screen. */
+  /* Keep the Nfas wordmark in the top-middle, separate from the search field, on mobile Impact. */
   header.topbar.impact-orbit-transferred > .mobile-brand {
     position: absolute !important;
     left: 50% !important;
-    top: 8px !important;
+    top: -30px !important;
     transform: translateX(-50%) !important;
     grid-column: auto !important;
     grid-row: auto !important;
@@ -24876,7 +24876,14 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
     max-width: calc(100% - 112px) !important;
     margin: 0 !important;
     padding: 0 !important;
-    z-index: 4 !important;
+    z-index: 10 !important;
+  }
+  header.topbar.impact-orbit-transferred > .search-box {
+    width: 90% !important;
+    max-width: 90% !important;
+    justify-self: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 }
 
