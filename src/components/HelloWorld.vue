@@ -24660,10 +24660,19 @@ header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-
     background: linear-gradient(100deg,rgba(18,34,53,.88),rgba(25,42,64,.92)) !important;
   }
   header.topbar > .mobile-home-space-row > .mobile-your-space-button.active {
-    border-color: rgba(232,190,98,.58) !important;
-    background: linear-gradient(105deg,rgba(96,73,35,.35),rgba(31,39,48,.98)) !important;
-    color: #ffe2a0 !important;
-    box-shadow: inset 0 1px rgba(255,231,177,.06),0 0 0 1px rgba(232,190,98,.07) !important;
+    border: 0 !important;
+    outline: none !important;
+    background:
+      radial-gradient(ellipse at 18% -24%, rgba(255, 205, 105, .16), transparent 58%),
+      radial-gradient(ellipse at 86% 115%, rgba(105, 143, 218, .13), transparent 65%),
+      linear-gradient(112deg, rgba(28, 43, 64, .99), rgba(16, 29, 45, 1)) !important;
+    color: #ffdda0 !important;
+    box-shadow:
+      inset 0 1px 0 rgba(226, 237, 255, .045),
+      0 0 11px rgba(91, 143, 220, .11) !important;
+  }
+  header.topbar > .mobile-home-space-row > .mobile-your-space-button.active {
+    text-shadow: 0 0 10px rgba(255, 205, 105, .2) !important;
   }
   header.topbar > .mobile-home-nav-pair > .mobile-home-pair-button > span,
   header.topbar > .mobile-home-space-row > .mobile-your-space-button > span {
