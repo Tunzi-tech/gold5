@@ -6336,12 +6336,10 @@ onBeforeUnmount(() => {
 
 
         <section class="home-impact-discovery-section" aria-label="Home discovery and header">
-                          <nav v-if="activeView === 'home'" class="header-quick-rail" aria-label="Local, World, Calls, Initiatives and Chat">
-            <button type="button" :class="{ active: homeConnectionPanel === 'local' && homeHeaderChatOpen }" @click="homeConnectionPanel = 'local'; homeLocalWorldScope = 'local'; joinHomeChannel('local'); homeHeaderChatOpen = true; homeLocalWorldOpen = true" aria-label="Open Local conversations">Local</button>
-            <button type="button" :class="{ active: homeConnectionPanel === 'world' && homeHeaderChatOpen }" @click="homeConnectionPanel = 'world'; homeLocalWorldScope = 'world'; joinHomeChannel('world'); homeHeaderChatOpen = true; homeLocalWorldOpen = true" aria-label="Open World conversations">World</button>
-            <button type="button" :class="{ active: homeConnectionPanel === 'calls' && homeHeaderChatOpen }" @click="homeConnectionPanel = 'calls'; homeHeaderChatOpen = true; homeLocalWorldOpen = false" aria-label="Open calls">Calls</button>
-            <button type="button" :class="{ active: homeConnectionPanel === 'initiatives' && homeHeaderChatOpen }" @click="homeConnectionPanel = 'initiatives'; homeHeaderChatOpen = true; homeLocalWorldOpen = false" aria-label="Open initiative conversations">Initiatives</button>
-            <button type="button" :class="{ active: homeConnectionPanel === 'chat' && homeHeaderChatOpen }" @click="homeConnectionPanel = 'chat'; homeHeaderChatOpen = true; homeLocalWorldOpen = true" aria-label="Open chats">Chat</button>
+                          <nav v-if="activeView === 'home'" class="header-quick-rail" aria-label="Flow, People and Network Chat">
+            <button type="button" :class="{ active: mobileMoreOpen && mobileSpace === 'flow' }" @click="mobileSpace = 'flow'; mobileMoreOpen = true; homeHeaderChatOpen = false; homeLocalWorldOpen = false" aria-label="Open Flow space">Flow</button>
+            <button type="button" :class="{ active: mobileMoreOpen && mobileSpace === 'people' }" @click="mobileSpace = 'people'; mobileMoreOpen = true; homeHeaderChatOpen = false; homeLocalWorldOpen = false" aria-label="Open People space">People</button>
+            <button type="button" :class="{ active: mobileMoreOpen && mobileSpace === 'networkchat' }" @click="mobileSpace = 'networkchat'; mobileMoreOpen = true; homeHeaderChatOpen = true; homeLocalWorldOpen = true" aria-label="Open Network Chat">Network Chat</button>
           </nav>
         <div class="home-view-switch" role="group" aria-label="Choose home view">
           <button
