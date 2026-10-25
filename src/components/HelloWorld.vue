@@ -6099,7 +6099,7 @@ onBeforeUnmount(() => {
             aria-label="Open Impact and Awareness"
             title="Impact and Awareness"
           >
-            <span class="brand-orbit impact-button-orbit mobile-impact-orbit" aria-hidden="true"><span></span></span>
+            <span class="brand-orbit impact-button-orbit mobile-impact-orbit" aria-hidden="true"><i class="mobile-impact-color-fill"></i><span></span></span>
             <strong>Impact</strong>
           </button>
         </div>
@@ -23397,40 +23397,41 @@ header.topbar > .mobile-home-space-row > .mobile-your-space-button > .mobile-imp
   animation-duration: 2.8s !important;
   animation-direction: reverse !important;
 }
-/* Color travels from the outer rim toward the center, illuminating both orbital rings. */
-@keyframes mobile-impact-color-in {
-  0% {
-    background: radial-gradient(circle, transparent 0 8%, rgba(117,177,255,.02) 20%, rgba(130,94,255,.12) 38%, rgba(130,94,255,.48) 66%, rgba(117,177,255,.58) 78%, transparent 82%) !important;
-    box-shadow: 0 0 3px rgba(102,157,255,.12), 0 0 5px rgba(143,91,255,.08) !important;
-  }
-  48% {
-    background: radial-gradient(circle, transparent 0 8%, rgba(117,177,255,.12) 20%, rgba(130,94,255,.28) 38%, rgba(130,94,255,.38) 55%, rgba(117,177,255,.4) 66%, transparent 78%) !important;
-    box-shadow: 0 0 8px rgba(102,157,255,.28), 0 0 12px rgba(143,91,255,.18) !important;
-  }
-  100% {
-    background: radial-gradient(circle, rgba(117,177,255,.35), rgba(130,94,255,.15) 48%, transparent 74%) !important;
-    box-shadow: 0 0 10px rgba(102,157,255,.28), 0 0 17px rgba(143,91,255,.16) !important;
-  }
+/* A colored rim sweeps inward, strengthening the blue and purple rings around the gold core. */
+header.topbar > .mobile-home-space-row > .mobile-impact-ring-button > .mobile-impact-orbit > .mobile-impact-color-fill {
+  position: absolute !important;
+  z-index: 1 !important;
+  inset: -2px !important;
+  display: block !important;
+  border-radius: 50% !important;
+  pointer-events: none !important;
+  background: radial-gradient(circle, transparent 0 12%, rgba(117,177,255,.08) 28%, rgba(130,94,255,.22) 46%, rgba(130,94,255,.5) 66%, rgba(117,177,255,.6) 78%, transparent 82%) !important;
+  opacity: 0 !important;
+  animation: mobile-impact-color-sweep .95s ease-out both !important;
 }
-header.topbar > .mobile-home-space-row > .mobile-impact-ring-button > .mobile-impact-orbit {
-  animation: mobile-impact-orbit-in .48s cubic-bezier(.2,.75,.25,1) both, mobile-impact-color-in .9s ease-out both, impact-button-light-pulse 1.8s ease-in-out .9s infinite alternate !important;
+@keyframes mobile-impact-color-sweep {
+  0% { opacity: .15; transform: scale(1.12); filter: brightness(1.35); }
+  42% { opacity: .9; transform: scale(1.02); filter: brightness(1.2); }
+  100% { opacity: .72; transform: scale(.82); filter: brightness(1); }
 }
 header.topbar > .mobile-home-space-row > .mobile-impact-ring-button > .mobile-impact-orbit::before {
-  animation: mobile-impact-orbit-spin 2.1s linear infinite, mobile-impact-ring-color-in .9s ease-out both !important;
+  animation: mobile-impact-orbit-spin 2.1s linear infinite, mobile-impact-ring-blue-in .95s ease-out both !important;
 }
 header.topbar > .mobile-home-space-row > .mobile-impact-ring-button > .mobile-impact-orbit::after {
-  animation: mobile-impact-orbit-spin 2.8s linear infinite reverse, mobile-impact-ring-color-in .9s ease-out both !important;
+  animation: mobile-impact-orbit-spin 2.8s linear infinite reverse, mobile-impact-ring-purple-in .95s ease-out both !important;
 }
-@keyframes mobile-impact-ring-color-in {
-  0% { border-color: rgba(105,169,255,.12) !important; box-shadow: 0 0 1px rgba(80,150,255,.04) !important; }
-  55% { border-color: rgba(105,169,255,.68) !important; box-shadow: 0 0 4px rgba(80,150,255,.24) !important; }
-  100% { border-color: rgba(105,169,255,.95) !important; box-shadow: 0 0 5px rgba(80,150,255,.32) !important; }
+@keyframes mobile-impact-ring-blue-in {
+  0% { border-color: rgba(105,169,255,.12); box-shadow: 0 0 1px rgba(80,150,255,.04); }
+  55% { border-color: rgba(105,169,255,.68); box-shadow: 0 0 4px rgba(80,150,255,.24); }
+  100% { border-color: rgba(105,169,255,.95); box-shadow: 0 0 5px rgba(80,150,255,.32); }
 }
-header.topbar > .mobile-home-space-row > .mobile-impact-ring-button > .mobile-impact-orbit::after {
-  animation-name: mobile-impact-orbit-spin, mobile-impact-ring-color-in !important;
+@keyframes mobile-impact-ring-purple-in {
+  0% { border-color: rgba(190,116,255,.12); box-shadow: 0 0 1px rgba(171,103,255,.04); }
+  55% { border-color: rgba(190,116,255,.68); box-shadow: 0 0 4px rgba(171,103,255,.2); }
+  100% { border-color: rgba(190,116,255,.92); box-shadow: 0 0 5px rgba(171,103,255,.28); }
 }
 @media (prefers-reduced-motion: reduce) {
-  header.topbar > .mobile-home-space-row > .mobile-impact-ring-button > .mobile-impact-orbit,
+  header.topbar > .mobile-home-space-row > .mobile-impact-ring-button > .mobile-impact-orbit > .mobile-impact-color-fill,
   header.topbar > .mobile-home-space-row > .mobile-impact-ring-button > .mobile-impact-orbit::before,
   header.topbar > .mobile-home-space-row > .mobile-impact-ring-button > .mobile-impact-orbit::after {
     animation: none !important;
