@@ -5872,14 +5872,18 @@ onBeforeUnmount(() => {
       </div>
 
       <nav class="mobile-nav" aria-label="Main navigation">
-        <button :class="{ active: activeView === 'learn' }" @click="navigate('learn')">
-          <span class="mobile-nav-icon">✦</span><span>Learn</span>
-        </button>
-        <button :class="{ active: activeView === 'awareness' }" @click="navigate('awareness')">
-          <span class="mobile-nav-icon">◌</span><span>Impacting</span>
-        </button>
         <button :class="{ active: ['zones', 'my-zones', 'around-zones', 'zone'].includes(activeView) }" @click="navigate('zones')">
           <span class="mobile-nav-icon">◉</span><span>Zones</span>
+        </button>
+        <button
+          type="button"
+          class="mobile-nav-personalize"
+          aria-label="Personalize sidebar"
+          title="Personalize sidebar"
+          @click="mobileSpace = 'menu'; mobileMoreOpen = !mobileMoreOpen"
+        >
+          <span class="mobile-nav-icon" aria-hidden="true">☷</span>
+          <span>Personalize</span>
         </button>
       </nav>
 
@@ -24487,6 +24491,21 @@ header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-
     margin-top: 2px !important;
     color: #9fb1ca !important;
     font-size: 10px !important;
+  }
+}
+
+/* Mobile sidebar: keep only Zones and the sidebar-personalization control. */
+@media screen and (max-width: 760px) {
+  .mobile-nav > button { min-width: 0; }
+  .mobile-nav > .mobile-nav-personalize {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border: 1px solid rgba(133, 164, 205, .2);
+    border-radius: 9px;
+    background: linear-gradient(110deg, rgba(49, 75, 112, .28), rgba(32, 43, 68, .4));
+    color: #c9d8f1;
   }
 }
 </style>
