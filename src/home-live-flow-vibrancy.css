@@ -255,3 +255,76 @@ header.topbar .nfas-impact-orbit-target[aria-current="page"]::after {
     animation: none;
   }
 }
+
+
+/* Make the impact discovery area visibly interactive even before hover. */
+.nfas-impact-discovery-title {
+  display: inline-block;
+  cursor: pointer;
+}
+.nfas-impact-discovery-title::after {
+  content: "↗  HOVER TO DISCOVER";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  margin-left: 12px;
+  padding: 5px 9px;
+  border: 1px solid rgba(119, 218, 170, .58);
+  border-radius: 999px;
+  background: linear-gradient(110deg, rgba(44, 139, 111, .22), rgba(67, 113, 190, .22), rgba(126, 91, 180, .2));
+  color: #b8f3d2;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  line-height: 1.2;
+  white-space: nowrap;
+  box-shadow: 0 0 0 1px rgba(98, 206, 151, .08), 0 3px 12px rgba(39, 126, 105, .12);
+  transition: background .2s ease, border-color .2s ease, color .2s ease, transform .2s ease, box-shadow .2s ease;
+  animation: nfasHoverHintPulse 2.4s ease-in-out infinite;
+}
+.nfas-impact-discovery-title:hover::after,
+.nfas-impact-discovery-title:focus-within::after {
+  background: linear-gradient(110deg, rgba(44, 164, 121, .38), rgba(67, 125, 213, .34), rgba(139, 102, 203, .32));
+  border-color: rgba(148, 240, 189, .92);
+  color: #edfff5;
+  box-shadow: 0 0 0 2px rgba(98, 206, 151, .1), 0 0 16px rgba(66, 201, 140, .2);
+  transform: translateY(-1px);
+}
+.nfas-impact-discovery-title .nfas-impact-cue-orbs {
+  top: -15px;
+  right: -10px;
+  width: 38px;
+  height: 28px;
+}
+.nfas-impact-discovery-title .nfas-impact-cue-orb {
+  width: 7px;
+  height: 7px;
+  opacity: 1;
+  box-shadow: 0 0 9px currentColor, 0 0 2px rgba(255, 255, 255, .8);
+}
+.nfas-impact-discovery-title .nfas-impact-cue-orb-2 {
+  width: 6px;
+  height: 6px;
+}
+.nfas-impact-discovery-title .nfas-impact-cue-orb-3 {
+  width: 5px;
+  height: 5px;
+}
+@keyframes nfasHoverHintPulse {
+  0%, 100% { opacity: .88; }
+  50% { opacity: 1; box-shadow: 0 0 0 2px rgba(98, 206, 151, .12), 0 0 15px rgba(66, 201, 140, .2); }
+}
+@media (max-width: 640px) {
+  .nfas-impact-discovery-title::after {
+    display: flex;
+    width: fit-content;
+    margin: 8px 0 0;
+    font-size: 8px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nfas-impact-discovery-title::after {
+    animation: none;
+  }
+}
