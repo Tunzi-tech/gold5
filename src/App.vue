@@ -236,7 +236,10 @@ function markImpactDiscoveryCue() {
     heading.insertAdjacentElement('afterend', trigger)
   }
   trigger.textContent = language === 'fr' ? 'Explorer l’impact' : language === 'ar' ? 'استكشف التأثير' : 'Explore impact'
-  trigger.setAttribute('aria-label', trigger.textContent)
+  const triggerLabel = trigger.textContent ?? ''
+  if (trigger.getAttribute('aria-label') !== triggerLabel) {
+    trigger.setAttribute('aria-label', triggerLabel)
+  }
 
   if (heading.querySelector('.nfas-impact-cue-orbs')) return
   const orbs = document.createElement('span')
