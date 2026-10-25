@@ -25705,4 +25705,39 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
   }
   .home-impact-discovery-trigger { display: inline-flex !important; }
 }
+
+/* Make both Zone destinations feel intentional even before selection. */
+.zones-subnav .zones-connected-pair .zone-space-button-around:not(.active) {
+  border-color: rgba(181, 108, 255, .28);
+  background:
+    radial-gradient(ellipse at 8% 50%, rgba(181, 108, 255, .22), transparent 58%),
+    linear-gradient(105deg, rgba(91, 57, 139, .24), rgba(35, 39, 65, .30) 58%, rgba(15, 22, 38, .42));
+  color: #d8c9f1;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .045), inset 2px 0 0 rgba(181, 108, 255, .20);
+}
+.zones-subnav .zones-connected-pair .zone-space-button-around:not(.active):hover,
+.zones-subnav .zones-connected-pair .zone-space-button-around:not(.active):focus-visible {
+  border-color: rgba(195, 143, 255, .48);
+  background:
+    radial-gradient(ellipse at 8% 50%, rgba(181, 108, 255, .28), transparent 60%),
+    linear-gradient(105deg, rgba(103, 65, 155, .31), rgba(42, 47, 77, .36) 58%, rgba(18, 27, 45, .48));
+  color: #f0e5ff;
+}
+.zones-subnav .zones-connected-pair .zone-space-button-mine:not(.active) {
+  border-color: rgba(103, 164, 255, .28);
+  background:
+    radial-gradient(ellipse at 8% 50%, rgba(91, 157, 235, .20), transparent 58%),
+    linear-gradient(105deg, rgba(35, 83, 126, .27), rgba(27, 48, 72, .32) 58%, rgba(14, 24, 39, .43));
+  color: #c8ddf4;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04), inset 2px 0 0 rgba(103, 164, 255, .18);
+}
+.zones-subnav .zones-connected-pair .zone-space-button-mine:not(.active):hover,
+.zones-subnav .zones-connected-pair .zone-space-button-mine:not(.active):focus-visible {
+  border-color: rgba(125, 190, 255, .48);
+  background:
+    radial-gradient(ellipse at 8% 50%, rgba(91, 177, 235, .27), transparent 60%),
+    linear-gradient(105deg, rgba(40, 99, 148, .34), rgba(32, 57, 84, .39) 58%, rgba(16, 28, 44, .5));
+  color: #e4f3ff;
+}
+
 </style>
