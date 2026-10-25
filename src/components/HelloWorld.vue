@@ -24828,3 +24828,13 @@ header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-
   .live-flow-tab-copy small { font-size: 8px; }
 }
 </style>
+
+/* Keep the logo's own orbital icon visible when Impact is selected.
+   The Impact button can show its own mark without hiding the original logo. */
+header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::before,
+header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  filter: none !important;
+}
