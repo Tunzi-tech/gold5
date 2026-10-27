@@ -4035,7 +4035,7 @@ const arabicDictionary: Record<string, string> = {
   "My Networks": "شبكاتي",
   "My Connexion": "اتصالاتي",
   "More Flow": "المزيد من التدفق",
-  "Anfas": "أنفاس",
+  "Enffas": "أنفاس",
   "Notifications": "الإشعارات",
   "Messages": "الرسائل",
   "Settings": "الإعدادات",
@@ -5451,7 +5451,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="app-shell" :class="{ 'rtl-mode': language === 'ar' }">
-    <div v-if="showPlatformOpening" class="nfas-opening-overlay" role="status" aria-label="Opening Nfas platform">
+    <div v-if="showPlatformOpening" class="nfas-opening-overlay" role="status" aria-label="Opening Enffas platform">
       <div class="nfas-opening-aura" aria-hidden="true"></div>
       <div class="nfas-opening-portal">
         <span class="nfas-opening-item"><span class="nfas-opening-icon nfas-opening-people" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M16 20v-1.6a3.4 3.4 0 0 0-3.4-3.4H6.4A3.4 3.4 0 0 0 3 18.4V20M9.5 11.5a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM16 4.1a4 4 0 0 1 0 7.7M17.6 15h.1a3.4 3.4 0 0 1 3.3 3.4V20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="nfas-opening-item-label nfas-opening-people-label">People</span></span>
@@ -5460,7 +5460,7 @@ onBeforeUnmount(() => {
         <span class="nfas-opening-connector" aria-hidden="true"></span>
         <span class="nfas-opening-item"><span class="nfas-opening-icon nfas-opening-impact" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="2.1" fill="currentColor"/><ellipse cx="12" cy="12" rx="9" ry="4.4" transform="rotate(-35 12 12)" stroke="currentColor" stroke-width="1.4"/><ellipse cx="12" cy="12" rx="9" ry="4.4" transform="rotate(42 12 12)" stroke="currentColor" stroke-width="1.1" opacity=".72"/></svg></span><span class="nfas-opening-item-label nfas-opening-impact-label">Impact</span></span>
       </div>
-      <span class="nfas-opening-wordmark">Nfas</span>
+      <span class="nfas-opening-wordmark">Enffas</span>
     </div>
 
 
@@ -5509,7 +5509,7 @@ onBeforeUnmount(() => {
     <!-- SIDEBAR -->
     <aside class="sidebar">
 
-      <div class="brand" :class="{ 'brand-portal-active': showNavigationPortal }" @click="navigate('home')" role="button" tabindex="0" @keydown.enter="navigate('home')" aria-label="Nfas home">
+      <div class="brand" :class="{ 'brand-portal-active': showNavigationPortal }" @click="navigate('home')" role="button" tabindex="0" @keydown.enter="navigate('home')" aria-label="Enffas home">
 
     <div v-if="showNavigationPortal" class="nfas-navigation-overlay" aria-hidden="true">
       <div class="nfas-navigation-aura"></div>
@@ -5526,7 +5526,7 @@ onBeforeUnmount(() => {
         </div>
 
         <div class="brand-name">
-          <strong>Nfas</strong>
+          <strong>Enffas</strong>
           <small>PEOPLE · VOICES · IMPACT</small>
         </div>
 
@@ -6053,9 +6053,9 @@ onBeforeUnmount(() => {
             <span class="desktop-primary-nav-icon" aria-hidden="true">⟳</span><span>Live Flow</span>
           </button>
         </nav>
-        <div class="mobile-brand" @click="navigate('home')" role="button" tabindex="0" @keydown.enter="navigate('home')" aria-label="Anfas home">
+        <div class="mobile-brand" @click="navigate('home')" role="button" tabindex="0" @keydown.enter="navigate('home')" aria-label="Enffas home">
           <span class="brand-orbit mobile-brand-mark" aria-hidden="true"><span></span></span>
-          <span class="brand-name mobile-brand-copy"><strong>Nfas</strong><small>PEOPLE · VOICES · IMPACT</small></span>
+          <span class="brand-name mobile-brand-copy"><strong>Enffas</strong><small>PEOPLE · VOICES · IMPACT</small></span>
         </div>
 
         <div class="search-box">
@@ -11562,7 +11562,7 @@ textarea:focus-visible {
   box-shadow: 0 0 12px rgba(103,164,255,.7);
 }
 
-/* Blue signal extends from the orbit into the Anfas wordmark, making them one identity */
+/* Blue signal extends from the orbit into the Enffas wordmark, making them one identity */
 .brand-orbit span::after {
   content: "";
   position: absolute;
@@ -20966,7 +20966,7 @@ a { text-underline-offset: 3px; }
 }
 
 
-/* Navigation transition lives in the sidebar identity: the portal temporarily replaces the Nfas logo. */
+/* Navigation transition lives in the sidebar identity: the portal temporarily replaces the Enffas logo. */
 .sidebar .brand { position: relative !important; isolation: isolate; }
 .sidebar .brand .nfas-navigation-overlay { position:absolute !important; inset:-5px -2px !important; z-index:8 !important; width:auto !important; height:auto !important; display:flex !important; align-items:center !important; justify-content:center !important; overflow:visible !important; pointer-events:none !important; background:transparent !important; }
 .sidebar .brand .nfas-navigation-aura { width:100% !important; height:54px !important; filter:blur(5px) !important; background:radial-gradient(ellipse,rgba(76,139,255,.27),rgba(143,99,230,.14) 48%,transparent 74%) !important; }
@@ -21062,7 +21062,7 @@ a { text-underline-offset: 3px; }
   }
 }
 
-/* On Impact, keep the original orbital logo visible and center the complete Nfas wordmark at the top bar's horizontal center. */
+/* On Impact, keep the original orbital logo visible and center the complete Enffas wordmark at the top bar's horizontal center. */
 header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark,
 header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::before,
 header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after {
@@ -22037,7 +22037,7 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
   }
 }
 
-/* Refined Anfas identity: consistent editorial wordmark across desktop and mobile. */
+/* Refined Enffas identity: consistent editorial wordmark across desktop and mobile. */
 .brand { align-items: center; gap: 12px; padding-top: 2px; }
 .brand-orbit {
   width: 39px;
@@ -22118,7 +22118,7 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
 }
 
 
-/* Keep the Circles dimension portal beside the Anfas logo, not between Home and Live Flow. */
+/* Keep the Circles dimension portal beside the Enffas logo, not between Home and Live Flow. */
 .brand .brand-dimension-portal {
   flex: 0 0 18px;
   width: 18px !important;
@@ -22139,7 +22139,7 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
 
 
 
-/* Join the blue orbit signal to the Anfas wordmark as one continuous logo */
+/* Join the blue orbit signal to the Enffas wordmark as one continuous logo */
 .sidebar .brand {
   gap: 8px;
 }
@@ -22160,7 +22160,7 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
 }
 
 
-/* Anfas signature — make the orbit, blue signal and wordmark visibly read as one mark */
+/* Enffas signature — make the orbit, blue signal and wordmark visibly read as one mark */
 .sidebar .brand { gap: 4px !important; }
 .sidebar .brand-orbit { flex: 0 0 38px !important; overflow: visible !important; z-index: 2; }
 .sidebar .brand-orbit span::after {
@@ -22364,7 +22364,7 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
 }
 
 
-/* Mobile top bar: retain the desktop Anfas identity and balanced search/actions layout. */
+/* Mobile top bar: retain the desktop Enffas identity and balanced search/actions layout. */
 @media (max-width:760px) {
   .topbar {
     box-sizing:border-box !important;
@@ -22532,7 +22532,7 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
   .mobile-secondary-nav { display: none; }
 }
 
-/* Mobile header and right-side navigation drawer: keep the Anfas identity consistent with desktop. */
+/* Mobile header and right-side navigation drawer: keep the Enffas identity consistent with desktop. */
 .mobile-menu-launch { display:none; }
 @media (max-width:760px) {
   .mobile-more-overlay { position:fixed; inset:0; z-index:12050; display:flex; justify-content:flex-end; background:rgba(2,6,12,.66); backdrop-filter:blur(5px); }
@@ -23796,7 +23796,7 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
 }
 
 
-/* Nfas first-load portal: a connected People · Sparks · Impact bar. */
+/* Enffas first-load portal: a connected People · Sparks · Impact bar. */
 .nfas-opening-overlay{position:fixed;inset:0;z-index:100000;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:24px;background:#080d18;isolation:isolate;animation:nfas-opening-exit .62s cubic-bezier(.22,.7,.2,1) 1.88s both}
 .nfas-opening-aura{position:absolute;z-index:-1;width:min(76vw,560px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(57,100,174,.19),rgba(77,65,146,.075) 38%,transparent 70%);filter:blur(8px);animation:nfas-opening-aura 2.1s ease-out both}
 .nfas-opening-portal{position:relative;display:flex;align-items:center;justify-content:center;gap:clamp(8px,2vw,18px);width:min(100%,440px);min-height:142px;padding:18px clamp(14px,4vw,28px) 16px;border:1px solid rgba(120,160,224,.32);border-radius:30px;background:linear-gradient(125deg,rgba(16,30,51,.97),rgba(15,22,41,.96) 55%,rgba(26,22,48,.96));box-shadow:0 0 0 1px rgba(181,204,255,.035),inset 0 1px 0 rgba(233,241,255,.08),0 18px 70px rgba(0,0,0,.36),0 0 42px rgba(70,115,206,.12);opacity:0;transform:translateY(24px) scale(.88);animation:nfas-opening-arrive .8s cubic-bezier(.18,.78,.25,1) .12s both}
@@ -24247,7 +24247,7 @@ header.topbar:not(.impact-orbit-transferred) > .mobile-home-space-row > .mobile-
   border-color: rgba(115,185,201,.4) !important;
 }
 
-/* Keep the Nfas portal in the logo position for an extra 0.1 second before it disappears. */
+/* Keep the Enffas portal in the logo position for an extra 0.1 second before it disappears. */
 .sidebar .brand .nfas-navigation-portal {
   animation-duration: 1.02s !important;
 }
@@ -25112,7 +25112,7 @@ header.topbar > .mobile-home-nav-pair > .mobile-live-flow-button > .mobile-flow-
   .live-flow-tab-copy small { font-size: 8px; }
 }
 
-/* Keep the original Nfas logo rings visible on Impact; center the full wordmark while Impact is active. */
+/* Keep the original Enffas logo rings visible on Impact; center the full wordmark while Impact is active. */
 header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::before,
 header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after {
   opacity: 1 !important;
@@ -25121,7 +25121,7 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
   filter: none !important;
 }
 @media (max-width: 760px) {
-  /* Keep the Nfas wordmark in the top-middle, separate from the search field, on mobile Impact. */
+  /* Keep the Enffas wordmark in the top-middle, separate from the search field, on mobile Impact. */
   header.topbar.impact-orbit-transferred > .mobile-brand {
     position: absolute !important;
     left: 50% !important;
@@ -25145,7 +25145,7 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
   }
 }
 
-/* Mobile Impact: paired orbital lines run from the rings toward Nfas and continue out to the right.
+/* Mobile Impact: paired orbital lines run from the rings toward Enffas and continue out to the right.
    The strokes have no endpoint dots. */
 @media (max-width: 760px) {
   header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-copy strong {
