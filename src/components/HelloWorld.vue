@@ -6118,6 +6118,8 @@ onBeforeUnmount(() => {
           <span>{{ t('learnDiscover') }}</span>
         </button>
 
+        <NetworkMainBar />
+
         <div class="mobile-home-space-row" aria-label="Impact">
           <button
             v-if="activeView === 'awareness'"
@@ -6198,8 +6200,6 @@ onBeforeUnmount(() => {
         </div>
 
       </header>
-
-      <NetworkMainBar />
 
       <button
         type="button"
