@@ -25743,4 +25743,24 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
   color: #e4f3ff;
 }
 
+
+/* Final layout override: reserve a desktop row for the bar and place it before mobile Impact. */
+@media (min-width: 761px) {
+  body .app-shell .main > header.topbar:has(> .network-main-bar) {
+    margin-bottom: 154px !important;
+  }
+}
+@media (max-width: 760px) {
+  body .app-shell .main > header.topbar:has(> .network-main-bar) {
+    grid-template-rows: 35px 36px 36px auto 36px !important;
+  }
+  body .app-shell .main > header.topbar > .network-main-bar {
+    grid-row: 4 !important;
+    grid-column: 1 / -1 !important;
+  }
+  body .app-shell .main > header.topbar > .mobile-home-space-row {
+    grid-row: 5 !important;
+  }
+}
+
 </style>
