@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onBeforeUnmount, ref } from 'vue'
+import NetworkMainBar from './NetworkMainBar.vue'
 
 /**
  * Browser storage can be unavailable or throw in restricted browser profiles.
@@ -6197,6 +6198,8 @@ onBeforeUnmount(() => {
         </div>
 
       </header>
+
+      <NetworkMainBar />
 
       <button
         type="button"
