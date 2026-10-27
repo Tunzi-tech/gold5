@@ -352,4 +352,130 @@ watch([joinedChannelIds, messageThreads, scope], () => {
 @media (prefers-reduced-motion:reduce) {
   .network-main-bar *, .network-main-bar *::before, .network-main-bar *::after { transition:none !important; }
 }
+
+/* Placement: under the desktop top bar, but above the Impact control on mobile. */
+@media (min-width: 761px) {
+  header.topbar:has(> .network-main-bar) {
+    position: relative !important;
+    margin-bottom: 154px !important;
+  }
+  header.topbar > .network-main-bar {
+    position: absolute !important;
+    top: calc(100% + 1px) !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: auto !important;
+    margin: 0 !important;
+    border-radius: 0 0 15px 15px !important;
+    z-index: 10020 !important;
+    max-height: min(72vh, 720px) !important;
+    overflow-y: auto !important;
+    box-shadow: 0 16px 36px rgba(0,0,0,.28), inset 0 1px 0 rgba(232,242,255,.035) !important;
+  }
+}
+@media (max-width: 760px) {
+  header.topbar:has(> .network-main-bar) {
+    grid-template-rows: 35px 36px 36px auto 36px !important;
+  }
+  header.topbar > .network-main-bar {
+    position: relative !important;
+    grid-column: 1 / -1 !important;
+    grid-row: 4 !important;
+    align-self: stretch !important;
+    justify-self: stretch !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    max-height: none !important;
+    overflow: visible !important;
+    border-radius: 11px !important;
+  }
+  header.topbar > .mobile-home-space-row {
+    grid-row: 5 !important;
+  }
+  header.topbar > .network-main-bar .network-main-bar-top {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 6px !important;
+  }
+  header.topbar > .network-main-bar .network-main-brand {
+    flex: 1 1 auto !important;
+    gap: 6px !important;
+  }
+  header.topbar > .network-main-bar .network-main-orbit {
+    width: 26px !important;
+    height: 26px !important;
+    flex-basis: 26px !important;
+    font-size: 13px !important;
+  }
+  header.topbar > .network-main-bar .network-main-eyebrow {
+    font-size: 6px !important;
+    letter-spacing: .11em !important;
+  }
+  header.topbar > .network-main-bar .network-main-heading strong {
+    font-size: 10px !important;
+  }
+  header.topbar > .network-main-bar .network-main-heading small {
+    display: none !important;
+  }
+  header.topbar > .network-main-bar .network-main-actions {
+    width: auto !important;
+    flex: 0 0 auto !important;
+    gap: 4px !important;
+  }
+  header.topbar > .network-main-bar .network-main-scope {
+    gap: 1px !important;
+    padding: 2px !important;
+  }
+  header.topbar > .network-main-bar .network-main-scope button {
+    min-height: 28px !important;
+    padding: 0 5px !important;
+    gap: 3px !important;
+    font-size: 8px !important;
+  }
+  header.topbar > .network-main-bar .network-main-open-button {
+    min-height: 30px !important;
+    padding: 0 7px !important;
+    gap: 4px !important;
+    font-size: 8px !important;
+  }
+  header.topbar > .network-main-bar .network-main-feature-row {
+    grid-template-columns: repeat(3, minmax(155px, 1fr)) !important;
+    gap: 5px !important;
+    margin-top: 7px !important;
+    overflow-x: auto !important;
+    padding-bottom: 2px !important;
+  }
+  header.topbar > .network-main-bar .network-main-feature {
+    min-height: 48px !important;
+    padding: 6px !important;
+    gap: 6px !important;
+  }
+  header.topbar > .network-main-bar .network-main-feature-mark {
+    width: 24px !important;
+    height: 24px !important;
+    flex-basis: 24px !important;
+    font-size: 12px !important;
+  }
+  header.topbar > .network-main-bar .network-main-feature-copy strong {
+    font-size: 8px !important;
+  }
+  header.topbar > .network-main-bar .network-main-feature-copy small {
+    font-size: 7px !important;
+    line-height: 1.3 !important;
+  }
+  header.topbar > .network-main-bar .network-main-feature-copy em,
+  header.topbar > .network-main-bar .network-main-feature-cta {
+    display: none !important;
+  }
+  header.topbar > .network-main-bar:has(.network-main-workspace) {
+    max-height: 58vh !important;
+    overflow-y: auto !important;
+  }
+  header.topbar > .network-main-bar .network-main-workspace {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
 </style>
