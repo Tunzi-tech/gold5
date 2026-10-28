@@ -25764,3 +25764,32 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
 }
 
 </style>
+
+
+/* Subtle living-green land glow under the header, blended into the existing violet Earth atmosphere. */
+.main:has(.home-commons-content) > .topbar {
+  background:
+    radial-gradient(ellipse at 72% 148%, rgba(70, 166, 111, .20) 0%, rgba(45, 126, 94, .11) 25%, transparent 51%),
+    radial-gradient(ellipse at 78% 145%, rgba(119, 79, 183, .30) 0%, rgba(83, 56, 132, .19) 27%, rgba(35, 27, 58, .10) 48%, transparent 68%),
+    rgba(8, 13, 22, .84);
+}
+.main:has(.home-commons-content) > .topbar::after {
+  background:
+    radial-gradient(ellipse at 30% 68%, rgba(74, 177, 111, .52) 0 7%, transparent 24%),
+    radial-gradient(ellipse at 50% 77%, rgba(41, 129, 91, .52) 0 10%, transparent 29%),
+    radial-gradient(ellipse at 34% 31%, rgba(190,164,255,.42) 0 5%, transparent 22%),
+    radial-gradient(ellipse at 64% 43%, rgba(122,86,190,.48) 0 9%, transparent 25%),
+    radial-gradient(ellipse at 42% 64%, rgba(91,62,148,.68) 0 11%, transparent 29%),
+    radial-gradient(circle at 35% 30%, #554477 0%, #292142 44%, #100f20 68%, transparent 70%);
+  box-shadow: inset -22px -14px 42px rgba(4,5,16,.8), 0 0 45px rgba(77,155,105,.10), 0 0 55px rgba(135,83,214,.16);
+}
+/* Make “where you are” feel grounded and alive without overpowering “Impacting”. */
+.hero .hero-where-you-are {
+  color: #a9e5c4;
+  -webkit-text-fill-color: #a9e5c4;
+  text-shadow: 0 0 10px rgba(91, 202, 143, .18), 0 0 22px rgba(72, 165, 127, .10);
+}
+@keyframes hero-where-you-are-life {
+  0%, 100% { text-shadow: 0 0 5px rgba(91, 202, 143, .07); }
+  50% { text-shadow: 0 0 12px rgba(91, 202, 143, .24), 0 0 24px rgba(72, 165, 127, .12); }
+}
