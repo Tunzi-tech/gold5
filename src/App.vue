@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted } from 'vue'
+import StartupRecovery from './components/StartupRecovery.vue'
 import './home-live-flow-vibrancy.css'
 import './desktop-topbar-connected-buttons.css'
 import HelloWorld from './components/HelloWorld.vue'
@@ -177,4 +178,5 @@ onBeforeUnmount(() => impactButtonObserver?.disconnect())
 
 <template>
   <HelloWorld />
+  <StartupRecovery />
 </template>
