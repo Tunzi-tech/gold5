@@ -18,9 +18,26 @@ function addDiagnostic(message: string) {
   if (diagnostics.value.length > 5) diagnostics.value.shift()
 }
 
-function appLooksReady() {
-  // The app's normal desktop/mobile shell is marked by the existing top bar or main layout.
-  return Boolean(document.querySelector('header.topbar, .main, .home-commons-content'))
+function startupIsComplete() {
+  // The existing shell may render before its opening overlay disappears, so check both.
+  const shellExists = Boolean(document.querySelector('header.topbar, .main, .home-commons-content'))
+  if (!shellExists) return false
+
+  const candidates = document.querySelectorAll(
+    '[class*="opening" i], [class*="loading" i], [aria-label*="loading" i], [role="progressbar"]'
+  )
+  const viewportArea = Math.max(1, window.innerWidth * window.innerHeight)
+  for (const element of candidates) {
+    if (element.closest('.startup-recovery')) continue
+    const style = window.getComputedStyle(element)
+    if (style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0) continue
+    const rect = element.getBoundingClientRect()
+    const area = Math.max(0, rect.width) * Math.max(0, rect.height)
+    const coversMostScreen = area >= viewportArea * 0.35
+    const isFixedOverlay = style.position === 'fixed' && area >= viewportArea * 0.18
+    if (coversMostScreen || isFixedOverlay) return false
+  }
+  return true
 }
 
 function clearStartupTimers() {
@@ -33,19 +50,19 @@ function startWatchdog() {
   clearStartupTimers()
   mode.value = null
   warningTimer = window.setTimeout(() => {
-    if (!appLooksReady()) {
+    if (!startupIsComplete()) {
       mode.value = 'warning'
       addDiagnostic('The main platform layout has not appeared after 10 seconds.')
     }
   }, 10_000)
   recoveryTimer = window.setTimeout(() => {
-    if (!appLooksReady()) {
+    if (!startupIsComplete()) {
       mode.value = 'recovery'
       addDiagnostic('Startup is still incomplete after 20 seconds.')
     }
   }, 20_000)
   readinessTimer = window.setInterval(() => {
-    if (appLooksReady()) {
+    if (startupIsComplete()) {
       mode.value = null
       clearStartupTimers()
     }
@@ -56,7 +73,7 @@ function handleWindowError(event: ErrorEvent) {
   const message = event.message || 'An unexpected JavaScript error occurred.'
   addDiagnostic(message.slice(0, 220))
   // Avoid covering a functioning platform for a recoverable error.
-  if (!appLooksReady()) {
+  if (!startupIsComplete()) {
     mode.value = 'warning'
     if (!recoveryTimer) recoveryTimer = window.setTimeout(() => { mode.value = 'recovery' }, 20_000)
   }
@@ -66,7 +83,7 @@ function handleUnhandledRejection(event: PromiseRejectionEvent) {
   const reason = event.reason
   const message = reason instanceof Error ? reason.message : String(reason ?? 'Unhandled promise rejection')
   addDiagnostic(('Unhandled promise rejection: ' + message).slice(0, 220))
-  if (!appLooksReady()) mode.value = 'warning'
+  if (!startupIsComplete()) mode.value = 'warning'
 }
 
 function handleResourceError(event: Event) {
@@ -75,7 +92,7 @@ function handleResourceError(event: Event) {
   if (target instanceof HTMLLinkElement && !/stylesheet/i.test(target.rel)) return
   const resource = target instanceof HTMLScriptElement ? target.src : target.href
   addDiagnostic(('A script or stylesheet failed to load: ' + (resource || 'unknown resource')).slice(0, 220))
-  if (!appLooksReady()) mode.value = 'warning'
+  if (!startupIsComplete()) mode.value = 'warning'
 }
 
 function retryStartup() {
@@ -87,7 +104,7 @@ function retryStartup() {
   retryCount.value += 1
   startWatchdog()
   window.setTimeout(() => {
-    if (!appLooksReady()) mode.value = 'recovery'
+    if (!startupIsComplete()) mode.value = 'recovery'
   }, 20_000)
 }
 
@@ -107,7 +124,7 @@ onMounted(() => {
   window.addEventListener('unhandledrejection', handleUnhandledRejection)
   document.addEventListener('error', handleResourceError, true)
   observer = new MutationObserver(() => {
-    if (appLooksReady()) {
+    if (startupIsComplete()) {
       mode.value = null
       clearStartupTimers()
     }
