@@ -25763,9 +25763,6 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
   }
 }
 
-</style>
-
-
 /* Subtle living-green land glow under the header, blended into the existing violet Earth atmosphere. */
 .main:has(.home-commons-content) > .topbar {
   background:
@@ -25793,3 +25790,5 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
   0%, 100% { text-shadow: 0 0 5px rgba(91, 202, 143, .07); }
   50% { text-shadow: 0 0 12px rgba(91, 202, 143, .24), 0 0 24px rgba(72, 165, 127, .12); }
 }
+
+</style>
