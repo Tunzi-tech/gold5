@@ -357,6 +357,8 @@ watch([joinedChannelIds, messageThreads, scope], () => {
 @media (min-width: 761px) {
   header.topbar:has(> .network-main-bar) {
     position: relative !important;
+    z-index: 10010 !important;
+    overflow: visible !important;
     margin-bottom: 154px !important;
   }
   header.topbar > .network-main-bar {
