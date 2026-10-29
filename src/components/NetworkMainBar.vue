@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 type NetworkScope = 'local' | 'world'
 type ChatMessage = { id: number; author: string; text: string; time: string }
@@ -75,6 +75,45 @@ function sendMessage() {
 function isJoined(id: string) {
   return joinedChannelIds.value.includes(id)
 }
+
+function syncDesktopLiveFlowLayout() {
+  const header = document.querySelector<HTMLElement>('header.topbar')
+  if (!header) return
+  const controls = Array.from(header.querySelectorAll<HTMLElement>('button, [role="button"], a'))
+  const liveFlow = controls.find((control) => {
+    const label = [
+      control.textContent ?? '',
+      control.getAttribute('aria-label') ?? '',
+      control.getAttribute('title') ?? '',
+      control.getAttribute('data-view') ?? '',
+    ].join(' ').replace(/\\s+/g, ' ').trim()
+    return /^(live flow|flux en direct|التدفق المباشر)(\\s|$)/i.test(label)
+  })
+  const isLiveFlow = !!liveFlow && (
+    liveFlow.getAttribute('aria-pressed') === 'true' ||
+    liveFlow.getAttribute('aria-current') === 'page' ||
+    liveFlow.classList.contains('active') ||
+    liveFlow.classList.contains('selected') ||
+    liveFlow.getAttribute('data-active') === 'true'
+  )
+  header.classList.toggle('nfas-main-bar-live-flow', isLiveFlow)
+}
+
+onMounted(() => {
+  syncDesktopLiveFlowLayout()
+  document.addEventListener('click', syncDesktopLiveFlowLayout, true)
+  const navObserver = new MutationObserver(syncDesktopLiveFlowLayout)
+  navObserver.observe(document.querySelector('header.topbar') ?? document.body, {
+    subtree: true,
+    childList: true,
+    attributes: true,
+    attributeFilter: ['class', 'aria-pressed', 'aria-current', 'data-active', 'data-view'],
+  })
+  onBeforeUnmount(() => {
+    document.removeEventListener('click', syncDesktopLiveFlowLayout, true)
+    navObserver.disconnect()
+  })
+})
 
 onMounted(() => {
   try {
@@ -472,6 +511,39 @@ watch([joinedChannelIds, messageThreads, scope], () => {
   }
   header.topbar > .network-main-bar .network-main-workspace {
     grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+
+
+/* Desktop Live Flow: bring each feature action up beside its icon. */
+@media (min-width: 761px) {
+  header.topbar.nfas-main-bar-live-flow > .network-main-bar .network-main-feature {
+    align-items: flex-start;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    gap: 7px;
+  }
+  header.topbar.nfas-main-bar-live-flow > .network-main-bar .network-main-feature-mark {
+    width: 27px;
+    height: 27px;
+    flex-basis: 27px;
+    font-size: 14px;
+  }
+  header.topbar.nfas-main-bar-live-flow > .network-main-bar .network-main-feature-copy {
+    align-self: flex-start;
+    gap: 3px;
+  }
+  header.topbar.nfas-main-bar-live-flow > .network-main-bar .network-main-feature-cta {
+    align-self: flex-start;
+    margin-left: auto;
+    margin-top: 1px;
+    padding: 4px 7px;
+    border: 1px solid rgba(130, 183, 235, .25);
+    border-radius: 7px;
+    background: rgba(63, 102, 157, .18);
+    font-size: 8px;
+    line-height: 1.2;
   }
 }
 
