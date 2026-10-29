@@ -115,7 +115,7 @@ onMounted(() => {
   syncDesktopLiveFlowLayout()
   document.addEventListener('click', syncDesktopLiveFlowLayout, true)
   const navObserver = new MutationObserver(syncDesktopLiveFlowLayout)
-  navObserver.observe(document.querySelector('header.topbar') ?? document.body, {
+  navObserver.observe(document.body, {
     subtree: true,
     childList: true,
     attributes: true,
