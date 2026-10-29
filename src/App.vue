@@ -4,10 +4,58 @@ import StartupRecovery from './components/StartupRecovery.vue'
 import './home-live-flow-vibrancy.css'
 import './desktop-topbar-connected-buttons.css'
 import './discover-quick-panel.css'
+import './network-main-bar-context.css'
 import HelloWorld from './components/HelloWorld.vue'
 
 let impactButtonObserver: MutationObserver | undefined
 let discoverPanelOpen = false
+
+function setNetworkMainBarVisibility(visible: boolean) {
+  const header = document.querySelector<HTMLElement>('header.topbar')
+  if (!header) return
+  header.classList.toggle('nfas-main-bar-hidden', !visible)
+  const mainBar = header.querySelector<HTMLElement>(':scope > .network-main-bar')
+  if (mainBar) {
+    mainBar.setAttribute('aria-hidden', visible ? 'false' : 'true')
+    mainBar.inert = !visible
+  }
+}
+
+function isHomeNavigationControl(control: HTMLElement): boolean {
+  const label = [
+    control.textContent ?? '',
+    control.getAttribute('aria-label') ?? '',
+    control.getAttribute('title') ?? '',
+    control.getAttribute('data-view') ?? '',
+    control.getAttribute('data-action') ?? '',
+  ].join(' ').replace(/\\s+/g, ' ').trim()
+  return /^(home|accueil|الرئيسية)(\\s|$)/i.test(label)
+}
+
+function handleMainBarNavigation(event: MouseEvent) {
+  const target = event.target as HTMLElement | null
+  const control = target?.closest<HTMLElement>('button, [role="button"], a')
+  if (!control) return
+
+  const sidebar = control.closest('.sidebar, [class*="sidebar"], nav[aria-label], [role="navigation"]')
+  const inTopbar = !!control.closest('header.topbar')
+
+  if (sidebar) {
+    setNetworkMainBarVisibility(isHomeNavigationControl(control))
+    return
+  }
+
+  if (inTopbar) {
+    const label = [
+      control.textContent ?? '',
+      control.getAttribute('aria-label') ?? '',
+      control.getAttribute('title') ?? '',
+      control.getAttribute('data-view') ?? '',
+    ].join(' ').replace(/\\s+/g, ' ').trim()
+    if (/^(home|accueil|الرئيسية)(\\s|$)/i.test(label)) setNetworkMainBarVisibility(true)
+    else if (/^(live flow|learn|discover|flux en direct|apprendre|découvrir|decouvrir|التدفق المباشر|تعلّم|تعلم|اكتشف)(\\s|$)/i.test(label)) setNetworkMainBarVisibility(false)
+  }
+}
 
 const discoverCards = [
   { title: 'Explore what people are doing', detail: 'Discover people, ideas and actions in motion.', icon: '◎', target: 'people' },
@@ -267,6 +315,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   impactButtonObserver?.disconnect()
   document.removeEventListener('click', handleDiscoverClick, true)
+  document.removeEventListener('click', handleMainBarNavigation, true)
   closeDiscoverPanel()
 })
 </script>
