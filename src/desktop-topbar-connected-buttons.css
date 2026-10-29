@@ -35,3 +35,51 @@
     transition: none;
   }
 }
+
+
+/* Desktop Impact control: a calm green outline with an orbital ring around its icon. */
+@media (min-width: 761px) {
+  header.topbar .nfas-impact-orbit-target {
+    position: relative;
+    border: 1px solid rgba(105, 220, 151, 0.82) !important;
+    border-radius: 999px !important;
+    box-shadow: 0 0 0 1px rgba(105, 220, 151, 0.08),
+      inset 0 0 0 1px rgba(105, 220, 151, 0.06);
+    isolation: isolate;
+  }
+
+  header.topbar .nfas-impact-orbit-target::before {
+    content: "";
+    position: absolute;
+    width: 1.8em;
+    height: 1.8em;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(105, 220, 151, 0.82);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+    box-shadow: 0 0 8px rgba(74, 210, 135, 0.12);
+  }
+
+  header.topbar .nfas-impact-orbit-target:hover,
+  header.topbar .nfas-impact-orbit-target:focus-visible,
+  header.topbar .nfas-impact-orbit-target.active,
+  header.topbar .nfas-impact-orbit-target[aria-pressed="true"],
+  header.topbar .nfas-impact-orbit-target[aria-current="page"] {
+    border-color: rgba(125, 239, 166, 1) !important;
+    box-shadow: 0 0 0 1px rgba(105, 220, 151, 0.2),
+      0 0 12px rgba(74, 210, 135, 0.12),
+      inset 0 0 0 1px rgba(105, 220, 151, 0.1);
+  }
+
+  header.topbar .nfas-impact-orbit-target:hover::before,
+  header.topbar .nfas-impact-orbit-target:focus-visible::before,
+  header.topbar .nfas-impact-orbit-target.active::before,
+  header.topbar .nfas-impact-orbit-target[aria-pressed="true"]::before,
+  header.topbar .nfas-impact-orbit-target[aria-current="page"]::before {
+    border-color: rgba(125, 239, 166, 1);
+    box-shadow: 0 0 10px rgba(74, 210, 135, 0.2);
+  }
+}
