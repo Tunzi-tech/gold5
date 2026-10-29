@@ -536,17 +536,17 @@ watch([joinedChannelIds, messageThreads, scope], () => {
     padding-bottom: 8px;
     gap: 7px;
   }
-  header.topbar.nfas-main-bar-live-flow > .network-main-bar .network-main-feature-mark {
+  .network-main-bar.nfas-live-flow-layout .network-main-feature-mark {
     width: 27px;
     height: 27px;
     flex-basis: 27px;
     font-size: 14px;
   }
-  header.topbar.nfas-main-bar-live-flow > .network-main-bar .network-main-feature-copy {
+  .network-main-bar.nfas-live-flow-layout .network-main-feature-copy {
     align-self: flex-start;
     gap: 3px;
   }
-  header.topbar.nfas-main-bar-live-flow > .network-main-bar .network-main-feature-cta {
+  .network-main-bar.nfas-live-flow-layout .network-main-feature-cta {
     align-self: flex-start;
     margin-left: auto;
     margin-top: 1px;
