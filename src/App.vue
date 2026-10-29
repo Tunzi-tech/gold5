@@ -89,7 +89,10 @@ function openImpactEverywherePicker() {
         <strong>What matters to you?</strong>
         <span>Choose the areas you care about. Your choices stay for this browser session.</span>
       </div>
-      <button type="button" class="nfas-impact-everywhere-picker-close" aria-label="Close">×</button>
+      <div class="nfas-impact-everywhere-heading-actions">
+        <button type="button" data-impact-everywhere-done>Done <span aria-hidden="true">→</span></button>
+        <button type="button" class="nfas-impact-everywhere-picker-close" aria-label="Close">×</button>
+      </div>
     </div>
     <label class="nfas-impact-everywhere-search">
       <span aria-hidden="true">⌕</span>
@@ -115,7 +118,6 @@ function openImpactEverywherePicker() {
     <div class="nfas-impact-everywhere-no-results" data-impact-everywhere-no-results hidden>No matching areas. Try another search.</div>
     <div class="nfas-impact-everywhere-picker-footer">
       <span>Pick as many as you like · You can change these anytime</span>
-      <button type="button" data-impact-everywhere-done>Done <span aria-hidden="true">→</span></button>
     </div>
   `
 
