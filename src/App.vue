@@ -317,6 +317,7 @@ function markImpactDiscoveryCue() {
 }
 
 function refreshImpactCues() {
+  ensureImpactEverywhereHeader()
   markDesktopTopbarButtons()
   markTopbarImpactButton()
   markImpactDiscoveryCue()
