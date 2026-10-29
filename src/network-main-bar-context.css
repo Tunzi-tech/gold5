@@ -295,3 +295,47 @@ header.topbar.nfas-main-bar-hidden > .network-main-bar {
   .nfas-impact-everywhere-tools > div { flex-wrap:wrap; justify-content:flex-end; }
 }
 @media (prefers-reduced-motion:reduce) { .nfas-impact-everywhere-option { transition:none !important; } }
+
+
+/* Strong, unmistakable selected state: elevated glass chip with a glowing orbit marker. */
+.nfas-impact-everywhere-option { position:relative; }
+.nfas-impact-everywhere-option:has(input:checked) {
+  border-color: rgba(113, 231, 211, .9) !important;
+  background: linear-gradient(120deg, rgba(51, 177, 158, .29), rgba(68, 119, 204, .25) 62%, rgba(121, 92, 198, .2)) !important;
+  color: #f4fffd !important;
+  box-shadow: 0 0 0 1px rgba(104, 223, 203, .16), 0 4px 16px rgba(41, 155, 152, .13), inset 0 1px 0 rgba(225, 255, 250, .12) !important;
+}
+.nfas-impact-everywhere-option:has(input:checked)::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border: 1px solid rgba(143, 237, 220, .11);
+  border-radius: inherit;
+  pointer-events: none;
+}
+.nfas-impact-everywhere-check {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  border: 1px solid rgba(163, 184, 219, .28);
+  border-radius: 50%;
+  color: transparent;
+  font-size: 9px;
+  transition: background .16s ease, border-color .16s ease, box-shadow .16s ease, transform .16s ease;
+}
+.nfas-impact-everywhere-option:has(input:checked) .nfas-impact-everywhere-check {
+  border-color: #8aefda;
+  background: radial-gradient(circle at 35% 25%, #b7ffed, #65d9c2 68%, #3a9eaa);
+  color: #102d3a;
+  box-shadow: 0 0 0 3px rgba(103, 223, 200, .12), 0 0 12px rgba(103, 223, 200, .27);
+  transform: scale(1.06);
+}
+.nfas-impact-everywhere-option:focus-within {
+  outline: 2px solid rgba(126, 184, 255, .8);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nfas-impact-everywhere-check { transition: none !important; }
+}
