@@ -127,11 +127,6 @@ watch([joinedChannelIds, messageThreads, scope], () => {
     <div class="network-main-bar-top">
       <div class="network-main-brand">
         <span class="network-main-orbit" aria-hidden="true">◎</span>
-        <div class="network-main-heading">
-          <span class="network-main-eyebrow">MAIN BAR · NETWORK CHAT</span>
-          <strong>Find your conversation.</strong>
-          <small>Local questions, global perspectives and channels to join.</small>
-        </div>
       </div>
 
       <div class="network-main-actions">
