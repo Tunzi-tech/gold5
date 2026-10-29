@@ -28,8 +28,8 @@ function isHomeNavigationControl(control: HTMLElement): boolean {
     control.getAttribute('title') ?? '',
     control.getAttribute('data-view') ?? '',
     control.getAttribute('data-action') ?? '',
-  ].join(' ').replace(/\\s+/g, ' ').trim()
-  return /^(home|accueil|الرئيسية)(\\s|$)/i.test(label)
+  ].join(' ').replace(/\s+/g, ' ').trim()
+  return /^(home|accueil|الرئيسية)(\s|$)/i.test(label)
 }
 
 function handleMainBarNavigation(event: MouseEvent) {
@@ -51,9 +51,9 @@ function handleMainBarNavigation(event: MouseEvent) {
       control.getAttribute('aria-label') ?? '',
       control.getAttribute('title') ?? '',
       control.getAttribute('data-view') ?? '',
-    ].join(' ').replace(/\\s+/g, ' ').trim()
-    if (/^(home|accueil|الرئيسية)(\\s|$)/i.test(label)) setNetworkMainBarVisibility(true)
-    else if (/^(live flow|learn|discover|flux en direct|apprendre|découvrir|decouvrir|التدفق المباشر|تعلّم|تعلم|اكتشف)(\\s|$)/i.test(label)) setNetworkMainBarVisibility(false)
+    ].join(' ').replace(/\s+/g, ' ').trim()
+    if (/^(home|accueil|الرئيسية)(\s|$)/i.test(label)) setNetworkMainBarVisibility(true)
+    else if (/^(live flow|learn|discover|flux en direct|apprendre|découvrir|decouvrir|التدفق المباشر|تعلّم|تعلم|اكتشف)(\s|$)/i.test(label)) setNetworkMainBarVisibility(false)
   }
 }
 
@@ -69,8 +69,8 @@ function findDiscoverControl(): HTMLElement | undefined {
   return Array.from(topbar.querySelectorAll<HTMLElement>('button, [role="button"], a'))
     .find((element) => {
       const label = [element.textContent ?? '', element.getAttribute('aria-label') ?? '', element.getAttribute('title') ?? '', element.getAttribute('data-view') ?? '']
-        .join(' ').replace(/\\s+/g, ' ').trim()
-      return /^(discover|découvrir|decouvrir|اكتشف)(\\s|$)/i.test(label)
+        .join(' ').replace(/\s+/g, ' ').trim()
+      return /^(discover|découvrir|decouvrir|اكتشف)(\s|$)/i.test(label)
     })
 }
 
@@ -120,7 +120,7 @@ function openDiscoverPanel() {
           ? 'explore what people are doing'
           : "what’s going on around you"
       const candidates = Array.from(document.querySelectorAll<HTMLElement>('h1, h2, h3, h4, [data-section-title]'))
-      const match = candidates.find((element) => (element.textContent ?? '').replace(/\\s+/g, ' ').trim().toLowerCase().includes(text))
+      const match = candidates.find((element) => (element.textContent ?? '').replace(/\s+/g, ' ').trim().toLowerCase().includes(text))
       closeDiscoverPanel()
       if (match) match.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' })
     })
