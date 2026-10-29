@@ -25792,3 +25792,10 @@ header.topbar.impact-orbit-transferred > .mobile-brand .mobile-brand-mark::after
 }
 
 </style>
+
+
+/* Keep Hide header below the header controls instead of pulling it above them. */
+.home-commons-content .home-hero-control { order: 0 !important; }
+@media (max-width: 760px) {
+  .home-commons-content .home-hero-control { order: 0 !important; margin-top: 2px !important; }
+}
