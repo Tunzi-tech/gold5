@@ -307,7 +307,7 @@ header.topbar.nfas-main-bar-hidden > .network-main-bar {
 }
 .nfas-impact-everywhere-option:has(input:checked) .nfas-impact-everywhere-check {
   border-color: #7ca8e8;
-  background: #6d98dc;
+  background: #172337;
   color: #101c30;
   box-shadow: none;
   transform: none;
