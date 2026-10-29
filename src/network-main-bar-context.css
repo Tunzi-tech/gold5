@@ -319,3 +319,56 @@ header.topbar.nfas-main-bar-hidden > .network-main-bar {
 @media (prefers-reduced-motion: reduce) {
   .nfas-impact-everywhere-check { transition: none !important; }
 }
+
+
+/* Impact Everywhere picker opens above its header, keeping the controls in reach. */
+.nfas-impact-everywhere-picker {
+  top: auto !important;
+  bottom: calc(100% + 8px) !important;
+  right: 0 !important;
+  left: auto !important;
+  max-height: min(76vh, 720px);
+  overflow: auto;
+}
+.nfas-impact-everywhere-picker-heading-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+}
+.nfas-impact-everywhere-heading-actions [data-impact-everywhere-done] {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 11px;
+  border: 1px solid rgba(105, 157, 226, .4);
+  border-radius: 9px;
+  background: rgba(48, 82, 130, .32);
+  color: #eaf2ff;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 650;
+  cursor: pointer;
+}
+.nfas-impact-everywhere-heading-actions [data-impact-everywhere-done]:hover {
+  background: rgba(58, 100, 158, .48);
+  border-color: rgba(126, 184, 255, .62);
+}
+.nfas-impact-everywhere-picker-footer {
+  justify-content: flex-start;
+}
+@media (max-width: 760px) {
+  .nfas-impact-everywhere-picker {
+    position: fixed !important;
+    top: max(10px, env(safe-area-inset-top)) !important;
+    right: 10px !important;
+    bottom: auto !important;
+    left: 10px !important;
+    width: auto !important;
+    max-height: min(82vh, 760px) !important;
+    overflow: auto;
+  }
+  .nfas-impact-everywhere-picker-heading-actions [data-impact-everywhere-done] {
+    padding: 7px 9px;
+  }
+}
