@@ -11,9 +11,15 @@ let impactButtonObserver: MutationObserver | undefined
 let discoverPanelOpen = false
 
 const IMPACT_EVERYWHERE_AREAS = [
-  'People', 'Community', 'Education', 'Health', 'Environment',
-  'Climate', 'Science', 'Culture', 'Technology', 'Local action',
-  'Human rights', 'Ideas & initiatives', 'Volunteering', 'Public spaces',
+  'People & relationships', 'Communities', 'Education & learning', 'Health & wellbeing',
+  'Mental health', 'Environment & nature', 'Climate action', 'Water & oceans',
+  'Energy', 'Biodiversity & animals', 'Food & agriculture', 'Waste & circular economy',
+  'Science & research', 'Technology & digital life', 'Arts & creativity', 'Culture & heritage',
+  'Sports & movement', 'Local action', 'Public spaces', 'Housing & neighbourhoods',
+  'Transport & mobility', 'Economy & work', 'Poverty & basic needs', 'Human rights',
+  'Equality & inclusion', 'Accessibility', 'Children & young people', 'Older adults',
+  'Volunteering', 'Ideas & initiatives', 'Civic life & governance', 'Peace & safety',
+  'Disaster resilience', 'Media & information', 'Global cooperation',
 ] as const
 
 const IMPACT_EVERYWHERE_SESSION_KEY = 'nfas-impact-everywhere-areas'
@@ -78,39 +84,89 @@ function openImpactEverywherePicker() {
   picker.setAttribute('aria-label', 'Choose your impact areas')
   picker.innerHTML = `
     <div class="nfas-impact-everywhere-picker-heading">
-      <div><strong>What would you like to make an impact on?</strong><span>Choose one or more areas. Your choices last for this browser session.</span></div>
+      <div>
+        <span class="nfas-impact-everywhere-eyebrow">YOUR IMPACT MAP</span>
+        <strong>What matters to you?</strong>
+        <span>Choose the areas you care about. Your choices stay for this browser session.</span>
+      </div>
       <button type="button" class="nfas-impact-everywhere-picker-close" aria-label="Close">×</button>
     </div>
-    <div class="nfas-impact-everywhere-options">
+    <label class="nfas-impact-everywhere-search">
+      <span aria-hidden="true">⌕</span>
+      <input type="search" data-impact-everywhere-search placeholder="Search people, causes, places…" aria-label="Search impact areas">
+      <kbd>/</kbd>
+    </label>
+    <div class="nfas-impact-everywhere-tools">
+      <span data-impact-everywhere-count>${selected.size} selected</span>
+      <div>
+        <button type="button" data-impact-everywhere-select-visible>Select visible</button>
+        <button type="button" data-impact-everywhere-clear>Clear all</button>
+      </div>
+    </div>
+    <div class="nfas-impact-everywhere-options" data-impact-everywhere-options>
       ${IMPACT_EVERYWHERE_AREAS.map((area) => `
-        <label class="nfas-impact-everywhere-option">
+        <label class="nfas-impact-everywhere-option" data-impact-area-option>
           <input type="checkbox" value="${area}" ${selected.has(area) ? 'checked' : ''}>
           <span>${area}</span>
+          <span class="nfas-impact-everywhere-check" aria-hidden="true">✓</span>
         </label>
       `).join('')}
     </div>
+    <div class="nfas-impact-everywhere-no-results" data-impact-everywhere-no-results hidden>No matching areas. Try another search.</div>
     <div class="nfas-impact-everywhere-picker-footer">
-      <span data-impact-everywhere-count>${selected.size} selected</span>
-      <button type="button" data-impact-everywhere-done>Done</button>
+      <span>Pick as many as you like · You can change these anytime</span>
+      <button type="button" data-impact-everywhere-done>Done <span aria-hidden="true">→</span></button>
     </div>
   `
 
   bar.appendChild(picker)
   const count = picker.querySelector<HTMLElement>('[data-impact-everywhere-count]')
-  const updateSelection = () => {
+  const search = picker.querySelector<HTMLInputElement>('[data-impact-everywhere-search]')
+  const options = Array.from(picker.querySelectorAll<HTMLElement>('[data-impact-area-option]'))
+  const noResults = picker.querySelector<HTMLElement>('[data-impact-everywhere-no-results]')
+
+  const updateCount = () => {
+    const values = Array.from(picker.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked')).map((input) => input.value)
+    if (count) count.textContent = `${values.length} selected`
+    if (noResults) noResults.hidden = options.some((option) => !option.hidden)
+  }
+  const saveSelection = () => {
     const values = Array.from(picker.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked')).map((input) => input.value)
     sessionStorage.setItem(IMPACT_EVERYWHERE_SESSION_KEY, JSON.stringify(values))
-    if (count) count.textContent = `${values.length} selected`
+    updateCount()
     renderImpactEverywhereSelections()
   }
+  const filterOptions = () => {
+    const query = (search?.value ?? '').trim().toLocaleLowerCase()
+    options.forEach((option) => {
+      const label = option.querySelector('span')?.textContent?.toLocaleLowerCase() ?? ''
+      option.hidden = !label.includes(query)
+    })
+    updateCount()
+  }
+
   picker.querySelectorAll<HTMLInputElement>('input[type="checkbox"]').forEach((input) => {
-    input.addEventListener('change', updateSelection)
+    input.addEventListener('change', saveSelection)
+  })
+  search?.addEventListener('input', filterOptions)
+  picker.querySelector('[data-impact-everywhere-select-visible]')?.addEventListener('click', () => {
+    options.forEach((option) => {
+      if (!option.hidden) {
+        const input = option.querySelector<HTMLInputElement>('input')
+        if (input) input.checked = true
+      }
+    })
+    saveSelection()
+  })
+  picker.querySelector('[data-impact-everywhere-clear]')?.addEventListener('click', () => {
+    picker.querySelectorAll<HTMLInputElement>('input[type="checkbox"]').forEach((input) => { input.checked = false })
+    saveSelection()
   })
   picker.querySelector('.nfas-impact-everywhere-picker-close')?.addEventListener('click', closeImpactEverywherePicker)
   picker.querySelector('[data-impact-everywhere-done]')?.addEventListener('click', closeImpactEverywherePicker)
   bar.querySelector('[data-impact-everywhere-toggle]')?.setAttribute('aria-expanded', 'true')
+  filterOptions()
 }
-
 function ensureImpactEverywhereHeader() {
   const topbar = document.querySelector<HTMLElement>('header.topbar')
   if (!topbar || !topbar.parentElement) return
