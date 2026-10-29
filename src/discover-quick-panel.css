@@ -1,0 +1,57 @@
+/* Discover quick panel — sits immediately above the existing topbar. */
+.nfas-discover-quick-panel {
+  position: relative;
+  z-index: 40;
+  width: 100%;
+  padding: 12px clamp(12px, 2.6vw, 34px) 14px;
+  color: #eef5ff;
+  background:
+    radial-gradient(ellipse at 12% 0%, rgba(66, 123, 230, .16), transparent 42%),
+    radial-gradient(ellipse at 88% 100%, rgba(121, 77, 204, .13), transparent 42%),
+    rgba(8, 15, 32, .97);
+  border-bottom: 1px solid rgba(121, 157, 220, .17);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .18);
+  animation: nfas-discover-panel-in .22s ease-out both;
+}
+.nfas-discover-panel-inner { position: relative; max-width: 1440px; margin: 0 auto; padding-right: 30px; }
+.nfas-discover-panel-intro { display: flex; align-items: baseline; gap: 12px; margin: 0 0 10px; }
+.nfas-discover-eyebrow { color: #8eb9ff; font-size: 10px; font-weight: 800; letter-spacing: .2em; }
+.nfas-discover-panel-intro p { margin: 0; color: rgba(224, 234, 250, .68); font-size: 12px; }
+.nfas-discover-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.nfas-discover-card {
+  display: flex; align-items: center; gap: 12px; min-width: 0; min-height: 68px;
+  padding: 12px 14px; text-align: left; color: inherit; cursor: pointer;
+  border: 1px solid rgba(128, 159, 220, .16); border-radius: 15px;
+  background: linear-gradient(120deg, rgba(45, 81, 139, .24), rgba(72, 48, 112, .18));
+  transition: border-color .18s ease, background .18s ease, transform .18s ease;
+}
+.nfas-discover-card:hover, .nfas-discover-card:focus-visible {
+  border-color: rgba(123, 174, 255, .55);
+  background: linear-gradient(120deg, rgba(48, 100, 177, .34), rgba(93, 63, 145, .28));
+  transform: translateY(-1px); outline: none;
+}
+.nfas-discover-card-icon { display: grid; flex: 0 0 36px; width: 36px; height: 36px; place-items: center; border-radius: 50%; font-size: 20px; color: #a9cbff; background: rgba(95, 144, 227, .13); border: 1px solid rgba(130, 173, 245, .22); }
+.nfas-discover-card-2 .nfas-discover-card-icon { color: #a9e8ca; background: rgba(64, 157, 125, .13); border-color: rgba(101, 203, 161, .23); }
+.nfas-discover-card-3 .nfas-discover-card-icon { color: #d1baff; background: rgba(139, 101, 209, .14); border-color: rgba(174, 139, 241, .24); }
+.nfas-discover-card-copy { display: flex; flex: 1; flex-direction: column; gap: 4px; min-width: 0; }
+.nfas-discover-card-copy strong { font-size: 13px; line-height: 1.3; font-weight: 700; }
+.nfas-discover-card-copy small { color: rgba(221, 231, 248, .6); font-size: 11px; line-height: 1.35; }
+.nfas-discover-card-arrow { color: rgba(183, 205, 244, .66); font-size: 16px; }
+.nfas-discover-close { position: absolute; top: -2px; right: 0; width: 26px; height: 26px; border: 0; border-radius: 50%; background: rgba(255,255,255,.06); color: #b8c9e5; font-size: 20px; cursor: pointer; }
+.nfas-discover-close:hover { background: rgba(255,255,255,.12); color: white; }
+@keyframes nfas-discover-panel-in { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 700px) {
+  .nfas-discover-quick-panel { padding: 10px 12px 12px; }
+  .nfas-discover-panel-inner { padding-right: 26px; }
+  .nfas-discover-panel-intro { display: block; padding-right: 8px; margin-bottom: 9px; }
+  .nfas-discover-panel-intro p { margin-top: 4px; font-size: 11px; }
+  .nfas-discover-cards { grid-template-columns: 1fr; gap: 7px; }
+  .nfas-discover-card { min-height: 56px; padding: 9px 11px; gap: 10px; border-radius: 12px; }
+  .nfas-discover-card-icon { flex-basis: 32px; width: 32px; height: 32px; font-size: 18px; }
+  .nfas-discover-card-copy strong { font-size: 12px; }
+  .nfas-discover-card-copy small { font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nfas-discover-quick-panel { animation: none; }
+  .nfas-discover-card { transition: none; }
+}
