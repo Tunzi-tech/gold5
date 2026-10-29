@@ -12047,7 +12047,7 @@ textarea:focus-visible {
   }
   .home-commons-content > .home-impact-discovery-section > .header-quick-rail {
     position: absolute;
-    top: 58px;
+    top: -76px;
     right: 12px;
     z-index: 5;
   }
