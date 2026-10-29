@@ -10,6 +10,28 @@ import HelloWorld from './components/HelloWorld.vue'
 let impactButtonObserver: MutationObserver | undefined
 let discoverPanelOpen = false
 
+function ensureImpactEverywhereHeader() {
+  const topbar = document.querySelector<HTMLElement>('header.topbar')
+  if (!topbar || !topbar.parentElement) return
+
+  let bar = topbar.parentElement.querySelector<HTMLElement>(':scope > [data-nfas-impact-everywhere]')
+  if (bar) return
+
+  bar = document.createElement('section')
+  bar.className = 'nfas-impact-everywhere-header'
+  bar.setAttribute('data-nfas-impact-everywhere', '')
+  bar.setAttribute('aria-label', 'Impact Everywhere')
+  bar.innerHTML = `
+    <span class="nfas-impact-everywhere-orbit" aria-hidden="true"><span></span><span></span><span></span></span>
+    <span class="nfas-impact-everywhere-copy">
+      <strong>Impact Everywhere</strong>
+      <span>People <i>·</i> Voices <i>·</i> Ideas <i>·</i> Action</span>
+    </span>
+    <span class="nfas-impact-everywhere-note">CONNECT WHAT MATTERS</span>
+  `
+  topbar.insertAdjacentElement('afterend', bar)
+}
+
 function setNetworkMainBarVisibility(visible: boolean) {
   const header = document.querySelector<HTMLElement>('header.topbar')
   if (!header) return
