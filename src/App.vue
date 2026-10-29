@@ -38,8 +38,12 @@ function renderImpactEverywhereSelections() {
   if (!bar || !list) return
 
   const selected = getImpactEverywhereSelections()
-  list.replaceChildren()
+  const current = Array.from(list.querySelectorAll<HTMLElement>('.nfas-impact-everywhere-chip')).map((chip) => chip.textContent ?? '')
+  const isEmptyState = !!list.querySelector('.nfas-impact-everywhere-empty')
+  if (selected.length === 0 && isEmptyState) return
+  if (selected.length > 0 && selected.length === current.length && selected.every((area, index) => area === current[index])) return
 
+  list.replaceChildren()
   if (!selected.length) {
     const empty = document.createElement('span')
     empty.className = 'nfas-impact-everywhere-empty'
