@@ -220,3 +220,19 @@ header.topbar.nfas-main-bar-hidden > .network-main-bar {
     transition: none !important;
   }
 }
+
+
+/* Keep the Impact Everywhere picker visible above the header instead of clipping it. */
+.nfas-impact-everywhere-header {
+  overflow: visible !important;
+  z-index: 40 !important;
+}
+.nfas-impact-everywhere-picker {
+  z-index: 1000;
+  pointer-events: auto;
+}
+.nfas-impact-everywhere-toggle {
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
+}
