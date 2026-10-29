@@ -1,0 +1,10 @@
+/* The Network Chat main bar belongs to Home; navigation elsewhere should reclaim the header space. */
+header.topbar.nfas-main-bar-hidden > .network-main-bar {
+  display: none !important;
+}
+@media (min-width: 761px) {
+  header.topbar.nfas-main-bar-hidden:has(> .network-main-bar) {
+    margin-bottom: 0 !important;
+    overflow: visible !important;
+  }
+}
