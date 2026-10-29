@@ -3,9 +3,99 @@ import { onBeforeUnmount, onMounted } from 'vue'
 import StartupRecovery from './components/StartupRecovery.vue'
 import './home-live-flow-vibrancy.css'
 import './desktop-topbar-connected-buttons.css'
+import './discover-quick-panel.css'
 import HelloWorld from './components/HelloWorld.vue'
 
 let impactButtonObserver: MutationObserver | undefined
+let discoverPanelOpen = false
+
+const discoverCards = [
+  { title: 'Explore what people are doing', detail: 'Discover people, ideas and actions in motion.', icon: '◎', target: 'people' },
+  { title: 'Make an impact', detail: 'Find a meaningful way to contribute.', icon: '✳', target: 'impact' },
+  { title: "What’s going on around you", detail: 'See what is happening across your world.', icon: '◌', target: 'around' },
+] as const
+
+function findDiscoverControl(): HTMLElement | undefined {
+  const topbar = document.querySelector('header.topbar')
+  if (!topbar) return undefined
+  return Array.from(topbar.querySelectorAll<HTMLElement>('button, [role="button"], a'))
+    .find((element) => {
+      const label = [element.textContent ?? '', element.getAttribute('aria-label') ?? '', element.getAttribute('title') ?? '', element.getAttribute('data-view') ?? '']
+        .join(' ').replace(/\\s+/g, ' ').trim()
+      return /^(discover|découvrir|decouvrir|اكتشف)(\\s|$)/i.test(label)
+    })
+}
+
+function closeDiscoverPanel() {
+  discoverPanelOpen = false
+  document.querySelector('[data-nfas-discover-panel]')?.remove()
+  findDiscoverControl()?.setAttribute('aria-expanded', 'false')
+}
+
+function openDiscoverPanel() {
+  const header = document.querySelector('header.topbar')
+  if (!header) return
+  closeDiscoverPanel()
+  discoverPanelOpen = true
+
+  const panel = document.createElement('section')
+  panel.className = 'nfas-discover-quick-panel'
+  panel.id = 'nfas-discover-panel'\n  panel.setAttribute('data-nfas-discover-panel', '')
+  panel.setAttribute('aria-label', 'Discover')
+  panel.innerHTML = `
+    <div class="nfas-discover-panel-inner">
+      <div class="nfas-discover-panel-intro">
+        <span class="nfas-discover-eyebrow">DISCOVER</span>
+        <p>Find the people, ideas and activity worth your attention.</p>
+      </div>
+      <div class="nfas-discover-cards">
+        ${discoverCards.map((card, index) => `
+          <button class="nfas-discover-card nfas-discover-card-${index + 1}" type="button" data-discover-target="${card.target}">
+            <span class="nfas-discover-card-icon" aria-hidden="true">${card.icon}</span>
+            <span class="nfas-discover-card-copy"><strong>${card.title}</strong><small>${card.detail}</small></span>
+            <span class="nfas-discover-card-arrow" aria-hidden="true">↗</span>
+          </button>
+        `).join('')}
+      </div>
+      <button class="nfas-discover-close" type="button" aria-label="Close Discover panel">×</button>
+    </div>`
+  header.parentElement?.insertBefore(panel, header)
+
+  panel.querySelector('.nfas-discover-close')?.addEventListener('click', closeDiscoverPanel)
+  panel.querySelectorAll<HTMLButtonElement>('[data-discover-target]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const target = button.dataset.discoverTarget
+      const text = target === 'impact'
+        ? 'find your way to make an impact'
+        : target === 'people'
+          ? 'explore what people are doing'
+          : "what’s going on around you"
+      const candidates = Array.from(document.querySelectorAll<HTMLElement>('h1, h2, h3, h4, [data-section-title]'))
+      const match = candidates.find((element) => (element.textContent ?? '').replace(/\\s+/g, ' ').trim().toLowerCase().includes(text))
+      closeDiscoverPanel()
+      if (match) match.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' })
+    })
+  })
+  findDiscoverControl()?.setAttribute('aria-expanded', 'true')
+}
+
+function handleDiscoverClick(event: MouseEvent) {
+  const control = (event.target as HTMLElement | null)?.closest<HTMLElement>('[data-nfas-discover-toggle]')
+  if (!control) return
+  event.preventDefault()
+  event.stopPropagation()
+  if (discoverPanelOpen) closeDiscoverPanel()
+  else openDiscoverPanel()
+}
+
+function markDiscoverControl() {
+  const control = findDiscoverControl()
+  if (control && !control.hasAttribute('data-nfas-discover-toggle')) {
+    control.setAttribute('data-nfas-discover-toggle', '')
+    control.setAttribute('aria-expanded', 'false')
+    control.setAttribute('aria-controls', 'nfas-discover-panel')
+  }
+}
 
 function markTopbarImpactButton() {
   const topbar = document.querySelector('header.topbar')
@@ -173,7 +263,7 @@ onMounted(() => {
   })
 })
 
-onBeforeUnmount(() => impactButtonObserver?.disconnect())
+onBeforeUnmount(() => {\n  impactButtonObserver?.disconnect()\n  document.removeEventListener('click', handleDiscoverClick, true)\n  closeDiscoverPanel()\n})
 </script>
 
 <template>
