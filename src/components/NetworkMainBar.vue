@@ -561,7 +561,7 @@ watch([joinedChannelIds, messageThreads, scope], () => {
 }
 
 
-/* On desktop Live Flow, reuse the existing feature cards in the open header space. */
+/* Keep the original feature-card colors and icons, but make them compact in desktop Live Flow. */
 @media (min-width: 761px) {
   .network-main-bar.nfas-live-flow-layout .network-main-bar-top {
     justify-content: flex-start;
@@ -576,33 +576,52 @@ watch([joinedChannelIds, messageThreads, scope], () => {
   }
   .network-main-bar.nfas-live-flow-layout .network-main-feature-row {
     position: absolute;
-    top: 8px;
+    top: 10px;
     left: 62px;
     right: 250px;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 7px;
     min-width: 0;
     margin: 0;
   }
   .network-main-bar.nfas-live-flow-layout .network-main-feature {
+    flex: 0 1 auto;
+    width: auto;
+    max-width: 190px;
     min-width: 0;
-    width: 100%;
-    min-height: 52px;
-    padding: 8px 10px;
-    gap: 8px;
+    min-height: 34px;
+    padding: 5px 8px;
+    gap: 6px;
+    align-items: center;
+  }
+  .network-main-bar.nfas-live-flow-layout .network-main-feature-mark {
+    width: 23px;
+    height: 23px;
+    flex: 0 0 23px;
+    font-size: 12px;
   }
   .network-main-bar.nfas-live-flow-layout .network-main-feature-copy {
     min-width: 0;
-    gap: 3px;
+    gap: 1px;
+    align-self: center;
   }
-  .network-main-bar.nfas-live-flow-layout .network-main-feature-copy strong,
+  .network-main-bar.nfas-live-flow-layout .network-main-feature-copy strong {
+    font-size: 10px;
+    line-height: 1.15;
+    white-space: nowrap;
+  }
   .network-main-bar.nfas-live-flow-layout .network-main-feature-copy small {
-    overflow-wrap: anywhere;
+    display: none;
   }
   .network-main-bar.nfas-live-flow-layout .network-main-feature-cta {
     flex: 0 0 auto;
     align-self: center;
+    margin-left: 2px;
+    padding: 3px 6px;
+    font-size: 9px;
+    line-height: 1.1;
   }
 }
 </style>
