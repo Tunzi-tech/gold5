@@ -110,6 +110,7 @@ function syncDesktopLiveFlowLayout() {
     }
   }
   mainBar.classList.toggle('nfas-live-flow-layout', selected)
+  mainBar.classList.toggle('nfas-home-layout', !selected)
 }
 onMounted(() => {
   syncDesktopLiveFlowLayout()
@@ -178,6 +179,24 @@ watch([joinedChannelIds, messageThreads, scope], () => {
     <div class="network-main-bar-top">
       <div class="network-main-brand">
         <span class="network-main-orbit" aria-hidden="true">◎</span>
+      </div>
+
+      <div class="network-main-live-flow-actions" aria-label="Live Flow quick actions">
+        <button type="button" class="network-main-live-action" @click="openFeatured(scope === 'local' ? 'local-question' : 'global-questions')">
+          <span class="network-main-live-action-icon">?</span>
+          <span>{{ scope === 'local' ? 'Discuss' : 'Global questions' }}</span>
+          <span class="network-main-live-action-arrow">↗</span>
+        </button>
+        <button type="button" class="network-main-live-action" @click="openFeatured(scope === 'local' ? 'greener-tunis' : 'ideas-crossing-borders')">
+          <span class="network-main-live-action-icon">✳</span>
+          <span>{{ scope === 'local' ? 'Greener Tunis' : 'Ideas crossing borders' }}</span>
+          <span class="network-main-live-action-arrow">↗</span>
+        </button>
+        <button type="button" class="network-main-live-action" @click="openFeatured('open-invitation')">
+          <span class="network-main-live-action-icon">∞</span>
+          <span>Connect</span>
+          <span class="network-main-live-action-arrow">↗</span>
+        </button>
       </div>
 
       <div class="network-main-actions">
@@ -557,6 +576,62 @@ watch([joinedChannelIds, messageThreads, scope], () => {
     font-size: 8px;
     line-height: 1.2;
   }
+}
+
+
+/* Live Flow quick actions occupy the open space between the orbit and Local/Global. */
+.network-main-live-flow-actions { display:none; }
+@media (min-width: 761px) {
+  .network-main-bar.nfas-live-flow-layout .network-main-bar-top { justify-content:flex-start; gap:12px; }
+  .network-main-bar.nfas-live-flow-layout .network-main-brand { flex:0 0 auto; }
+  .network-main-bar.nfas-live-flow-layout .network-main-live-flow-actions {
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    gap:6px;
+    flex:1 1 auto;
+    min-width:0;
+    overflow:hidden;
+  }
+  .network-main-bar.nfas-live-flow-layout .network-main-live-action {
+    display:flex;
+    align-items:center;
+    gap:6px;
+    min-width:0;
+    min-height:31px;
+    padding:0 9px;
+    border:1px solid rgba(120,164,220,.22);
+    border-radius:9px;
+    background:linear-gradient(115deg,rgba(43,83,133,.24),rgba(57,48,102,.20));
+    color:#c9def8;
+    font:inherit;
+    font-size:9px;
+    font-weight:750;
+    white-space:nowrap;
+    cursor:pointer;
+  }
+  .network-main-bar.nfas-live-flow-layout .network-main-live-action:hover {
+    border-color:rgba(130,190,246,.48);
+    background:linear-gradient(115deg,rgba(43,99,155,.36),rgba(75,61,132,.29));
+  }
+  .network-main-bar.nfas-live-flow-layout .network-main-live-action-icon {
+    display:grid;
+    place-items:center;
+    width:19px;
+    height:19px;
+    flex:0 0 19px;
+    border:1px solid rgba(128,176,231,.23);
+    border-radius:6px;
+    color:#b6d9ff;
+    background:rgba(69,112,177,.17);
+    font-size:11px;
+  }
+  .network-main-bar.nfas-live-flow-layout .network-main-live-action-arrow { color:#83b9ed; }
+  .network-main-bar.nfas-live-flow-layout .network-main-actions { margin-left:auto; }
+  .network-main-bar.nfas-live-flow-layout .network-main-feature-cta { display:none; }
+  .network-main-bar.nfas-live-flow-layout .network-main-feature { align-items:flex-start; padding-top:8px; padding-bottom:8px; gap:7px; }
+  .network-main-bar.nfas-live-flow-layout .network-main-feature-mark { width:27px; height:27px; flex-basis:27px; font-size:14px; }
+  .network-main-bar.nfas-live-flow-layout .network-main-feature-copy { align-self:flex-start; gap:3px; }
 }
 
 </style>
