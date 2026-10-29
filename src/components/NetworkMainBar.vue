@@ -77,28 +77,40 @@ function isJoined(id: string) {
 }
 
 function syncDesktopLiveFlowLayout() {
-  const header = document.querySelector<HTMLElement>('header.topbar')
-  if (!header) return
-  const controls = Array.from(header.querySelectorAll<HTMLElement>('button, [role="button"], a'))
+  const mainBar = document.querySelector<HTMLElement>('.network-main-bar')
+  if (!mainBar || window.matchMedia('(max-width: 760px)').matches) {
+    mainBar?.classList.remove('nfas-live-flow-layout')
+    return
+  }
+
+  const controls = Array.from(document.querySelectorAll<HTMLElement>(
+    'header button, header [role="button"], header a, nav button, nav [role="button"], nav a'
+  ))
   const liveFlow = controls.find((control) => {
     const label = [
       control.textContent ?? '',
       control.getAttribute('aria-label') ?? '',
       control.getAttribute('title') ?? '',
       control.getAttribute('data-view') ?? '',
-    ].join(' ').replace(/\\s+/g, ' ').trim()
-    return /^(live flow|flux en direct|التدفق المباشر)(\\s|$)/i.test(label)
+    ].join(' ').replace(/\s+/g, ' ').trim()
+    return /live\s*flow|flux en direct|التدفق المباشر/i.test(label)
   })
-  const isLiveFlow = !!liveFlow && (
-    liveFlow.getAttribute('aria-pressed') === 'true' ||
-    liveFlow.getAttribute('aria-current') === 'page' ||
-    liveFlow.classList.contains('active') ||
-    liveFlow.classList.contains('selected') ||
-    liveFlow.getAttribute('data-active') === 'true'
-  )
-  header.classList.toggle('nfas-main-bar-live-flow', isLiveFlow)
-}
 
+  let selected = false
+  let node: HTMLElement | null = liveFlow ?? null
+  for (let depth = 0; node && depth < 4; depth += 1, node = node.parentElement) {
+    if (
+      node.getAttribute('aria-pressed') === 'true' ||
+      node.getAttribute('aria-current') === 'page' ||
+      node.getAttribute('data-active') === 'true' ||
+      /(^|\s)(active|selected|is-active|is-selected)(\s|$)/i.test(node.className)
+    ) {
+      selected = true
+      break
+    }
+  }
+  mainBar.classList.toggle('nfas-live-flow-layout', selected)
+}
 onMounted(() => {
   syncDesktopLiveFlowLayout()
   document.addEventListener('click', syncDesktopLiveFlowLayout, true)
@@ -518,7 +530,7 @@ watch([joinedChannelIds, messageThreads, scope], () => {
 
 /* Desktop Live Flow: bring each feature action up beside its icon. */
 @media (min-width: 761px) {
-  header.topbar.nfas-main-bar-live-flow > .network-main-bar .network-main-feature {
+  .network-main-bar.nfas-live-flow-layout .network-main-feature {
     align-items: flex-start;
     padding-top: 8px;
     padding-bottom: 8px;
