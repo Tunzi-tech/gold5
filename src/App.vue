@@ -264,7 +264,10 @@ onMounted(() => {
   })
 })
 
-onBeforeUnmount(() => {\n  impactButtonObserver?.disconnect()\n  document.removeEventListener('click', handleDiscoverClick, true)\n  closeDiscoverPanel()\n})
+onBeforeUnmount(() => {
+  impactButtonObserver?.disconnect()
+  document.removeEventListener('click', handleDiscoverClick, true)
+  closeDiscoverPanel()\n})
 </script>
 
 <template>
