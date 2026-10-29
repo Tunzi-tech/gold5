@@ -236,3 +236,62 @@ header.topbar.nfas-main-bar-hidden > .network-main-bar {
   z-index: 2;
   pointer-events: auto;
 }
+
+
+/* Impact Everywhere selector — horizontal, searchable, and easy to scan. */
+.nfas-impact-everywhere-header { overflow: visible !important; z-index: 40 !important; }
+.nfas-impact-everywhere-picker {
+  position: absolute; top: calc(100% + 9px); right: 0; z-index: 1000;
+  width: min(760px, calc(100vw - 28px)); max-height: min(76vh, 690px); overflow: auto;
+  padding: 19px; border: 1px solid rgba(127, 164, 224, .28); border-radius: 20px;
+  background: radial-gradient(ellipse at 8% 0%, rgba(56, 122, 196, .17), transparent 42%),
+    linear-gradient(145deg, rgba(11, 22, 41, .985), rgba(25, 23, 49, .985));
+  box-shadow: 0 24px 70px rgba(0,0,0,.44), inset 0 1px 0 rgba(255,255,255,.045);
+  backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
+}
+.nfas-impact-everywhere-picker-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:16px; }
+.nfas-impact-everywhere-picker-heading > div { display:flex; flex-direction:column; gap:5px; }
+.nfas-impact-everywhere-eyebrow { color:#82d9cc !important; font-size:9px !important; font-weight:750; letter-spacing:.17em; }
+.nfas-impact-everywhere-picker-heading strong { color:#f0f5ff; font-size:17px; font-weight:700; letter-spacing:-.025em; }
+.nfas-impact-everywhere-picker-heading > div > span:last-child { color:rgba(197,211,236,.72); font-size:11px; line-height:1.5; }
+.nfas-impact-everywhere-picker-close { flex:0 0 30px; width:30px; height:30px; border:1px solid rgba(155,177,218,.14); border-radius:10px; background:rgba(255,255,255,.045); color:#dbe7ff; font-size:20px; cursor:pointer; }
+.nfas-impact-everywhere-picker-close:hover { background:rgba(255,255,255,.1); }
+.nfas-impact-everywhere-search { display:flex; align-items:center; gap:10px; min-height:42px; box-sizing:border-box; margin-bottom:12px; padding:0 12px; border:1px solid rgba(127,164,224,.2); border-radius:12px; background:rgba(5,13,28,.42); color:#9eb6db; }
+.nfas-impact-everywhere-search > span { font-size:22px; line-height:1; }
+.nfas-impact-everywhere-search input { width:100%; min-width:0; border:0; outline:0; background:transparent; color:#edf4ff; font:inherit; font-size:12px; }
+.nfas-impact-everywhere-search input::placeholder { color:rgba(178,196,226,.52); }
+.nfas-impact-everywhere-search:focus-within { border-color:rgba(100,184,205,.6); box-shadow:0 0 0 3px rgba(73,154,181,.09); }
+.nfas-impact-everywhere-search kbd { padding:2px 6px; border:1px solid rgba(162,182,216,.17); border-radius:5px; color:rgba(192,208,234,.6); font-size:10px; }
+.nfas-impact-everywhere-tools { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:0 0 10px; color:#9fded4; font-size:11px; }
+.nfas-impact-everywhere-tools > div { display:flex; gap:6px; }
+.nfas-impact-everywhere-tools button { padding:6px 9px; border:1px solid rgba(132,162,211,.17); border-radius:8px; background:rgba(255,255,255,.035); color:#c6d7f3; font:inherit; font-size:10px; cursor:pointer; }
+.nfas-impact-everywhere-tools button:hover { border-color:rgba(121,187,216,.45); background:rgba(66,119,173,.14); }
+.nfas-impact-everywhere-options { display:flex; flex-wrap:wrap; align-items:flex-start; gap:8px; }
+.nfas-impact-everywhere-option { display:inline-flex; flex:0 0 auto; align-items:center; gap:7px; max-width:100%; min-height:35px; box-sizing:border-box; padding:7px 10px; border:1px solid rgba(133,160,205,.16); border-radius:999px; background:linear-gradient(120deg,rgba(255,255,255,.045),rgba(255,255,255,.018)); color:#d8e5fb; font-size:11px; line-height:1.25; cursor:pointer; user-select:none; transition:background .16s ease,border-color .16s ease,transform .16s ease; }
+.nfas-impact-everywhere-option:hover { border-color:rgba(117,183,218,.46); background:rgba(70,126,179,.13); transform:translateY(-1px); }
+.nfas-impact-everywhere-option input { position:absolute; width:1px; height:1px; opacity:0; pointer-events:none; }
+.nfas-impact-everywhere-option:has(input:checked) { border-color:rgba(100,211,190,.53); background:linear-gradient(115deg,rgba(49,151,148,.2),rgba(75,112,186,.18)); color:#f0fffc; box-shadow:inset 0 0 0 1px rgba(100,211,190,.04); }
+.nfas-impact-everywhere-check { display:inline-grid; place-items:center; width:15px; height:15px; border:1px solid rgba(163,184,219,.23); border-radius:50%; color:transparent; font-size:9px; }
+.nfas-impact-everywhere-option:has(input:checked) .nfas-impact-everywhere-check { border-color:#75d9c5; background:#75d9c5; color:#102b35; }
+.nfas-impact-everywhere-option[hidden] { display:none !important; }
+.nfas-impact-everywhere-no-results { padding:20px 8px; color:rgba(194,210,237,.65); text-align:center; font-size:12px; }
+.nfas-impact-everywhere-no-results[hidden] { display:none !important; }
+.nfas-impact-everywhere-picker-footer { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:17px; padding-top:13px; border-top:1px solid rgba(142,166,208,.13); color:rgba(190,207,234,.62); font-size:10px; }
+.nfas-impact-everywhere-picker-footer button { display:inline-flex; align-items:center; gap:9px; padding:9px 15px; border:1px solid rgba(105,203,186,.4); border-radius:10px; background:linear-gradient(115deg,rgba(51,151,143,.28),rgba(57,105,170,.2)); color:#e4fff9; font:inherit; font-size:11px; font-weight:700; cursor:pointer; }
+.nfas-impact-everywhere-picker-footer button:hover { background:linear-gradient(115deg,rgba(51,151,143,.4),rgba(57,105,170,.32)); }
+.nfas-impact-everywhere-toggle { position:relative; z-index:2; pointer-events:auto; }
+@media (max-width:760px) {
+  .nfas-impact-everywhere-picker { position:fixed; top:auto; right:10px; bottom:10px; left:10px; width:auto; max-height:min(82vh,760px); padding:15px; border-radius:18px; }
+  .nfas-impact-everywhere-picker-heading strong { font-size:15px; }
+  .nfas-impact-everywhere-picker-heading > div > span:last-child { font-size:10px; }
+  .nfas-impact-everywhere-options { gap:7px; }
+  .nfas-impact-everywhere-option { min-height:34px; padding:7px 9px; font-size:10px; }
+  .nfas-impact-everywhere-picker-footer { align-items:flex-start; }
+  .nfas-impact-everywhere-picker-footer > span { max-width:65%; line-height:1.5; }
+}
+@media (max-width:420px) {
+  .nfas-impact-everywhere-picker { padding:12px; }
+  .nfas-impact-everywhere-tools { align-items:flex-start; }
+  .nfas-impact-everywhere-tools > div { flex-wrap:wrap; justify-content:flex-end; }
+}
+@media (prefers-reduced-motion:reduce) { .nfas-impact-everywhere-option { transition:none !important; } }
