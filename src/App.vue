@@ -40,7 +40,8 @@ function openDiscoverPanel() {
 
   const panel = document.createElement('section')
   panel.className = 'nfas-discover-quick-panel'
-  panel.id = 'nfas-discover-panel'\n  panel.setAttribute('data-nfas-discover-panel', '')
+  panel.id = 'nfas-discover-panel'
+  panel.setAttribute('data-nfas-discover-panel', '')
   panel.setAttribute('aria-label', 'Discover')
   panel.innerHTML = `
     <div class="nfas-discover-panel-inner">
