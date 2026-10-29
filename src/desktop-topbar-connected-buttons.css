@@ -155,3 +155,39 @@
     filter: none;
   }
 }
+
+
+/* Desktop Home: give hover a livelier blue glow while keeping its normal state calm. */
+@media (min-width: 761px) {
+  header.topbar .nfas-desktop-connected-topbar-button-1 {
+    transition: background .25s ease, border-color .25s ease, box-shadow .25s ease,
+      color .2s ease, filter .2s ease, transform .2s ease !important;
+  }
+
+  header.topbar .nfas-desktop-connected-topbar-button-1:hover,
+  header.topbar .nfas-desktop-connected-topbar-button-1:focus-visible {
+    background:
+      radial-gradient(130% 170% at 12% 0%, rgba(135, 224, 255, .44), transparent 55%),
+      linear-gradient(118deg, rgba(36, 130, 190, .98), rgba(39, 99, 164, .98) 58%, rgba(73, 78, 158, .96)) !important;
+    border-color: rgba(157, 225, 255, .94) !important;
+    color: #f7fcff !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, .27),
+      inset 0 0 20px rgba(115, 208, 255, .16),
+      0 0 0 1px rgba(85, 181, 255, .17),
+      0 0 22px rgba(45, 151, 235, .32) !important;
+    filter: brightness(1.12) saturate(1.15);
+    transform: translateY(-1px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  header.topbar .nfas-desktop-connected-topbar-button-1 {
+    transition: none !important;
+  }
+  header.topbar .nfas-desktop-connected-topbar-button-1:hover,
+  header.topbar .nfas-desktop-connected-topbar-button-1:focus-visible {
+    transform: none;
+    filter: none;
+  }
+}
