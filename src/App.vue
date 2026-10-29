@@ -198,32 +198,6 @@ function markDesktopTopbarButtons() {
     if (!element || matched.indexOf(element) !== index) return
     element.classList.add('nfas-desktop-connected-topbar-button', `nfas-desktop-connected-topbar-button-${index + 1}`)
   })
-
-  // Idle Live Flow uses a single orb glyph; restore the original icon while selected.
-  const liveFlow = matched[1] as HTMLElement | undefined
-  const liveFlowIcon = liveFlow?.querySelector<SVGSVGElement>('svg')
-  if (liveFlow && liveFlowIcon) {
-    if (!liveFlowIcon.dataset.nfasOriginalIcon) {
-      liveFlowIcon.dataset.nfasOriginalIcon = liveFlowIcon.innerHTML
-    }
-    const selected = liveFlow.matches('.active, [aria-pressed="true"], [aria-current="page"]')
-      || !!liveFlow.querySelector('.active, [aria-pressed="true"], [aria-current="page"]')
-    if (selected) {
-      if (liveFlowIcon.innerHTML !== liveFlowIcon.dataset.nfasOriginalIcon) {
-        liveFlowIcon.innerHTML = liveFlowIcon.dataset.nfasOriginalIcon
-      }
-      liveFlowIcon.classList.remove('nfas-live-flow-idle-orb')
-    } else {
-      const viewBox = liveFlowIcon.getAttribute('viewBox') || '0 0 24 24'
-      const dimensions = viewBox.split(/[ ,]+/).map(Number)
-      const cx = dimensions.length === 4 ? dimensions[0] + dimensions[2] / 2 : 12
-      const cy = dimensions.length === 4 ? dimensions[1] + dimensions[3] / 2 : 12
-      const radius = Math.min(dimensions[2] || 24, dimensions[3] || 24) * 0.22
-      const orb = `<circle cx="${cx}" cy="${cy}" r="${radius}" fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.8"/><circle cx="${cx}" cy="${cy}" r="${radius * 0.42}" fill="currentColor"/>`
-      if (liveFlowIcon.innerHTML !== orb) liveFlowIcon.innerHTML = orb
-      liveFlowIcon.classList.add('nfas-live-flow-idle-orb')
-    }
-  }
 }
 
 function currentImpactLanguage(): 'fr' | 'ar' | 'en' {
@@ -334,7 +308,7 @@ onMounted(() => {
     subtree: true,
     characterData: true,
     attributes: true,
-    attributeFilter: ['aria-label', 'title', 'data-view', 'data-action', 'lang', 'dir', 'class', 'aria-pressed', 'aria-current'],
+    attributeFilter: ['aria-label', 'title', 'data-view', 'data-action', 'lang', 'dir'],
   })
 })
 
