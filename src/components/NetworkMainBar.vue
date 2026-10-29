@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 type NetworkScope = 'local' | 'world'
 type ChatMessage = { id: number; author: string; text: string; time: string }
