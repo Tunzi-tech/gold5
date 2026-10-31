@@ -409,16 +409,28 @@ function markDesktopTopbarButtons() {
     return values.some((value) => pattern.test(value))
   }))
 
-  controls.forEach((element) => {
-    element.classList.remove('nfas-desktop-connected-topbar-button')
-    for (let index = 1; index <= 4; index += 1) {
-      element.classList.remove(`nfas-desktop-connected-topbar-button-${index}`)
-    }
-  })
-
+  const connectedClasses = [
+    'nfas-desktop-connected-topbar-button',
+    'nfas-desktop-connected-topbar-button-1',
+    'nfas-desktop-connected-topbar-button-2',
+    'nfas-desktop-connected-topbar-button-3',
+    'nfas-desktop-connected-topbar-button-4',
+  ]
+  const desiredByElement = new Map< Element, string[]>()
   matched.forEach((element, index) => {
     if (!element || matched.indexOf(element) !== index) return
-    element.classList.add('nfas-desktop-connected-topbar-button', `nfas-desktop-connected-topbar-button-${index + 1}`)
+    desiredByElement.set(element, [
+      'nfas-desktop-connected-topbar-button',
+      `nfas-desktop-connected-topbar-button-${index + 1}`,
+    ])
+  })
+
+  controls.forEach((element) => {
+    const desired = desiredByElement.get(element) ?? []
+    const current = connectedClasses.filter((className) => element.classList.contains(className))
+    if (current.length === desired.length && desired.every((className) => element.classList.contains(className))) return
+    connectedClasses.forEach((className) => element.classList.remove(className))
+    desired.forEach((className) => element.classList.add(className))
   })
 }
 
