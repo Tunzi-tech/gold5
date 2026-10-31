@@ -516,7 +516,37 @@ function markImpactDiscoveryCue() {
   heading.appendChild(orbs)
 }
 
+function markZoneSidebarButtons() {
+  const zoneLabels = [
+    /^(zone around|around you|what's around you|what’s around you|zone autour|autour de vous|حولك|ما حولك)$/i,
+    /^(your zones|mes zones|vos zones|مناطقك|مناطقي)$/i,
+    /^(zones|zone|المناطق)$/i,
+  ]
+  const controls = Array.from(document.querySelectorAll<HTMLElement>(
+    '.sidebar button, .sidebar a, .sidebar [role="button"], [class*="sidebar"] button, [class*="sidebar"] a, [class*="sidebar"] [role="button"], nav button, nav a, nav [role="button"]',
+  ))
+  controls.forEach((control) => {
+    const label = [
+      control.textContent ?? '',
+      control.getAttribute('aria-label') ?? '',
+      control.getAttribute('title') ?? '',
+      control.getAttribute('data-view') ?? '',
+      control.getAttribute('data-action') ?? '',
+    ].join(' ').replace(/\\s+/g, ' ').trim()
+    const matchIndex = zoneLabels.findIndex((pattern) => pattern.test(label))
+    control.classList.remove('nfas-zone-nav-button', 'nfas-zone-nav-button-around', 'nfas-zone-nav-button-yours', 'nfas-zone-nav-button-zones')
+    if (matchIndex < 0) return
+    control.classList.add('nfas-zone-nav-button')
+    control.classList.add(
+      matchIndex === 0 ? 'nfas-zone-nav-button-around'
+        : matchIndex === 1 ? 'nfas-zone-nav-button-yours'
+          : 'nfas-zone-nav-button-zones',
+    )
+  })
+}
+
 function refreshImpactCues() {
+  markZoneSidebarButtons()
   ensureImpactEverywhereHeader()
   markDesktopTopbarButtons()
   markTopbarImpactButton()
