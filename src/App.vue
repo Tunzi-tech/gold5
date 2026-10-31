@@ -517,13 +517,15 @@ function markImpactDiscoveryCue() {
 }
 
 function markZoneSidebarButtons() {
-  const zoneLabels = [
-    /^(zone around|around you|what's around you|what’s around you|zone autour|autour de vous|حولك|ما حولك)$/i,
-    /^(your zones|mes zones|vos zones|مناطقك|مناطقي)$/i,
-    /^(zones|zone|المناطق)$/i,
+  const labelGroups = [
+    { className: 'nfas-zone-nav-button-around', patterns: [/zone around/i, /around you/i, /what'?s around you/i, /zone autour/i, /autour de vous/i, /حولك/i, /ما حولك/i] },
+    { className: 'nfas-zone-nav-button-yours', patterns: [/your zones/i, /mes zones/i, /vos zones/i, /مناطقك/i, /مناطقي/i] },
+    { className: 'nfas-zone-nav-button-zones', patterns: [/^zones?$/i, /\bzones?\b/i, /المناطق/i] },
   ]
+  // Some sidebar controls include icons, counters, or secondary labels, so exact text matching misses them.
+  // Match the visible/accessibility labels by phrase and search nested sidebar navigation controls too.
   const controls = Array.from(document.querySelectorAll<HTMLElement>(
-    '.sidebar button, .sidebar a, .sidebar [role="button"], [class*="sidebar"] button, [class*="sidebar"] a, [class*="sidebar"] [role="button"], nav button, nav a, nav [role="button"]',
+    '.sidebar button, .sidebar a, .sidebar [role="button"], [class*="sidebar"] button, [class*="sidebar"] a, [class*="sidebar"] [role="button"], nav button, nav a, nav [role="button"], button, a, [role="button"]',
   ))
   controls.forEach((control) => {
     const labels = [
@@ -532,16 +534,13 @@ function markZoneSidebarButtons() {
       control.getAttribute('title') ?? '',
       control.getAttribute('data-view') ?? '',
       control.getAttribute('data-action') ?? '',
-    ].map((value) => value.replace(/\s+/g, ' ').trim())
-    const matchIndex = zoneLabels.findIndex((pattern) => labels.some((label) => pattern.test(label)))
-    control.classList.remove('nfas-zone-nav-button', 'nfas-zone-nav-button-around', 'nfas-zone-nav-button-yours', 'nfas-zone-nav-button-zones')
-    if (matchIndex < 0) return
-    control.classList.add('nfas-zone-nav-button')
-    control.classList.add(
-      matchIndex === 0 ? 'nfas-zone-nav-button-around'
-        : matchIndex === 1 ? 'nfas-zone-nav-button-yours'
-          : 'nfas-zone-nav-button-zones',
+    ].map((value) => value.replace(/\s+/g, ' ').trim()).filter(Boolean)
+    const matchedGroup = labelGroups.find((group) =>
+      labels.some((label) => group.patterns.some((pattern) => pattern.test(label))),
     )
+    control.classList.remove('nfas-zone-nav-button', 'nfas-zone-nav-button-around', 'nfas-zone-nav-button-yours', 'nfas-zone-nav-button-zones')
+    if (!matchedGroup) return
+    control.classList.add('nfas-zone-nav-button', matchedGroup.className)
   })
 }
 
