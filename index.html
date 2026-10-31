@@ -8,6 +8,48 @@
   </head>
   <body>
     <div id="app"></div>
+  <script>
+    // Earliest Enffas startup diagnostics: runs before Vite/Vue modules load.
+    (function () {
+      var state = window.__ENFFAS_EARLY_DIAGNOSTICS__ = {
+        startedAt: new Date().toISOString(),
+        stage: 'html-bootstrap',
+        errors: [],
+        mark: function (stage) { this.stage = stage; }
+      };
+      function record(message) {
+        if (state.errors.indexOf(message) === -1) state.errors.push(message);
+        if (state.errors.length > 8) state.errors.shift();
+      }
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"]/g, function (c) {
+          return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]);
+        });
+      }
+      window.addEventListener('error', function (event) {
+        var target = event.target;
+        var detail = event.message || (target && (target.src || target.href)) || 'Unknown browser error';
+        record(('Browser error: ' + detail).slice(0, 300));
+      }, true);
+      window.addEventListener('unhandledrejection', function (event) {
+        var reason = event.reason;
+        record(('Unhandled rejection: ' + (reason && reason.message ? reason.message : String(reason || 'unknown'))).slice(0, 300));
+      });
+      window.setTimeout(function () {
+        if (state.stage === 'mount-complete') return;
+        var panel = document.getElementById('enffas-early-diagnostics');
+        if (!panel) {
+          panel = document.createElement('section');
+          panel.id = 'enffas-early-diagnostics';
+          panel.setAttribute('role', 'alert');
+          panel.style.cssText = 'position:fixed;z-index:2147483647;inset:12px;padding:22px;overflow:auto;background:#09111f;color:#e8efff;border:1px solid #657ba9;border-radius:14px;font:14px/1.6 system-ui,sans-serif;box-shadow:0 12px 50px #0009';
+          document.body.appendChild(panel);
+        }
+        var errors = state.errors.length ? state.errors : ['No browser error was captured before startup stalled.'];
+        panel.innerHTML = '<h2 style="margin:0 0 8px">Enffas early startup check</h2><p>Startup has not confirmed a successful Vue mount. This diagnostic does not clear or modify saved data.</p><p><b>Last confirmed stage:</b> ' + escapeHtml(state.stage) + '</p><p><b>Started:</b> ' + escapeHtml(state.startedAt) + '</p><ul>' + errors.map(function (item) { return '<li>' + escapeHtml(item) + '</li>'; }).join('') + '</ul><p>Please copy these details before refreshing.</p>';
+      }, 12000);
+    })();
+  </script>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
