@@ -601,9 +601,11 @@ function scheduleImpactCueRefresh() {
 }
 
 onMounted(() => {
+  // Stabilization: run the DOM decorations once on mount. The page-wide
+  // MutationObserver was watching every subtree mutation and could contribute
+  // to a main-thread freeze on the deployed app. Re-enable only with a narrowly
+  // scoped observer after the startup freeze is understood.
   refreshImpactCues()
-  impactButtonObserver = new MutationObserver(scheduleImpactCueRefresh)
-  impactButtonObserver.observe(document.body, impactObserverOptions)
 })
 
 onBeforeUnmount(() => {
