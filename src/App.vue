@@ -571,16 +571,39 @@ function refreshImpactCues() {
   markImpactDiscoveryCue()
 }
 
+const impactObserverOptions: MutationObserverInit = {
+  childList: true,
+  subtree: true,
+  characterData: true,
+  attributes: true,
+  attributeFilter: ['aria-label', 'title', 'data-view', 'data-action', 'lang', 'dir'],
+}
+
+let impactRefreshScheduled = false
+
+function scheduleImpactCueRefresh() {
+  if (impactRefreshScheduled) return
+  impactRefreshScheduled = true
+
+  // Disconnect while applying our own DOM decorations so those writes cannot
+  // immediately trigger the same observer and keep the page in a refresh loop.
+  impactButtonObserver?.disconnect()
+  window.requestAnimationFrame(() => {
+    try {
+      refreshImpactCues()
+    } finally {
+      impactRefreshScheduled = false
+      if (impactButtonObserver && document.body) {
+        impactButtonObserver.observe(document.body, impactObserverOptions)
+      }
+    }
+  })
+}
+
 onMounted(() => {
   refreshImpactCues()
-  impactButtonObserver = new MutationObserver(refreshImpactCues)
-  impactButtonObserver.observe(document.body, {
-    childList: true,
-    subtree: true,
-    characterData: true,
-    attributes: true,
-    attributeFilter: ['aria-label', 'title', 'data-view', 'data-action', 'lang', 'dir'],
-  })
+  impactButtonObserver = new MutationObserver(scheduleImpactCueRefresh)
+  impactButtonObserver.observe(document.body, impactObserverOptions)
 })
 
 onBeforeUnmount(() => {
