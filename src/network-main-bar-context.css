@@ -513,3 +513,13 @@ nav .nfas-zone-nav-button:hover,
 [class*="sidebar"] .nfas-zone-nav-button-zones::before {
   box-shadow: 0 0 0 4px rgba(112, 158, 222, .16) !important;
 }
+
+
+/* Zone Around should not inherit the vertical active rail reserved for Zone Impacting. */
+.nfas-zone-nav-button-around[aria-current="page"],
+.nfas-zone-nav-button-around[aria-pressed="true"],
+.nfas-zone-nav-button-around.active,
+.nfas-zone-nav-button-around.is-active,
+.nfas-zone-nav-button-around[aria-expanded="true"] {
+  box-shadow: inset 0 1px 0 rgba(240, 247, 255, .09), 0 4px 12px rgba(3, 10, 25, .13) !important;
+}
