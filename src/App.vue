@@ -480,8 +480,8 @@ function markImpactDiscoveryCue() {
   if (!heading) return
 
   heading.classList.add('nfas-impact-discovery-title')
-  heading.setAttribute('data-nfas-impact-heading', '')
-  heading.setAttribute('data-impact-language', language)
+  if (!heading.hasAttribute('data-nfas-impact-heading')) heading.setAttribute('data-nfas-impact-heading', '')
+  if (heading.getAttribute('data-impact-language') !== language) heading.setAttribute('data-impact-language', language)
   const firstTextNode = Array.from(heading.childNodes).find((node) => node.nodeType === Node.TEXT_NODE && (node.textContent ?? '').trim())
   if (firstTextNode && firstTextNode.textContent?.trim() !== copy.title) {
     firstTextNode.textContent = copy.title
@@ -539,9 +539,15 @@ function markZoneSidebarButtons() {
     const matchedGroup = labelGroups.find((group) =>
       labels.some((label) => group.patterns.some((pattern) => pattern.test(label))),
     )
-    control.classList.remove('nfas-zone-nav-button', 'nfas-zone-nav-button-around', 'nfas-zone-nav-button-yours', 'nfas-zone-nav-button-zones')
-    if (!matchedGroup) return
-    control.classList.add('nfas-zone-nav-button', matchedGroup.className)
+    const zoneClasses = ['nfas-zone-nav-button', 'nfas-zone-nav-button-around', 'nfas-zone-nav-button-yours', 'nfas-zone-nav-button-zones']
+    const desiredClasses = matchedGroup ? ['nfas-zone-nav-button', matchedGroup.className] : []
+    const currentClasses = zoneClasses.filter((className) => control.classList.contains(className))
+    const classesMatch = currentClasses.length === desiredClasses.length &&
+      desiredClasses.every((className) => control.classList.contains(className))
+    if (classesMatch) return
+
+    zoneClasses.forEach((className) => control.classList.remove(className))
+    desiredClasses.forEach((className) => control.classList.add(className))
   })
 }
 
