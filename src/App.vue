@@ -66,9 +66,16 @@ function renderImpactEverywhereSelections() {
   })
 }
 
+let impactEverywherePickerPositionHandler: (() => void) | null = null
+
 function closeImpactEverywherePicker() {
   document.querySelector('[data-impact-everywhere-picker]')?.remove()
   document.querySelector('[data-impact-everywhere-toggle]')?.setAttribute('aria-expanded', 'false')
+  if (impactEverywherePickerPositionHandler) {
+    window.removeEventListener('resize', impactEverywherePickerPositionHandler)
+    window.removeEventListener('scroll', impactEverywherePickerPositionHandler, true)
+    impactEverywherePickerPositionHandler = null
+  }
 }
 
 function openImpactEverywherePicker() {
@@ -121,7 +128,31 @@ function openImpactEverywherePicker() {
     </div>
   `
 
-  bar.appendChild(picker)
+  // Render the picker at document level so topbar/main-bar stacking contexts cannot cover it.
+  document.body.appendChild(picker)
+  const positionPicker = () => {
+    const rect = bar!.getBoundingClientRect()
+    const mobile = window.matchMedia('(max-width: 760px)').matches
+    const viewportPadding = mobile ? 10 : 14
+    picker.style.setProperty('position', 'fixed', 'important')
+    picker.style.setProperty('z-index', '20000', 'important')
+    picker.style.setProperty('right', 'auto', 'important')
+    picker.style.setProperty('bottom', 'auto', 'important')
+    picker.style.setProperty('width', mobile ? `calc(100vw - ${viewportPadding * 2}px)` : `min(760px, calc(100vw - 28px))`, 'important')
+    picker.style.setProperty('left', mobile ? `${viewportPadding}px` : `${Math.max(14, Math.min(window.innerWidth - 14, rect.right) - Math.min(760, window.innerWidth - 28))}px`, 'important')
+    picker.style.setProperty('max-height', mobile ? 'min(82vh, 760px)' : 'min(76vh, 720px)', 'important')
+    picker.style.setProperty('top', '10px', 'important')
+    const pickerHeight = picker.getBoundingClientRect().height
+    const gap = 8
+    const desiredTop = rect.top - pickerHeight - gap
+    const top = desiredTop >= 10 ? desiredTop : 10
+    picker.style.setProperty('top', `${top}px`, 'important')
+  }
+  impactEverywherePickerPositionHandler = positionPicker
+  positionPicker()
+  window.addEventListener('resize', positionPicker)
+  window.addEventListener('scroll', positionPicker, true)
+
   const count = picker.querySelector<HTMLElement>('[data-impact-everywhere-count]')
   const search = picker.querySelector<HTMLInputElement>('[data-impact-everywhere-search]')
   const options = Array.from(picker.querySelectorAll<HTMLElement>('[data-impact-area-option]'))
