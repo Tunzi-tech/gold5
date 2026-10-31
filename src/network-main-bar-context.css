@@ -538,13 +538,15 @@ nav .nfas-zone-nav-button:hover,
 }
 
 
-/* Keep the three idle zone buttons in the platform's navy/steel-blue palette; reserve accent colors for selection. */
+/* Idle zone buttons echo Zone Impacting's selected blue surface, without purple; selected zone states remain untouched. */
 .sidebar .nfas-zone-nav-button:not([aria-current="page"]):not([aria-pressed="true"]):not(.active):not(.is-active):not([aria-expanded="true"]),
 [class*="sidebar"] .nfas-zone-nav-button:not([aria-current="page"]):not([aria-pressed="true"]):not(.active):not(.is-active):not([aria-expanded="true"]),
 nav .nfas-zone-nav-button:not([aria-current="page"]):not([aria-pressed="true"]):not(.active):not(.is-active):not([aria-expanded="true"]),
 .nfas-zone-nav-button:not([aria-current="page"]):not([aria-pressed="true"]):not(.active):not(.is-active):not([aria-expanded="true"]) {
-  border-color: rgba(112, 158, 222, .24) !important;
-  background: linear-gradient(112deg, rgba(35, 57, 83, .78), rgba(29, 43, 63, .74)) !important;
-  color: #dce8f7 !important;
-  box-shadow: inset 0 1px 0 rgba(232, 241, 255, .05), 0 2px 9px rgba(2, 8, 21, .12) !important;
+  border-color: rgba(112, 164, 226, .34) !important;
+  background: linear-gradient(105deg, rgba(43, 82, 125, .76), rgba(35, 60, 91, .78)) !important;
+  color: #e1ecfb !important;
+  box-shadow:
+    inset 0 1px 0 rgba(232, 241, 255, .065),
+    0 3px 10px rgba(2, 8, 21, .13) !important;
 }
