@@ -26,6 +26,49 @@
           return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]);
         });
       }
+      // Cooperative freeze detector: measures event-loop lag and keeps only a
+      // small rolling sample. It does not inspect or change application data.
+      var lagSamples = [];
+      var lastHeartbeat = Date.now();
+      var detectorStopped = false;
+      function heartbeat() {
+        if (detectorStopped) return;
+        var now = Date.now();
+        var lag = Math.max(0, now - lastHeartbeat - 1000);
+        lastHeartbeat = now;
+        if (lag > 1500) {
+          lagSamples.push({ at: new Date(now).toISOString(), lagMs: lag, stage: state.stage });
+          if (lagSamples.length > 5) lagSamples.shift();
+        }
+        window.setTimeout(heartbeat, 1000);
+      }
+      window.setTimeout(heartbeat, 1000);
+      window.addEventListener('pagehide', function () { detectorStopped = true; });
+      function addFreezeDetails(panel) {
+        var details = document.createElement('div');
+        details.style.cssText = 'margin-top:16px;padding-top:12px;border-top:1px solid #657ba9';
+        var title = document.createElement('h3');
+        title.textContent = 'Event-loop responsiveness';
+        details.appendChild(title);
+        var status = document.createElement('p');
+        status.textContent = lagSamples.length
+          ? 'Long pauses detected (over 1.5 seconds): ' + lagSamples.length
+          : 'No long pause was recorded by this detector before the report ran.';
+        details.appendChild(status);
+        if (lagSamples.length) {
+          var list = document.createElement('ul');
+          lagSamples.forEach(function (sample) {
+            var item = document.createElement('li');
+            item.textContent = sample.lagMs + ' ms pause · stage: ' + sample.stage + ' · ' + sample.at;
+            list.appendChild(item);
+          });
+          details.appendChild(list);
+        }
+        var note = document.createElement('p');
+        note.textContent = 'Note: a fully blocked main thread cannot run its own detector while blocked. These measurements show pauses only when JavaScript resumes.';
+        details.appendChild(note);
+        panel.appendChild(details);
+      }
       window.addEventListener('error', function (event) {
         var target = event.target;
         var detail = event.message || (target && (target.src || target.href)) || 'Unknown browser error';
@@ -62,6 +105,7 @@
         }
         var errors = state.errors.length ? state.errors : ['No browser error was captured before startup stalled.'];
         panel.innerHTML = '<h2 style="margin:0 0 8px">Enffas early startup check</h2><p>This check found that startup either did not finish mounting Vue or the app still appears to be stuck loading. This diagnostic does not clear or modify saved data.</p><p><b>Last confirmed stage:</b> ' + escapeHtml(state.stage) + '</p><p><b>Loading screen still detected:</b> ' + (stillLoading || visibleLoadingOverlay ? 'yes' : 'no') + '</p><p><b>Started:</b> ' + escapeHtml(state.startedAt) + '</p><ul>' + errors.map(function (item) { return '<li>' + escapeHtml(item) + '</li>'; }).join('') + '</ul><p>Please copy these details before refreshing.</p>';
+        addFreezeDetails(panel);
       }, 12000);
     })();
   </script>
