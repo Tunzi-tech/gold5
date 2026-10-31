@@ -36,7 +36,21 @@
         record(('Unhandled rejection: ' + (reason && reason.message ? reason.message : String(reason || 'unknown'))).slice(0, 300));
       });
       window.setTimeout(function () {
-        if (state.stage === 'mount-complete') return;
+        var app = document.getElementById('app');
+        var appText = app ? (app.innerText || app.textContent || '') : '';
+        var stillLoading = /\\bloading\\b|loading[.…]{1,3}/i.test(appText);
+        var visibleLoadingOverlay = Array.prototype.some.call(
+          document.querySelectorAll('[class*="loading" i], [class*="opening" i], [aria-label*="loading" i], [role="progressbar"]'),
+          function (element) {
+            var style = window.getComputedStyle(element);
+            var rect = element.getBoundingClientRect();
+            return style.display !== 'none' && style.visibility !== 'hidden' &&
+              Number(style.opacity || 1) > 0 && rect.width > 0 && rect.height > 0 &&
+              (rect.width >= window.innerWidth * 0.5 || rect.height >= window.innerHeight * 0.5);
+          }
+        );
+        // Vue mounting is not enough: the app can still be stuck on its loading screen.
+        if (state.stage === 'mount-complete' && !stillLoading && !visibleLoadingOverlay) return;
         var panel = document.getElementById('enffas-early-diagnostics');
         if (!panel) {
           panel = document.createElement('section');
@@ -46,7 +60,7 @@
           document.body.appendChild(panel);
         }
         var errors = state.errors.length ? state.errors : ['No browser error was captured before startup stalled.'];
-        panel.innerHTML = '<h2 style="margin:0 0 8px">Enffas early startup check</h2><p>Startup has not confirmed a successful Vue mount. This diagnostic does not clear or modify saved data.</p><p><b>Last confirmed stage:</b> ' + escapeHtml(state.stage) + '</p><p><b>Started:</b> ' + escapeHtml(state.startedAt) + '</p><ul>' + errors.map(function (item) { return '<li>' + escapeHtml(item) + '</li>'; }).join('') + '</ul><p>Please copy these details before refreshing.</p>';
+        panel.innerHTML = '<h2 style="margin:0 0 8px">Enffas early startup check</h2><p>This check found that startup either did not finish mounting Vue or the app still appears to be stuck loading. This diagnostic does not clear or modify saved data.</p><p><b>Last confirmed stage:</b> ' + escapeHtml(state.stage) + '</p><p><b>Loading screen still detected:</b> ' + (stillLoading || visibleLoadingOverlay ? 'yes' : 'no') + '</p><p><b>Started:</b> ' + escapeHtml(state.startedAt) + '</p><ul>' + errors.map(function (item) { return '<li>' + escapeHtml(item) + '</li>'; }).join('') + '</ul><p>Please copy these details before refreshing.</p>';
       }, 12000);
     })();
   </script>
