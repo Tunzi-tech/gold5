@@ -3,17 +3,29 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 type NetworkScope = 'local' | 'world'
 type ChatMessage = { id: number; author: string; text: string; time: string }
+type ConnectionType = 'all' | 'entities' | 'people' | 'communities' | 'initiatives' | 'calls' | 'topics'
 type Channel = {
   id: string
   name: string
   description: string
   scope: NetworkScope | 'both'
+  connectionTypes: ConnectionType[]
   mark: string
   members: string
   seed: string
 }
 
 const scope = ref<NetworkScope>('local')
+const connectionMenuOpen = ref(false)
+const connectionType = ref<ConnectionType>('all')
+const connectionOptions: { id: ConnectionType; label: string; description: string; icon: string }[] = [
+  { id: 'entities', label: 'Entities', description: 'Organizations, institutions and public-interest groups', icon: '◇' },
+  { id: 'people', label: 'People', description: 'Meet people with shared interests and ambitions', icon: '◎' },
+  { id: 'communities', label: 'Communities', description: 'Join circles, commons and local groups', icon: '◉' },
+  { id: 'initiatives', label: 'Initiatives', description: 'Find projects and actions to take part in', icon: '✳' },
+  { id: 'calls', label: 'Calls & Commons', description: 'Open invitations, shared calls and collaboration', icon: '∞' },
+  { id: 'topics', label: 'Topics & Ideas', description: 'Explore questions, ideas and knowledge', icon: '✧' },
+]
 const expanded = ref(false)
 const activeChannelId = ref<string | null>(null)
 const draft = ref('')
@@ -23,14 +35,15 @@ const messageThreads = ref<Record<string, ChatMessage[]>>({})
 const storageReady = ref(false)
 
 const channels: Channel[] = [
-  { id: 'commons', name: 'Commons Lounge', description: 'Introductions, questions and ideas', scope: 'both', mark: '◉', members: '128 exploring', seed: 'Welcome to the Commons Lounge. What are you curious about today?' },
-  { id: 'local-question', name: 'Local question', description: 'Ask about a place or possibility near you', scope: 'local', mark: '?', members: 'Open discussion', seed: 'What nearby place could improve through one small shared action?' },
-  { id: 'greener-tunis', name: 'Greener Tunis', description: 'Green spaces, gardens and cleaner streets', scope: 'local', mark: '✳', members: '34 exploring', seed: 'Which local green space would you improve first, and how could neighbours help?' },
-  { id: 'local-possibilities', name: 'Local Possibilities', description: 'Small actions people can take nearby', scope: 'local', mark: '⌖', members: '21 exploring', seed: 'What is one small action we could take together this week?' },
-  { id: 'global-questions', name: 'Global questions', description: 'Questions worth exploring across places', scope: 'world', mark: '◎', members: 'Open discussion', seed: 'What is one approach from your place that could help people somewhere else?' },
-  { id: 'ideas-crossing-borders', name: 'Ideas crossing borders', description: 'Approaches shared across different places', scope: 'world', mark: '✧', members: 'Network signal', seed: 'What idea from your community might be useful in another place?' },
-  { id: 'open-invitation', name: 'Open invitation', description: 'Find people interested in learning and collaborating', scope: 'world', mark: '∞', members: 'Opportunity', seed: 'What would you like to learn, build or act on together with others?' },
-  { id: 'ideas-lab', name: 'Ideas Lab', description: 'Share early ideas and build them together', scope: 'both', mark: '✦', members: '56 exploring ideas', seed: 'Share a rough idea. It does not need to be perfect to start a useful conversation.' },
+  { id: 'commons', name: 'Commons Lounge', description: 'Introductions, questions and ideas', scope: 'both', connectionTypes: ['communities', 'calls', 'topics'], mark: '◉', members: '128 exploring', seed: 'Welcome to the Commons Lounge. What are you curious about today?' },
+  { id: 'entity-connections', name: 'Entity connections', description: 'Organizations, institutions and public-interest groups', scope: 'both', connectionTypes: ['entities'], mark: '◇', members: 'Open network', seed: 'Which organization, institution or public-interest group should connect with people around this issue, and what could you build together?' },
+  { id: 'local-question', name: 'Local question', description: 'Ask about a place or possibility near you', scope: 'local', connectionTypes: ['topics', 'communities'], mark: '?', members: 'Open discussion', seed: 'What nearby place could improve through one small shared action?' },
+  { id: 'greener-tunis', name: 'Greener Tunis', description: 'Green spaces, gardens and cleaner streets', scope: 'local', connectionTypes: ['initiatives', 'communities'], mark: '✳', members: '34 exploring', seed: 'Which local green space would you improve first, and how could neighbours help?' },
+  { id: 'local-possibilities', name: 'Local Possibilities', description: 'Small actions people can take nearby', scope: 'local', connectionTypes: ['initiatives', 'people'], mark: '⌖', members: '21 exploring', seed: 'What is one small action we could take together this week?' },
+  { id: 'global-questions', name: 'Global questions', description: 'Questions worth exploring across places', scope: 'world', connectionTypes: ['topics'], mark: '◎', members: 'Open discussion', seed: 'What is one approach from your place that could help people somewhere else?' },
+  { id: 'ideas-crossing-borders', name: 'Ideas crossing borders', description: 'Approaches shared across different places', scope: 'world', connectionTypes: ['topics', 'initiatives'], mark: '✧', members: 'Network signal', seed: 'What idea from your community might be useful in another place?' },
+  { id: 'open-invitation', name: 'Open invitation', description: 'Find people interested in learning and collaborating', scope: 'world', connectionTypes: ['people', 'calls'], mark: '∞', members: 'Opportunity', seed: 'What would you like to learn, build or act on together with others?' },
+  { id: 'ideas-lab', name: 'Ideas Lab', description: 'Share early ideas and build them together', scope: 'both', connectionTypes: ['topics', 'initiatives'], mark: '✦', members: '56 exploring ideas', seed: 'Share a rough idea. It does not need to be perfect to start a useful conversation.' },
 ]
 
 const visibleChannels = computed(() => {
@@ -38,12 +51,21 @@ const visibleChannels = computed(() => {
   return channels.filter(channel => {
     const inScope = channel.scope === 'both' || channel.scope === scope.value
     const matches = !query || (channel.name + ' ' + channel.description).toLowerCase().includes(query)
-    return inScope && matches
+    const inConnectionType = connectionType.value === 'all' || channel.connectionTypes.includes(connectionType.value)
+    return inScope && inConnectionType && matches
   })
 })
 const activeChannel = computed(() => channels.find(channel => channel.id === activeChannelId.value) ?? null)
 const activeMessages = computed(() => activeChannelId.value ? messageThreads.value[activeChannelId.value] ?? [] : [])
 const joinedChannels = computed(() => channels.filter(channel => joinedChannelIds.value.includes(channel.id)))
+
+function selectConnectionType(type: ConnectionType) {
+  connectionType.value = type
+  connectionMenuOpen.value = false
+  searchTerm.value = ''
+  activeChannelId.value = null
+  expanded.value = true
+}
 
 function openConversation(channel: Channel) {
   if (!joinedChannelIds.value.includes(channel.id)) joinedChannelIds.value.push(channel.id)
@@ -132,7 +154,7 @@ onMounted(() => {
   try {
     const saved = window.localStorage.getItem('nfas-network-main-bar-v1')
     if (saved) {
-      const parsed = JSON.parse(saved) as { joinedChannelIds?: unknown; messageThreads?: unknown; scope?: unknown }
+      const parsed = JSON.parse(saved) as { joinedChannelIds?: unknown; messageThreads?: unknown; scope?: unknown; connectionType?: unknown }
       if (Array.isArray(parsed.joinedChannelIds)) {
         joinedChannelIds.value = parsed.joinedChannelIds.filter((id): id is string =>
           typeof id === 'string' && channels.some(channel => channel.id === id))
@@ -153,6 +175,7 @@ onMounted(() => {
         messageThreads.value = safeThreads
       }
       if (parsed.scope === 'local' || parsed.scope === 'world') scope.value = parsed.scope
+      if (typeof parsed.connectionType === 'string' && ['all', 'entities', 'people', 'communities', 'initiatives', 'calls', 'topics'].includes(parsed.connectionType)) connectionType.value = parsed.connectionType as ConnectionType
     }
   } catch {
     // Keep Network Chat usable when browser storage is disabled or invalid.
@@ -160,13 +183,14 @@ onMounted(() => {
   storageReady.value = true
 })
 
-watch([joinedChannelIds, messageThreads, scope], () => {
+watch([joinedChannelIds, messageThreads, scope, connectionType], () => {
   if (!storageReady.value) return
   try {
     window.localStorage.setItem('nfas-network-main-bar-v1', JSON.stringify({
       joinedChannelIds: joinedChannelIds.value,
       messageThreads: messageThreads.value,
       scope: scope.value,
+      connectionType: connectionType.value,
     }))
   } catch {
     // Messages remain available in this tab even when persistence is blocked.
@@ -185,6 +209,20 @@ watch([joinedChannelIds, messageThreads, scope], () => {
         <div class="network-main-scope" role="group" aria-label="Choose conversation scope">
           <button type="button" :class="{ active: scope === 'local' }" :aria-pressed="scope === 'local'" @click="scope = 'local'"><span>◎</span> Local</button>
           <button type="button" :class="{ active: scope === 'world' }" :aria-pressed="scope === 'world'" @click="scope = 'world'"><span>◌</span> Global</button>
+        </div>
+        <div class="network-main-connect-wrap">
+          <button type="button" class="network-main-connect-button" :class="{ active: connectionType !== 'all' || connectionMenuOpen }" :aria-expanded="connectionMenuOpen" aria-haspopup="true" @click="connectionMenuOpen = !connectionMenuOpen">
+            <span class="network-main-connect-glyph" aria-hidden="true">◇</span><span>Connect</span><span class="network-main-connect-chevron" aria-hidden="true">{{ connectionMenuOpen ? '⌃' : '⌄' }}</span>
+          </button>
+          <div v-if="connectionMenuOpen" class="network-main-connect-menu" role="menu" aria-label="Choose what to connect with">
+            <div class="network-main-connect-menu-head"><span>EXPLORE CONNECTIONS</span><small>Choose a network pathway</small></div>
+            <button v-for="option in connectionOptions" :key="option.id" type="button" role="menuitem" class="network-main-connect-option" :class="{ active: connectionType === option.id }" @click="selectConnectionType(option.id)">
+              <span class="network-main-connect-option-icon" aria-hidden="true">{{ option.icon }}</span>
+              <span class="network-main-connect-option-copy"><strong>{{ option.label }}</strong><small>{{ option.description }}</small></span>
+              <span class="network-main-connect-check" aria-hidden="true">{{ connectionType === option.id ? '✓' : '↗' }}</span>
+            </button>
+            <button type="button" class="network-main-connect-all" @click="selectConnectionType('all')">Show all connections <span>→</span></button>
+          </div>
         </div>
         <button type="button" class="network-main-open-button" :aria-expanded="expanded" @click="expanded = !expanded">
           <span aria-hidden="true">{{ expanded ? '−' : '↗' }}</span>{{ expanded ? 'Close conversations' : 'Explore conversations' }}
@@ -228,7 +266,7 @@ watch([joinedChannelIds, messageThreads, scope], () => {
     <section v-if="expanded" class="network-main-workspace" aria-label="Browse channels and discuss">
       <div class="network-main-channel-column">
         <div class="network-main-section-head">
-          <div><span class="network-main-eyebrow">FIND YOUR PEOPLE</span><strong>Conversations to join</strong></div>
+          <div><span class="network-main-eyebrow">FIND YOUR PEOPLE</span><strong>{{ connectionType === 'all' ? 'Conversations to join' : connectionOptions.find(option => option.id === connectionType)?.label }}</strong></div>
           <span class="network-main-count">{{ visibleChannels.length }} channels</span>
         </div>
         <label class="network-main-search">
@@ -396,6 +434,46 @@ watch([joinedChannelIds, messageThreads, scope], () => {
   .network-main-thread-empty { min-height:200px; }
   .network-main-storage-note { padding-top:2px; }
 }
+
+/* Connected discovery control: visually bridges Local and Global without restyling either button. */
+.network-main-connect-wrap { position:relative; flex:0 0 auto; }
+.network-main-connect-button {
+  display:flex; align-items:center; justify-content:center; gap:6px; min-height:37px; padding:0 11px;
+  border:1px solid rgba(110,190,210,.38); border-radius:10px; color:#dff7fb;
+  background:linear-gradient(118deg,rgba(30,105,126,.38),rgba(33,66,94,.5) 58%,rgba(29,48,68,.72));
+  box-shadow:inset 0 1px 0 rgba(237,253,255,.08),0 3px 10px rgba(2,10,22,.16);
+  font:inherit; font-size:10px; font-weight:800; white-space:nowrap; cursor:pointer;
+  transition:background .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.network-main-connect-button:hover,.network-main-connect-button.active { border-color:rgba(126,215,225,.68); background:linear-gradient(118deg,rgba(36,124,142,.48),rgba(39,78,109,.64)); box-shadow:inset 0 1px 0 rgba(237,253,255,.1),0 0 0 2px rgba(88,184,200,.07); }
+.network-main-connect-glyph { display:grid; place-items:center; width:19px; height:19px; border:1px solid rgba(139,220,226,.34); border-radius:7px; color:#9fe5e8; background:rgba(70,164,174,.14); font-size:14px; }
+.network-main-connect-chevron { color:#8ecbd3; font-size:13px; margin-left:1px; }
+.network-main-connect-menu {
+  position:absolute; top:calc(100% + 8px); right:0; z-index:10040; width:min(320px,calc(100vw - 28px)); padding:9px;
+  border:1px solid rgba(115,181,203,.3); border-radius:15px;
+  background:linear-gradient(145deg,rgba(15,31,48,.99),rgba(8,19,32,.99) 68%,rgba(14,32,43,.99));
+  box-shadow:0 18px 44px rgba(0,0,0,.4),inset 0 1px 0 rgba(231,249,255,.06);
+  backdrop-filter:blur(18px);
+}
+.network-main-connect-menu-head { display:flex; flex-direction:column; gap:3px; padding:5px 7px 9px; border-bottom:1px solid rgba(130,174,202,.13); margin-bottom:5px; }
+.network-main-connect-menu-head>span { color:#91d4dc; font-size:8px; font-weight:850; letter-spacing:.16em; }
+.network-main-connect-menu-head small { color:#8fa5bd; font-size:10px; }
+.network-main-connect-option { display:flex; align-items:center; gap:9px; width:100%; min-width:0; padding:8px; border:1px solid transparent; border-radius:10px; text-align:left; color:inherit; background:transparent; cursor:pointer; }
+.network-main-connect-option:hover,.network-main-connect-option.active { border-color:rgba(107,190,204,.25); background:linear-gradient(105deg,rgba(37,105,122,.25),rgba(38,62,84,.28)); }
+.network-main-connect-option-icon { display:grid; place-items:center; flex:0 0 31px; width:31px; height:31px; border:1px solid rgba(120,187,205,.22); border-radius:9px; color:#a9e3e9; background:linear-gradient(145deg,rgba(52,130,148,.19),rgba(48,77,109,.18)); font-size:15px; }
+.network-main-connect-option-copy { display:flex; flex-direction:column; gap:3px; min-width:0; flex:1; }
+.network-main-connect-option-copy strong { color:#e5f2fc; font-size:10px; font-weight:780; }
+.network-main-connect-option-copy small { color:#90a8bf; font-size:9px; line-height:1.35; }
+.network-main-connect-check { flex:0 0 auto; color:#8edce2; font-size:12px; }
+.network-main-connect-all { display:flex; align-items:center; justify-content:space-between; width:100%; margin-top:5px; padding:9px 8px 5px; border:0; border-top:1px solid rgba(130,174,202,.13); color:#a7cce0; background:transparent; font:inherit; font-size:9px; font-weight:750; cursor:pointer; }
+.network-main-connect-all span { color:#7fd0da; font-size:14px; }
+@media (max-width:760px) {
+  .network-main-connect-button { min-height:28px; padding:0 6px; gap:3px; font-size:8px; }
+  .network-main-connect-glyph { width:16px; height:16px; border-radius:5px; font-size:12px; }
+  .network-main-connect-chevron { font-size:11px; }
+  .network-main-connect-menu { right:0; width:min(300px,calc(100vw - 24px)); max-height:min(65vh,480px); overflow-y:auto; }
+}
+
 @media (prefers-reduced-motion:reduce) {
   .network-main-bar *, .network-main-bar *::before, .network-main-bar *::after { transition:none !important; }
 }
