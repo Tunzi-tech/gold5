@@ -482,3 +482,34 @@ header.topbar.nfas-main-bar-hidden > .network-main-bar {
 @media (prefers-reduced-motion: reduce) {
   .nfas-zone-nav-button { transition: none !important; }
 }
+
+
+/* Stronger idle state for zone navigation: echo the selected Zone Impacting surface without competing with it. */
+.sidebar .nfas-zone-nav-button,
+[class*="sidebar"] .nfas-zone-nav-button,
+nav .nfas-zone-nav-button,
+.nfas-zone-nav-button {
+  min-height: 40px !important;
+  border: 1px solid rgba(112, 158, 222, .27) !important;
+  border-radius: 12px !important;
+  background: linear-gradient(112deg, rgba(43, 70, 108, .72), rgba(47, 42, 79, .66)) !important;
+  color: #dce8fb !important;
+  box-shadow: inset 0 1px 0 rgba(232, 241, 255, .055), 0 2px 9px rgba(2, 8, 21, .12) !important;
+}
+.sidebar .nfas-zone-nav-button:hover,
+[class*="sidebar"] .nfas-zone-nav-button:hover,
+nav .nfas-zone-nav-button:hover,
+.nfas-zone-nav-button:hover {
+  border-color: rgba(132, 187, 245, .56) !important;
+  background: linear-gradient(112deg, rgba(55, 99, 151, .84), rgba(67, 57, 108, .8)) !important;
+  color: #f6f9ff !important;
+  box-shadow: inset 0 1px 0 rgba(240, 247, 255, .09), 0 5px 15px rgba(2, 8, 21, .2) !important;
+}
+.sidebar .nfas-zone-nav-button-around::before,
+.sidebar .nfas-zone-nav-button-yours::before,
+.sidebar .nfas-zone-nav-button-zones::before,
+[class*="sidebar"] .nfas-zone-nav-button-around::before,
+[class*="sidebar"] .nfas-zone-nav-button-yours::before,
+[class*="sidebar"] .nfas-zone-nav-button-zones::before {
+  box-shadow: 0 0 0 4px rgba(112, 158, 222, .16) !important;
+}
