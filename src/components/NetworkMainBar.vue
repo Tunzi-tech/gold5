@@ -98,7 +98,34 @@ function isJoined(id: string) {
   return joinedChannelIds.value.includes(id)
 }
 
+function syncConnectButtonPlacement() {
+  const header = document.querySelector<HTMLElement>('header.topbar')
+  const connectWrap = document.querySelector<HTMLElement>('.network-main-connect-wrap')
+  const actions = document.querySelector<HTMLElement>('.network-main-actions')
+  if (!header || !connectWrap || !actions) return
+
+  const mainBarHidden = header.classList.contains('nfas-main-bar-hidden')
+  if (mainBarHidden) {
+    const impactButton = header.querySelector<HTMLElement>('.nfas-impact-orbit-target')
+    if (impactButton && connectWrap.parentElement !== impactButton.parentElement) {
+      impactButton.insertAdjacentElement('afterend', connectWrap)
+      connectWrap.classList.add('nfas-topbar-connect-wrap')
+    } else if (impactButton && connectWrap.previousElementSibling !== impactButton) {
+      impactButton.insertAdjacentElement('afterend', connectWrap)
+      connectWrap.classList.add('nfas-topbar-connect-wrap')
+    }
+  } else {
+    const openButton = actions.querySelector<HTMLElement>('.network-main-open-button')
+    if (connectWrap.parentElement !== actions) {
+      if (openButton) actions.insertBefore(connectWrap, openButton)
+      else actions.appendChild(connectWrap)
+    }
+    connectWrap.classList.remove('nfas-topbar-connect-wrap')
+  }
+}
+
 function syncDesktopLiveFlowLayout() {
+  syncConnectButtonPlacement()
   const mainBar = document.querySelector<HTMLElement>('.network-main-bar')
   if (!mainBar || window.matchMedia('(max-width: 760px)').matches) {
     mainBar?.classList.remove('nfas-live-flow-layout')
@@ -144,6 +171,7 @@ onMounted(() => {
     attributes: true,
     attributeFilter: ['class', 'aria-pressed', 'aria-current', 'data-active', 'data-view'],
   })
+  syncConnectButtonPlacement()
   onBeforeUnmount(() => {
     document.removeEventListener('click', syncDesktopLiveFlowLayout, true)
     navObserver.disconnect()
@@ -468,6 +496,9 @@ watch([joinedChannelIds, messageThreads, scope, connectionType], () => {
 .network-main-connect-all { display:flex; align-items:center; justify-content:space-between; width:100%; margin-top:5px; padding:9px 8px 5px; border:0; border-top:1px solid rgba(130,174,202,.13); color:#a7cce0; background:transparent; font:inherit; font-size:9px; font-weight:750; cursor:pointer; }
 .network-main-connect-all span { color:#7fd0da; font-size:14px; }
 @media (max-width:760px) {
+  .network-main-connect-wrap.nfas-topbar-connect-wrap { display:inline-flex; align-items:center; margin-left:6px; vertical-align:middle; }
+  .network-main-connect-wrap.nfas-topbar-connect-wrap .network-main-connect-button { min-height:34px; }
+  .network-main-connect-wrap.nfas-topbar-connect-wrap .network-main-connect-menu { right:0; }
   .network-main-connect-button { min-height:28px; padding:0 6px; gap:3px; font-size:8px; }
   .network-main-connect-glyph { width:16px; height:16px; border-radius:5px; font-size:12px; }
   .network-main-connect-chevron { font-size:11px; }
