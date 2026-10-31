@@ -9,7 +9,6 @@ const retryCount = ref(0)
 let warningTimer: number | undefined
 let recoveryTimer: number | undefined
 let readinessTimer: number | undefined
-let observer: MutationObserver | undefined
 
 const MAX_RETRIES = 2
 
@@ -123,19 +122,15 @@ onMounted(() => {
   window.addEventListener('error', handleWindowError, true)
   window.addEventListener('unhandledrejection', handleUnhandledRejection)
   document.addEventListener('error', handleResourceError, true)
-  observer = new MutationObserver(() => {
-    if (startupIsComplete()) {
-      mode.value = null
-      clearStartupTimers()
-    }
-  })
-  observer.observe(document.documentElement, { childList: true, subtree: true })
+  // Do not observe the entire document: the platform can update many DOM
+  // nodes during rendering, which made this callback repeatedly scan every
+  // loading/opening element and force layout reads. The bounded watchdog timers
+  // and 500 ms readiness check already handle startup recovery.
   startWatchdog()
 })
 
 onBeforeUnmount(() => {
   clearStartupTimers()
-  observer?.disconnect()
   window.removeEventListener('error', handleWindowError, true)
   window.removeEventListener('unhandledrejection', handleUnhandledRejection)
   document.removeEventListener('error', handleResourceError, true)
