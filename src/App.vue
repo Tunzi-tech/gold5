@@ -568,7 +568,8 @@ function refreshImpactCues() {
   ensureImpactEverywhereHeader()
   markDesktopTopbarButtons()
   markTopbarImpactButton()
-  markImpactDiscoveryCue()
+  // Temporarily skip the broad text scan during startup while investigating the browser freeze.
+  // The discovery heading decoration can be restored after the startup issue is isolated.
 }
 
 const impactObserverOptions: MutationObserverInit = {
