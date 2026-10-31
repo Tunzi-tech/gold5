@@ -9,104 +9,167 @@
   <body>
     <div id="app"></div>
   <script>
-    // Earliest Enffas startup diagnostics: runs before Vite/Vue modules load.
+    // ENFFAS DIAGNOSTIC BOOTSTRAP v2 — independent of Vue and app modules.
     (function () {
       var state = window.__ENFFAS_EARLY_DIAGNOSTICS__ = {
+        version: '2',
         startedAt: new Date().toISOString(),
         stage: 'html-bootstrap',
         errors: [],
-        mark: function (stage) { this.stage = stage; }
+        resources: [],
+        marks: [],
+        mark: function (stage) {
+          this.stage = stage;
+          this.marks.push({ stage: stage, at: Math.round(performance.now()) + 'ms' });
+          if (this.marks.length > 30) this.marks.shift();
+        }
       };
-      function record(message) {
-        if (state.errors.indexOf(message) === -1) state.errors.push(message);
-        if (state.errors.length > 8) state.errors.shift();
+      var reportTimer;
+      function addError(kind, detail) {
+        var item = '[' + kind + '] ' + String(detail || 'Unknown error').slice(0, 1500);
+        if (state.errors.indexOf(item) === -1) state.errors.push(item);
+        if (state.errors.length > 30) state.errors.shift();
       }
-      function escapeHtml(value) {
-        return String(value).replace(/[&<>"]/g, function (c) {
-          return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]);
+      function esc(s) {
+        return String(s).replace(/[&<>"]/g, function (c) {
+          return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c];
         });
       }
-      // Cooperative freeze detector: measures event-loop lag and keeps only a
-      // small rolling sample. It does not inspect or change application data.
-      var lagSamples = [];
-      var lastHeartbeat = Date.now();
-      var detectorStopped = false;
-      function heartbeat() {
-        if (detectorStopped) return;
-        var now = Date.now();
-        var lag = Math.max(0, now - lastHeartbeat - 1000);
-        lastHeartbeat = now;
-        if (lag > 1500) {
-          lagSamples.push({ at: new Date(now).toISOString(), lagMs: lag, stage: state.stage });
-          if (lagSamples.length > 5) lagSamples.shift();
+      window.addEventListener('error', function (e) {
+        var target = e.target;
+        if (target && target !== window) {
+          var resource = target.src || target.href || target.currentSrc || target.tagName || 'unknown resource';
+          addError('RESOURCE LOAD ERROR', resource);
+          state.resources.push({ ok: false, resource: resource });
+        } else {
+          addError('JAVASCRIPT ERROR', (e.message || 'Unknown error') + ' at ' + (e.filename || '') + ':' + (e.lineno || 0) + ':' + (e.colno || 0) + (e.error && e.error.stack ? '\n' + e.error.stack : ''));
         }
-        window.setTimeout(heartbeat, 1000);
-      }
-      window.setTimeout(heartbeat, 1000);
-      window.addEventListener('pagehide', function () { detectorStopped = true; });
-      function addFreezeDetails(panel) {
-        var details = document.createElement('div');
-        details.style.cssText = 'margin-top:16px;padding-top:12px;border-top:1px solid #657ba9';
-        var title = document.createElement('h3');
-        title.textContent = 'Event-loop responsiveness';
-        details.appendChild(title);
-        var status = document.createElement('p');
-        status.textContent = lagSamples.length
-          ? 'Long pauses detected (over 1.5 seconds): ' + lagSamples.length
-          : 'No long pause was recorded by this detector before the report ran.';
-        details.appendChild(status);
-        if (lagSamples.length) {
-          var list = document.createElement('ul');
-          lagSamples.forEach(function (sample) {
-            var item = document.createElement('li');
-            item.textContent = sample.lagMs + ' ms pause · stage: ' + sample.stage + ' · ' + sample.at;
-            list.appendChild(item);
-          });
-          details.appendChild(list);
-        }
-        var note = document.createElement('p');
-        note.textContent = 'Note: a fully blocked main thread cannot run its own detector while blocked. These measurements show pauses only when JavaScript resumes.';
-        details.appendChild(note);
-        panel.appendChild(details);
-      }
-      window.addEventListener('error', function (event) {
-        var target = event.target;
-        var detail = event.message || (target && (target.src || target.href)) || 'Unknown browser error';
-        record(('Browser error: ' + detail).slice(0, 300));
       }, true);
-      window.addEventListener('unhandledrejection', function (event) {
-        var reason = event.reason;
-        record(('Unhandled rejection: ' + (reason && reason.message ? reason.message : String(reason || 'unknown'))).slice(0, 300));
+      window.addEventListener('unhandledrejection', function (e) {
+        var r = e.reason;
+        addError('UNHANDLED PROMISE REJECTION', r && (r.stack || r.message) || String(r));
       });
+      window.addEventListener('securitypolicyviolation', function (e) {
+        addError('CONTENT SECURITY POLICY', e.violatedDirective + ' blocked ' + e.blockedURI);
+      });
+      window.addEventListener('pageshow', function () { state.mark('pageshow'); });
+      window.addEventListener('load', function () { state.mark('window-load'); });
+      window.addEventListener('pagehide', function () { state.mark('pagehide'); });
+
+      function snapshot() {
+        var app = document.getElementById('app');
+        var scripts = Array.prototype.map.call(document.scripts, function (s) {
+          return { src: s.src || '[inline]', type: s.type || 'classic', ready: s.readyState || 'n/a' };
+        });
+        var resources = [];
+        try {
+          performance.getEntriesByType('resource').slice(-80).forEach(function (r) {
+            if (/\.js(?:\?|$)|\.css(?:\?|$)|\.vue(?:\?|$)|\.ts(?:\?|$)/i.test(r.name) || /gold5/i.test(r.name)) {
+              resources.push({ name: r.name, duration: Math.round(r.duration), bytes: r.transferSize || 0 });
+            }
+          });
+        } catch (_) {}
+        return {
+          url: location.href,
+          userAgent: navigator.userAgent,
+          readyState: document.readyState,
+          stage: state.stage,
+          elapsedMs: Math.round(performance.now()),
+          appExists: !!app,
+          appChildren: app ? app.children.length : -1,
+          appTextLength: app ? (app.innerText || app.textContent || '').trim().length : -1,
+          appHtmlStart: app ? app.innerHTML.slice(0, 1200) : '[missing #app]',
+          scripts: scripts,
+          resources: resources,
+          marks: state.marks.slice(),
+          errors: state.errors.slice(),
+          online: navigator.onLine
+        };
+      }
+      function showReport(reason) {
+        var existing = document.getElementById('enffas-diagnostic-v2');
+        if (existing) {
+          var preExisting = existing.querySelector('pre[data-report]');
+          if (preExisting) preExisting.textContent = JSON.stringify(snapshot(), null, 2);
+          return;
+        }
+        var panel = document.createElement('section');
+        panel.id = 'enffas-diagnostic-v2';
+        panel.setAttribute('role', 'alert');
+        panel.style.cssText = 'position:fixed;z-index:2147483647;inset:10px;overflow:auto;padding:18px;background:#0b1020;color:#eaf0ff;border:2px solid #ef6678;border-radius:12px;font:13px/1.5 ui-monospace,Consolas,monospace;box-shadow:0 12px 50px #000c;white-space:normal';
+        var title = document.createElement('h2');
+        title.textContent = 'ENFFAS DIAGNOSTIC REPORT · v2';
+        title.style.cssText = 'font:600 20px/1.3 system-ui,sans-serif;margin:0 0 8px';
+        var why = document.createElement('p');
+        why.textContent = reason;
+        why.style.cssText = 'font:14px/1.5 system-ui,sans-serif';
+        var summary = document.createElement('p');
+        summary.textContent = 'Last confirmed stage: ' + state.stage + ' · elapsed: ' + Math.round(performance.now()) + ' ms · captured errors: ' + state.errors.length;
+        summary.style.cssText = 'font:14px/1.5 system-ui,sans-serif';
+        var actions = document.createElement('div');
+        actions.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap;margin:12px 0';
+        var copy = document.createElement('button');
+        copy.textContent = 'Copy diagnostic report';
+        copy.style.cssText = 'padding:9px 12px;background:#253654;color:#fff;border:1px solid #8198c6;border-radius:7px;cursor:pointer';
+        copy.onclick = function () {
+          var data = JSON.stringify(snapshot(), null, 2);
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(data).then(function () { copy.textContent = 'Report copied'; }).catch(function () { fallbackCopy(data); });
+          } else fallbackCopy(data);
+        };
+        function fallbackCopy(data) {
+          var ta = document.createElement('textarea');
+          ta.value = data; ta.style.cssText = 'position:fixed;left:-9999px;top:0';
+          document.body.appendChild(ta); ta.select();
+          try { document.execCommand('copy'); copy.textContent = 'Copy attempted — select report below if needed'; } catch (_) { copy.textContent = 'Select the report text below'; }
+          ta.remove();
+        }
+        var dismiss = document.createElement('button');
+        dismiss.textContent = 'Dismiss report';
+        dismiss.style.cssText = copy.style.cssText;
+        dismiss.onclick = function () { panel.remove(); };
+        actions.appendChild(copy); actions.appendChild(dismiss);
+        var pre = document.createElement('pre');
+        pre.setAttribute('data-report', 'true');
+        pre.textContent = JSON.stringify(snapshot(), null, 2);
+        pre.style.cssText = 'white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;background:#050914;border:1px solid #303d5a;border-radius:8px;padding:12px;font-size:12px';
+        panel.appendChild(title); panel.appendChild(why); panel.appendChild(summary); panel.appendChild(actions); panel.appendChild(pre);
+        document.body.appendChild(panel);
+      }
+      // Show a small, visible version marker immediately. If this marker never appears,
+      // the browser did not execute this HTML bootstrap (or is serving a different page).
+      var badge = document.createElement('div');
+      badge.id = 'enffas-diagnostic-badge';
+      badge.textContent = 'Enffas diagnostics v2 · starting';
+      badge.style.cssText = 'position:fixed;right:8px;bottom:8px;z-index:2147483646;padding:5px 8px;background:#101522;color:#dce7ff;border:1px solid #60749c;border-radius:6px;font:11px/1.3 system-ui,sans-serif;opacity:.92';
+      function attachBadge() { if (document.body && !badge.isConnected) document.body.appendChild(badge); }
+      attachBadge();
+      if (!badge.isConnected) document.addEventListener('DOMContentLoaded', attachBadge, { once: true });
+
+      window.setInterval(function () {
+        if (badge.isConnected) badge.textContent = 'Enffas diagnostics v2 · ' + state.stage;
+      }, 1000);
+
+      // Report if startup is not demonstrably healthy. Do not depend on Vue's own error system.
+      reportTimer = window.setTimeout(function () {
+        var app = document.getElementById('app');
+        var textContent = app ? (app.innerText || app.textContent || '').trim() : '';
+        var healthy = state.stage === 'mount-complete' && app && app.children.length > 0 && textContent.length > 20;
+        if (healthy) {
+          var b = document.getElementById('enffas-diagnostic-badge');
+          if (b) b.remove();
+          return;
+        }
+        showReport('Startup did not reach a clearly rendered application within 10 seconds. This report is independent of Vue.');
+      }, 10000);
+      // Keep the diagnostic overlay available even if app text exists but is only a loading shell.
       window.setTimeout(function () {
         var app = document.getElementById('app');
-        var appText = app ? (app.innerText || app.textContent || '') : '';
-        var appHasRenderedContent = !!app && app.children.length > 0 && appText.trim().length > 20;
-        var stillLoading = /\bloading\b|loading[.…]{1,3}/i.test(appText);
-        var visibleLoadingOverlay = Array.prototype.some.call(
-          document.querySelectorAll('[class*="loading" i], [class*="opening" i], [aria-label*="loading" i], [role="progressbar"]'),
-          function (element) {
-            var style = window.getComputedStyle(element);
-            var rect = element.getBoundingClientRect();
-            return style.display !== 'none' && style.visibility !== 'hidden' &&
-              Number(style.opacity || 1) > 0 && rect.width > 0 && rect.height > 0 &&
-              (rect.width >= window.innerWidth * 0.5 || rect.height >= window.innerHeight * 0.5);
-          }
-        );
-        // Vue mounting is not enough: the app can still be stuck on its loading screen.
-        if (state.stage === 'mount-complete' && appHasRenderedContent && !stillLoading && !visibleLoadingOverlay) return;
-        var panel = document.getElementById('enffas-early-diagnostics');
-        if (!panel) {
-          panel = document.createElement('section');
-          panel.id = 'enffas-early-diagnostics';
-          panel.setAttribute('role', 'alert');
-          panel.style.cssText = 'position:fixed;z-index:2147483647;inset:12px;padding:22px;overflow:auto;background:#09111f;color:#e8efff;border:1px solid #657ba9;border-radius:14px;font:14px/1.6 system-ui,sans-serif;box-shadow:0 12px 50px #0009';
-          document.body.appendChild(panel);
+        var txt = app ? (app.innerText || app.textContent || '').trim() : '';
+        if (!app || app.children.length === 0 || txt.length < 20 || /\bloading\b/i.test(txt)) {
+          showReport('The app root is empty, too small, or still loading after 20 seconds.');
         }
-        var errors = state.errors.length ? state.errors : ['No browser error was captured before startup stalled.'];
-        panel.innerHTML = '<h2 style="margin:0 0 8px">Enffas early startup check</h2><p>This check found that startup either did not finish mounting Vue or the app still appears to be stuck loading. This diagnostic does not clear or modify saved data.</p><p><b>Last confirmed stage:</b> ' + escapeHtml(state.stage) + '</p><p><b>Loading screen still detected:</b> ' + (stillLoading || visibleLoadingOverlay ? 'yes' : 'no') + '</p><p><b>Started:</b> ' + escapeHtml(state.startedAt) + '</p><ul>' + errors.map(function (item) { return '<li>' + escapeHtml(item) + '</li>'; }).join('') + '</ul><p>Please copy these details before refreshing.</p>';
-        addFreezeDetails(panel);
-      }, 12000);
+      }, 20000);
     })();
   </script>
     <script type="module" src="/src/main.ts"></script>
