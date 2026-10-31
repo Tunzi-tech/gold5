@@ -446,7 +446,7 @@ function markImpactDiscoveryCue() {
   const translations = {
     en: {
       title: 'Find your way to make an impact',
-      description: 'Explore the people, ideas and actions that can help you make a difference.',
+      description: 'The people, ideas and actions that can help you make a difference.',
       hint: '↗  HOVER TO DISCOVER',
     },
     fr: {
