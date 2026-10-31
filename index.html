@@ -38,6 +38,7 @@
       window.setTimeout(function () {
         var app = document.getElementById('app');
         var appText = app ? (app.innerText || app.textContent || '') : '';
+        var appHasRenderedContent = !!app && app.children.length > 0 && appText.trim().length > 20;
         var stillLoading = /\bloading\b|loading[.…]{1,3}/i.test(appText);
         var visibleLoadingOverlay = Array.prototype.some.call(
           document.querySelectorAll('[class*="loading" i], [class*="opening" i], [aria-label*="loading" i], [role="progressbar"]'),
@@ -50,7 +51,7 @@
           }
         );
         // Vue mounting is not enough: the app can still be stuck on its loading screen.
-        if (state.stage === 'mount-complete' && !stillLoading && !visibleLoadingOverlay) return;
+        if (state.stage === 'mount-complete' && appHasRenderedContent && !stillLoading && !visibleLoadingOverlay) return;
         var panel = document.getElementById('enffas-early-diagnostics');
         if (!panel) {
           panel = document.createElement('section');
