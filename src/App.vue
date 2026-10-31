@@ -520,7 +520,8 @@ function markZoneSidebarButtons() {
   const labelGroups = [
     { className: 'nfas-zone-nav-button-around', patterns: [/zone around/i, /around you/i, /what'?s around you/i, /zone autour/i, /autour de vous/i, /حولك/i, /ما حولك/i] },
     { className: 'nfas-zone-nav-button-yours', patterns: [/your zones/i, /mes zones/i, /vos zones/i, /مناطقك/i, /مناطقي/i] },
-    { className: 'nfas-zone-nav-button-zones', patterns: [/^zones?$/i, /\bzones?\b/i, /المناطق/i] },
+    // Exact match prevents the generic Zones style from capturing “Zone Impacting” controls.
+    { className: 'nfas-zone-nav-button-zones', patterns: [/^zones?(?:\s*\(\d+\))?$/i, /^المناطق$/i] },
   ]
   // Some sidebar controls include icons, counters, or secondary labels, so exact text matching misses them.
   // Match the visible/accessibility labels by phrase and search nested sidebar navigation controls too.
