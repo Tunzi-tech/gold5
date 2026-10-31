@@ -372,3 +372,63 @@ header.topbar.nfas-main-bar-hidden > .network-main-bar {
     padding: 7px 9px;
   }
 }
+
+
+/* Zone navigation: align the Zone Around / Your Zones / Zones controls with the platform's dark orbital UI. */
+.nfas-zone-nav-button {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 38px;
+  box-sizing: border-box;
+  border: 1px solid rgba(115, 151, 202, .13) !important;
+  border-radius: 11px !important;
+  background: linear-gradient(110deg, rgba(25, 39, 63, .48), rgba(29, 30, 55, .38)) !important;
+  color: #cbd8ee !important;
+  box-shadow: inset 0 1px 0 rgba(235, 243, 255, .025);
+  transition: background .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+.nfas-zone-nav-button:hover {
+  border-color: rgba(108, 161, 222, .38) !important;
+  background: linear-gradient(110deg, rgba(43, 75, 116, .56), rgba(55, 47, 91, .44)) !important;
+  color: #f0f5ff !important;
+  box-shadow: inset 0 1px 0 rgba(235, 243, 255, .06), 0 5px 16px rgba(3, 10, 25, .16);
+}
+.nfas-zone-nav-button:focus-visible {
+  outline: 2px solid rgba(116, 172, 239, .78) !important;
+  outline-offset: 2px;
+}
+.nfas-zone-nav-button[aria-current="page"],
+.nfas-zone-nav-button[aria-pressed="true"],
+.nfas-zone-nav-button.active,
+.nfas-zone-nav-button.is-active,
+.nfas-zone-nav-button[aria-expanded="true"] {
+  border-color: rgba(105, 167, 231, .43) !important;
+  background: linear-gradient(110deg, rgba(48, 91, 143, .48), rgba(71, 59, 119, .38)) !important;
+  color: #f4f7ff !important;
+  box-shadow: inset 2px 0 0 rgba(126, 190, 244, .8), inset 0 1px 0 rgba(235, 243, 255, .06);
+}
+.nfas-zone-nav-button-around::before,
+.nfas-zone-nav-button-yours::before,
+.nfas-zone-nav-button-zones::before {
+  content: "";
+  flex: 0 0 7px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #6b9fe2;
+  box-shadow: 0 0 0 3px rgba(91, 144, 207, .11);
+}
+.nfas-zone-nav-button-around::before {
+  background: #70c7d1;
+  box-shadow: 0 0 0 3px rgba(112, 199, 209, .1);
+}
+.nfas-zone-nav-button-yours::before {
+  background: #a99aef;
+  box-shadow: 0 0 0 3px rgba(169, 154, 239, .1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .nfas-zone-nav-button { transition: none !important; }
+}
